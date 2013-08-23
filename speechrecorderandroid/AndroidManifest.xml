@@ -93,6 +93,14 @@
         </activity>
         
         
+        <activity 
+            android:screenOrientation="landscape"
+            android:configChanges="orientation|keyboardHidden"
+            android:name=".recording.ActivityPreRecording"
+            android:label="@string/act_prerecoding_title" >
+        </activity>
+        
+        
          <provider
             android:authorities="com.srandroid.contentprovider"
             android:name=".database.SrmContentProvider" >

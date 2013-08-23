@@ -34,39 +34,43 @@
 		            
                     <TextView
                     android:id="@+id/activity_speakerdetails_name_textvalue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
+                    android:layout_height="70dp"
+                    android:layout_width="match_parent"
+                    android:layout_margin="10dp"
                     android:gravity="center_vertical"
-                    android:layout_marginLeft="20dp"
                     android:text="@string/activity_speakerdetails_name_text" 
-                    android:textSize="20sp"/>
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
                     
                     <TextView
                     android:id="@+id/activity_speakerdetails_sex_textvalue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:gravity="center_vertical"
-                    android:layout_marginLeft="20dp"
                     android:text="@string/activity_speakerdetails_sex_text" 
-                    android:textSize="20sp"/>
+                    android:textSize="16sp"/>
                     
                     <TextView
                     android:id="@+id/activity_speakerdetails_accent_textvalue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:gravity="center_vertical"
-                    android:layout_marginLeft="20dp"
                     android:text="@string/activity_speakerdetails_accent_text" 
-                    android:textSize="20sp"/>
+                    android:textSize="16sp"/>
                     
                     <TextView
                     android:id="@+id/activity_speakerdetails_birthday_textvalue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:gravity="center_vertical"
-                    android:layout_marginLeft="20dp"
                     android:text="@string/activity_speakerdetails_birthday_text" 
-                    android:textSize="20sp"/>
+                    android:textSize="16sp"/>
             </LinearLayout>
         </LinearLayout>
         <LinearLayout

@@ -34,39 +34,53 @@
 		            
                     <TextView
                     android:id="@+id/act_sessiondetails_sessionid_textvalue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
+                    android:layout_width="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_height="70dp"
                     android:gravity="center_vertical"
-                    android:layout_marginLeft="20dp"
                     android:text="@string/act_sessiondetails_sessionid_text" 
-                    android:textSize="20sp"/>
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
                     
                     <TextView
                     android:id="@+id/act_sessionsdetails_datetime_textvalue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:gravity="center_vertical"
-                    android:layout_marginLeft="20dp"
                     android:text="@string/act_sessiondetails_datetime_text" 
-                    android:textSize="20sp"/>
+                    android:textSize="14sp"/>
                     
                     <TextView
                     android:id="@+id/act_sessiondetails_place_textvalue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:gravity="center_vertical"
-                    android:layout_marginLeft="20dp"
                     android:text="@string/act_sessiondetails_place_text" 
-                    android:textSize="20sp"/>
+                    android:textSize="14sp"/>
                     
                     <TextView
                     android:id="@+id/act_sessiondetails_isfinished_textvalue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:gravity="center_vertical"
-                    android:layout_marginLeft="20dp"
                     android:text="@string/act_sessiondetails_isfinished_text" 
-                    android:textSize="20sp"/>
+                    android:textSize="14sp"/>
+                    
+                    <TextView
+                    android:id="@+id/act_sessiondetails_isuploaded_textvalue"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/act_sessiondetails_isuploaded_text" 
+                    android:textSize="14sp"/>
                     
             </LinearLayout>
         </LinearLayout>

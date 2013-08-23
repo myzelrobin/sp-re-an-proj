@@ -142,8 +142,8 @@ public class ActivitySpeakerDetails extends Activity
 					if(!scriptlist.contains(s2)) scriptlist.add(s2);
 					cursor.moveToNext();
 				}
-				if(!(sessionlist.toString().contains("null"))) sessions.setText(TextUtils.join(",", sessionlist));
-				if(!(scriptlist.toString().contains("null")))  scripts.setText(TextUtils.join(",", scriptlist));
+				if(!(sessionlist.toString().contains("null"))) sessions.setText(TextUtils.join(", ", sessionlist));
+				if(!(scriptlist.toString().contains("null")))  scripts.setText(TextUtils.join(", ", scriptlist));
 				
 			}
 	        

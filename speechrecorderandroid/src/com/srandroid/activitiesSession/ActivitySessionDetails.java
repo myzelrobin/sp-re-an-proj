@@ -123,7 +123,13 @@ public class ActivitySessionDetails extends Activity
 				
 				String sDate = cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_DATE));
 				String sTime = cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_TIME));
-				datetime.setText(sDate + "  " + sTime);
+				datetime.setText(sDate + " " + sTime);
+				
+				place.setText(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_PLACE));
+				
+				isfinished.setText(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_IS_FINISHED));
+				
+				// here for isuploaded, db is not updated
 				
 				scripts.setText(cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SCRIPT_ID)));
 				
@@ -136,7 +142,7 @@ public class ActivitySessionDetails extends Activity
 					
 					cursor.moveToNext();
 				}
-				if(!(speakerlist.toString().contains("null"))) speakers.setText(TextUtils.join(",", speakerlist));
+				if(!(speakerlist.toString().contains("null"))) speakers.setText(TextUtils.join(", ", speakerlist));
 				
 			}
 	        

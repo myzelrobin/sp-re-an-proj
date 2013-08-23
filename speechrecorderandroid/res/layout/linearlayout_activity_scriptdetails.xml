@@ -34,21 +34,23 @@
 		            
                     <TextView
                     android:id="@+id/activity_scriptdetails_scriptid_textvalue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="70dp"
+                    android:layout_width="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_height="50dp"
                     android:gravity="center_vertical"
-                    android:layout_marginLeft="20dp"
                     android:text="@string/activity_scriptdetials_scriptid_text" 
-                    android:textSize="20sp"/>
+                    android:textSize="20sp" 
+                    android:textStyle="bold" />
                     
                     <TextView
                     android:id="@+id/activity_scriptdetails_desc_textvalue"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:layout_height="130dp"
                     android:gravity="center_vertical"
-                    android:layout_marginLeft="20dp"
                     android:text="@string/activity_scriptdetials_desc_text" 
-                    android:textSize="20sp"/>
+                    android:textSize="16sp" />
                     
             </LinearLayout>
         </LinearLayout>

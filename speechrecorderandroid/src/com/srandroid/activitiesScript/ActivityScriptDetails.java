@@ -128,8 +128,8 @@ public class ActivityScriptDetails extends Activity
 					
 					cursor.moveToNext();
 				}
-				if(!(sessionlist.toString().contains("null"))) sessions.setText(TextUtils.join(",", sessionlist));
-				if(!(speakerlist.toString().contains("null"))) speakers.setText(TextUtils.join(",", speakerlist));
+				if(!(sessionlist.toString().contains("null"))) sessions.setText(TextUtils.join(", ", sessionlist));
+				if(!(speakerlist.toString().contains("null"))) speakers.setText(TextUtils.join(", ", speakerlist));
 				
 			}
 	        

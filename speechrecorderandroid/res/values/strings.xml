@@ -216,7 +216,7 @@
         <!-- activity speaker detials -->
         <string name="activity_speakerdetials_title">Speaker Details</string>
         <string name="activity_speakerdetails_button_startrecording_text">Start</string>
-        <string name="activity_speakerdetails_name_text">Name</string>
+        <string name="activity_speakerdetails_name_text">Fullname</string>
         <string name="activity_speakerdetails_accent_text">Accent</string>
         <string name="activity_speakerdetails_sex_text">Sex</string>
         <string name="activity_speakerdetails_birthday_text">Birthday</string>
@@ -242,10 +242,15 @@
         <string name="act_sessiondetails_datetime_text">Date Time</string>
         <string name="act_sessiondetails_place_text">Place</string>
         <string name="act_sessiondetails_isfinished_text">isfinished</string> 
+        <string name="act_sessiondetails_isuploaded_text">isuploaded</string>
         <string name="act_sessiondetails_scripts_text">Scripts</string>
         <string name="act_sessiondetails_speakers_text">Speakers</string>
         <string name="act_sessiondetails_scripts_text2">No scripts informations</string>
         <string name="act_sessiondetails_speakers_text2">No speakers informations</string>
+        
+        <!-- activity PreRecording -->
+        <string name="act_prerecoding_title">Preparation</string>
+        
         
 </resources>
 
