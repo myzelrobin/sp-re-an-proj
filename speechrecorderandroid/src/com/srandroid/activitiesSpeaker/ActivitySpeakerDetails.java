@@ -90,7 +90,6 @@ public class ActivitySpeakerDetails extends Activity
 					TableSpeakers.COLUMN_SEX,
 					TableSpeakers.COLUMN_BIRTHDAY,
 					TableSessions.COLUMN_SCRIPT_ID,
-					"speaker_key_id"
 			};
 			
 			String wherePart = "speaker_key_id=" + itemId;

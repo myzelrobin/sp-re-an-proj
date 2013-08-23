@@ -233,12 +233,12 @@ public class ActivityScriptDetails extends Activity
 			        return true;
 			        
 			     // actionbar buttons
-	        	case R.id.activity_speakerdetails_button_start:
+	        	case R.id.activity_scriptdetails_button_start:
 	        		
 		        		// Utils.toastTextToUser(this, "start recording");
 	        		
 	        			// save script item to Utils
-	        			Utils.ConstantVars.speakerItemIdForNewSession = itemId;
+	        			Utils.ConstantVars.scriptItemIdForNewSession = itemId;
 	        		
 		        		if(Utils.checkItemsForNewSession(this))
 		        		{
