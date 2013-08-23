@@ -51,7 +51,7 @@
         <activity 
             android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden"
-            android:name=".activitiesSpeaker.ActivityAddSpeaker"
+            android:name=".main.ActivityAddSpeaker"
             android:label="@string/activity_addspeaker_title"
             android:parentActivityName="com.srandroid.main.ActivityMain" >
             <meta-data
@@ -62,7 +62,7 @@
         <activity 
             android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden"
-            android:name=".activitiesSpeaker.ActivitySpeakerDetails"
+            android:name=".main.ActivitySpeakerDetails"
             android:label="@string/activity_speakerdetials_title"
             android:parentActivityName="com.srandroid.main.ActivityMain" >
             <meta-data
@@ -73,7 +73,7 @@
         <activity 
             android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden"
-            android:name=".activitiesScript.ActivityScriptDetails"
+            android:name=".main.ActivityScriptDetails"
             android:label="@string/activity_scriptdetials_title"
             android:parentActivityName="com.srandroid.main.ActivityMain" >
             <meta-data
@@ -84,7 +84,7 @@
         <activity 
             android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden"
-            android:name=".activitiesSession.ActivitySessionDetails"
+            android:name=".main.ActivitySessionDetails"
             android:label="@string/act_sessiondetails_title"
             android:parentActivityName="com.srandroid.main.ActivityMain" >
             <meta-data

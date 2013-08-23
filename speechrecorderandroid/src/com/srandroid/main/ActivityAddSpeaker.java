@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.srandroid.activitiesSpeaker;
+package com.srandroid.main;
 
 
 import com.srandroid.R;

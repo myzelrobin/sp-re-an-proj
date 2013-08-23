@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.srandroid.activitiesScript;
+package com.srandroid.main;
 
 import java.util.ArrayList;
 import java.util.List;

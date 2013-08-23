@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.srandroid.activitiesSession;
+package com.srandroid.main;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,38 +22,39 @@ import android.widget.Spinner;
 
 import com.srandroid.R;
 import com.srandroid.database.SrmContentProvider;
-import com.srandroid.database.SrmContentProvider.SrmUriMatcher;
-import com.srandroid.database.TableScripts.ScriptItem;
 import com.srandroid.database.TableSessions;
 import com.srandroid.database.TableSpeakers;
+import com.srandroid.database.SrmContentProvider.SrmUriMatcher;
+import com.srandroid.database.TableSpeakers.SpeakerItem;
 import com.srandroid.util.Utils;
 
 /**
  *
  */
-public class ActivitySessionDetails extends Activity
+public class ActivitySpeakerDetails extends Activity
 {
-		// state
+	// state
 		public static final String ITEM_URI = "ITEM_URI";
+		private Uri speakerItemUri = null;
 		private String itemId = null;
 		
-		private String speakerId = null;
-		private String scriptId = null;
 		
 		private CharSequence activity_title = null;
 		
+		private SpeakerItem speaker =  new SpeakerItem();
 		
-		TextView sessionid = null;
-	    TextView datetime = null;
-	    TextView place = null;
-	    TextView isfinished = null;
-	    TextView speakers = null;
+		
+		TextView name = null;
+	    TextView accent = null;
+	    TextView sex = null;
+	    TextView birthday = null;
+	    TextView sessions = null;
 	    TextView scripts = null;
 	
 	/**
 	 * 
 	 */
-	public ActivitySessionDetails() {
+	public ActivitySpeakerDetails() {
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -78,23 +79,22 @@ public class ActivitySessionDetails extends Activity
 	        	itemId = savedInstanceState.getString("itemId");
 	        }
 	        
-	        Log.w(this.getClass().getName(), "start creating, get itemId=" + itemId);
+	        Log.w(ActivitySpeakerDetails.class.getName(), "get itemId=" + itemId);
 	        
 	        
 	        // query from db
-	        String[] selectColumns = {
-					TableSessions.COLUMN_DATE,
-					TableSessions.COLUMN_TIME,
-					TableSessions.COLUMN_PLACE,
-					TableSessions.COLUMN_IS_FINISHED,
-					TableSessions.COLUMN_SPEAKER_ID,
-					TableSessions.COLUMN_SCRIPT_ID,
+			String[] selectColumns = {
 					TableSpeakers.COLUMN_FIRSTNAME,
-					TableSpeakers.COLUMN_SURNAME};
+					TableSpeakers.COLUMN_SURNAME,
+					TableSpeakers.COLUMN_ACCENT,
+					TableSpeakers.COLUMN_SEX,
+					TableSpeakers.COLUMN_BIRTHDAY,
+					TableSessions.COLUMN_SCRIPT_ID,
+			};
 			
-			String wherePart = "session_key_id=" + itemId;
+			String wherePart = "speaker_key_id=" + itemId;
 			
-			Cursor cursor = getContentResolver().query(SrmUriMatcher.CONTENT_URI_TABLE_SESSIONS_LEFTJOIN_SPEAKERS, 
+			Cursor cursor = getContentResolver().query(SrmUriMatcher.CONTENT_URI_TABLE_SPEAKERS_LEFTJOIN_SESSIONS, 
 					selectColumns, wherePart, null, null);
 			
 			
@@ -104,51 +104,52 @@ public class ActivitySessionDetails extends Activity
 				
 				Log.w(this.getClass().getName(), " will create view of this activity.");
 				
-				setContentView(R.layout.linearlayout_activity_sessiondetails);
+				setContentView(R.layout.linearlayout_activity_speakerdetails);
 				
-		        
-		        sessionid = (TextView) findViewById(R.id.act_sessiondetails_sessionid_textvalue);
-		        datetime = (TextView) findViewById(R.id.act_sessionsdetails_datetime_textvalue);
-		        place = (TextView) findViewById(R.id.act_sessiondetails_place_textvalue);
-		        isfinished = (TextView) findViewById(R.id.act_sessiondetails_isfinished_textvalue);
-		        speakers = (TextView) findViewById(R.id.act_sessiondetails_speakers_textvalue);
-		        scripts = (TextView) findViewById(R.id.act_sessiondetails_scripts_textvalue);
-		        
-		        
+		        name = (TextView) findViewById(R.id.activity_speakerdetails_name_textvalue);
+		        accent = (TextView) findViewById(R.id.activity_speakerdetails_accent_textvalue);
+		        sex = (TextView) findViewById(R.id.activity_speakerdetails_sex_textvalue);
+		        birthday = (TextView) findViewById(R.id.activity_speakerdetails_birthday_textvalue);
+		        sessions = (TextView) findViewById(R.id.activity_speakerdetails_sessions_textvalue);
+		        scripts = (TextView) findViewById(R.id.activity_speakerdetails_scripts_textvalue);
 		        
 	        	
 				cursor.moveToFirst();
 				
+				String idText = cursor.getString(cursor.getColumnIndex("speaker_key_id"));
+				itemId = idText;
 				
+				String firstname = cursor.getString(cursor.getColumnIndex(TableSpeakers.COLUMN_FIRSTNAME));
+				String surname = cursor.getString(cursor.getColumnIndexOrThrow(TableSpeakers.COLUMN_SURNAME));
+				String fullName = firstname + " " + surname;
+				name.setText(fullName);
 				
+				setTitle(fullName);
 				
-				String idText = cursor.getString(cursor.getColumnIndexOrThrow("session_key_id"));
-				sessionid.setText("Session #" + idText);
-				setTitle("Session #" + idText);
+				accent.setText(cursor.getString(cursor.getColumnIndexOrThrow(TableSpeakers.COLUMN_ACCENT)));
 				
-				String sDate = cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_DATE));
-				String sTime = cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_TIME));
-				datetime.setText(sDate + " " + sTime);
+				sex.setText(cursor.getString(cursor.getColumnIndexOrThrow(TableSpeakers.COLUMN_SEX)));
 				
-				place.setText(cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_PLACE)));
+				birthday.setText(cursor.getString(cursor.getColumnIndexOrThrow(TableSpeakers.COLUMN_BIRTHDAY)));
 				
-				isfinished.setText(cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_IS_FINISHED)));
+				List<String> sessionlist = new ArrayList<String>();
+				List<String> scriptlist = new ArrayList<String>();
 				
-				// here for isuploaded, this column is not in db
-				
-				scriptId = cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SCRIPT_ID));
-				scripts.setText(scriptId);
-				
-				speakerId = cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SPEAKER_ID));
-				speakers.setText(speakerId);
-				
+				while(!cursor.isAfterLast())
+				{
+					String s1 = cursor.getString(cursor.getColumnIndexOrThrow("session_key_id"));
+					if(!sessionlist.contains(s1)) sessionlist.add(s1);
+					
+					String s2 = cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SCRIPT_ID));
+					if(!scriptlist.contains(s2)) scriptlist.add(s2);
+					cursor.moveToNext();
+				}
+				if(!(sessionlist.toString().contains("null"))) sessions.setText(TextUtils.join(", ", sessionlist));
+				if(!(scriptlist.toString().contains("null")))  scripts.setText(TextUtils.join(", ", scriptlist));
 				
 			}
 	        
 	        cursor.close();
-	        
-	        
-	        
 	        // enable home button
 	        getActionBar().setDisplayHomeAsUpEnabled(true);
 	        getActionBar().setHomeButtonEnabled(true);
@@ -227,7 +228,7 @@ public class ActivitySessionDetails extends Activity
 		@Override
 	    public boolean onPrepareOptionsMenu(Menu menu) 
 		{
-			menu.setGroupVisible(R.id.bgroup_sessiondetails, true);
+			menu.setGroupVisible(R.id.bgroup_speakerdetails, true);
 	        return super.onPrepareOptionsMenu(menu);
 	    }
 		
@@ -246,20 +247,26 @@ public class ActivitySessionDetails extends Activity
 			        return true;
 			        
 			     // actionbar buttons
-	        	case R.id.act_sessiondetails_button_start:
+	        	case R.id.activity_speakerdetails_button_start:
 	        		
-		        		Utils.toastTextToUser(this, "start recording");
-		        		
-		        		Utils.ConstantVars.speakerItemIdForNewSession = speakerId;
-		        		Utils.ConstantVars.scriptItemIdForNewSession = scriptId;
-		        		
-		        		
-		        		// Intent newI = new Intent(this.getClass().getName(), ActivityStartRecording.class);
-		        		// newI.putExtra("ACTIVITY_NAME", "session_details"); 
-		        		// newI.putExtra("ITEM_ID", itemId);
-		        		// (ActivityScriptDetails.this.startActivity(newI);
-		        		
-	        		break;
+		        		// Utils.toastTextToUser(this, "start recording");
+	        		
+	        			// save speaker item to Utils
+		        		Utils.ConstantVars.speakerItemIdForNewSession = itemId;
+	        		
+	        			if(Utils.checkItemsForNewSession(this))
+		        		{
+	        				Utils.toastTextToUser(this, "start recording");
+		        			// send informations to next activity
+		        			// Intent newI = new Intent(this.getClass().getName(), ActivityPreRecording.class);
+		        			// newI.putExtra("SPEAKER_ID", ???);
+		        			// newI.putExtra("SCRIPT_ID", ???);
+		        			// (ActivityScriptDetails.this.startActivity(newI);
+	        				break;
+		        			
+		        		}
+		        		NavUtils.navigateUpFromSameTask(this);
+				        return true;
 	        	default:
 	        		break;
 	    	}

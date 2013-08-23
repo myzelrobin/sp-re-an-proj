@@ -4,10 +4,10 @@ import java.sql.Savepoint;
 import java.util.Arrays;
 
 import com.srandroid.R;
-import com.srandroid.activitiesScript.ActivityScriptDetails;
-import com.srandroid.activitiesSession.ActivitySessionDetails;
-import com.srandroid.activitiesSpeaker.ActivityAddSpeaker;
-import com.srandroid.activitiesSpeaker.ActivitySpeakerDetails;
+import com.srandroid.main.ActivityScriptDetails;
+import com.srandroid.main.ActivitySessionDetails;
+import com.srandroid.main.ActivityAddSpeaker;
+import com.srandroid.main.ActivitySpeakerDetails;
 import com.srandroid.database.DBAccessor;
 import com.srandroid.database.TableScripts;
 import com.srandroid.database.TableSessions;
