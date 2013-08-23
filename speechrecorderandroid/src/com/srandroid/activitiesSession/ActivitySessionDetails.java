@@ -227,7 +227,7 @@ public class ActivitySessionDetails extends Activity
 		@Override
 	    public boolean onPrepareOptionsMenu(Menu menu) 
 		{
-			menu.setGroupVisible(R.id.bgroup_scriptdetails, true);
+			menu.setGroupVisible(R.id.bgroup_sessiondetails, true);
 	        return super.onPrepareOptionsMenu(menu);
 	    }
 		
