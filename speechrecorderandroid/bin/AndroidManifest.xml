@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.srandroid"
+    package="com.srandroid.speechrecorder"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -41,7 +41,7 @@
         <activity 
             android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden"
-            android:name=".overflow.PrefActivitySettings"
+            android:name="com.srandroid.overflow.PrefActivitySettings"
             android:label="@string/title_settings"
             android:parentActivityName="com.srandroid.main.ActivityMain" >
             <meta-data
@@ -51,7 +51,7 @@
         <activity 
             android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden"
-            android:name=".main.ActivityAddSpeaker"
+            android:name="com.srandroid.main.ActivityAddSpeaker"
             android:label="@string/activity_addspeaker_title"
             android:parentActivityName="com.srandroid.main.ActivityMain" >
             <meta-data
@@ -62,7 +62,7 @@
         <activity 
             android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden"
-            android:name=".main.ActivitySpeakerDetails"
+            android:name="com.srandroid.main.ActivitySpeakerDetails"
             android:label="@string/activity_speakerdetials_title"
             android:parentActivityName="com.srandroid.main.ActivityMain" >
             <meta-data
@@ -73,7 +73,7 @@
         <activity 
             android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden"
-            android:name=".main.ActivityScriptDetails"
+            android:name="com.srandroid.main.ActivityScriptDetails"
             android:label="@string/activity_scriptdetials_title"
             android:parentActivityName="com.srandroid.main.ActivityMain" >
             <meta-data
@@ -84,7 +84,7 @@
         <activity 
             android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden"
-            android:name=".main.ActivitySessionDetails"
+            android:name="com.srandroid.main.ActivitySessionDetails"
             android:label="@string/act_sessiondetails_title"
             android:parentActivityName="com.srandroid.main.ActivityMain" >
             <meta-data
@@ -96,21 +96,21 @@
         <activity 
             android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden"
-            android:name=".recording.ActivityPreRecording"
+            android:name="com.srandroid.recording.ActivityPreRecording"
             android:label="@string/act_prerecording_title" >
         </activity>
         
         <activity 
             android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden"
-            android:name=""
+            android:name="com.srandroid"
             android:label="@string/act_testrecording_title" >
         </activity>
         
         
          <provider
             android:authorities="com.srandroid.contentprovider"
-            android:name=".database.SrmContentProvider" >
+            android:name="com.srandroid.database.SrmContentProvider" >
         </provider>
         
     </application>

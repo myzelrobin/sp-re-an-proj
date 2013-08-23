@@ -21,7 +21,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Spinner;
 
-import com.srandroid.R;
+import com.srandroid.speechrecorder.R;
 import com.srandroid.database.SrmContentProvider;
 import com.srandroid.database.SrmContentProvider.SrmUriMatcher;
 import com.srandroid.database.TableScripts.ScriptItem;

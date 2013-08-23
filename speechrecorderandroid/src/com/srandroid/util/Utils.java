@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Locale;
 
-import com.srandroid.R;
+import com.srandroid.speechrecorder.R;
 import com.srandroid.database.DBAccessor;
 import com.srandroid.database.TableScripts.ScriptItem;
 import com.srandroid.database.TableSpeakers.SpeakerItem;

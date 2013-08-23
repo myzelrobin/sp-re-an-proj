@@ -4,7 +4,7 @@
 package com.srandroid.main;
 
 
-import com.srandroid.R;
+import com.srandroid.speechrecorder.R;
 import com.srandroid.database.TableSpeakers;
 import com.srandroid.database.SrmContentProvider;
 import com.srandroid.database.TableSpeakers.SpeakerItem;

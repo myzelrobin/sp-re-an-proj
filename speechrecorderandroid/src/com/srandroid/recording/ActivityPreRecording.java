@@ -6,7 +6,7 @@ package com.srandroid.recording;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.srandroid.R;
+import com.srandroid.speechrecorder.R;
 import com.srandroid.database.TableScripts;
 import com.srandroid.database.TableSessions;
 import com.srandroid.database.TableSpeakers;

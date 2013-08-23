@@ -3,7 +3,7 @@
  */
 package com.srandroid.overflow;
 
-import com.srandroid.R;
+import com.srandroid.speechrecorder.R;
 import com.srandroid.util.Utils;
 
 import android.content.SharedPreferences;

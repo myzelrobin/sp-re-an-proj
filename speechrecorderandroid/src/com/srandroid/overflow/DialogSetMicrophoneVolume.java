@@ -17,7 +17,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
-import com.srandroid.R;
+import com.srandroid.speechrecorder.R;
 import com.srandroid.util.SrmRecorder;
 import com.srandroid.util.Utils;
 

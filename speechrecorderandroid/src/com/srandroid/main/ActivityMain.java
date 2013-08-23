@@ -3,7 +3,7 @@ package com.srandroid.main;
 import java.sql.Savepoint;
 import java.util.Arrays;
 
-import com.srandroid.R;
+import com.srandroid.speechrecorder.R;
 import com.srandroid.main.ActivityScriptDetails;
 import com.srandroid.main.ActivitySessionDetails;
 import com.srandroid.main.ActivityAddSpeaker;
