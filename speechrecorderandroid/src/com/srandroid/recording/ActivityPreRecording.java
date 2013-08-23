@@ -376,7 +376,7 @@ public class ActivityPreRecording extends Activity
 						(LinearLayout) (convertView == null
 						? LayoutInflater.from(context).inflate(R.layout.linearlayout_act_prerecording_speakeritem, parent, false)
 								: convertView);
-				fillSpeakerItem(itemView);
+				//fillSpeakerItem(itemView);
 			}
 			else if(itemlist[position].equals("SCRIPT_ITEM"))
 			{
@@ -384,7 +384,7 @@ public class ActivityPreRecording extends Activity
 						(LinearLayout) (convertView == null
 						? LayoutInflater.from(context).inflate(R.layout.linearlayout_act_prerecording_scriptitem, parent, false)
 								: convertView);
-				fillScriptItem(itemView);
+				//fillScriptItem(itemView);
 			}
 			
 			
