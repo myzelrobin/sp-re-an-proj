@@ -89,7 +89,8 @@ public class ActivitySpeakerDetails extends Activity
 					TableSpeakers.COLUMN_ACCENT,
 					TableSpeakers.COLUMN_SEX,
 					TableSpeakers.COLUMN_BIRTHDAY,
-					TableSessions.COLUMN_SCRIPT_ID
+					TableSessions.COLUMN_SCRIPT_ID,
+					"speaker_key_id"
 			};
 			
 			String wherePart = "speaker_key_id=" + itemId;
@@ -106,7 +107,6 @@ public class ActivitySpeakerDetails extends Activity
 				
 				setContentView(R.layout.linearlayout_activity_speakerdetails);
 				
-		        
 		        name = (TextView) findViewById(R.id.activity_speakerdetails_name_textvalue);
 		        accent = (TextView) findViewById(R.id.activity_speakerdetails_accent_textvalue);
 		        sex = (TextView) findViewById(R.id.activity_speakerdetails_sex_textvalue);
@@ -116,6 +116,9 @@ public class ActivitySpeakerDetails extends Activity
 		        
 	        	
 				cursor.moveToFirst();
+				
+				String idText = cursor.getString(cursor.getColumnIndex("speaker_key_id"));
+				itemId = idText;
 				
 				String firstname = cursor.getString(cursor.getColumnIndex(TableSpeakers.COLUMN_FIRSTNAME));
 				String surname = cursor.getString(cursor.getColumnIndexOrThrow(TableSpeakers.COLUMN_SURNAME));
@@ -249,9 +252,9 @@ public class ActivitySpeakerDetails extends Activity
 	        		
 		        		// Utils.toastTextToUser(this, "start recording");
 	        		
+	        			// save speaker item to Utils
+		        		Utils.ConstantVars.speakerItemIdForNewSession = itemId;
 	        		
-	        			// a method to save speaker item to Utils
-		        		
 	        			if(Utils.checkItemsForNewSession(this))
 		        		{
 	        				Utils.toastTextToUser(this, "start recording");
@@ -260,9 +263,11 @@ public class ActivitySpeakerDetails extends Activity
 		        			// newI.putExtra("SPEAKER_ID", ???);
 		        			// newI.putExtra("SCRIPT_ID", ???);
 		        			// (ActivityScriptDetails.this.startActivity(newI);
+	        				break;
 		        			
 		        		}
-	        		break;
+		        		NavUtils.navigateUpFromSameTask(this);
+				        return true;
 	        	default:
 	        		break;
 	    	}

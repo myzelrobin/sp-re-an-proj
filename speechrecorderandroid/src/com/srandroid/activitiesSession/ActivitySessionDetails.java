@@ -37,6 +37,8 @@ public class ActivitySessionDetails extends Activity
 		public static final String ITEM_URI = "ITEM_URI";
 		private String itemId = null;
 		
+		private String speakerId = null;
+		private String scriptId = null;
 		
 		private CharSequence activity_title = null;
 		
@@ -117,6 +119,9 @@ public class ActivitySessionDetails extends Activity
 	        	
 				cursor.moveToFirst();
 				
+				
+				
+				
 				String idText = cursor.getString(cursor.getColumnIndexOrThrow("session_key_id"));
 				sessionid.setText("Session #" + idText);
 				setTitle("Session #" + idText);
@@ -129,20 +134,14 @@ public class ActivitySessionDetails extends Activity
 				
 				isfinished.setText(cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_IS_FINISHED)));
 				
-				// here for isuploaded, db is not updated
+				// here for isuploaded, this column is not in db
 				
-				scripts.setText(cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SCRIPT_ID)));
+				scriptId = cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SCRIPT_ID));
+				scripts.setText(scriptId);
 				
-				List<String> speakerlist = new ArrayList<String>();
+				speakerId = cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SPEAKER_ID));
+				speakers.setText(speakerId);
 				
-				while(!cursor.isAfterLast())
-				{
-					String s = cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SPEAKER_ID));
-					if(!speakerlist.contains(s)) speakerlist.add(s);
-					
-					cursor.moveToNext();
-				}
-				if(!(speakerlist.toString().contains("null"))) speakers.setText(TextUtils.join(", ", speakerlist));
 				
 			}
 	        
@@ -251,9 +250,10 @@ public class ActivitySessionDetails extends Activity
 	        		
 		        		Utils.toastTextToUser(this, "start recording");
 		        		
+		        		Utils.ConstantVars.speakerItemIdForNewSession = speakerId;
+		        		Utils.ConstantVars.scriptItemIdForNewSession = scriptId;
 		        		
-		        		// need a mehtod to save both items to utils
-		        		// send identiy to next activity
+		        		
 		        		// Intent newI = new Intent(this.getClass().getName(), ActivityStartRecording.class);
 		        		// newI.putExtra("ACTIVITY_NAME", "session_details"); 
 		        		// newI.putExtra("ITEM_ID", itemId);

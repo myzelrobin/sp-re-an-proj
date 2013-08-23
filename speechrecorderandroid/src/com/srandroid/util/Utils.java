@@ -353,7 +353,6 @@ public class Utils
 			toastTextToUser(activity.getApplicationContext(), "No Script, choose a new Script!");
 			// choose a script 
 			ConstantVars.selectedItemIndex = ConstantVars.POS_SCRIPTS;
-			NavUtils.navigateUpFromSameTask(activity);
 			return false;
 		}
 		if(ConstantVars.speakerItemIdForNewSession == null)
@@ -361,7 +360,6 @@ public class Utils
 			toastTextToUser(activity.getApplicationContext(), "No Speaker, choose a new Speaker!");
 			// choose a script 
 			ConstantVars.selectedItemIndex = ConstantVars.POS_SPEAKERS;
-			NavUtils.navigateUpFromSameTask(activity);
 			return false;
 		}
 		return true;

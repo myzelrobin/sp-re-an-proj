@@ -110,6 +110,7 @@ public class ActivityScriptDetails extends Activity
 				cursor.moveToFirst();
 				
 				String idText = cursor.getString(cursor.getColumnIndexOrThrow("script_key_id"));
+				itemId = idText;
 				scriptid.setText("Script #" + idText);
 				setTitle("Script #" + idText);
 				
@@ -236,7 +237,8 @@ public class ActivityScriptDetails extends Activity
 	        		
 		        		// Utils.toastTextToUser(this, "start recording");
 	        		
-	        			// a method to save script item to Utils
+	        			// save script item to Utils
+	        			Utils.ConstantVars.speakerItemIdForNewSession = itemId;
 	        		
 		        		if(Utils.checkItemsForNewSession(this))
 		        		{
@@ -246,12 +248,12 @@ public class ActivityScriptDetails extends Activity
 		        			// newI.putExtra("SPEAKER_ID", ???);
 		        			// newI.putExtra("SCRIPT_ID", ???);
 		        			// (ActivityScriptDetails.this.startActivity(newI);
+		        			break;
 		        			
 		        		}
+		        		NavUtils.navigateUpFromSameTask(this);
+				        return true;
 		        		
-		        		
-		        		
-	        		break;
 	        	default:
 	        		break;
 	    	}
