@@ -4,11 +4,12 @@ android:id="@+id/id_gridview_act_prerecoding"
 android:background="#EEEEEE"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
+android:layout_marginTop="10dp"
 android:gravity="center"
 android:orientation="vertical"
 android:numColumns="auto_fit"
 android:columnWidth="480dp"
-android:horizontalSpacing="10dp"
+android:horizontalSpacing="0dp"
 android:verticalSpacing="30dp" >
 
 </GridView>

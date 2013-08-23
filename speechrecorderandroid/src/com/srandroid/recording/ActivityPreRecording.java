@@ -136,7 +136,7 @@ public class ActivityPreRecording extends Activity
 			String firstname = cursor.getString(cursor.getColumnIndex(TableSpeakers.COLUMN_FIRSTNAME));
 			String surname = cursor.getString(cursor.getColumnIndexOrThrow(TableSpeakers.COLUMN_SURNAME));
 			String fullName = firstname + " " + surname;
-			//name.setText(fullName);
+			name.setText(fullName);
 			
 			
 			accent.setText(cursor.getString(cursor.getColumnIndexOrThrow(TableSpeakers.COLUMN_ACCENT)));
@@ -194,7 +194,8 @@ public class ActivityPreRecording extends Activity
 			String idText = cursor.getString(cursor.getColumnIndexOrThrow("script_key_id"));
 			scriptid.setText("Script #" + idText);
 			
-			scriptdesc.setText(cursor.getString(cursor.getColumnIndexOrThrow(TableScripts.COLUMN_DESCRIPTION)));
+			String descText = cursor.getString(cursor.getColumnIndexOrThrow(TableScripts.COLUMN_DESCRIPTION));
+			scriptdesc.setText(descText);
 			
 			List<String> sessionlist = new ArrayList<String>();
 			List<String> speakerlist = new ArrayList<String>();
