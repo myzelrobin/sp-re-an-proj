@@ -246,7 +246,7 @@ public class ActivitySessionDetails extends Activity
 			        return true;
 			        
 			     // actionbar buttons
-	        	case R.id.activity_sessiondetails_button_start:
+	        	case R.id.act_sessiondetails_button_start:
 	        		
 		        		Utils.toastTextToUser(this, "start recording");
 		        		
