@@ -97,7 +97,14 @@
             android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden"
             android:name=".recording.ActivityPreRecording"
-            android:label="@string/act_prerecoding_title" >
+            android:label="@string/act_prerecording_title" >
+        </activity>
+        
+        <activity 
+            android:screenOrientation="landscape"
+            android:configChanges="orientation|keyboardHidden"
+            android:name=""
+            android:label="@string/act_testrecording_title" >
         </activity>
         
         

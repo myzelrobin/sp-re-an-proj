@@ -137,6 +137,34 @@
         
         
     </group>
+    
+    
+    <!-- Activity PreRecording -->
+    <group 
+        android:id="@+id/bgroup_prerecording"
+        android:visible="false" >
+    
+        <item
+            android:id="@+id/act_prerecording_button_test"
+            android:showAsAction="always"
+            android:title="@string/act_prerecoring_button_test_text" />
+        
+        
+    </group>
+    
+    
+    <!-- Activity TestRecording -->
+    <group 
+        android:id="@+id/bgroup_testrecording"
+        android:visible="false" >
+    
+        <item
+            android:id="@+id/act_testrecoding_button_start"
+            android:showAsAction="always"
+            android:title="@string/act_testrecording_button_start_text" />
+        
+        
+    </group>
 
 </menu>
 
