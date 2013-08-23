@@ -91,7 +91,14 @@ public class ActivityPreRecording extends Activity
 	
 	private void fillSpeakerItem(LinearLayout speakerItem)
 	{
-        // query from db
+		TextView name = (TextView) findViewById(R.id.activity_speakerdetails_name_textvalue);
+		TextView accent = (TextView) findViewById(R.id.activity_speakerdetails_accent_textvalue);
+		TextView sex = (TextView) findViewById(R.id.activity_speakerdetails_sex_textvalue);
+		TextView birthday = (TextView) findViewById(R.id.activity_speakerdetails_birthday_textvalue);
+		TextView sessions = (TextView) findViewById(R.id.activity_speakerdetails_sessions_textvalue);
+		TextView scripts = (TextView) findViewById(R.id.activity_speakerdetails_scripts_textvalue);
+
+		// query from db
 		String[] selectColumns = {
 				TableSpeakers.COLUMN_FIRSTNAME,
 				TableSpeakers.COLUMN_SURNAME,
@@ -110,12 +117,6 @@ public class ActivityPreRecording extends Activity
 		
         if (cursor != null && cursor.getCount()!=0) 
 		{
-	        TextView name = (TextView) findViewById(R.id.activity_speakerdetails_name_textvalue);
-	        TextView accent = (TextView) findViewById(R.id.activity_speakerdetails_accent_textvalue);
-	        TextView sex = (TextView) findViewById(R.id.activity_speakerdetails_sex_textvalue);
-	        TextView birthday = (TextView) findViewById(R.id.activity_speakerdetails_birthday_textvalue);
-	        TextView sessions = (TextView) findViewById(R.id.activity_speakerdetails_sessions_textvalue);
-	        TextView scripts = (TextView) findViewById(R.id.activity_speakerdetails_scripts_textvalue);
 	        
         	
 			cursor.moveToFirst();
@@ -154,6 +155,12 @@ public class ActivityPreRecording extends Activity
 	
 	private void fillScriptItem(LinearLayout scriptItem)
 	{
+        TextView scriptid = (TextView) findViewById(R.id.activity_scriptdetails_scriptid_textvalue);
+        TextView scriptdesc = (TextView) findViewById(R.id.activity_scriptdetails_desc_textvalue);
+        TextView sessions = (TextView) findViewById(R.id.activity_scriptdetails_sessions_textvalue);
+        TextView speakers = (TextView) findViewById(R.id.activity_scriptdetails_speakers_textvalue);
+        
+        
 		// query from db
 		String[] selectColumns = {
 				TableScripts.COLUMN_DESCRIPTION,
@@ -170,18 +177,6 @@ public class ActivityPreRecording extends Activity
 		
         if (cursor != null && cursor.getCount()!=0) 
 		{
-			
-			Log.w(ActivityScriptDetails.class.getName(), " will create view of this activity.");
-			
-			setContentView(R.layout.linearlayout_activity_scriptdetails);
-			
-	        
-	        TextView scriptid = (TextView) findViewById(R.id.activity_scriptdetails_scriptid_textvalue);
-	        TextView scriptdesc = (TextView) findViewById(R.id.activity_scriptdetails_desc_textvalue);
-	        TextView sessions = (TextView) findViewById(R.id.activity_scriptdetails_sessions_textvalue);
-	        TextView speakers = (TextView) findViewById(R.id.activity_scriptdetails_speakers_textvalue);
-	        
-        	
 			cursor.moveToFirst();
 			
 			String idText = cursor.getString(cursor.getColumnIndexOrThrow("script_key_id"));
