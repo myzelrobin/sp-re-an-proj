@@ -102,7 +102,7 @@ public class ActivityMain extends Activity {
 		// PreferenceManager.setDefaultValues(this, R.xml.preference_settings, false);
 		Utils.initSharedPreference(PreferenceManager.getDefaultSharedPreferences(this));
 		
-		if(Utils.ConstantVars.selectedItemIndex != selectedItemIndex)
+		if(selectedItemIndex != Utils.ConstantVars.selectedItemIndex)
 			selectedItemIndex = Utils.ConstantVars.selectedItemIndex;
 
 		

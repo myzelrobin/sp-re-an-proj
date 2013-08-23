@@ -251,6 +251,8 @@ public class ActivitySessionDetails extends Activity
 	        		
 		        		Utils.toastTextToUser(this, "start recording");
 		        		
+		        		
+		        		// need a mehtod to save both items to utils
 		        		// send identiy to next activity
 		        		// Intent newI = new Intent(this.getClass().getName(), ActivityStartRecording.class);
 		        		// newI.putExtra("ACTIVITY_NAME", "session_details"); 

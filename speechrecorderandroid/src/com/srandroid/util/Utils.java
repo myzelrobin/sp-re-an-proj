@@ -7,12 +7,16 @@ import java.util.Locale;
 
 import com.srandroid.R;
 import com.srandroid.database.DBAccessor;
+import com.srandroid.database.TableScripts.ScriptItem;
+import com.srandroid.database.TableSpeakers.SpeakerItem;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v4.app.NavUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Toast;
@@ -136,6 +140,9 @@ public class Utils
 		public static int columnCount = 0;
 		
 		
+		// objects for recording
+		public static String speakerItemIdForNewSession = null;
+		public static String scriptItemIdForNewSession = null;
 		
 		// database
 		public static final String TESTDB_FOLDER_PATH = 
@@ -220,6 +227,8 @@ public class Utils
 		public static void initializeApp(Context context)
 		{
 			Log.w(Utils.class.getName(), "initializeApp(): will initialize data before app starts");
+			
+			if(isPreStartInitialized) return;  // is initialized
 			
 			// drawer item array
 			arrayDrawerItems = context.getResources().getStringArray(R.array.array_drawer_items);
@@ -336,6 +345,28 @@ public class Utils
         editor.commit(); 
 		
 	}
+	
+	public static boolean checkItemsForNewSession(Activity activity)
+	{
+		if(ConstantVars.scriptItemIdForNewSession == null)
+		{
+			toastTextToUser(activity.getApplicationContext(), "No Script, choose a new Script!");
+			// choose a script 
+			ConstantVars.selectedItemIndex = ConstantVars.POS_SCRIPTS;
+			NavUtils.navigateUpFromSameTask(activity);
+			return false;
+		}
+		if(ConstantVars.speakerItemIdForNewSession == null)
+		{
+			toastTextToUser(activity.getApplicationContext(), "No Speaker, choose a new Speaker!");
+			// choose a script 
+			ConstantVars.selectedItemIndex = ConstantVars.POS_SPEAKERS;
+			NavUtils.navigateUpFromSameTask(activity);
+			return false;
+		}
+		return true;
+	}
+	
 
 	public static void getDeviceId(Context context) 
 	{

@@ -249,7 +249,7 @@
         <string name="act_sessiondetails_speakers_text2">No speakers informations</string>
         
         <!-- activity PreRecording -->
-        <string name="act_prerecoding_title">Preparation</string>
+        <string name="act_prerecoding_title">Prepare Recording</string>
         
         
 </resources>
