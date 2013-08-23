@@ -40,6 +40,18 @@ public class ActivityPreRecording extends Activity
 	
 	
 	private GridView gridView = null;
+	
+	private TextView name = null;
+	private TextView accent = null;
+	private TextView sex = null;
+	private TextView birthday = null;
+	private TextView sessions1 = null;
+	private TextView scripts1 = null;
+	
+	private TextView scriptid = null;
+	private TextView scriptdesc = null;
+	private TextView sessions2 = null;
+	private TextView speakers2 = null;
 
 	/**
 	 * 
@@ -91,12 +103,12 @@ public class ActivityPreRecording extends Activity
 	
 	private void fillSpeakerItem()
 	{
-		TextView name = (TextView) findViewById(R.id.act_prerecording_speakeritem_name_textvalue);
-		TextView accent = (TextView) findViewById(R.id.act_prerecording_speakeritem_accent_textvalue);
-		TextView sex = (TextView) findViewById(R.id.act_prerecording_speakeritem_sex_textvalue);
-		TextView birthday = (TextView) findViewById(R.id.act_prerecording_speakeritem_birthday_textvalue);
-		TextView sessions = (TextView) findViewById(R.id.act_prerecording_speakeritem_sessions_textvalue);
-		TextView scripts = (TextView) findViewById(R.id.act_prerecording_speakeritem_scripts_textvalue);
+		name = (TextView) findViewById(R.id.act_prerecording_speakeritem_name_textvalue);
+		accent = (TextView) findViewById(R.id.act_prerecording_speakeritem_accent_textvalue);
+		sex = (TextView) findViewById(R.id.act_prerecording_speakeritem_sex_textvalue);
+		birthday = (TextView) findViewById(R.id.act_prerecording_speakeritem_birthday_textvalue);
+		sessions1 = (TextView) findViewById(R.id.act_prerecording_speakeritem_sessions_textvalue);
+		scripts1 = (TextView) findViewById(R.id.act_prerecording_speakeritem_scripts_textvalue);
 
 		// query from db
 		String[] selectColumns = {
@@ -145,8 +157,8 @@ public class ActivityPreRecording extends Activity
 				if(!scriptlist.contains(s2)) scriptlist.add(s2);
 				cursor.moveToNext();
 			}
-			if(!(sessionlist.toString().contains("null"))) sessions.setText(TextUtils.join(", ", sessionlist));
-			if(!(scriptlist.toString().contains("null")))  scripts.setText(TextUtils.join(", ", scriptlist));
+			if(!(sessionlist.toString().contains("null"))) sessions1.setText(TextUtils.join(", ", sessionlist));
+			if(!(scriptlist.toString().contains("null")))  scripts1.setText(TextUtils.join(", ", scriptlist));
 			
 		}
         
@@ -155,10 +167,10 @@ public class ActivityPreRecording extends Activity
 	
 	private void fillScriptItem()
 	{
-        TextView scriptid = (TextView) findViewById(R.id.act_prerecording_scriptitem_scriptid_textvalue);
-        TextView scriptdesc = (TextView) findViewById(R.id.act_prerecording_scriptitem_desc_textvalue);
-        TextView sessions = (TextView) findViewById(R.id.act_prerecording_scriptitem_sessions_textvalue);
-        TextView speakers = (TextView) findViewById(R.id.act_prerecording_scriptitem_speakers_textvalue);
+        scriptid = (TextView) findViewById(R.id.act_prerecording_scriptitem_scriptid_textvalue);
+        scriptdesc = (TextView) findViewById(R.id.act_prerecording_scriptitem_desc_textvalue);
+        sessions2 = (TextView) findViewById(R.id.act_prerecording_scriptitem_sessions_textvalue);
+        speakers2 = (TextView) findViewById(R.id.act_prerecording_scriptitem_speakers_textvalue);
         
         
 		// query from db
@@ -197,8 +209,8 @@ public class ActivityPreRecording extends Activity
 				
 				cursor.moveToNext();
 			}
-			if(!(sessionlist.toString().contains("null"))) sessions.setText(TextUtils.join(", ", sessionlist));
-			if(!(speakerlist.toString().contains("null"))) speakers.setText(TextUtils.join(", ", speakerlist));
+			if(!(sessionlist.toString().contains("null"))) sessions2.setText(TextUtils.join(", ", sessionlist));
+			if(!(speakerlist.toString().contains("null"))) speakers2.setText(TextUtils.join(", ", speakerlist));
 			
 		}
         
@@ -372,19 +384,37 @@ public class ActivityPreRecording extends Activity
 			
 			if(itemlist[position].equals("SPEAKER_ITEM"))
 			{
-				fillSpeakerItem();
 				itemView = 
 						(LinearLayout) (convertView == null
 						? LayoutInflater.from(context).inflate(R.layout.linearlayout_act_prerecording_speakeritem, parent, false)
 								: convertView);
+
+		        try
+		        {
+		        	fillSpeakerItem();
+		        }
+		        catch (Exception e) 
+		        {
+		            e.printStackTrace();
+		        }
+
+				
 			}
 			else if(itemlist[position].equals("SCRIPT_ITEM"))
 			{
-				fillScriptItem();
+				
 				itemView = 
 						(LinearLayout) (convertView == null
 						? LayoutInflater.from(context).inflate(R.layout.linearlayout_act_prerecording_scriptitem, parent, false)
 								: convertView);
+				try
+		        {
+					fillScriptItem();
+		        }
+		        catch (Exception e) 
+		        {
+		            e.printStackTrace();
+		        }
 			}
 			
 			
