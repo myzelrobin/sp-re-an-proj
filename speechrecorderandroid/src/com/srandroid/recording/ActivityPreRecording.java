@@ -15,16 +15,18 @@ import com.srandroid.main.ActivityScriptDetails;
 import com.srandroid.util.Utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.webkit.WebView.FindListener;
-import android.widget.ArrayAdapter;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -72,22 +74,19 @@ public class ActivityPreRecording extends Activity
         
         gridView = (GridView) findViewById(R.id.id_gridview_act_prerecoding);
         
-        LinearLayout llSpeakerItem = new LinearLayout(this);
-        llSpeakerItem.inflate(this, R.layout.linearlayout_activity_speakerdetails, gridView);
-        fillSpeakerItem(llSpeakerItem);
+        String[] itemlist = {"SPEAKER_ITEM", "SCRIPT_ITEM"};
         
-        LinearLayout llScriptItem = new LinearLayout(this);
-        llScriptItem.inflate(this, R.layout.linearlayout_activity_scriptdetails, gridView);
-        fillScriptItem(llScriptItem);
-        
-       LinearLayout[] itemsArray = {llSpeakerItem, llScriptItem};
-       
-       ArrayAdapter<LinearLayout> adapter = new ArrayAdapter<LinearLayout>(this,
-				android.R.layout.simple_list_item_1, itemsArray);
-        
-        gridView.setAdapter(adapter);
-        
+        gridView.setAdapter(new LocalAdapter(this, itemlist));
         gridView.setClickable(false);
+        
+//        LinearLayout llSpeakerItem = new LinearLayout(this);
+//        llSpeakerItem.inflate(this, R.layout.linearlayout_activity_speakerdetails, gridView);
+//        fillSpeakerItem(llSpeakerItem);
+//        
+//        LinearLayout llScriptItem = new LinearLayout(this);
+//        llScriptItem.inflate(this, R.layout.linearlayout_activity_scriptdetails, gridView);
+//        fillScriptItem(llScriptItem);
+        
 	}
 	
 	private void fillSpeakerItem(LinearLayout speakerItem)
@@ -338,6 +337,65 @@ public class ActivityPreRecording extends Activity
 	public void setTitle(CharSequence title) 
 	{
 	    getActionBar().setTitle(title);
+	}
+	
+	
+	public class LocalAdapter extends BaseAdapter
+	{
+		private Context context;
+		private String[] itemlist;
+		
+		public LocalAdapter(Context context, String[] itemlist)
+		{
+			this.context = context;
+			this.itemlist = itemlist;
+			
+		}
+
+		@Override
+		public int getCount() 
+		{
+			return itemlist.length;
+		}
+
+		@Override
+		public Object getItem(int id) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public long getItemId(int id) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			
+			LinearLayout itemView = null;
+			
+			if(itemlist[position].equals("SPEAKER_ITEM"))
+			{
+				itemView = 
+						(LinearLayout) (convertView == null
+						? LayoutInflater.from(context).inflate(R.layout.linearlayout_activity_speakerdetails, parent, false)
+								: convertView);
+				fillSpeakerItem(itemView);
+			}
+			else if(itemlist[position].equals("SCRIPT_ITEM"))
+			{
+				itemView = 
+						(LinearLayout) (convertView == null
+						? LayoutInflater.from(context).inflate(R.layout.linearlayout_activity_scriptdetails, parent, false)
+								: convertView);
+				fillScriptItem(itemView);
+			}
+			
+			
+			return itemView;
+		}
+		
 	}
 
 }
