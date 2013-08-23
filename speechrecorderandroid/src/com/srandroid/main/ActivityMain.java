@@ -53,7 +53,7 @@ import android.widget.Toast;
 
 
 public class ActivityMain extends Activity {
-	// push test 3
+	
 	// fields for Drawer
 	private CharSequence activity_title;
 	private CharSequence title_drawer_items;
@@ -96,11 +96,11 @@ public class ActivityMain extends Activity {
 		
 		
 		
-			Utils.ConstantVars.initializeApp(getApplicationContext());
-			
-			// initialize the default values in SharedPreference
-			// PreferenceManager.setDefaultValues(this, R.xml.preference_settings, false);
-			Utils.initSharedPreference(PreferenceManager.getDefaultSharedPreferences(this));
+		Utils.ConstantVars.initializeApp(getApplicationContext());
+		
+		// initialize the default values in SharedPreference
+		// PreferenceManager.setDefaultValues(this, R.xml.preference_settings, false);
+		Utils.initSharedPreference(PreferenceManager.getDefaultSharedPreferences(this));
 		
 		if(Utils.ConstantVars.selectedItemIndex != selectedItemIndex)
 			selectedItemIndex = Utils.ConstantVars.selectedItemIndex;
@@ -160,8 +160,6 @@ public class ActivityMain extends Activity {
         
         // Pop up hint at the left side
         toastSwipeHint();
-        
-        //Utils.ConstantVars.dbAccessor.close();
 	}
 	
 
