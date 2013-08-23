@@ -124,7 +124,7 @@ public class ActivityPreRecording extends Activity
 			String firstname = cursor.getString(cursor.getColumnIndex(TableSpeakers.COLUMN_FIRSTNAME));
 			String surname = cursor.getString(cursor.getColumnIndexOrThrow(TableSpeakers.COLUMN_SURNAME));
 			String fullName = firstname + " " + surname;
-			name.setText(fullName);
+			//name.setText(fullName);
 			
 			
 			accent.setText(cursor.getString(cursor.getColumnIndexOrThrow(TableSpeakers.COLUMN_ACCENT)));
