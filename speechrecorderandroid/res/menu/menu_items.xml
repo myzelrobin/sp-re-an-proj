@@ -1,0 +1,180 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!-- Buttons shown in overflow in Actionbar -->
+    <group 
+        android:id="@+id/bgroup_overflow"    
+        android:visible="false"
+        android:orderInCategory="100" >
+            
+        <item
+            android:id="@+id/button_settings"
+            android:showAsAction="never"
+            android:title="@string/button_settings" />
+        
+        <item
+            android:id="@+id/button_exit"
+            android:showAsAction="never"
+            android:title="@string/button_exit" />
+    
+    </group>
+    
+    
+    <!-- Buttons in Actionbar for Fragments, not shown when ActivityMain is created,
+            only shown when the Fragment is created -->
+    
+    <!-- Fragment "Sessions" -->
+    <!-- Buttons in Actionbar for Fragment "Sessions"-->
+    <group 
+        android:id="@+id/bgroup_sessions"
+        android:visible="false" >
+    
+        <item
+            android:id="@+id/button_add_session"
+            android:icon="@drawable/ic_button_add"
+            android:showAsAction="always"
+            android:title="@string/button_add" />
+        
+        <item
+	        android:id="@+id/button_search_sessions"
+	        android:icon="@drawable/ic_button_search"
+	        android:showAsAction="always"
+	        android:title="@string/button_search" />
+        
+    </group>
+    
+    <!-- Fragment "Scripts" -->
+    <!-- Buttons in Actionbar for Fragment "Scripts"-->
+    <group 
+        android:id="@+id/bgroup_scripts"
+        android:visible="false" >
+    
+        <item
+            android:id="@+id/button_download_script"
+            android:icon="@drawable/ic_button_download"
+            android:showAsAction="always"
+            android:title="@string/button_download" />
+        
+        <item
+            android:id="@+id/button_search_scripts"
+            android:icon="@drawable/ic_button_search"
+            android:showAsAction="always"
+            android:title="@string/button_search" />
+        
+    </group>
+    
+    <!-- Fragment "Speakers" -->
+    <!-- Buttons in Actionbar for Fragment "Speakers"-->
+    <group 
+        android:id="@+id/bgroup_speakers"
+        android:visible="false" >
+    
+        <item
+            android:id="@+id/button_add_speaker"
+            android:icon="@drawable/ic_button_add"
+            android:showAsAction="always"
+            android:title="@string/button_add" />
+        
+        <item
+            android:id="@+id/button_search_speakers"
+            android:icon="@drawable/ic_button_search"
+            android:showAsAction="always"
+            android:title="@string/button_search" />
+        
+    </group>
+    
+    <!-- Activity add speaker -->
+    <group 
+        android:id="@+id/bgroup_addspeaker"
+        android:visible="false" >
+    
+        <item
+            android:id="@+id/activity_addspeaker_button_start"
+            android:icon="@drawable/icon_button_mic"
+            android:showAsAction="always"
+            android:title="@string/activity_addspeaker_button_startrecording_text" />
+        
+        
+    </group>
+    
+    <!-- Activity speaker details -->
+    <group 
+        android:id="@+id/bgroup_speakerdetails"
+        android:visible="false" >
+    
+        <item
+            android:id="@+id/activity_speakerdetails_button_start"
+            android:icon="@drawable/icon_button_mic"
+            android:showAsAction="always"
+            android:title="@string/activity_speakerdetails_button_startrecording_text" />
+        
+        
+    </group>
+    
+    <!-- Activity script details -->
+    <group 
+        android:id="@+id/bgroup_scriptdetails"
+        android:visible="false" >
+    
+        <item
+            android:id="@+id/activity_scriptdetails_button_start"
+            android:icon="@drawable/icon_button_mic"
+            android:showAsAction="always"
+            android:title="@string/activity_scriptdetials_button_startrecording_text" />
+        
+        
+    </group>
+    
+    <!-- Activity session details -->
+    <group 
+        android:id="@+id/bgroup_sessiondetails"
+        android:visible="false" >
+    
+        <item
+            android:id="@+id/activity_sessiondetails_button_start"
+            android:icon="@drawable/icon_button_mic"
+            android:showAsAction="always"
+            android:title="@string/act_sessiondetails_button_startrecording_text" />
+        
+        
+    </group>
+
+</menu>
+
+<!-- 
+
+
+    <?xml version="1.0" encoding="utf-8"?>
+    <menu xmlns:android="http://schemas.android.com/apk/res/android">
+        <item android:id="@[+][package:]id/resource_name"
+              android:title="string"
+              android:titleCondensed="string"
+              android:icon="@[package:]drawable/drawable_resource_name"
+              android:onClick="method name"
+              android:showAsAction=["ifRoom" | "never" | "withText" | "always" | "collapseActionView"]
+              android:actionLayout="@[package:]layout/layout_resource_name"
+              android:actionViewClass="class name"
+              android:actionProviderClass="class name"
+              android:alphabeticShortcut="string"
+              android:numericShortcut="string"
+              android:checkable=["true" | "false"]
+              android:visible=["true" | "false"]
+              android:enabled=["true" | "false"]
+              android:menuCategory=["container" | "system" | "secondary" | "alternative"]
+              android:orderInCategory="integer" />
+        <group android:id="@[+][package:]id/resource name"
+               android:checkableBehavior=["none" | "all" | "single"]
+               android:visible=["true" | "false"]
+               android:enabled=["true" | "false"]
+               android:menuCategory=["container" | "system" | "secondary" | "alternative"]
+               android:orderInCategory="integer" >
+            <item />
+        </group>
+        <item >
+            <menu>
+              <item />
+            </menu>
+        </item>
+    </menu>
+
+
+ -->

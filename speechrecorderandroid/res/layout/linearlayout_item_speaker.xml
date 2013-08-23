@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        style="@style/style_linearlayout_item"
+        android:id="@+id/linearlayout_item_speaker" >
+        
+        <LinearLayout 
+            style="@style/style_linearlayout_wrap_imageview_in_item" >
+            <ImageView 
+                style="@style/style_linearlayout_imageview_in_item"
+                android:id="@+id/iconInItemSpeaker"
+                android:src="@drawable/icon_speaker_256"  />
+        </LinearLayout>  
+        
+	    <LinearLayout 
+	        style="@style/style_linearlayout_wrap_textview_in_item" 
+	        android:id="@+id/linearlayout_wrap_textview_in_item">
+	        
+	        <LinearLayout 
+	            android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+		         <TextView 
+		              style="@style/style_title_in_textview_in_item"
+		              android:id="@+id/itemSpeaker_textFirstNameValue"
+		              android:text="@string/speaker2_firstname"/>
+		         <TextView 
+		              style="@style/style_title_in_textview_in_item"
+		              android:id="@+id/itemSpeaker_textSurnameValue"
+		              android:text="@string/speaker2_surname"/>        
+	            
+	        </LinearLayout>
+	        
+	        <TextView 
+                style="@style/style_text_in_textview_in_item"
+                android:id="@+id/itemSpeaker_textSexValue"
+                android:text="@string/speaker2_sex"/>
+	        <TextView 
+                style="@style/style_text_in_textview_in_item"
+                android:id="@+id/itemSpeaker_textAccentValue"
+                android:text="@string/speaker2_accent"/>
+	        <TextView 
+                style="@style/style_text_in_textview_in_item"
+                android:id="@+id/itemSpeaker_textBirthdayValue"
+                android:text="@string/speaker2_birthday"/>
+	        
+	    </LinearLayout>
+</LinearLayout>

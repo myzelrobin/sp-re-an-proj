@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- application -->
+    <string name="app_name">SpeechRecorderAndroid</string>
+    <string name="hello_world">Hello world!</string>
+    
+    <!-- common strings -->
+    <string name="YES">YES</string>
+    <string name="NO">NO</string>
+    <string name="CANCEL">CANCEL</string>
+    <string name="DONE">DONE</string>
+    <string name="NEXT">NEXT</string>
+    <string name="PREVIOUS">PREVIOUS</string>
+    <string name="PLAY">PLAY</string>
+    <string name="STOP">STOP</string>
+    <string name="FINISH">FINISH</string>
+    <string name="RECORD">RECORD</string>
+    <string name="MIC">MIC</string>
+    <string name="CLOSE">CLOSE</string>
+    <string name="OPEN">OPEN</string>
+    <string name="TESTVIEWTEXT">
+        The quick brown fox jumps over the lazy dog.
+        \nThe quick brown fox jumps over the lazy dog.
+        \nThe quick brown fox jumps over the lazy dog.</string>
+    
+    
+    <!-- ActivityMain -->
+	    <!-- Drawer in ActivityMain -->
+	    <string name="drawer_items_open">Open navigation drawer</string>
+	    <string name="drawer_items_close">Close navigation drawer</string>
+	    <string name="swipeHintText">Swipe from here to right</string>
+	    
+	    <string-array name="array_drawer_items">
+	        <item>Sessions</item>
+	        <item>Scripts</item>
+	        <item>Speakers</item>
+	    </string-array>
+    
+	    <!-- Buttons in Actionbar -->
+		    <string name="button_search">Search</string>
+		    <string name="button_add">Add</string>
+		    <string name="button_download">Download</string>
+	    
+		<!-- Buttons in Overflow -->
+		    <string name="button_settings">Settings</string>
+	        <string name="button_exit">Exit</string>
+    
+    
+    <!-- PreferenceActivitySettings -->
+        <string name="title_settings">Settings</string>
+	    
+	
+	       <!-- language -->
+	       <string name="settings_application">Application</string>
+	       <string name="settings_language">Language</string>
+	       <string name="settings_language_summary">Set the language of the app</string>
+	       <string name="settings_lang_key">lang</string>
+	       <string name="settings_lang_default">en</string>
+			    <string-array name="language_items">
+		            <item>English</item>
+		            <item>German</item>
+		            <item>Chinese Simplified</item>
+		        </string-array>
+		        
+			    <string-array name="language_items_values">
+		               <item>en</item>
+		               <item>de</item>
+		               <item>chs</item>
+		        </string-array>
+		           
+	        
+	       <!-- microphone -->
+	       <string name="settings_hardware">Hardware</string>
+	       <string name="settings_microphone">Microphone</string>
+	       <string name="settings_microphone_summary">Set the microphone volume</string>
+	       <string name="settings_mic_volume_key">mic_vol</string>
+	       <string name="settings_mic_volume_default">-1</string>
+	       <string name="dialogmessage_microphone">
+	           Click MIC to start testing microphone
+	           \nOR RECORD to start recording a test sample.
+	           \nPlease speak something loud and something light.
+	           \nThen click STOP to finish the test.</string>
+	       
+	       <!-- recording values-->
+	       <string name="settings_recvalue">Recording Values</string>
+	       
+	           <!-- sample rate -->
+	           <string name="settings_sample_rate">Sample Rate</string>
+	           <string name="settings_sample_rate_summary">Set sample rate value</string>
+	           <string name="settings_sample_rate_key">sample_rate</string>
+	           <string name="settings_sample_rate_default">22050</string>
+		            <string-array name="sample_rate_items">
+	                    <item>8000Hz</item>
+	                    <item>11025Hz</item>
+	                    <item>16000Hz</item>
+	                    <item>22050Hz</item>
+	                    <item>32000Hz</item>
+	                    <item>44100Hz</item>
+	                    <item>48000Hz</item>
+	                    <item>96000Hz</item>
+	                </string-array>
+	                
+		            <string-array name="sample_rate_items_values">
+                        <item>8000</item>
+                        <item>11025</item>
+                        <item>16000</item>
+                        <item>22050</item>
+                        <item>32000</item>
+                        <item>44100</item>
+                        <item>48000</item>
+                        <item>96000</item>
+                    </string-array>
+               
+		       <!-- channels -->
+               <string name="settings_channels">Channels</string>
+               <string name="settings_channels_key">channels</string>
+               <string name="settings_channels_summary">Set channels</string>
+               <string name="settings_channels_default">2</string>
+                    <string-array name="channels_items">
+                        <item>1 Channel</item>
+                        <item>2 Channels</item>
+                    </string-array>
+                    
+                    <string-array name="channels_items_values">
+                        <item>1</item>
+                        <item>2</item>
+                    </string-array>
+	           
+                <!-- Overwrite -->
+                <string name="settings_overwrite">Overwrite</string>
+                <string name="settings_overwrite_key">overwrite</string>
+                <string name="settings_overwrite_summary">Overwrite original file</string>
+                
+                <!-- Overwrite -->
+                <string name="settings_overwrite_warning">Overwrite Warning</string>
+                <string name="settings_overwrite_warning_key">overwrite_warning</string>
+                <string name="settings_overwrite_warning_summary">Show warning before overwriting original file</string>
+	       
+    
+        <!-- Item speaker -->
+        <string name="speaker_attr_firstname">First Name</string>
+        <string name="speaker_attr_surname">Surname</string>
+        <string name="speaker_attr_name">Name</string>
+        <string name="speaker_attr_sex">Sex</string>
+        <string name="speaker_attr_accent">Accent</string>
+        <string name="speaker_attr_birthday">Birthday</string>
+        
+        <string name="key_speaker_attr_firstname">first_name</string>
+        <string name="key_speaker_attr_surname">surname</string>
+        <string name="key_speaker_attr_sex">sex</string>
+        <string name="key_speaker_attr_accent">accent</string>
+        <string name="key_speaker_attr_birthday">birthday</string>
+        
+        <!-- Speaker Example -->
+        <string name="speaker1_firstname">Adam</string>
+        <string name="speaker1_surname">Example</string>
+        <string name="speaker1_sex">male</string>
+        <string name="speaker1_accent">Bayerisch</string>
+        <string name="speaker1_birthday">YYYY,MM,DD</string>
+        
+        <string name="speaker2_firstname">Mary</string>
+        <string name="speaker2_surname">Example</string>
+        <string name="speaker2_sex">female</string>
+        <string name="speaker2_accent">Bayerisch</string>
+        <string name="speaker2_birthday">YYYY,MM,DD</string>
+        
+        <!-- Item script -->
+        <string name="script_attr_id">Script ID</string>
+        <string name="script_attr_description">Description</string>
+        
+        <string name="script_attr_id_key">_id</string>
+        <string name="script_attr_description_key">description</string>
+        
+        <!-- Script Example -->
+        <string name="script1_id">1</string>
+        <string name="script1_description">This is a script example.</string>
+        
+        <!-- Item session -->
+        <string name="session_attr_id">ID</string>
+        <string name="session_attr_script_id">Script ID</string>
+        <string name="session_attr_creation_day">Created on</string>
+        <string name="session_attr_creation_place">Created at</string>
+        <string name="session_attr_isfinished">Finished</string>
+        
+        <string name="session_attr_id_key">_id</string>
+        <string name="session_attr_script_id_key">script_id</string>
+        <string name="session_attr_creation_day_key">day</string>
+        <string name="session_attr_creation_place_key">place</string>
+        <string name="session_attr_isfinished_key">is_finished</string>
+        
+        <!-- Session Example -->
+        <string name="session1_id">1</string>
+        <string name="session1_script_id">1</string>
+        <string name="session1_speaker">Adam Exampleman</string>
+        <string name="session1_creation_day">YYYY,MM,DD</string>
+        <string name="session1_isfinished">Finished</string>
+
+        
+        
+        <!-- activity add speaker -->
+        <string name="activity_addspeaker_title">Add Speaker</string>
+        <string name="activity_addspeaker_button_startrecording_text">Start</string>
+        <string name="activity_addspeaker_firstname_text">Firstname</string>
+        <string name="activity_addspeaker_surname_text">Surname</string>
+        <string name="activity_addspeaker_accent_text">Accent</string>
+        <string name="activity_addspeaker_sex_text">Sex</string>
+        <string name="activity_addspeaker_birthday_text">Birthday</string>
+        <string-array name="activity_addspeaker_sex_dropdown_items">
+                        <item>male</item>
+                        <item>female</item>
+                    </string-array>
+        
+        
+         
+        <!-- activity speaker detials -->
+        <string name="activity_speakerdetials_title">Speaker Details</string>
+        <string name="activity_speakerdetails_button_startrecording_text">Start</string>
+        <string name="activity_speakerdetails_name_text">Name</string>
+        <string name="activity_speakerdetails_accent_text">Accent</string>
+        <string name="activity_speakerdetails_sex_text">Sex</string>
+        <string name="activity_speakerdetails_birthday_text">Birthday</string>
+        <string name="activity_speakerdetails_sessions_text">Sessions</string>
+        <string name="activity_speakerdetails_scripts_text">Scripts</string>
+        <string name="activity_speakerdetails_sessions_text2">No sessions informations</string>
+        <string name="activity_speakerdetails_scripts_text2">No script informations</string>
+        
+        <!-- activity script detials -->
+        <string name="activity_scriptdetials_title">Script Details</string>
+        <string name="activity_scriptdetials_button_startrecording_text">Start</string>
+        <string name="activity_scriptdetials_scriptid_text">Script ID:</string>
+        <string name="activity_scriptdetials_desc_text">Description</string>
+        <string name="activity_scriptdetials_sessions_text">Sessions</string>
+        <string name="activity_scriptdetials_speakers_text">Speakers</string>
+        <string name="activity_scriptdetials_sessions_text2">No sessions informations</string>
+        <string name="activity_scriptdetials_speakers_text2">No speakers informations</string>
+        
+        <!-- activity script detials -->
+        <string name="act_sessiondetails_title">Session Details</string>
+        <string name="act_sessiondetails_button_startrecording_text">Start</string>
+        <string name="act_sessiondetails_sessionid_text">Session ID:</string>
+        <string name="act_sessiondetails_datetime_text">Date Time</string>
+        <string name="act_sessiondetails_place_text">Place</string>
+        <string name="act_sessiondetails_isfinished_text">isfinished</string> 
+        <string name="act_sessiondetails_scripts_text">Scripts</string>
+        <string name="act_sessiondetails_speakers_text">Speakers</string>
+        <string name="act_sessiondetails_scripts_text2">No scripts informations</string>
+        <string name="act_sessiondetails_speakers_text2">No speakers informations</string>
+        
+</resources>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- channels  original
+<string-array name="channels_items">
+                        <item>0 Channel</item>
+                        <item>1 Channel</item>
+                        <item>2 Channels</item>
+                        <item>3 Channels</item>
+                        <item>4 Channels</item>
+                        <item>5 Channels</item>
+                        <item>6 Channels</item>
+                        <item>7 Channels</item>
+                        <item>8 Channels</item>
+                    </string-array>
+                    
+                    <string-array name="channels_items_values">
+                        <item>0</item>
+                        <item>1</item>
+                        <item>2</item>
+                        <item>3</item>
+                        <item>4</item>
+                        <item>5</item>
+                        <item>6</item>
+                        <item>7</item>
+                        <item>8</item>
+                    </string-array>
+
+ -->

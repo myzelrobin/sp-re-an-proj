@@ -1,0 +1,32 @@
+<GridView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/style_gridview_fragment_in_activitymain"
+    android:id="@+id/gridview_in_fragment_in_activitymain"
+    tools:context=".ActivityMain$FragmentInActivityMain" >
+
+</GridView>
+
+
+
+
+
+<!--
+some attributes
+android:layout_below="@id/name"
+android:layout_alignParentLeft="true"
+android:layout_alignParentRight="true"
+android:layout_toLeftOf="@+id/times"
+-->
+
+
+<!--
+original
+
+<TextView 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/textview_in_fragment"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:text="@string/hello_world" />
+-->

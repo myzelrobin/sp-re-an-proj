@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.srandroid"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="18" />
+	<!-- mic -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO"></uses-permission>
+    
+    <!-- sdcard -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+    
+    <!-- gps -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
+
+    <!-- network -->
+    <uses-permission android:name="android.permission.INTERNET" ></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" ></uses-permission>	
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        
+        
+        <activity
+            android:screenOrientation="landscape"
+            android:configChanges="orientation|keyboardHidden"
+            android:name="com.srandroid.main.ActivityMain"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity 
+            android:screenOrientation="landscape"
+            android:configChanges="orientation|keyboardHidden"
+            android:name=".overflow.PrefActivitySettings"
+            android:label="@string/title_settings"
+            android:parentActivityName="com.srandroid.main.ActivityMain" >
+            <meta-data
+	            android:name="android.support.PARENT_ACTIVITY"
+	            android:value="com.srandroid.main.ActivityMain" />
+        </activity>
+        <activity 
+            android:screenOrientation="landscape"
+            android:configChanges="orientation|keyboardHidden"
+            android:name=".activitiesSpeaker.ActivityAddSpeaker"
+            android:label="@string/activity_addspeaker_title"
+            android:parentActivityName="com.srandroid.main.ActivityMain" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.srandroid.main.ActivityMain" />
+        </activity>
+        
+        <activity 
+            android:screenOrientation="landscape"
+            android:configChanges="orientation|keyboardHidden"
+            android:name=".activitiesSpeaker.ActivitySpeakerDetails"
+            android:label="@string/activity_speakerdetials_title"
+            android:parentActivityName="com.srandroid.main.ActivityMain" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.srandroid.main.ActivityMain" />
+        </activity>
+        
+        <activity 
+            android:screenOrientation="landscape"
+            android:configChanges="orientation|keyboardHidden"
+            android:name=".activitiesScript.ActivityScriptDetails"
+            android:label="@string/activity_scriptdetials_title"
+            android:parentActivityName="com.srandroid.main.ActivityMain" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.srandroid.main.ActivityMain" />
+        </activity>
+        
+        <activity 
+            android:screenOrientation="landscape"
+            android:configChanges="orientation|keyboardHidden"
+            android:name=".activitiesSession.ActivitySessionDetails"
+            android:label="@string/act_sessiondetails_title"
+            android:parentActivityName="com.srandroid.main.ActivityMain" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.srandroid.main.ActivityMain" />
+        </activity>
+        
+        
+         <provider
+            android:authorities="com.srandroid.contentprovider"
+            android:name=".database.SrmContentProvider" >
+        </provider>
+        
+    </application>
+	
+</manifest>
+
+
+<!-- Example
+
+<?xml version="1.0" encoding="utf-8"?>
+
+<manifest>
+
+    <uses-permission />
+    <permission />
+    <permission-tree />
+    <permission-group />
+    <instrumentation />
+    <uses-sdk />
+    <uses-configuration />  
+    <uses-feature />  
+    <supports-screens />  
+    <compatible-screens />  
+    <supports-gl-texture />  
+
+    <application>
+
+        <activity>
+            <intent-filter>
+                <action />
+                <category />
+                <data />
+            </intent-filter>
+            <meta-data />
+        </activity>
+
+        <activity-alias>
+            <intent-filter> . . . </intent-filter>
+            <meta-data />
+        </activity-alias>
+
+        <service>
+            <intent-filter> . . . </intent-filter>
+            <meta-data/>
+        </service>
+
+        <receiver>
+            <intent-filter> . . . </intent-filter>
+            <meta-data />
+        </receiver>
+
+        <provider>
+            <grant-uri-permission />
+            <meta-data />
+            <path-permission />
+        </provider>
+
+        <uses-library />
+
+    </application>
+
+</manifest>
+
+
+
+ -->

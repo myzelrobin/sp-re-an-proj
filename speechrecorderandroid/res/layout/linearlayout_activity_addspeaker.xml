@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/style_linearlayout_activity_example" >
+
+    <LinearLayout
+        android:background="#FFFFFF"
+        android:layout_width="300dp"
+        android:layout_height="400dp"
+        android:orientation="vertical" >
+        
+        <RelativeLayout
+            android:layout_width="300dp"
+            android:layout_height="80dp"
+            android:orientation="horizontal" >
+            
+            <TextView
+                android:id="@+id/id_addspeaker_firstname_text"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:layout_alignParentLeft="true"
+                android:text="@string/activity_addspeaker_firstname_text" 
+                android:textSize="20sp"/>
+                
+                <EditText
+                    android:id="@+id/id_addspeaker_firstname_textinput"
+                    android:layout_width="200dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentRight="true"
+                    android:inputType="text"
+                    android:ems="10" >
+            
+                    <requestFocus />
+            </EditText>
+        </RelativeLayout>
+        
+        <RelativeLayout
+            android:layout_width="300dp"
+            android:layout_height="80dp"
+            android:orientation="horizontal" >
+            
+            <TextView
+                android:id="@+id/id_addspeaker_surname_text"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:layout_alignParentLeft="true"
+                android:text="@string/activity_addspeaker_surname_text" 
+                android:textSize="20sp"/>
+                
+                <EditText
+                    android:id="@+id/id_addspeaker_surname_textinput"
+                    android:layout_width="200dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentRight="true"
+                    android:inputType="text"
+                    android:ems="10"  >
+            
+            </EditText>
+        </RelativeLayout>
+        
+        <RelativeLayout
+            android:layout_width="300dp"
+            android:layout_height="80dp"
+            android:orientation="horizontal" >
+            
+            <TextView
+                android:id="@+id/id_addspeaker_accent_text"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:layout_alignParentLeft="true"
+                android:text="@string/activity_addspeaker_accent_text" 
+                android:textSize="20sp"/>
+                
+                <EditText
+                    android:id="@+id/id_addspeaker_accent_textinput"
+                    android:layout_width="200dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentRight="true"
+                    android:inputType="text"
+                    android:ems="10"  >
+            
+            </EditText>
+        </RelativeLayout>
+        
+        <RelativeLayout
+            android:layout_width="300dp"
+            android:layout_height="80dp"
+            android:orientation="horizontal" >
+            
+            <TextView
+                android:id="@+id/id_addspeaker_sex_text"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:layout_alignParentLeft="true"
+                android:text="@string/activity_addspeaker_sex_text" 
+                android:textSize="20sp"/>
+                
+            
+                <Spinner
+                    android:id="@+id/id_addspeaker_sex_dropdownlist"
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="50dp"
+                    android:layout_alignParentRight="true"
+                    android:entries="@array/activity_addspeaker_sex_dropdown_items"
+                    />
+                
+        </RelativeLayout>
+        
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="80dp"
+            android:orientation="horizontal" >
+            
+            
+            
+            
+            <TextView
+                android:id="@+id/id_addspeaker_birthday_text"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:layout_alignParentLeft="true"
+                android:text="@string/activity_addspeaker_birthday_text" 
+                android:textSize="20sp"/>
+
+	            <LinearLayout
+		            android:layout_width="200dp"
+		            android:layout_height="50dp"
+		            android:orientation="horizontal" >
+		            
+		            <EditText
+		                    android:id="@+id/id_addspeaker_year_textinput"
+		                    android:layout_width="80dp"
+		                    android:layout_height="50dp"
+		                    android:inputType="number"
+		                    android:hint="YYYY"
+		                    android:ems="10" />
+		            
+		             <EditText
+		                 android:id="@+id/id_addspeaker_month_textinput"
+		                 android:layout_width="60dp"
+		                 android:layout_height="50dp"
+		                 android:inputType="number"
+		                 android:hint="MM"
+		                 android:ems="10"  />
+		                 
+		            <EditText
+		                    android:id="@+id/id_addspeaker_day_textinput"
+		                    android:layout_width="60dp"
+		                    android:layout_height="50dp"
+		                    android:inputType="number"
+		                    android:hint="DD"
+		                    android:ems="10"  />
+             
+            </LinearLayout>
+                
+        </LinearLayout>
+
+
+    </LinearLayout> 
+
+</LinearLayout>
+

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/textview_in_dialog_microphone"
+        android:layout_width="500dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/dialogmessage_microphone"
+        android:textSize="24sp" />
+    
+    <ProgressBar
+	    android:id="@+id/progressBarInDialogSetMic"
+	    style="?android:attr/progressBarStyleHorizontal"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_margin="10dp"
+	    android:max="4000"
+	    android:progressDrawable="@drawable/progressbar" />
+    
+     <LinearLayout
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal" >
+        <Button
+            android:id="@+id/button_cancel_in_dialog_mic"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/CANCEL" />
+        <Button
+            android:id="@+id/button_testmic_in_dialog_mic"
+           android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/MIC" />
+        <Button
+            android:id="@+id/button_testrecord_in_dialog_mic"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/RECORD" />
+    </LinearLayout>
+
+</LinearLayout>

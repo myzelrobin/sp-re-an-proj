@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/style_linearlayout_item" >
+        
+        <LinearLayout 
+            style="@style/style_linearlayout_wrap_imageview_in_item" >
+            <ImageView 
+                style="@style/style_linearlayout_imageview_in_item"
+                android:id="@+id/iconInItemSpeaker"
+                android:src="@drawable/icon_session_256"  />
+        </LinearLayout>  
+        
+	    <LinearLayout 
+	        style="@style/style_linearlayout_wrap_textview_in_item" >
+	        
+	         <LinearLayout 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+                <TextView 
+                    style="@style/style_title_in_textview_in_item"
+                    android:id="@+id/itemSession_textIdSign"
+                    android:text="#" />
+                <TextView 
+	                style="@style/style_title_in_textview_in_item"
+	                android:id="@+id/itemSession_textIdValue"
+	                android:text="@string/session1_id"/>   
+            </LinearLayout>
+	        
+	         <LinearLayout 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+                 <TextView 
+                    style="@style/style_text_in_textview_in_item"
+                    android:layout_marginRight="3dp"
+                    android:text="@string/script_attr_id" />
+		        <TextView 
+	                style="@style/style_text_in_textview_in_item"
+	                android:id="@+id/itemSession_textScriptIdValue"
+	                android:text="@string/session1_script_id"/>
+	        </LinearLayout>
+	        
+	        <LinearLayout 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+                 <TextView 
+                      style="@style/style_text_in_textview_in_item"
+                      android:id="@+id/itemSession_textSpeakerFirstname"
+                      android:layout_marginRight="3dp"
+                      android:text="@string/speaker2_firstname"/>
+                 <TextView 
+                      style="@style/style_text_in_textview_in_item"
+                      android:id="@+id/itemSession_textSpeakerSurname"
+                      android:text="@string/speaker2_surname"/>        
+                
+            </LinearLayout>
+	        
+	        
+	        <RelativeLayout 
+	            android:layout_width="260dp"
+	            android:layout_height="wrap_content"
+	            android:orientation="horizontal" >
+	            <TextView 
+	                style="@style/style_text_in_textview_in_item"
+	                android:layout_alignParentLeft="true"
+	                android:id="@+id/itemSession_textCreateDate"
+	                android:text="@string/session1_creation_day"/>
+	            <TextView 
+	                style="@style/style_textred_in_textview_in_item"
+	                android:layout_alignParentRight="true"
+	                android:id="@+id/itemSession_textIsFinished"
+	                android:text="@string/session1_isfinished"/>
+	        </RelativeLayout>
+	        
+	        
+	    </LinearLayout>
+   
+</LinearLayout>
