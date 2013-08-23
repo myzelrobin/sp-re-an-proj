@@ -65,7 +65,6 @@ public class ActivityPreRecording extends Activity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
-		
 
 		Bundle extras = getIntent().getExtras(); 
 
@@ -86,6 +85,28 @@ public class ActivityPreRecording extends Activity
         
         gridView = (GridView) findViewById(R.id.id_gridview_act_prerecoding);
         
+		
+		// speaker item
+		name = (TextView) findViewById(R.id.act_prerecording_speakeritem_name_textvalue);
+		accent = (TextView) findViewById(R.id.act_prerecording_speakeritem_accent_textvalue);
+		sex = (TextView) findViewById(R.id.act_prerecording_speakeritem_sex_textvalue);
+		birthday = (TextView) findViewById(R.id.act_prerecording_speakeritem_birthday_textvalue);
+		sessions1 = (TextView) findViewById(R.id.act_prerecording_speakeritem_sessions_textvalue);
+		scripts1 = (TextView) findViewById(R.id.act_prerecording_speakeritem_scripts_textvalue);
+		
+		
+		// script item
+        scriptid = (TextView) findViewById(R.id.act_prerecording_scriptitem_scriptid_textvalue);
+        scriptdesc = (TextView) findViewById(R.id.act_prerecording_scriptitem_desc_textvalue);
+        sessions2 = (TextView) findViewById(R.id.act_prerecording_scriptitem_sessions_textvalue);
+        speakers2 = (TextView) findViewById(R.id.act_prerecording_scriptitem_speakers_textvalue);
+
+        
+        
+        
+        
+        
+        
         String[] itemlist = {"SPEAKER_ITEM", "SCRIPT_ITEM"};
         
         gridView.setAdapter(new LocalAdapter(this, itemlist));
@@ -103,12 +124,7 @@ public class ActivityPreRecording extends Activity
 	
 	private void fillSpeakerItem()
 	{
-		name = (TextView) findViewById(R.id.act_prerecording_speakeritem_name_textvalue);
-		accent = (TextView) findViewById(R.id.act_prerecording_speakeritem_accent_textvalue);
-		sex = (TextView) findViewById(R.id.act_prerecording_speakeritem_sex_textvalue);
-		birthday = (TextView) findViewById(R.id.act_prerecording_speakeritem_birthday_textvalue);
-		sessions1 = (TextView) findViewById(R.id.act_prerecording_speakeritem_sessions_textvalue);
-		scripts1 = (TextView) findViewById(R.id.act_prerecording_speakeritem_scripts_textvalue);
+		
 
 		// query from db
 		String[] selectColumns = {
@@ -167,10 +183,7 @@ public class ActivityPreRecording extends Activity
 	
 	private void fillScriptItem()
 	{
-        scriptid = (TextView) findViewById(R.id.act_prerecording_scriptitem_scriptid_textvalue);
-        scriptdesc = (TextView) findViewById(R.id.act_prerecording_scriptitem_desc_textvalue);
-        sessions2 = (TextView) findViewById(R.id.act_prerecording_scriptitem_sessions_textvalue);
-        speakers2 = (TextView) findViewById(R.id.act_prerecording_scriptitem_speakers_textvalue);
+
         
         
 		// query from db
