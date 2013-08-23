@@ -255,6 +255,11 @@ public class ActivitySessionDetails extends Activity
 		        		Utils.ConstantVars.speakerItemIdForNewSession = speakerId;
 		        		Utils.ConstantVars.scriptItemIdForNewSession = scriptId;
 		        		
+		        		Log.w(this.getClass().getName(), " set Utils.speakerID=" 
+		        				+ Utils.ConstantVars.speakerItemIdForNewSession 
+		        				+ " and Utils.scriptID=" 
+		        				+ Utils.ConstantVars.scriptItemIdForNewSession);
+		        		
 		        		Intent newI = new Intent(this, ActivityPreRecording.class);
 		        		this.startActivity(newI);
 		        		
