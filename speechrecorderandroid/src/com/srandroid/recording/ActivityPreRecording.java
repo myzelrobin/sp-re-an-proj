@@ -91,12 +91,12 @@ public class ActivityPreRecording extends Activity
 	
 	private void fillSpeakerItem(LinearLayout speakerItem)
 	{
-		TextView name = (TextView) findViewById(R.id.activity_speakerdetails_name_textvalue);
-		TextView accent = (TextView) findViewById(R.id.activity_speakerdetails_accent_textvalue);
-		TextView sex = (TextView) findViewById(R.id.activity_speakerdetails_sex_textvalue);
-		TextView birthday = (TextView) findViewById(R.id.activity_speakerdetails_birthday_textvalue);
-		TextView sessions = (TextView) findViewById(R.id.activity_speakerdetails_sessions_textvalue);
-		TextView scripts = (TextView) findViewById(R.id.activity_speakerdetails_scripts_textvalue);
+		TextView name = (TextView) findViewById(R.id.act_prerecording_speakeritem_name_textvalue);
+		TextView accent = (TextView) findViewById(R.id.act_prerecording_speakeritem_accent_textvalue);
+		TextView sex = (TextView) findViewById(R.id.act_prerecording_speakeritem_sex_textvalue);
+		TextView birthday = (TextView) findViewById(R.id.act_prerecording_speakeritem_birthday_textvalue);
+		TextView sessions = (TextView) findViewById(R.id.act_prerecording_speakeritem_sessions_textvalue);
+		TextView scripts = (TextView) findViewById(R.id.act_prerecording_speakeritem_scripts_textvalue);
 
 		// query from db
 		String[] selectColumns = {
@@ -155,10 +155,10 @@ public class ActivityPreRecording extends Activity
 	
 	private void fillScriptItem(LinearLayout scriptItem)
 	{
-        TextView scriptid = (TextView) findViewById(R.id.activity_scriptdetails_scriptid_textvalue);
-        TextView scriptdesc = (TextView) findViewById(R.id.activity_scriptdetails_desc_textvalue);
-        TextView sessions = (TextView) findViewById(R.id.activity_scriptdetails_sessions_textvalue);
-        TextView speakers = (TextView) findViewById(R.id.activity_scriptdetails_speakers_textvalue);
+        TextView scriptid = (TextView) findViewById(R.id.act_prerecording_scriptitem_scriptid_textvalue);
+        TextView scriptdesc = (TextView) findViewById(R.id.act_prerecording_scriptitem_desc_textvalue);
+        TextView sessions = (TextView) findViewById(R.id.act_prerecording_scriptitem_sessions_textvalue);
+        TextView speakers = (TextView) findViewById(R.id.act_prerecording_scriptitem_speakers_textvalue);
         
         
 		// query from db
@@ -374,7 +374,7 @@ public class ActivityPreRecording extends Activity
 			{
 				itemView = 
 						(LinearLayout) (convertView == null
-						? LayoutInflater.from(context).inflate(R.layout.linearlayout_activity_speakerdetails, parent, false)
+						? LayoutInflater.from(context).inflate(R.layout.linearlayout_act_prerecording_speakeritem, parent, false)
 								: convertView);
 				fillSpeakerItem(itemView);
 			}
@@ -382,7 +382,7 @@ public class ActivityPreRecording extends Activity
 			{
 				itemView = 
 						(LinearLayout) (convertView == null
-						? LayoutInflater.from(context).inflate(R.layout.linearlayout_activity_scriptdetails, parent, false)
+						? LayoutInflater.from(context).inflate(R.layout.linearlayout_act_prerecording_scriptitem, parent, false)
 								: convertView);
 				fillScriptItem(itemView);
 			}
