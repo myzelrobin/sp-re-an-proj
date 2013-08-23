@@ -33,7 +33,7 @@ import com.srandroid.util.Utils;
  */
 public class ActivitySessionDetails extends Activity
 {
-	// state
+		// state
 		public static final String ITEM_URI = "ITEM_URI";
 		private String itemId = null;
 		
@@ -125,9 +125,9 @@ public class ActivitySessionDetails extends Activity
 				String sTime = cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_TIME));
 				datetime.setText(sDate + " " + sTime);
 				
-				place.setText(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_PLACE));
+				place.setText(cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_PLACE)));
 				
-				isfinished.setText(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_IS_FINISHED));
+				isfinished.setText(cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_IS_FINISHED)));
 				
 				// here for isuploaded, db is not updated
 				
