@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView.FindListener;
+import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -79,8 +80,12 @@ public class ActivityPreRecording extends Activity
         llScriptItem.inflate(this, R.layout.linearlayout_activity_scriptdetails, gridView);
         fillScriptItem(llScriptItem);
         
-        gridView.addView(llSpeakerItem, 480, 480);
-        gridView.addView(llScriptItem, 480, 480);
+       LinearLayout[] itemsArray = {llSpeakerItem, llScriptItem};
+       
+       ArrayAdapter<LinearLayout> adapter = new ArrayAdapter<LinearLayout>(this,
+				android.R.layout.simple_list_item_1, itemsArray);
+        
+        gridView.setAdapter(adapter);
         
         gridView.setClickable(false);
 	}
