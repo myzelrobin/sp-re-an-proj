@@ -89,7 +89,7 @@ public class ActivityPreRecording extends Activity
         
 	}
 	
-	private void fillSpeakerItem(LinearLayout speakerItem)
+	private void fillSpeakerItem()
 	{
 		TextView name = (TextView) findViewById(R.id.act_prerecording_speakeritem_name_textvalue);
 		TextView accent = (TextView) findViewById(R.id.act_prerecording_speakeritem_accent_textvalue);
@@ -153,7 +153,7 @@ public class ActivityPreRecording extends Activity
         cursor.close();
 	}
 	
-	private void fillScriptItem(LinearLayout scriptItem)
+	private void fillScriptItem()
 	{
         TextView scriptid = (TextView) findViewById(R.id.act_prerecording_scriptitem_scriptid_textvalue);
         TextView scriptdesc = (TextView) findViewById(R.id.act_prerecording_scriptitem_desc_textvalue);
@@ -372,19 +372,19 @@ public class ActivityPreRecording extends Activity
 			
 			if(itemlist[position].equals("SPEAKER_ITEM"))
 			{
+				fillSpeakerItem();
 				itemView = 
 						(LinearLayout) (convertView == null
 						? LayoutInflater.from(context).inflate(R.layout.linearlayout_act_prerecording_speakeritem, parent, false)
 								: convertView);
-				//fillSpeakerItem(itemView);
 			}
 			else if(itemlist[position].equals("SCRIPT_ITEM"))
 			{
+				fillScriptItem();
 				itemView = 
 						(LinearLayout) (convertView == null
 						? LayoutInflater.from(context).inflate(R.layout.linearlayout_act_prerecording_scriptitem, parent, false)
 								: convertView);
-				//fillScriptItem(itemView);
 			}
 			
 			
