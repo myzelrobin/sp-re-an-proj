@@ -8,6 +8,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
@@ -26,6 +27,7 @@ import com.srandroid.database.SrmContentProvider.SrmUriMatcher;
 import com.srandroid.database.TableScripts.ScriptItem;
 import com.srandroid.database.TableSessions;
 import com.srandroid.database.TableSpeakers;
+import com.srandroid.recording.ActivityPreRecording;
 import com.srandroid.util.Utils;
 
 /**
@@ -248,16 +250,13 @@ public class ActivitySessionDetails extends Activity
 			     // actionbar buttons
 	        	case R.id.act_sessiondetails_button_start:
 	        		
-		        		Utils.toastTextToUser(this, "start recording");
+		        		Utils.toastTextToUser(this, "prepare recording");
 		        		
 		        		Utils.ConstantVars.speakerItemIdForNewSession = speakerId;
 		        		Utils.ConstantVars.scriptItemIdForNewSession = scriptId;
 		        		
-		        		
-		        		// Intent newI = new Intent(this.getClass().getName(), ActivityStartRecording.class);
-		        		// newI.putExtra("ACTIVITY_NAME", "session_details"); 
-		        		// newI.putExtra("ITEM_ID", itemId);
-		        		// (ActivityScriptDetails.this.startActivity(newI);
+		        		Intent newI = new Intent(this, ActivityPreRecording.class);
+		        		this.startActivity(newI);
 		        		
 	        		break;
 	        	default:
