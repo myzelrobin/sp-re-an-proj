@@ -315,13 +315,13 @@ public class ActivityRecording extends Activity
     	
 	}
 	
-	private void updateTextArea(View areaView, String sIntro, String sContent)
+	private void updateTextArea(View parentView, String sIntro, String sContent)
 	{
 		if((sIntro.length() != 0) && (sContent.length() != 0))
     	{
-			TextView tView1 = (TextView) areaView.findViewById(R.id.act_recording_text_intro_textvalue);
+			TextView tView1 = (TextView) parentView.findViewById(R.id.act_recording_text_intro_textvalue);
 			tView1.setText(sIntro);
-			TextView tView2 = (TextView) areaView.findViewById(R.id.act_recording_text_prompt_textvalue);
+			TextView tView2 = (TextView) parentView.findViewById(R.id.act_recording_text_prompt_textvalue);
 			tView2.setText(sContent);
     	}
 	}
@@ -369,8 +369,7 @@ public class ActivityRecording extends Activity
 						? LayoutInflater.from(context).
 								inflate(R.layout.linearlayout_act_recording_text_area, parent, false)
 						: convertView);
-
-		        llTextArea = areaView;
+				
 
 			}
 			else if(arealist[position].equals("CONTROL_AREA_FOR_USER"))
@@ -391,7 +390,6 @@ public class ActivityRecording extends Activity
 		            e.printStackTrace();
 		        }
 		        
-		        llControlArea = areaView;
 			}
 			else if(arealist[position].equals("CONTROL_AREA_FOR_SPEAKER"))
 			{
@@ -411,7 +409,6 @@ public class ActivityRecording extends Activity
 		            e.printStackTrace();
 		        }
 		        
-		        llControlArea = areaView;
 		        
 			}
 			
@@ -476,9 +473,7 @@ public class ActivityRecording extends Activity
 				
 				case R.id.act_recording_control_button_next:
 					Utils.toastText(thisAct, "clicked >>");
-					TextView intro = 
-							(TextView) gridView.findViewById(R.id.act_recording_text_intro_textvalue);
-					intro.setText("test");
+					updateTextArea(gridView, "Intro", "Content");
 					
 					break;
 				default:
