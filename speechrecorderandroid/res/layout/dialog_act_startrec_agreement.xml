@@ -32,13 +32,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:text="@string/act_startrecording_dialog_agreement_button_text" />
+            android:text="@string/act_startrecording_dialog_agreement_button_agree" />
         <Button
             android:id="@+id/act_startrec_dialog_agreemment_buttonno"
            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:text="@string/NO" />
+            android:text="@string/act_startrecording_dialog_agreement_button_disagree" />
     </LinearLayout>
 
 </LinearLayout>

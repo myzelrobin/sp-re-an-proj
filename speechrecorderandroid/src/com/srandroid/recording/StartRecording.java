@@ -87,34 +87,54 @@ public class StartRecording extends Activity
 			@Override
 			public void onClick(View v) 
 			{
-				final Dialog agreentDialog = new Dialog(getApplicationContext());
-				agreentDialog.setContentView(R.layout.dialog_act_startrec_agreement);
-				agreentDialog.setTitle(R.string.act_startrecording_dialog_agreement_title_text);
+//				final Dialog agreentDialog = new Dialog(getApplicationContext());
+//				agreentDialog.setContentView(R.layout.dialog_act_startrec_agreement);
+//				agreentDialog.setTitle(R.string.act_startrecording_dialog_agreement_title_text);
+//				
+//				 // button CANCEL
+//				 bYes = (Button) agreentDialog.findViewById(R.id.act_startrec_dialog_agreemment_buttonyes);
+//				 bYes.setOnClickListener(new OnClickListener() {
+//					
+//					@Override
+//					public void onClick(View v) {
+//						agreentDialog.dismiss();
+//						
+//					}
+//				});
+//				 // button TESTMIC
+//				 bNo = (Button) agreentDialog.findViewById(R.id.act_startrec_dialog_agreemment_buttonno);
+//				 
+//				 bNo.setOnClickListener(new OnClickListener() {
+//						
+//						@Override
+//						public void onClick(View v) {
+//							agreentDialog.cancel();
+//							
+//						}
+//				});
 				
-				 // button CANCEL
-				 bYes = (Button) agreentDialog.findViewById(R.id.act_startrec_dialog_agreemment_buttonyes);
-				 bYes.setOnClickListener(new OnClickListener() {
+				try {
 					
-					@Override
-					public void onClick(View v) {
-						agreentDialog.dismiss();
-						
-					}
-				});
-				 // button TESTMIC
-				 bNo = (Button) agreentDialog.findViewById(R.id.act_startrec_dialog_agreemment_buttonno);
-				 bNo.setOnClickListener(new OnClickListener() {
-						
-						@Override
-						public void onClick(View v) {
-							agreentDialog.cancel();
-							
-						}
-				});
+				AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+				builder.setTitle(R.string.act_startrecording_dialog_agreement_title_text);
+				builder.setMessage(R.string.act_startrecording_dialog_agreement_content_text)
+				       .setCancelable(true)
+				       .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,int id) {
+								
+								dialog.dismiss();
+							}
+						})
+						.setNegativeButton("No",new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,int id) {
+								
+								dialog.cancel();
+							}
+						});
+				AlertDialog alertDialog = builder.create();
 				
-				
-				 try {
-					agreentDialog.show();
+				 
+					 alertDialog.show();
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
