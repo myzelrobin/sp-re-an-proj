@@ -254,14 +254,21 @@
         
         <!-- activity TestRecording -->
         <string name="act_testrecording_title">Test Recording</string>
-        <string name="act_testrecording_button_start_text">Start</string>
+        <string name="act_testrecording_button_finish_text">DONE</string>
         
         <!-- activity StartRecording -->
         <string name="act_startrecording_title">Welcome</string>
         <string name="act_startrecording_welcome_text">
             Welcome to the recording test! 
         </string>
-        <string name="act_startrecording_button_start_text">Start</string>
+        
+        <string name="act_startrecording_button_start_text">START</string>
+        <string name="act_startrecording_button_agreement_text">AGREEMENT</string>
+        <string name="act_startrecording_dialog_agreement_title_text">AGREEMENT</string>
+        <string name="act_startrecording_dialog_agreement_content_text">
+            This is the agreement. 1234567890 
+        </string>
+        <string name="act_startrecording_dialog_agreement_button_text">I have read it.</string>
         
         
 </resources>

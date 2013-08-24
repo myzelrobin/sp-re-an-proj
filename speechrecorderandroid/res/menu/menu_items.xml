@@ -161,7 +161,7 @@
         <item
             android:id="@+id/act_testrecoding_button_start"
             android:showAsAction="always"
-            android:title="@string/act_testrecording_button_start_text" />
+            android:title="@string/act_startrecording_button_start_text" />
         
         
     </group>
