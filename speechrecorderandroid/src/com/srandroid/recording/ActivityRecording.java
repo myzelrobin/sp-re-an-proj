@@ -63,6 +63,8 @@ public class ActivityRecording extends Activity
 	
 	private String[] arealist;
 	
+	private LocalAdapterForActRecording adapter;
+	
 	private OnClickListenerForRecording listener;
 	
 	private static Activity thisAct;
@@ -113,7 +115,9 @@ public class ActivityRecording extends Activity
             
             String[] arealist = {"TEXT_AREA", "CONTROL_AREA_FOR_USER"};
             
-            gridView.setAdapter(new LocalAdapterForActRecording(this, arealist));
+            adapter = new LocalAdapterForActRecording(this, arealist);
+            
+            gridView.setAdapter(adapter);
             
             gridView.setClickable(false);
         }
@@ -128,7 +132,9 @@ public class ActivityRecording extends Activity
             
             String[] arealist = {"TEXT_AREA", "CONTROL_AREA_FOR_SPEAKER"};
             
-            gridView.setAdapter(new LocalAdapterForActRecording(this, arealist));
+            adapter = new LocalAdapterForActRecording(this, arealist);
+            
+            gridView.setAdapter(adapter);
             
             gridView.setClickable(false);
             
@@ -306,20 +312,19 @@ public class ActivityRecording extends Activity
     	
 	}
 	
-	private void fillTextArea(View areaView, String sIntro, String sContent)
+	private void fillTextArea(View areaView)
 	{
     	textViewIntro = (TextView) areaView.findViewById(R.id.act_recording_text_intro_textvalue);
     	textViewContent = (TextView) areaView.findViewById(R.id.act_recording_text_prompt_textvalue);
     	
-    	if((sIntro.length() != 0) && (sContent.length() != 0))
+	}
+	
+	private void updateTextArea(String sIntro, String sContent)
+	{
+		if((sIntro.length() != 0) && (sContent.length() != 0))
     	{
     		textViewIntro.setText(sIntro);
     		textViewContent.setText(sContent);
-    	}
-    	else
-    	{
-    		textViewIntro.setText(getString(R.string.act_recording_introarea_text));
-    		textViewContent.setText(getString(R.string.act_recording_promptarea_text));
     	}
 	}
 	
@@ -343,7 +348,6 @@ public class ActivityRecording extends Activity
 
 		@Override
 		public Object getItem(int position) {
-			// TODO Auto-generated method stub
 			return null;
 		}
 		
@@ -370,7 +374,7 @@ public class ActivityRecording extends Activity
 
 		        try
 		        {
-		        	fillTextArea(areaView, sIntro, sContent);
+		        	fillTextArea(areaView);
 		        }
 		        catch (Exception e) 
 		        {
@@ -473,13 +477,12 @@ public class ActivityRecording extends Activity
 					
 				case R.id.act_recording_control_button_previous:
 					Utils.toastText(thisAct, "clicked <<");
-					fillTextArea((View) gridView.getItemAtPosition(1), "test", "test");
 					
 					break;
 				
 				case R.id.act_recording_control_button_next:
 					Utils.toastText(thisAct, "clicked >>");
-					fillTextArea((View) gridView.getItemAtPosition(1), null, null);
+					updateTextArea("Intro", "Content");
 					
 					break;
 				default:
