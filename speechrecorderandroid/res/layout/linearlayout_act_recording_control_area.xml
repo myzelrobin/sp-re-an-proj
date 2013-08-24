@@ -4,7 +4,7 @@
 
     <LinearLayout
     android:background="#FFFFFF"
-    android:layout_width="400dp"
+    android:layout_width="380dp"
     android:layout_height="450dp"
     android:orientation="vertical" >
         
@@ -36,7 +36,8 @@
            android:src="@drawable/icon_circle_green"  />
            
         </LinearLayout>
-         <LinearLayout
+        
+        <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:orientation="horizontal"

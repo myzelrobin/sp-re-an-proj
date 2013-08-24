@@ -7,9 +7,10 @@ android:layout_height="match_parent"
 android:gravity="center"
 android:orientation="vertical"
 android:numColumns="auto_fit"
-android:columnWidth="450dp"
+android:columnWidth="400dp"
 android:horizontalSpacing="0dp"
 android:padding="10dp"
+android:paddingTop="10dp"
 android:verticalSpacing="10dp" >
 
 </GridView>
