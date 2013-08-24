@@ -319,12 +319,14 @@ public class ActivityRecording extends Activity
     	
 	}
 	
-	private void updateTextArea(String sIntro, String sContent)
+	private void updateTextArea(View areaView, String sIntro, String sContent)
 	{
 		if((sIntro.length() != 0) && (sContent.length() != 0))
     	{
-    		textViewIntro.setText(sIntro);
-    		textViewContent.setText(sContent);
+			((TextView) areaView.findViewById(R.id.act_recording_text_intro_textvalue))
+				.setText(sIntro);
+			((TextView) areaView.findViewById(R.id.act_recording_text_prompt_textvalue))
+				.setText(sContent);
     	}
 	}
 	
@@ -482,7 +484,7 @@ public class ActivityRecording extends Activity
 				
 				case R.id.act_recording_control_button_next:
 					Utils.toastText(thisAct, "clicked >>");
-					updateTextArea("Intro", "Content");
+					updateTextArea((View) gridView.getItemAtPosition(0), "Intro", "Content");
 					
 					break;
 				default:
