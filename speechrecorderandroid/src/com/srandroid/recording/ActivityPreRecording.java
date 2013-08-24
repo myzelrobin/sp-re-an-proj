@@ -99,6 +99,30 @@ public class ActivityPreRecording extends Activity
         String[] itemlist = {"SPEAKER_ITEM", "SCRIPT_ITEM"};
         
         gridView.setAdapter(new LocalAdapter(this, itemlist));
+        
+        
+
+        try
+        {
+        	fillSpeakerItem();
+        }
+        catch (Exception e) 
+        {
+            e.printStackTrace();
+        }
+
+        try
+        {
+			fillScriptItem();
+        }
+        catch (Exception e) 
+        {
+            e.printStackTrace();
+        }
+        
+        
+        
+        
         gridView.setClickable(false);
         
 //        LinearLayout llSpeakerItem = new LinearLayout(this);
@@ -399,16 +423,6 @@ public class ActivityPreRecording extends Activity
 						(LinearLayout) (convertView == null
 						? LayoutInflater.from(context).inflate(R.layout.linearlayout_activity_speakerdetails, parent, false)
 								: convertView);
-
-		        try
-		        {
-		        	fillSpeakerItem();
-		        }
-		        catch (Exception e) 
-		        {
-		            e.printStackTrace();
-		        }
-
 				
 			}
 			else if(itemlist[position].equals("SCRIPT_ITEM"))
@@ -418,14 +432,7 @@ public class ActivityPreRecording extends Activity
 						(LinearLayout) (convertView == null
 						? LayoutInflater.from(context).inflate(R.layout.linearlayout_activity_scriptdetails, parent, false)
 								: convertView);
-				try
-		        {
-					fillScriptItem();
-		        }
-		        catch (Exception e) 
-		        {
-		            e.printStackTrace();
-		        }
+				
 			}
 			
 			
