@@ -315,13 +315,6 @@ public class ActivityRecording extends Activity
     	
 	}
 	
-	private void fillTextArea(View areaView)
-	{
-    	textViewIntro = (TextView) areaView.findViewById(R.id.act_recording_text_intro_textvalue);
-    	textViewContent = (TextView) areaView.findViewById(R.id.act_recording_text_prompt_textvalue);
-    	
-	}
-	
 	private void updateTextArea(View areaView, String sIntro, String sContent)
 	{
 		if((sIntro.length() != 0) && (sContent.length() != 0))
@@ -377,15 +370,6 @@ public class ActivityRecording extends Activity
 								inflate(R.layout.linearlayout_act_recording_text_area, parent, false)
 						: convertView);
 
-		        try
-		        {
-		        	fillTextArea(areaView);
-		        }
-		        catch (Exception e) 
-		        {
-		            e.printStackTrace();
-		        }
-		        
 		        llTextArea = areaView;
 
 			}
@@ -492,8 +476,8 @@ public class ActivityRecording extends Activity
 				
 				case R.id.act_recording_control_button_next:
 					Utils.toastText(thisAct, "clicked >>");
-					updateTextArea(gridView.getAdapter().getView(0, llTextArea, gridView),
-							"TEST", "TEST");
+					CharSequence text = ((TextView) llTextArea.findViewById(R.id.act_recording_text_intro_textvalue)).getText();
+					Utils.toastText(thisAct, "text is:" + text);
 					
 					break;
 				default:
