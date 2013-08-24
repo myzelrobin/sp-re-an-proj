@@ -52,8 +52,8 @@ public class ActivityRecording extends Activity
 	private Button bNext;
 	private Button bPrev;
 	
-	static private TextView textViewIntro;
-	static private TextView textViewContent;
+	private TextView textViewIntro;
+	private TextView textViewContent;
 	private String sIntro;
 	private String sContent;
 	
@@ -62,6 +62,9 @@ public class ActivityRecording extends Activity
 	private ImageView imageCircle3;
 	
 	private String[] arealist;
+	
+	private LinearLayout llTextArea;
+	private LinearLayout llControlArea;
 	
 	private LocalAdapterForActRecording adapter;
 	
@@ -372,7 +375,7 @@ public class ActivityRecording extends Activity
 						(LinearLayout) (convertView == null
 						? LayoutInflater.from(context).
 								inflate(R.layout.linearlayout_act_recording_text_area, parent, false)
-								: convertView);
+						: convertView);
 
 		        try
 		        {
@@ -382,6 +385,8 @@ public class ActivityRecording extends Activity
 		        {
 		            e.printStackTrace();
 		        }
+		        
+		        llTextArea = areaView;
 
 			}
 			else if(arealist[position].equals("CONTROL_AREA_FOR_USER"))
@@ -391,7 +396,7 @@ public class ActivityRecording extends Activity
 						(LinearLayout) (convertView == null
 						? LayoutInflater.from(context).
 								inflate(R.layout.linearlayout_act_recording_control_area, parent, false)
-								: convertView);
+						: convertView);
 
 		        try
 		        {
@@ -402,6 +407,7 @@ public class ActivityRecording extends Activity
 		            e.printStackTrace();
 		        }
 		        
+		        llControlArea = areaView;
 			}
 			else if(arealist[position].equals("CONTROL_AREA_FOR_SPEAKER"))
 			{
@@ -420,6 +426,8 @@ public class ActivityRecording extends Activity
 		        {
 		            e.printStackTrace();
 		        }
+		        
+		        llControlArea = areaView;
 		        
 			}
 			
@@ -484,9 +492,8 @@ public class ActivityRecording extends Activity
 				
 				case R.id.act_recording_control_button_next:
 					Utils.toastText(thisAct, "clicked >>");
-					((TextView) 
-							((View) gridView.getItemAtPosition(0))
-								.findViewById(R.id.act_recording_text_intro_textvalue)).setText("test");
+					((TextView) (adapter.getView(0, llTextArea, gridView))
+							.findViewById(R.id.act_recording_text_intro_textvalue)).setText("test");
 					
 					break;
 				default:
