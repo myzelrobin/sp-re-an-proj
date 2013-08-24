@@ -107,7 +107,7 @@ public class ActivityMain extends Activity {
 		if(selectedItemIndex != Utils.ConstantVars.selectedItemIndex)
 			selectedItemIndex = Utils.ConstantVars.selectedItemIndex;
 		
-		Utils.updateGlobalVarsForNewSession();
+		
 		// initialize block
 		
 		
@@ -191,6 +191,7 @@ public class ActivityMain extends Activity {
     protected void onResume()
     {
 		super.onResume();
+		Utils.updateGlobalVarsForNewSession();
 	}
 	
 	@Override
