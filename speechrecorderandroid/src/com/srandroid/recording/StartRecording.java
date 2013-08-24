@@ -75,14 +75,14 @@ public class StartRecording extends Activity
 			@Override
 			public void onClick(View v) 
 			{
-				AlertDialog.Builder agreementDiaglog = new AlertDialog.Builder(getApplicationContext());
+				AlertDialog.Builder agreementDiaglogBuilder = new AlertDialog.Builder(getApplicationContext());
 		 
 					// set title
-					agreementDiaglog.setTitle(getResources().getString(
+					agreementDiaglogBuilder.setTitle(getResources().getString(
 							R.string.act_startrecording_dialog_agreement_title_text));
 		 
 					// set dialog message
-					agreementDiaglog
+					agreementDiaglogBuilder
 						.setMessage(getResources().getString(
 								R.string.act_startrecording_dialog_agreement_content_text))
 						.setCancelable(true)
@@ -104,10 +104,15 @@ public class StartRecording extends Activity
 						});
 		 
 						// create alert dialog
-						AlertDialog alertDialog = agreementDiaglog.create();
+						AlertDialog alertDialog = agreementDiaglogBuilder.create();
 		 
 						// show it
-						alertDialog.show();
+						try {
+							alertDialog.show();
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 				
 			});

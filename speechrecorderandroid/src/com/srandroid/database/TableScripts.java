@@ -60,7 +60,7 @@ public class TableScripts
 	{
 		Log.w(TableScripts.class.getName(), "insertScriptExamples() will insert examples");
 		ContentValues values = new ContentValues(); 
-		for(int i=1; i<10; i++)
+		for(int i=1; i<11; i++)
 		{
 			values.put(COLUMN_FILEPATH, "/mnt/sdcard/APP_FOLDER/files/scripts/" + i + ".xml");
 			values.put(COLUMN_DESCRIPTION, "Example script #"+i);
