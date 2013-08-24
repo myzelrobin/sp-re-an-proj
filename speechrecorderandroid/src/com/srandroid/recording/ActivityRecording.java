@@ -52,8 +52,8 @@ public class ActivityRecording extends Activity
 	private Button bNext;
 	private Button bPrev;
 	
-	private TextView textViewIntro;
-	private TextView textViewContent;
+	private static TextView textViewIntro;
+	private static TextView textViewContent;
 	
 	private ImageView imageCircle1;
 	private ImageView imageCircle2;
@@ -463,20 +463,16 @@ public class ActivityRecording extends Activity
 				case R.id.act_recording_control_button_previous:
 					Utils.toastText(thisAct, "clicked <<");
 					
-					textViewIntro.invalidate();
 					textViewIntro.setText(getResources().getString(R.string.testviewtext));
 					
-					textViewContent.invalidate();
 					textViewContent.setText(getResources().getString(R.string.testviewtext));
 					break;
 				
 				case R.id.act_recording_control_button_next:
 					Utils.toastText(thisAct, "clicked >>");
 					
-					textViewIntro.invalidate();
 					textViewIntro.setText(getResources().getString(R.string.act_recording_introarea_text));
 					
-					textViewContent.invalidate();
 					textViewContent.setText(getResources().getString(R.string.act_recording_promptarea_text));
 					break;
 				default:
