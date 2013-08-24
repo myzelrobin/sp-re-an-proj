@@ -199,7 +199,7 @@ public class ActivityPreRecording extends Activity
         		
 	        		Utils.toastTextToUser(this, "start test recording");
 	        		
-	        		 Intent newI = new Intent(this, StartRecording.class);
+	        		 Intent newI = new Intent(this, ActivityStartRecording.class);
 		        	 this.startActivity(newI);
 	        		
         		break;

@@ -20,7 +20,7 @@ import android.widget.TextView;
 /**
  *
  */
-public class StartRecording extends Activity 
+public class ActivityStartRecording extends Activity 
 {
 
 	private Button bStart;
@@ -34,7 +34,7 @@ public class StartRecording extends Activity
 	/**
 	 * 
 	 */
-	public StartRecording() 
+	public ActivityStartRecording() 
 	{
 		// TODO Auto-generated constructor stub
 	}
