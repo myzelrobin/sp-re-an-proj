@@ -8,6 +8,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
@@ -20,6 +21,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Spinner;
 
+import com.srandroid.recording.ActivityPreRecording;
 import com.srandroid.speechrecorder.R;
 import com.srandroid.database.SrmContentProvider;
 import com.srandroid.database.TableScripts;
@@ -242,12 +244,8 @@ public class ActivityScriptDetails extends Activity
 	        		
 		        		if(Utils.checkItemsForNewSession(this))
 		        		{
-		        			Utils.toastTextToUser(this, "start prepare recording");
-		        			// send informations to next activity
-		        			// Intent newI = new Intent(this.getClass().getName(), ActivityPreRecording.class);
-		        			// newI.putExtra("SPEAKER_ID", ???);
-		        			// newI.putExtra("SCRIPT_ID", ???);
-		        			// (ActivityScriptDetails.this.startActivity(newI);
+		        			Intent newI = new Intent(this, ActivityPreRecording.class);
+		        			this.startActivity(newI);
 		        			break;
 		        			
 		        		}
