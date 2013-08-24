@@ -16,6 +16,7 @@ import com.srandroid.util.Utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -103,16 +104,134 @@ public class ActivityPreRecording extends Activity
         
         gridView.setClickable(false);
         
-//        LinearLayout llSpeakerItem = new LinearLayout(this);
-//        llSpeakerItem.inflate(this, R.layout.linearlayout_activity_speakerdetails, gridView);
-//        fillSpeakerItem(llSpeakerItem);
-//        
-//        LinearLayout llScriptItem = new LinearLayout(this);
-//        llScriptItem.inflate(this, R.layout.linearlayout_activity_scriptdetails, gridView);
-//        fillScriptItem(llScriptItem);
-        
 	}
 	
+	@Override
+    protected void onStart()
+	{
+		super.onStart();
+	}
+	
+	@Override
+    protected void onRestart()
+    {
+		super.onRestart();
+	}
+	
+	@Override
+    protected void onResume()
+    {
+		super.onResume();
+	}
+	
+	@Override
+    protected void onPause()
+    {
+		super.onPause();
+	}
+	
+	@Override
+    protected void onStop()
+    {
+		super.onStop();
+	}
+	
+	@Override
+    protected void onDestroy()
+    {
+		super.onDestroy();
+	}
+	
+	@Override
+    protected void onPostCreate(Bundle savedInstanceState) 
+	{
+        super.onPostCreate(savedInstanceState);
+    }
+	
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) 
+    {
+        super.onConfigurationChanged(newConfig);
+    }
+    
+	/**
+	 * Creates menu items in action bar
+	 * 
+	 * @param menu
+	 * @return
+	 */
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) 
+	{
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.menu_items, menu);
+		return true;
+	}
+	
+	/**
+	 * Called whenever we call invalidateOptionsMenu()
+	 * Updates the menu items in action bar when the "drawer items" is closed
+	 * 
+	 * @param menu
+	 * @return
+	 */
+	@Override
+    public boolean onPrepareOptionsMenu(Menu menu) 
+	{
+		menu.setGroupVisible(R.id.bgroup_prerecording, true);
+        return super.onPrepareOptionsMenu(menu);
+    }
+	
+	/**
+	 * Handles click events on app icon and menu items in actionbar and overflow
+	 */
+	@Override
+    public boolean onOptionsItemSelected(MenuItem item) 
+	{
+       
+        switch (item.getItemId()) 
+        {
+		    // Respond to the action bar's Up/Home button
+		    case android.R.id.home:
+		    	break;
+		     // actionbar buttons
+        	case R.id.act_prerecording_button_test:
+        		
+	        		Utils.toastTextToUser(this, "start test recording");
+	        		
+	        		 Intent newI = new Intent(this, StartRecording.class);
+		        	 this.startActivity(newI);
+	        		
+        		break;
+        	default:
+        		break;
+    	}
+	    return super.onOptionsItemSelected(item);
+    }
+	
+	@Override
+	protected void onSaveInstanceState(Bundle savedInstanceState) 
+	{
+	    super.onSaveInstanceState(savedInstanceState);
+	}
+
+
+	@Override
+	public void onRestoreInstanceState(Bundle savedInstanceState) 
+	{
+	  super.onRestoreInstanceState(savedInstanceState);
+	}
+	
+	/**
+	 * 
+	 * @param title
+	 */
+	@Override
+	public void setTitle(CharSequence title) 
+	{
+	    getActionBar().setTitle(title);
+	}
+
 	private void fillSpeakerItem(View view)
 	{
 		name = (TextView) view.findViewById(R.id.activity_speakerdetails_name_textvalue);
@@ -230,137 +349,8 @@ public class ActivityPreRecording extends Activity
         cursor.close();
 	}
 
-	@Override
-    protected void onStart()
-	{
-		super.onStart();
-	}
 	
-	@Override
-    protected void onRestart()
-    {
-		super.onRestart();
-	}
-	
-	@Override
-    protected void onResume()
-    {
-		super.onResume();
-	}
-	
-	@Override
-    protected void onPause()
-    {
-		super.onPause();
-	}
-	
-	@Override
-    protected void onStop()
-    {
-		super.onStop();
-	}
-	
-	@Override
-    protected void onDestroy()
-    {
-		super.onDestroy();
-	}
-	
-	@Override
-    protected void onPostCreate(Bundle savedInstanceState) 
-	{
-        super.onPostCreate(savedInstanceState);
-    }
-	
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) 
-    {
-        super.onConfigurationChanged(newConfig);
-    }
-    
-	/**
-	 * Creates menu items in action bar
-	 * 
-	 * @param menu
-	 * @return
-	 */
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) 
-	{
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.menu_items, menu);
-		return true;
-	}
-	
-	/**
-	 * Called whenever we call invalidateOptionsMenu()
-	 * Updates the menu items in action bar when the "drawer items" is closed
-	 * 
-	 * @param menu
-	 * @return
-	 */
-	@Override
-    public boolean onPrepareOptionsMenu(Menu menu) 
-	{
-		menu.setGroupVisible(R.id.bgroup_prerecording, true);
-        return super.onPrepareOptionsMenu(menu);
-    }
-	
-	/**
-	 * Handles click events on app icon and menu items in actionbar and overflow
-	 */
-	@Override
-    public boolean onOptionsItemSelected(MenuItem item) 
-	{
-       
-        switch (item.getItemId()) 
-        {
-		    // Respond to the action bar's Up/Home button
-		    case android.R.id.home:
-		    	break;
-		     // actionbar buttons
-        	case R.id.act_prerecording_button_test:
-        		
-	        		Utils.toastTextToUser(this, "start test recording");
-	        		
-	        		// send identiy to next activity
-	        		// Intent newI = new Intent(this.getClass().getName(), ActivityStartRecording.class);
-	        		// newI.putExtra("ACTIVITY_NAME", "session_details"); 
-	        		// newI.putExtra("ITEM_ID", itemId);
-	        		// (ActivityScriptDetails.this.startActivity(newI);
-	        		
-        		break;
-        	default:
-        		break;
-    	}
-	    return super.onOptionsItemSelected(item);
-    }
-	
-	@Override
-	protected void onSaveInstanceState(Bundle savedInstanceState) 
-	{
-	    super.onSaveInstanceState(savedInstanceState);
-	}
-
-
-	@Override
-	public void onRestoreInstanceState(Bundle savedInstanceState) 
-	{
-	  super.onRestoreInstanceState(savedInstanceState);
-	}
-	
-	/**
-	 * 
-	 * @param title
-	 */
-	@Override
-	public void setTitle(CharSequence title) 
-	{
-	    getActionBar().setTitle(title);
-	}
-	
-	
-	public class LocalAdapter extends BaseAdapter
+	protected class LocalAdapter extends BaseAdapter
 	{
 		private Context context;
 		private String[] itemlist;

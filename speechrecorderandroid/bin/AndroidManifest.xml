@@ -38,6 +38,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
         <activity 
             android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden"
@@ -48,6 +49,7 @@
 	            android:name="android.support.PARENT_ACTIVITY"
 	            android:value="com.srandroid.main.ActivityMain" />
         </activity>
+        
         <activity 
             android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden"
@@ -100,18 +102,23 @@
             android:label="@string/act_prerecording_title" >
         </activity>
         
+        
         <activity 
             android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden"
-            android:name="com.srandroid"
-            android:label="@string/act_testrecording_title" >
+            android:name="com.srandroid.recording.StartRecording"
+            android:label="@string/act_startrecording_title" >
         </activity>
+        
         
         
          <provider
             android:authorities="com.srandroid.contentprovider"
             android:name="com.srandroid.database.SrmContentProvider" >
         </provider>
+        
+         
+         
         
     </application>
 	

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/style_linearlayout_activity_example"
+    android:id="@+id/id_linearlayout_act_StartRecording" >
+
+    <LinearLayout
+    android:background="#FFFFFF"
+    android:layout_width="400dp"
+    android:layout_height="300dp"
+    android:orientation="vertical" >
+        
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:orientation="horizontal"
+        android:gravity="center" >
+                    <TextView
+                    android:id="@+id/act_startrec_welcome_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/act_startrecording_welcome_text" 
+                    android:textSize="20sp" />
+        </LinearLayout>
+        
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:gravity="center" >
+                    <Button
+                    android:id="@+id/act_startrec_button_start"
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:text="@string/act_startrecording_button_start_text" 
+                    android:textSize="20sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
+
