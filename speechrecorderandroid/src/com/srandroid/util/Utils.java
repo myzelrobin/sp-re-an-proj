@@ -346,6 +346,15 @@ public class Utils
 		
 	}
 	
+	public static void updateGlobalVarsForNewSession()
+	{
+		if(ConstantVars.scriptItemIdForNewSession != null)
+			ConstantVars.scriptItemIdForNewSession = null;
+		
+		if(ConstantVars.speakerItemIdForNewSession != null)
+			ConstantVars.speakerItemIdForNewSession = null;
+	}
+	
 	public static boolean checkItemsForNewSession(Activity activity)
 	{
 		if(ConstantVars.scriptItemIdForNewSession == null)
@@ -364,6 +373,8 @@ public class Utils
 		}
 		return true;
 	}
+	
+	
 	
 
 	public static void getDeviceId(Context context) 

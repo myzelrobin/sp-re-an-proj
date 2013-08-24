@@ -96,6 +96,8 @@ public class ActivityMain extends Activity {
 		
 		
 		
+		
+		// initialize block
 		Utils.ConstantVars.initializeApp(getApplicationContext());
 		
 		// initialize the default values in SharedPreference
@@ -104,6 +106,16 @@ public class ActivityMain extends Activity {
 		
 		if(selectedItemIndex != Utils.ConstantVars.selectedItemIndex)
 			selectedItemIndex = Utils.ConstantVars.selectedItemIndex;
+		
+		Utils.updateGlobalVarsForNewSession();
+		// initialize block
+		
+		
+		
+		
+		
+		
+		
 
 		
 		Log.w(ActivityMain.class.getName(), " will create view of this HOME activity.");
