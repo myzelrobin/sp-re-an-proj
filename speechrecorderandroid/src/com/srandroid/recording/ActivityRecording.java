@@ -342,13 +342,14 @@ public class ActivityRecording extends Activity
 		}
 
 		@Override
-		public Object getItem(int id) {
+		public Object getItem(int position) {
 			// TODO Auto-generated method stub
 			return null;
 		}
+		
 
 		@Override
-		public long getItemId(int id) {
+		public long getItemId(int position) {
 			// TODO Auto-generated method stub
 			return 0;
 		}
@@ -472,13 +473,13 @@ public class ActivityRecording extends Activity
 					
 				case R.id.act_recording_control_button_previous:
 					Utils.toastText(thisAct, "clicked <<");
-					fillTextArea((View) gridView.getItemAtPosition(0), "test", "test");
+					fillTextArea((View) gridView.getItemAtPosition(1), "test", "test");
 					
 					break;
 				
 				case R.id.act_recording_control_button_next:
 					Utils.toastText(thisAct, "clicked >>");
-					fillTextArea((View) gridView.getItemAtPosition(0), null, null);
+					fillTextArea((View) gridView.getItemAtPosition(1), null, null);
 					
 					break;
 				default:
