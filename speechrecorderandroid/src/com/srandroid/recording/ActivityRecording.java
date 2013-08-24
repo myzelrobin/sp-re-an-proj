@@ -52,8 +52,8 @@ public class ActivityRecording extends Activity
 	private Button bNext;
 	private Button bPrev;
 	
-	private static TextView textViewIntro;
-	private static TextView textViewContent;
+	private TextView textViewIntro;
+	private TextView textViewContent;
 	
 	private ImageView imageCircle1;
 	private ImageView imageCircle2;
@@ -310,6 +310,8 @@ public class ActivityRecording extends Activity
     	textViewIntro = (TextView) areaView.findViewById(R.id.act_recording_text_intro_textvalue);
     	textViewContent = (TextView) areaView.findViewById(R.id.act_recording_text_prompt_textvalue);
     	
+    	textViewIntro.setOnClickListener(listener);
+    	textViewContent.setOnClickListener(listener);
     	
 	}
 	
