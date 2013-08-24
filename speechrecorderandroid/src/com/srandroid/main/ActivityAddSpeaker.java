@@ -194,7 +194,6 @@ public class ActivityAddSpeaker extends Activity
 		        		String newSpeakerItemId = speakerItemUri.getLastPathSegment();
 		        		Utils.ConstantVars.speakerItemIdForNewSession = newSpeakerItemId;
 		        		
-		        		Utils.toastTextToUser(this, "saved a speaker with id=" + newSpeakerItemId);
 		        		if(Utils.checkItemsForNewSession(this))
 		        		{
 		        			Intent newI = new Intent(this, ActivityPreRecording.class);
