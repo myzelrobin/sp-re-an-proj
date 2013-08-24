@@ -275,15 +275,7 @@ public class ActivityRecording extends Activity
 	
 	private void fillControlArea(View areaView)
 	{
-		bRecord = (Button) areaView.findViewById(R.id.act_recording_control_button_record);
-    	bPlay = (Button) areaView.findViewById(R.id.act_recording_control_button_play);
-    	bPlay.setEnabled(false);
-    	bNext = (Button) areaView.findViewById(R.id.act_recording_control_button_next);
-    	bPrev = (Button) areaView.findViewById(R.id.act_recording_control_button_previous);
-    	
-    	imageCircle1 = (ImageView) areaView.findViewById(R.id.act_recording_control_circle1);
-    	imageCircle2 = (ImageView) areaView.findViewById(R.id.act_recording_control_circle2);
-    	imageCircle3 = (ImageView) areaView.findViewById(R.id.act_recording_control_circle3);
+		
     	
     	if(!isTestRecroding)
     	{
@@ -302,13 +294,10 @@ public class ActivityRecording extends Activity
     		bPrev.setOnClickListener(listener);
     	}
     	
-    	
 	}
 	
 	private void fillTextArea(View areaView)
 	{
-    	textViewIntro = (TextView) areaView.findViewById(R.id.act_recording_text_intro_textvalue);
-    	textViewContent = (TextView) areaView.findViewById(R.id.act_recording_text_prompt_textvalue);
     	
     	textViewIntro.setOnClickListener(listener);
     	textViewContent.setOnClickListener(listener);
@@ -347,9 +336,23 @@ public class ActivityRecording extends Activity
 
 		// String[] arealist = {"TEXT_AREA", "CONTROL_AREA_FOR_USER"};
 		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
+		public View getView(int position, View convertView, ViewGroup parent) 
+		{
 			
 			LinearLayout areaView = null;
+			
+			bRecord = (Button) areaView.findViewById(R.id.act_recording_control_button_record);
+	    	bPlay = (Button) areaView.findViewById(R.id.act_recording_control_button_play);
+	    	bPlay.setEnabled(false);
+	    	bNext = (Button) areaView.findViewById(R.id.act_recording_control_button_next);
+	    	bPrev = (Button) areaView.findViewById(R.id.act_recording_control_button_previous);
+	    	
+	    	imageCircle1 = (ImageView) areaView.findViewById(R.id.act_recording_control_circle1);
+	    	imageCircle2 = (ImageView) areaView.findViewById(R.id.act_recording_control_circle2);
+	    	imageCircle3 = (ImageView) areaView.findViewById(R.id.act_recording_control_circle3);
+			
+	    	textViewIntro = (TextView) areaView.findViewById(R.id.act_recording_text_intro_textvalue);
+	    	textViewContent = (TextView) areaView.findViewById(R.id.act_recording_text_prompt_textvalue);
 			
 			if(arealist[position].equals("TEXT_AREA"))
 			{
@@ -417,8 +420,6 @@ public class ActivityRecording extends Activity
 	
 	protected class OnClickListenerForRecording implements OnClickListener
 	{
-		
-		
 		
 		public OnClickListenerForRecording() 
 		{
