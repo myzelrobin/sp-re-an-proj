@@ -101,28 +101,6 @@ public class ActivityPreRecording extends Activity
         gridView.setAdapter(new LocalAdapter(this, itemlist));
         
         
-
-        try
-        {
-        	fillSpeakerItem();
-        }
-        catch (Exception e) 
-        {
-            e.printStackTrace();
-        }
-
-        try
-        {
-			fillScriptItem();
-        }
-        catch (Exception e) 
-        {
-            e.printStackTrace();
-        }
-        
-        
-        
-        
         gridView.setClickable(false);
         
 //        LinearLayout llSpeakerItem = new LinearLayout(this);
@@ -135,14 +113,14 @@ public class ActivityPreRecording extends Activity
         
 	}
 	
-	private void fillSpeakerItem()
+	private void fillSpeakerItem(View view)
 	{
-		name = (TextView) findViewById(R.id.activity_speakerdetails_name_textvalue);
-        accent = (TextView) findViewById(R.id.activity_speakerdetails_accent_textvalue);
-        sex = (TextView) findViewById(R.id.activity_speakerdetails_sex_textvalue);
-        birthday = (TextView) findViewById(R.id.activity_speakerdetails_birthday_textvalue);
-        sessions1 = (TextView) findViewById(R.id.activity_speakerdetails_sessions_textvalue);
-        scripts1 = (TextView) findViewById(R.id.activity_speakerdetails_scripts_textvalue);
+		name = (TextView) view.findViewById(R.id.activity_speakerdetails_name_textvalue);
+        accent = (TextView) view.findViewById(R.id.activity_speakerdetails_accent_textvalue);
+        sex = (TextView) view.findViewById(R.id.activity_speakerdetails_sex_textvalue);
+        birthday = (TextView) view.findViewById(R.id.activity_speakerdetails_birthday_textvalue);
+        sessions1 = (TextView) view.findViewById(R.id.activity_speakerdetails_sessions_textvalue);
+        scripts1 = (TextView) view.findViewById(R.id.activity_speakerdetails_scripts_textvalue);
 
 		// query from db
 		String[] selectColumns = {
@@ -199,13 +177,13 @@ public class ActivityPreRecording extends Activity
         cursor.close();
 	}
 	
-	private void fillScriptItem()
+	private void fillScriptItem(View view)
 	{
 
-		scriptid = (TextView) findViewById(R.id.activity_scriptdetails_scriptid_textvalue);
-        scriptdesc = (TextView) findViewById(R.id.activity_scriptdetails_desc_textvalue);
-        sessions2 = (TextView) findViewById(R.id.activity_scriptdetails_sessions_textvalue);
-        speakers2 = (TextView) findViewById(R.id.activity_scriptdetails_speakers_textvalue);
+		scriptid = (TextView) view.findViewById(R.id.activity_scriptdetails_scriptid_textvalue);
+        scriptdesc = (TextView) view.findViewById(R.id.activity_scriptdetails_desc_textvalue);
+        sessions2 = (TextView) view.findViewById(R.id.activity_scriptdetails_sessions_textvalue);
+        speakers2 = (TextView) view.findViewById(R.id.activity_scriptdetails_speakers_textvalue);
         
 		// query from db
 		String[] selectColumns = {
@@ -423,7 +401,16 @@ public class ActivityPreRecording extends Activity
 						(LinearLayout) (convertView == null
 						? LayoutInflater.from(context).inflate(R.layout.linearlayout_activity_speakerdetails, parent, false)
 								: convertView);
-				
+
+		        try
+		        {
+		        	fillSpeakerItem(itemView);
+		        }
+		        catch (Exception e) 
+		        {
+		            e.printStackTrace();
+		        }
+
 			}
 			else if(itemlist[position].equals("SCRIPT_ITEM"))
 			{
@@ -432,7 +419,16 @@ public class ActivityPreRecording extends Activity
 						(LinearLayout) (convertView == null
 						? LayoutInflater.from(context).inflate(R.layout.linearlayout_activity_scriptdetails, parent, false)
 								: convertView);
-				
+
+		        try
+		        {
+					fillScriptItem(itemView);
+		        }
+		        catch (Exception e) 
+		        {
+		            e.printStackTrace();
+		        }
+		        
 			}
 			
 			
