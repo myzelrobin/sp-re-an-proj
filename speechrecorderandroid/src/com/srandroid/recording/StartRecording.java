@@ -32,6 +32,10 @@ public class StartRecording extends Activity
 
 	private Button bStart;
 	private Button bAgreement;
+	
+	private TextView textViewAgreement;
+	private Button bYes;
+	private Button bNo;
 	/**
 	 * 
 	 */
@@ -83,8 +87,38 @@ public class StartRecording extends Activity
 			@Override
 			public void onClick(View v) 
 			{
-				DialogAgreement dialog = new DialogAgreement(getApplicationContext());
-				dialog.show();
+				final Dialog agreentDialog = new Dialog(getApplicationContext());
+				agreentDialog.setContentView(R.layout.dialog_act_startrec_agreement);
+				agreentDialog.setTitle(R.string.act_startrecording_dialog_agreement_title_text);
+				
+				 // button CANCEL
+				 bYes = (Button) agreentDialog.findViewById(R.id.act_startrec_dialog_agreemment_buttonyes);
+				 bYes.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						agreentDialog.dismiss();
+						
+					}
+				});
+				 // button TESTMIC
+				 bNo = (Button) agreentDialog.findViewById(R.id.act_startrec_dialog_agreemment_buttonno);
+				 bNo.setOnClickListener(new OnClickListener() {
+						
+						@Override
+						public void onClick(View v) {
+							agreentDialog.cancel();
+							
+						}
+				});
+				
+				
+				 try {
+					agreentDialog.show();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 			}
 		});
@@ -162,51 +196,4 @@ public class StartRecording extends Activity
 	    getActionBar().setTitle(title);
 	}
 
-	protected class DialogAgreement extends Dialog implements OnClickListener
-	{
-		TextView textViewAgreement;
-		Button bYes;
-		Button bNo;
-
-		public DialogAgreement(Context context) 
-		{
-			super(context);
-			setContentView(R.layout.dialog_act_startrec_agreement);
-			this.setTitle(R.string.act_startrecording_dialog_agreement_title_text);
-			
-			 // button CANCEL
-			 bYes = (Button) this.findViewById(R.id.act_startrec_dialog_agreemment_buttonyes);
-			 bYes.setOnClickListener(this);
-			 // button TESTMIC
-			 bNo = (Button) this.findViewById(R.id.act_startrec_dialog_agreemment_buttonno);
-			 bNo.setOnClickListener(this);
-			 
-			 
-		}
-		 /**
-		  * handles click events on buttons
-		  */
-		 @Override
-		public void onClick(View v) {
-			// TODO Auto-generated method stub
-			 int buttonID = v.getId();
-			 
-			 switch (buttonID) 
-			 {
-			 	// button CANCEL
-				case R.id.act_startrec_dialog_agreemment_buttonyes:
-					this.dismiss();
-					break;
-				
-				// button MIC
-				case R.id.act_startrec_dialog_agreemment_buttonno:
-					this.cancel();
-					 break;
-				default:
-					break;
-			}
-			
-		}
-		 
-	}
 }
