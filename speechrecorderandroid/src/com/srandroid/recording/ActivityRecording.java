@@ -477,7 +477,7 @@ public class ActivityRecording extends Activity
 				case R.id.act_recording_control_button_next:
 					Utils.toastText(thisAct, "clicked >>");
 					TextView intro = 
-							(TextView) llTextArea.findViewById(R.id.act_recording_text_intro_textvalue);
+							(TextView) gridView.findViewById(R.id.act_recording_text_intro_textvalue);
 					intro.setText("test");
 					
 					break;
