@@ -4,17 +4,25 @@
 package com.srandroid.recording;
 
 import com.srandroid.speechrecorder.R;
+import com.srandroid.util.SrmRecorder;
 import com.srandroid.util.Utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
+import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 /**
  *
@@ -75,47 +83,11 @@ public class StartRecording extends Activity
 			@Override
 			public void onClick(View v) 
 			{
-				AlertDialog.Builder agreementDiaglogBuilder = new AlertDialog.Builder(getApplicationContext());
-		 
-					// set title
-					agreementDiaglogBuilder.setTitle(getResources().getString(
-							R.string.act_startrecording_dialog_agreement_title_text));
-		 
-					// set dialog message
-					agreementDiaglogBuilder
-						.setMessage(getResources().getString(
-								R.string.act_startrecording_dialog_agreement_content_text))
-						.setCancelable(true)
-						.setPositiveButton(getResources().getString(
-								R.string.act_startrecording_dialog_agreement_button_text),
-								new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,int id) {
-								// if this button is clicked, close
-								// current activity
-								dialog.dismiss();;
-							}
-						  })
-						.setNegativeButton("No",new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,int id) {
-								// if this button is clicked, just close
-								// the dialog box and do nothing
-								dialog.cancel();
-							}
-						});
-		 
-						// create alert dialog
-						AlertDialog alertDialog = agreementDiaglogBuilder.create();
-		 
-						// show it
-						try {
-							alertDialog.show();
-						} catch (Exception e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
+				DialogAgreement dialog = new DialogAgreement(getApplicationContext());
+				dialog.show();
 				
-			});
+			}
+		});
         
 	}
 	
@@ -190,4 +162,51 @@ public class StartRecording extends Activity
 	    getActionBar().setTitle(title);
 	}
 
+	protected class DialogAgreement extends Dialog implements OnClickListener
+	{
+		TextView textViewAgreement;
+		Button bYes;
+		Button bNo;
+
+		public DialogAgreement(Context context) 
+		{
+			super(context);
+			setContentView(R.layout.dialog_act_startrec_agreement);
+			this.setTitle(R.string.act_startrecording_dialog_agreement_title_text);
+			
+			 // button CANCEL
+			 bYes = (Button) this.findViewById(R.id.act_startrec_dialog_agreemment_buttonyes);
+			 bYes.setOnClickListener(this);
+			 // button TESTMIC
+			 bNo = (Button) this.findViewById(R.id.act_startrec_dialog_agreemment_buttonno);
+			 bNo.setOnClickListener(this);
+			 
+			 
+		}
+		 /**
+		  * handles click events on buttons
+		  */
+		 @Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			 int buttonID = v.getId();
+			 
+			 switch (buttonID) 
+			 {
+			 	// button CANCEL
+				case R.id.act_startrec_dialog_agreemment_buttonyes:
+					this.dismiss();
+					break;
+				
+				// button MIC
+				case R.id.act_startrec_dialog_agreemment_buttonno:
+					this.cancel();
+					 break;
+				default:
+					break;
+			}
+			
+		}
+		 
+	}
 }

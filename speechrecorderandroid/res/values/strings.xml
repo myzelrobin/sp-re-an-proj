@@ -266,7 +266,21 @@
         <string name="act_startrecording_button_agreement_text">AGREEMENT</string>
         <string name="act_startrecording_dialog_agreement_title_text">AGREEMENT</string>
         <string name="act_startrecording_dialog_agreement_content_text">
-            This is the agreement. 1234567890 
+            This is the agreement. 
+            \nThis is the agreement.
+            \nThis is the agreement.
+            \nThis is the agreement.
+            \nThis is the agreement.
+            \nThis is the agreement.
+            \nThis is the agreement.
+            \nThis is the agreement.
+            \nThis is the agreement.
+            \nThis is the agreement.
+            \nThis is the agreement.
+            \nThis is the agreement.
+            \nThis is the agreement.
+            \nThis is the agreement.
+            \nThis is the agreement.
         </string>
         <string name="act_startrecording_dialog_agreement_button_text">I have read it.</string>
         

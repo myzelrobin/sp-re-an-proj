@@ -71,7 +71,9 @@ public class PrefActivitySettings extends PreferenceActivity
 	 * 
 	 *
 	 */
-	public static class PrefFragmentInSettings extends PreferenceFragment implements OnSharedPreferenceChangeListener
+	public static class PrefFragmentInSettings 
+		extends PreferenceFragment 
+		implements OnSharedPreferenceChangeListener
     {
 		private CheckBoxPreference overwriteCheckBox;
 		
