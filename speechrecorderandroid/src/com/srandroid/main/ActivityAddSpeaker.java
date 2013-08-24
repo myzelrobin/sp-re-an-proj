@@ -4,6 +4,7 @@
 package com.srandroid.main;
 
 
+import com.srandroid.recording.ActivityPreRecording;
 import com.srandroid.speechrecorder.R;
 import com.srandroid.database.TableSpeakers;
 import com.srandroid.database.SrmContentProvider;
@@ -190,18 +191,22 @@ public class ActivityAddSpeaker extends Activity
 		        		Uri speakerItemUri = saveSpeakerItemToDB(speaker);
 		        		Log.w(ActivityAddSpeaker.class.getName(), 
 		        				"saveSpeakerItemToDB() inserted a speaker into db with id=" + speakerItemUri);
-		        		Utils.toastTextToUser(this, "saved a speaker with id=" + speakerItemUri);
+		        		String newSpeakerItemId = speakerItemUri.getLastPathSegment();
+		        		Utils.ConstantVars.speakerItemIdForNewSession = newSpeakerItemId;
 		        		
-		        		/*Intent newI = new Intent(ActivityMain.this, ActivityDownloadScript.class);
-		        		// newI.putExtra("key", value); //Optional parameters
-		        		ActivityMain.this.startActivity(newI);*/
-		        		
-		        		// send speakerItemUri to next activity
-	        			
-	        			break;
+		        		Utils.toastTextToUser(this, "saved a speaker with id=" + newSpeakerItemId);
+		        		if(Utils.checkItemsForNewSession(this))
+		        		{
+		        			Intent newI = new Intent(this, ActivityPreRecording.class);
+		        			this.startActivity(newI);
+	        				break;
+		        		}
+		        		NavUtils.navigateUpFromSameTask(this);
+				        return true;
 	        		}
 	        		Utils.toastTextToUser(this, "Please input name, accent and choose sex to create a speaker!");
 	        		break;
+	        		
 	        	default:
 	        		break;
 		    }

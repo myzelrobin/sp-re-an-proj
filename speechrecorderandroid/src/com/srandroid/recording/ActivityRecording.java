@@ -52,19 +52,9 @@ public class ActivityRecording extends Activity
 	private Button bNext;
 	private Button bPrev;
 	
-	private TextView textViewIntro;
-	private TextView textViewContent;
-	private String sIntro;
-	private String sContent;
-	
 	private ImageView imageCircle1;
 	private ImageView imageCircle2;
 	private ImageView imageCircle3;
-	
-	private String[] arealist;
-	
-	private LinearLayout llTextArea;
-	private LinearLayout llControlArea;
 	
 	private LocalAdapterForActRecording adapter;
 	
@@ -236,14 +226,14 @@ public class ActivityRecording extends Activity
         		// a method to insert new session
         		if(isTestRecroding)
         		{
-        			Utils.toastText(this, "finish test recording, open 'welcome' page ");
-    	    		
+        			// In Act TestRecoding
     	    		Intent newI = new Intent(this, ActivityStartRecording.class);
     	        	this.startActivity(newI);
     	        	
         		}
         		else 
         		{
+        			// In Act Recording
         			Utils.toastText(this, "finish recording, open 'signature' page ");
     	    		
 //    	    		Intent newI = new Intent(this, ActivitySignature.class);
@@ -356,7 +346,6 @@ public class ActivityRecording extends Activity
 			return 0;
 		}
 
-		// String[] arealist = {"TEXT_AREA", "CONTROL_AREA_FOR_USER"};
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			
@@ -467,12 +456,10 @@ public class ActivityRecording extends Activity
 					break;
 					
 				case R.id.act_recording_control_button_previous:
-					Utils.toastText(thisAct, "clicked <<");
 					
 					break;
 				
 				case R.id.act_recording_control_button_next:
-					Utils.toastText(thisAct, "clicked >>");
 					updateTextArea(gridView, "Intro", "Content");
 					
 					break;

@@ -74,7 +74,7 @@ public class TableSessions
 		for(int i=1; i<11; i++)
 		{
 			values.put(COLUMN_DATE, "1234-56-78");
-			values.put(COLUMN_TIME, "12-34-56");
+			values.put(COLUMN_TIME, "12:34:56");
 			values.put(COLUMN_PLACE, "Munich");
 			values.put(COLUMN_DEVICE_DATA, Utils.ConstantVars.DEVICE_ID);
 			values.put(COLUMN_GPS_DATA, Utils.ConstantVars.GPS_INFO);
