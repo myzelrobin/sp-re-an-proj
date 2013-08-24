@@ -25,8 +25,8 @@ public class TableSessions
 	public static final String COLUMN_DEVICE_DATA = "device_data"; // text not null
 	public static final String COLUMN_GPS_DATA = "gps_data"; // text, android needs a little time to set GPS sensors, only get it when is needed
 	public static final String COLUMN_IS_FINISHED = "is_finished"; // text not null finished/unfinished
-	public static final String COLUMN_COUNT = "count"; // integer
 	public static final String COLUMN_LAST_SECTION = "last_section"; // text 
+	public static final String COLUMN_IS_UPLOADED = "is_uploaded"; // text not null uploaded/unuploaded
 	public static final String COLUMN_SCRIPT_ID = "script_id"; // foreign key reference scripts(_id)
 	public static final String COLUMN_SPEAKER_ID = "speaker_id"; // foreign key reference speakers(_id)
 	
@@ -42,7 +42,7 @@ public class TableSessions
 		+ COLUMN_DEVICE_DATA + " text not null, "
 		+ COLUMN_GPS_DATA + " text, "
 		+ COLUMN_IS_FINISHED + " text not null, "
-		+ COLUMN_COUNT + " integer, "
+		+ COLUMN_IS_UPLOADED + " text not null, "
 		+ COLUMN_LAST_SECTION + " text, "
 		+ COLUMN_SCRIPT_ID + " integer, "
 		+ COLUMN_SPEAKER_ID + " integer, "
@@ -71,29 +71,18 @@ public class TableSessions
 		Log.w(TableSessions.class.getName(), "insertSessionExamples() will insert examples");
 		ContentValues values = new ContentValues(); 
 		
-		for(int i=1; i<6; i++)
+		for(int i=1; i<11; i++)
 		{
-			values.put(TableSessions.COLUMN_DATE, "1234-56-78");
-			values.put(TableSessions.COLUMN_TIME, "12-34-56");
-			values.put(TableSessions.COLUMN_PLACE, "Munich");
-			values.put(TableSessions.COLUMN_DEVICE_DATA, Utils.ConstantVars.DEVICE_ID);
-			values.put(TableSessions.COLUMN_GPS_DATA, Utils.ConstantVars.GPS_INFO);
-			values.put(TableSessions.COLUMN_IS_FINISHED, "finished");
-			values.put(TableSessions.COLUMN_COUNT, "0");
-			values.put(TableSessions.COLUMN_SCRIPT_ID, ""+i);
-			values.put(TableSessions.COLUMN_SPEAKER_ID, ""+i);
-			db.insert(TableSessions.TABLE_SESSIONS, null, values);
-			
-			values.put(TableSessions.COLUMN_DATE, "9876-54-32");
-			values.put(TableSessions.COLUMN_TIME, "23-59-59");
-			values.put(TableSessions.COLUMN_PLACE, "Berlin");
-			values.put(TableSessions.COLUMN_DEVICE_DATA, Utils.ConstantVars.DEVICE_ID);
-			values.put(TableSessions.COLUMN_GPS_DATA, Utils.ConstantVars.GPS_INFO);
-			values.put(TableSessions.COLUMN_IS_FINISHED, "unfinished");
-			values.put(TableSessions.COLUMN_COUNT, "0");
-			values.put(TableSessions.COLUMN_SCRIPT_ID, ""+i);
-			values.put(TableSessions.COLUMN_SPEAKER_ID, ""+i);
-			db.insert(TableSessions.TABLE_SESSIONS, null, values);
+			values.put(COLUMN_DATE, "1234-56-78");
+			values.put(COLUMN_TIME, "12-34-56");
+			values.put(COLUMN_PLACE, "Munich");
+			values.put(COLUMN_DEVICE_DATA, Utils.ConstantVars.DEVICE_ID);
+			values.put(COLUMN_GPS_DATA, Utils.ConstantVars.GPS_INFO);
+			values.put(COLUMN_IS_FINISHED, "finished");
+			values.put(COLUMN_IS_UPLOADED, "unuploaded");
+			values.put(COLUMN_SCRIPT_ID, ""+i);
+			values.put(COLUMN_SPEAKER_ID, ""+i);
+			db.insert(TABLE_SESSIONS, null, values);
 		}
 		
 	}
@@ -109,7 +98,7 @@ public class TableSessions
 		private String device_data = null; // text not null
 		private String gps_data = null; // text, android needs a little time to set GPS sensors, only get it when is needed
 		private String is_finished = null; // text not null finished/unfinished
-		private String count = null; // integer
+		private String is_uploaded = null; // integer
 		private String last_section = null; // text
 		private String script_id = null; // foreign key reference scripts(_id)
 		private String speaker_id = null; // foreign key reference speakers(_id)
@@ -213,18 +202,6 @@ public class TableSessions
 			this.is_finished = is_finished;
 		}
 		/**
-		 * @return the count
-		 */
-		public String getCount() {
-			return count;
-		}
-		/**
-		 * @param count the count to set
-		 */
-		public void setCount(String count) {
-			this.count = count;
-		}
-		/**
 		 * @return the script_id
 		 */
 		public String getScript_id() {
@@ -259,6 +236,18 @@ public class TableSessions
 		 */
 		public void setLast_section(String last_section) {
 			this.last_section = last_section;
+		}
+		/**
+		 * @return the is_uploaded
+		 */
+		public String getIs_uploaded() {
+			return is_uploaded;
+		}
+		/**
+		 * @param is_uploaded the is_uploaded to set
+		 */
+		public void setIs_uploaded(String is_uploaded) {
+			this.is_uploaded = is_uploaded;
 		}
 	
 	}

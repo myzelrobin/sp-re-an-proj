@@ -18,6 +18,8 @@ public class TableSections
 	public static final String COLUMN_ID = "_id"; // key
 	public static final String COLUMN_SECTIONID_INSCRIPT = "sctionid_inscript"; // text not null
 	public static final String COLUMN_SCRIPT_ID = "script_id"; // foreign key reference scritps(_id)
+	public static final String COLUMN_INTROTEXT = "intro_text"; // text not null 
+	public static final String COLUMN_CONTENTTEXT = "cont_text"; // text not null 
 	
 	// SQL statement CREATE TABLE sections
 	private static final String CREATE_TABLE_SECTIONS = 
@@ -26,6 +28,8 @@ public class TableSections
 		+ " ( "
 		+ COLUMN_ID + " integer primary key autoincrement, "
 		+ COLUMN_SECTIONID_INSCRIPT + " text not null, "
+		+ COLUMN_INTROTEXT + " text not null, "
+		+ COLUMN_CONTENTTEXT + " text not null, "
 		+ COLUMN_SCRIPT_ID + " integer, "
 		+ " FOREIGN KEY (" + COLUMN_SCRIPT_ID + ") REFERENCES scripts(_id)"
 		+ " );";
@@ -45,6 +49,9 @@ public class TableSections
 		onCreate(db);
 	}
 	
+	
+	// a method to read xml file and insert data into database
+	// need xml parser
 
 	public static class SectionItem {
 

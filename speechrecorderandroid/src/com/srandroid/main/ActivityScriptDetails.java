@@ -242,7 +242,7 @@ public class ActivityScriptDetails extends Activity
 	        		
 		        		if(Utils.checkItemsForNewSession(this))
 		        		{
-		        			Utils.toastTextToUser(this, "start recording");
+		        			Utils.toastTextToUser(this, "start prepare recording");
 		        			// send informations to next activity
 		        			// Intent newI = new Intent(this.getClass().getName(), ActivityPreRecording.class);
 		        			// newI.putExtra("SPEAKER_ID", ???);

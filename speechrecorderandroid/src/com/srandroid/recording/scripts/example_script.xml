@@ -75,12 +75,17 @@ no speaker display is shown and the prompt items appear in the order
 </recprompt>
 <reccomment> 				Expected pronunciation: mou ichido DIAL shimasu 			</reccomment>
 </recording>
+
 <recording itemcode="demo_020" postrecdelay="500" prerecdelay="2000" recduration="20000">
+
 <recinstructions mimetype="text/plain">Bitte antworten Sie</recinstructions>
+
 <recprompt>
 <mediaitem languageISO639code="de">Wie heißen Sie?</mediaitem>
 </recprompt>
+
 </recording>
+
 <recording itemcode="demo_022" postrecdelay="500" prerecdelay="2000" recduration="10000">
 <recinstructions mimetype="text/plain">Bitte ergänzen Sie</recinstructions>
 <recprompt>

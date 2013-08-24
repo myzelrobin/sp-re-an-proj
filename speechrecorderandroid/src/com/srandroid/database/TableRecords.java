@@ -3,6 +3,7 @@
  */
 package com.srandroid.database;
 
+import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
@@ -19,6 +20,8 @@ public class TableRecords
 	public static final String COLUMN_FILEPATH = "filepath"; // text not null
 	public static final String COLUMN_ISUPLOADED = "is_uploaded"; //  text default: false
 	public static final String COLUMN_SECTION_ID = "section_id"; // foreign key reference sections(_id)
+	
+	
 	
 	// SQL statement CREATE TABLE records
 	private static final String CREATE_TABLE_RECORDS = 
@@ -37,6 +40,7 @@ public class TableRecords
 	{
 		Log.w(TableRecords.class.getName(), "onCreate(): will create table: " + TABLE_RECORDS);
 		db.execSQL(CREATE_TABLE_RECORDS);
+		insertRecordExamples(db);
 	}
 	
 	// upgrade table records
@@ -47,6 +51,20 @@ public class TableRecords
 		onCreate(db);
 	}
 	
+	public static void insertRecordExamples(SQLiteDatabase db) 
+	{
+		Log.w(TableRecords.class.getName(), "insertRecordExamples() will insert examples");
+		ContentValues values = new ContentValues(); 
+		for(int i=1; i<11; i++)
+		{
+			values.put(COLUMN_FILEPATH, "/mnt/sdcard/APP_FOLDER/recrods/section_id/" + i);
+			values.put(COLUMN_SECTION_ID, i);
+			if( i % 2 == 0) values.put(COLUMN_ISUPLOADED, "uploaded");
+			else values.put(COLUMN_ISUPLOADED, "unuploaded");
+			db.insert(TABLE_RECORDS, null, values);
+		}
+		
+	}
 
 	public class RecordItem {
 

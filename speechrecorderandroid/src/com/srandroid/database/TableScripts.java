@@ -22,6 +22,11 @@ public class TableScripts
 	public static final String COLUMN_SERVER_ID = "server_id"; // foreign key reference servers(id)
 	
 
+	public static final String[] ALL_COLUMNS = 
+		{COLUMN_ID,
+		COLUMN_DESCRIPTION,
+		COLUMN_FILEPATH,
+		COLUMN_SERVER_ID};
 	
 	// SQL statement CREATE TABLE scripts
 	private static final String CREATE_TABLE_SCRIPTS = 
@@ -57,15 +62,10 @@ public class TableScripts
 		ContentValues values = new ContentValues(); 
 		for(int i=1; i<6; i++)
 		{
-			values.put(TableScripts.COLUMN_FILEPATH, "/mnt/sdcard/srandroid_testfolder/scripts/script_exp1.xml");
-			values.put(TableScripts.COLUMN_DESCRIPTION, "Example script A"+i);
-			values.put(TableScripts.COLUMN_SERVER_ID, "2");
-			db.insert(TableScripts.TABLE_SCRIPTS, null, values);
-			
-			values.put(TableScripts.COLUMN_FILEPATH, "/mnt/sdcard/srandroid_testfolder/scripts/script_exp2.xml");
-			values.put(TableScripts.COLUMN_DESCRIPTION, "Example script B"+i);
-			values.put(TableScripts.COLUMN_SERVER_ID, "1");
-			db.insert(TableScripts.TABLE_SCRIPTS, null, values);
+			values.put(COLUMN_FILEPATH, "/mnt/sdcard/APP_FOLDER/files/scripts/" + i + ".xml");
+			values.put(COLUMN_DESCRIPTION, "Example script #"+i);
+			values.put(COLUMN_SERVER_ID, i);
+			db.insert(TABLE_SCRIPTS, null, values);
 		}
 		
 	}

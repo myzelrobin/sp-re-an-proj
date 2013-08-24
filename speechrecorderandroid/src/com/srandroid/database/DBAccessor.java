@@ -15,7 +15,7 @@ import android.util.Log;
 public class DBAccessor extends SQLiteOpenHelper
 {
 	private static final String DATABASE_NAME = "srandroid_database.db";
-	private static final int DATABASE_VERSION = 6;
+	private static final int DATABASE_VERSION = 7;
 	
 
 	public DBAccessor(Context context) 
@@ -63,7 +63,9 @@ public class DBAccessor extends SQLiteOpenHelper
 		// TableRecords.insertScriptExamples(db);
 		
 	}
-
+	
+	
+	// not include columns for cross join
 	public static final String[] AVAILABLE_COLUMNS = 
 		{
 			TableRecords.TABLE_RECORDS,
@@ -78,17 +80,19 @@ public class DBAccessor extends SQLiteOpenHelper
 			TableSections.COLUMN_ID,
 			TableSections.COLUMN_SCRIPT_ID,
 			TableSections.COLUMN_SECTIONID_INSCRIPT,
+			TableSections.COLUMN_INTROTEXT,
+			TableSections.COLUMN_CONTENTTEXT,
 			TableServers.COLUMN_ADDRESS,
 			TableServers.COLUMN_DESCRIPTION,
 			TableServers.COLUMN_ID,
 			TableServers.COLUMN_PASSWORD,
 			TableServers.COLUMN_USERNAME,
-			TableSessions.COLUMN_COUNT,
 			TableSessions.COLUMN_DATE,
 			TableSessions.COLUMN_DEVICE_DATA,
 			TableSessions.COLUMN_GPS_DATA,
 			TableSessions.COLUMN_ID,
 			TableSessions.COLUMN_IS_FINISHED,
+			TableSessions.COLUMN_IS_UPLOADED,
 			TableSessions.COLUMN_PLACE,
 			TableSessions.COLUMN_SCRIPT_ID,
 			TableSessions.COLUMN_SPEAKER_ID,

@@ -56,18 +56,15 @@ public class TableServers
 	{
 		Log.w(TableServers.class.getName(), "insertServerExamples() will insert examples");
 		ContentValues values = new ContentValues(); 
+		for (int i = 1; i < 11; i++)
+		{
+			values.put(COLUMN_ADDRESS, "1.1.1.1:8080");
+			values.put(COLUMN_DESCRIPTION, "Example server " + i);
+			values.put(COLUMN_USERNAME, "testuser");
+			values.put(COLUMN_PASSWORD, "11111111");
+			db.insert(TABLE_SERVERS, null, values);
+		}
 		
-		values.put(TableServers.COLUMN_ADDRESS, "1.1.1.1:8080");
-		values.put(TableServers.COLUMN_DESCRIPTION, "Example server 1");
-		values.put(TableServers.COLUMN_USERNAME, "testuser");
-		values.put(TableServers.COLUMN_PASSWORD, "11111111");
-		db.insert(TableServers.TABLE_SERVERS, null, values);
-		
-		values.put(TableServers.COLUMN_ADDRESS, "2.2.2.2:8080");
-		values.put(TableServers.COLUMN_DESCRIPTION, "Example server 2");
-		values.put(TableServers.COLUMN_USERNAME, "testuser2");
-		values.put(TableServers.COLUMN_PASSWORD, "22222222");
-		db.insert(TableServers.TABLE_SERVERS, null, values);
 		
 	}
 	
