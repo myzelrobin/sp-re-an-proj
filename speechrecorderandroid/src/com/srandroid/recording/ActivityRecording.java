@@ -52,8 +52,8 @@ public class ActivityRecording extends Activity
 	private Button bNext;
 	private Button bPrev;
 	
-	private TextView textViewIntro;
-	private TextView textViewContent;
+	static private TextView textViewIntro;
+	static private TextView textViewContent;
 	private String sIntro;
 	private String sContent;
 	
@@ -484,7 +484,9 @@ public class ActivityRecording extends Activity
 				
 				case R.id.act_recording_control_button_next:
 					Utils.toastText(thisAct, "clicked >>");
-					updateTextArea((View) gridView.getItemAtPosition(0), "Intro", "Content");
+					((TextView) 
+							((View) gridView.getItemAtPosition(0))
+								.findViewById(R.id.act_recording_text_intro_textvalue)).setText("test");
 					
 					break;
 				default:
