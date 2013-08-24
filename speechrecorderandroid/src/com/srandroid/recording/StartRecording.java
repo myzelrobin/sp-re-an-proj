@@ -36,6 +36,8 @@ public class StartRecording extends Activity
 	private TextView textViewAgreement;
 	private Button bYes;
 	private Button bNo;
+	
+	private Activity thisAct;
 	/**
 	 * 
 	 */
@@ -69,6 +71,9 @@ public class StartRecording extends Activity
         Log.w(this.getClass().getName(), "start creating");
         
         setContentView(R.layout.linearlayout_act_startrecording);
+        
+        thisAct = this;
+        
         
         bStart = (Button) findViewById(R.id.act_startrec_button_start);
         bStart.setOnClickListener(new OnClickListener() {
@@ -115,17 +120,17 @@ public class StartRecording extends Activity
 				
 				try {
 					
-				AlertDialog.Builder builder = new AlertDialog.Builder(getParent());
+				AlertDialog.Builder builder = new AlertDialog.Builder(thisAct);
 				builder.setTitle(R.string.act_startrecording_dialog_agreement_title_text);
 				builder.setMessage(R.string.act_startrecording_dialog_agreement_content_text)
 				       .setCancelable(true)
-				       .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+				       .setPositiveButton("AGREE",new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog,int id) {
 								
 								dialog.dismiss();
 							}
 						})
-						.setNegativeButton("No",new DialogInterface.OnClickListener() {
+						.setNegativeButton("DISAGREE",new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog,int id) {
 								
 								dialog.cancel();
