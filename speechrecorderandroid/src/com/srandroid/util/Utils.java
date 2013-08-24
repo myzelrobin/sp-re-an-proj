@@ -348,11 +348,13 @@ public class Utils
 	
 	public static void updateGlobalVarsForNewSession()
 	{
-		if(ConstantVars.scriptItemIdForNewSession != null)
+		if((ConstantVars.scriptItemIdForNewSession != null)
+				&& (ConstantVars.speakerItemIdForNewSession != null))
+		{
 			ConstantVars.scriptItemIdForNewSession = null;
-		
-		if(ConstantVars.speakerItemIdForNewSession != null)
 			ConstantVars.speakerItemIdForNewSession = null;
+		}
+			
 	}
 	
 	public static boolean checkItemsForNewSession(Activity activity)
