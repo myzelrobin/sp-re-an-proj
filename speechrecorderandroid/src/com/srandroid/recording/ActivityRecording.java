@@ -326,10 +326,10 @@ public class ActivityRecording extends Activity
 	{
 		if((sIntro.length() != 0) && (sContent.length() != 0))
     	{
-			((TextView) areaView.findViewById(R.id.act_recording_text_intro_textvalue))
-				.setText(sIntro);
-			((TextView) areaView.findViewById(R.id.act_recording_text_prompt_textvalue))
-				.setText(sContent);
+			TextView tView1 = (TextView) areaView.findViewById(R.id.act_recording_text_intro_textvalue);
+			tView1.setText(sIntro);
+			TextView tView2 = (TextView) areaView.findViewById(R.id.act_recording_text_prompt_textvalue);
+			tView2.setText(sContent);
     	}
 	}
 	
@@ -492,8 +492,8 @@ public class ActivityRecording extends Activity
 				
 				case R.id.act_recording_control_button_next:
 					Utils.toastText(thisAct, "clicked >>");
-					((TextView) (adapter.getView(0, llTextArea, gridView))
-							.findViewById(R.id.act_recording_text_intro_textvalue)).setText("test");
+					updateTextArea(gridView.getAdapter().getView(0, llTextArea, gridView),
+							"TEST", "TEST");
 					
 					break;
 				default:
