@@ -446,7 +446,7 @@ public class ActivityRecording extends Activity
 					else if (isBRecordClicked == 1)
 					{
 						// stop recording
-						isBRecordClicked = 1;
+						isBRecordClicked = 0;
 						bRecord.setText(getResources().getString(R.string.record));
 						
 						imageCircle1.setImageResource(R.drawable.icon_circle_green);
@@ -462,13 +462,21 @@ public class ActivityRecording extends Activity
 					
 				case R.id.act_recording_control_button_previous:
 					Utils.toastText(thisAct, "clicked <<");
+					
+					textViewIntro.invalidate();
 					textViewIntro.setText(getResources().getString(R.string.testviewtext));
+					
+					textViewContent.invalidate();
 					textViewContent.setText(getResources().getString(R.string.testviewtext));
 					break;
 				
 				case R.id.act_recording_control_button_next:
 					Utils.toastText(thisAct, "clicked >>");
+					
+					textViewIntro.invalidate();
 					textViewIntro.setText(getResources().getString(R.string.act_recording_introarea_text));
+					
+					textViewContent.invalidate();
 					textViewContent.setText(getResources().getString(R.string.act_recording_promptarea_text));
 					break;
 				default:
