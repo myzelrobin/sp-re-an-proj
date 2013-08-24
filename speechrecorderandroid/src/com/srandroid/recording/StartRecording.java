@@ -115,7 +115,7 @@ public class StartRecording extends Activity
 				
 				try {
 					
-				AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+				AlertDialog.Builder builder = new AlertDialog.Builder(getParent());
 				builder.setTitle(R.string.act_startrecording_dialog_agreement_title_text);
 				builder.setMessage(R.string.act_startrecording_dialog_agreement_content_text)
 				       .setCancelable(true)
@@ -132,9 +132,7 @@ public class StartRecording extends Activity
 							}
 						});
 				AlertDialog alertDialog = builder.create();
-				
-				 
-					 alertDialog.show();
+				alertDialog.show();
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -215,5 +213,5 @@ public class StartRecording extends Activity
 	{
 	    getActionBar().setTitle(title);
 	}
-
+	
 }
