@@ -9,7 +9,8 @@ android:orientation="vertical"
 android:numColumns="auto_fit"
 android:columnWidth="480dp"
 android:horizontalSpacing="0dp"
-android:verticalSpacing="30dp" >
+android:padding="10dp"
+android:verticalSpacing="10dp" >
 
 </GridView>
 
