@@ -110,7 +110,12 @@
             android:label="@string/act_startrecording_title" >
         </activity>
         
-        
+        <activity 
+            android:screenOrientation="landscape"
+            android:configChanges="orientation|keyboardHidden"
+            android:name="com.srandroid.recording.ActivityRecording"
+            android:label="@string/act_recording_title" >
+        </activity>
         
          <provider
             android:authorities="com.srandroid.contentprovider"

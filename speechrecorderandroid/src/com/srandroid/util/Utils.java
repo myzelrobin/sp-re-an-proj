@@ -143,6 +143,7 @@ public class Utils
 		// objects for recording
 		public static String speakerItemIdForNewSession = null;
 		public static String scriptItemIdForNewSession = null;
+		public static String sessionItemIdForNewSession = null;
 		
 		// database
 		public static final String TESTDB_FOLDER_PATH = 
@@ -354,7 +355,8 @@ public class Utils
 			ConstantVars.scriptItemIdForNewSession = null;
 			ConstantVars.speakerItemIdForNewSession = null;
 		}
-			
+		
+		ConstantVars.sessionItemIdForNewSession = null;
 	}
 	
 	public static boolean checkItemsForNewSession(Activity activity)

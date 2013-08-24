@@ -153,15 +153,15 @@
     </group>
     
     
-    <!-- Activity TestRecording -->
+    <!-- Activity Recording -->
     <group 
-        android:id="@+id/bgroup_testrecording"
+        android:id="@+id/bgroup_recording"
         android:visible="false" >
     
         <item
-            android:id="@+id/act_testrecoding_button_start"
+            android:id="@+id/act_recoding_button_done"
             android:showAsAction="always"
-            android:title="@string/act_startrecording_button_start_text" />
+            android:title="@string/done" />
         
         
     </group>

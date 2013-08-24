@@ -9,6 +9,7 @@ import com.srandroid.util.Utils;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
@@ -74,45 +75,51 @@ public class ActivityStartRecording extends Activity
 			@Override
 			public void onClick(View v) 
 			{
-				Utils.toastText(getApplicationContext(), "start recording");
+				Utils.toastTextToUser(getApplicationContext(), "start recording");
+	    		
+	    		Intent newI = new Intent(thisAct, ActivityRecording.class);
+	    		newI.putExtra("isTestRecording", false);
+	    		
+	        	thisAct.startActivity(newI);
 				
 			}
 		});
         
         bAgreement = (Button) findViewById(R.id.act_startrec_button_agreement);
-        bAgreement.setOnClickListener(new OnClickListener() {
-			
+        bAgreement.setOnClickListener(new OnClickListener() 
+        {
 			@Override
 			public void onClick(View v) 
 			{
-				try {
-					
-				AlertDialog.Builder builder = new AlertDialog.Builder(thisAct);
-				builder.setTitle(R.string.act_startrecording_dialog_agreement_title_text);
-				builder.setMessage(R.string.act_startrecording_dialog_agreement_content_text)
-				       .setCancelable(true)
-				       .setPositiveButton(
-				    		   R.string.act_startrecording_dialog_agreement_button_agree,
-				    		   new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,int id) {
-								
-								dialog.dismiss();
-							}
-						})
-						.setNegativeButton(
-								R.string.act_startrecording_dialog_agreement_button_disagree,
-								new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,int id) {
-								
-								dialog.cancel();
-							}
-						});
-				AlertDialog alertDialog = builder.create();
-				alertDialog.show();
-				} catch (Exception e) {
+				try 
+				{
+					AlertDialog.Builder builder = new AlertDialog.Builder(thisAct);
+					builder.setTitle(R.string.act_startrecording_dialog_agreement_title_text);
+					builder.setMessage(R.string.act_startrecording_dialog_agreement_content_text)
+					       .setCancelable(true)
+					       .setPositiveButton(
+					    		   R.string.act_startrecording_dialog_agreement_button_agree,
+					    		   new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,int id) {
+									
+									dialog.dismiss();
+								}
+							})
+							.setNegativeButton(
+									R.string.act_startrecording_dialog_agreement_button_disagree,
+									new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,int id) {
+									
+									dialog.cancel();
+								}
+							});
+					AlertDialog alertDialog = builder.create();
+					alertDialog.show();
+				} 
+				catch (Exception e) 
+				{
 					e.printStackTrace();
 				}
-				
 			}
 		});
         

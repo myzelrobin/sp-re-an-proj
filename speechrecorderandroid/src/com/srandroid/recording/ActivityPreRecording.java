@@ -92,14 +92,9 @@ public class ActivityPreRecording extends Activity
         
         gridView = (GridView) findViewById(R.id.id_gridview_act_prerecoding);
         
-        
-        
-        
-        
-        
         String[] itemlist = {"SPEAKER_ITEM", "SCRIPT_ITEM"};
         
-        gridView.setAdapter(new LocalAdapter(this, itemlist));
+        gridView.setAdapter(new LocalAdapterForActPreRec(this, itemlist));
         
         
         gridView.setClickable(false);
@@ -191,18 +186,20 @@ public class ActivityPreRecording extends Activity
        
         switch (item.getItemId()) 
         {
-		    // Respond to the action bar's Up/Home button
-		    case android.R.id.home:
-		    	break;
 		     // actionbar buttons
         	case R.id.act_prerecording_button_test:
         		
-	        		Utils.toastTextToUser(this, "start test recording");
-	        		
-	        		 Intent newI = new Intent(this, ActivityStartRecording.class);
-		        	 this.startActivity(newI);
+        		// a method to insert new session
+        		
+	    		Utils.toastTextToUser(this, "start test recording");
+	    		
+	    		Intent newI = new Intent(this, ActivityRecording.class);
+	    		newI.putExtra("isTestRecording", true);
+	    		
+	        	this.startActivity(newI);
 	        		
         		break;
+        	
         	default:
         		break;
     	}
@@ -350,12 +347,12 @@ public class ActivityPreRecording extends Activity
 	}
 
 	
-	protected class LocalAdapter extends BaseAdapter
+	protected class LocalAdapterForActPreRec extends BaseAdapter
 	{
 		private Context context;
 		private String[] itemlist;
 		
-		public LocalAdapter(Context context, String[] itemlist)
+		public LocalAdapterForActPreRec(Context context, String[] itemlist)
 		{
 			this.context = context;
 			this.itemlist = itemlist;

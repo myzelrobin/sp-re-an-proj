@@ -6,20 +6,20 @@
     <string name="hello_world">Hello world!</string>
     
     <!-- common strings -->
-    <string name="YES">YES</string>
-    <string name="NO">NO</string>
-    <string name="CANCEL">CANCEL</string>
-    <string name="DONE">DONE</string>
-    <string name="NEXT">NEXT</string>
-    <string name="PREVIOUS">PREVIOUS</string>
-    <string name="PLAY">PLAY</string>
-    <string name="STOP">STOP</string>
-    <string name="FINISH">FINISH</string>
-    <string name="RECORD">RECORD</string>
-    <string name="MIC">MIC</string>
-    <string name="CLOSE">CLOSE</string>
-    <string name="OPEN">OPEN</string>
-    <string name="TESTVIEWTEXT">
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+    <string name="cancel">CANCEL</string>
+    <string name="done">DONE</string>
+    <string name="next">NEXT</string>
+    <string name="previous">PREVIOUS</string>
+    <string name="play">PLAY</string>
+    <string name="stop">STOP</string>
+    <string name="finish">FINISH</string>
+    <string name="mic">MIC</string>
+    <string name="close">CLOSE</string>
+    <string name="open">OPEN</string>
+    <string name="record">RECORD</string>
+    <string name="testviewtext">
         The quick brown fox jumps over the lazy dog.
         \nThe quick brown fox jumps over the lazy dog.
         \nThe quick brown fox jumps over the lazy dog.</string>
@@ -252,50 +252,38 @@
         <string name="act_prerecording_title">Prepare Recording</string>
         <string name="act_prerecoring_button_test_text">Test</string>
         
-        <!-- activity TestRecording -->
-        <string name="act_testrecording_title">Test Recording</string>
-        <string name="act_testrecording_button_finish_text">DONE</string>
-        
         <!-- activity StartRecording -->
         <string name="act_startrecording_title">Welcome</string>
         <string name="act_startrecording_welcome_text">
             Welcome to the recording test! 
         </string>
-        
         <string name="act_startrecording_button_start_text">START</string>
         <string name="act_startrecording_button_agreement_text">AGREEMENT</string>
         <string name="act_startrecording_dialog_agreement_title_text">AGREEMENT</string>
         <string name="act_startrecording_dialog_agreement_content_text">
             This is the agreement. 
-            \nThis is the agreement.
-            \nThis is the agreement.
-            \nThis is the agreement.
-            \nThis is the agreement.
-            \nThis is the agreement.
-            \nThis is the agreement.
-            \nThis is the agreement.
-            \nThis is the agreement.
-            \nThis is the agreement.
-            \nThis is the agreement.
-            \nThis is the agreement.
-            \nThis is the agreement.
-            \nThis is the agreement.
-            \nThis is the agreement.
-            \nThis is the agreement.
-            \nThis is the agreement.
-            \nThis is the agreement.
-            \nThis is the agreement.
-            \nThis is the agreement.
-            \nThis is the agreement.
-            \nThis is the agreement.
-            \nThis is the agreement.
-            \nThis is the agreement.
-            \nThis is the agreement.
-            \nThis is the agreement.
         </string>
         <string name="act_startrecording_dialog_agreement_button_agree">AGREE</string>
         <string name="act_startrecording_dialog_agreement_button_disagree">DISAGREE</string>
         
+        
+        <!-- activity Recording -->
+        <string name="act_recording_title_testrec">Test Recording</string>
+        <string name="act_recording_title">Recording</string>
+        <string name="act_recording_button_done_text">DONE</string>
+        <string name="act_recording_three_lights">RED, YELOW, GREEN</string>
+        <string name="act_recording_button_record_text">RECORD</string>
+        <string name="act_recording_button_stop_text">STOP</string>
+        <string name="act_recording_button_play_text">PLAY</string>
+        <string name="act_recording_button_next_text">&gt;&gt;</string>
+        <string name="act_recording_button_previous_text">&lt;&lt;</string>
+        <string name="act_recording_introarea_text">
+            This is a test instruction. 
+            \nPlease read the text below.</string>
+        <string name="act_recording_promptarea_text">
+            The quick brown fox jumps over the lazy dog.
+            \nThe quick brown fox jumps over the lazy dog.
+            \nThe quick brown fox jumps over the lazy dog.</string>
         
 </resources>
 
