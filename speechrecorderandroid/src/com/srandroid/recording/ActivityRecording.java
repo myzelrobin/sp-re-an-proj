@@ -54,6 +54,8 @@ public class ActivityRecording extends Activity
 	
 	private TextView textViewIntro;
 	private TextView textViewContent;
+	private String sIntro;
+	private String sContent;
 	
 	private ImageView imageCircle1;
 	private ImageView imageCircle2;
@@ -275,7 +277,15 @@ public class ActivityRecording extends Activity
 	
 	private void fillControlArea(View areaView)
 	{
-		
+		bRecord = (Button) areaView.findViewById(R.id.act_recording_control_button_record);
+    	bPlay = (Button) areaView.findViewById(R.id.act_recording_control_button_play);
+    	bPlay.setEnabled(false);
+    	bNext = (Button) areaView.findViewById(R.id.act_recording_control_button_next);
+    	bPrev = (Button) areaView.findViewById(R.id.act_recording_control_button_previous);
+    	
+    	imageCircle1 = (ImageView) areaView.findViewById(R.id.act_recording_control_circle1);
+    	imageCircle2 = (ImageView) areaView.findViewById(R.id.act_recording_control_circle2);
+    	imageCircle3 = (ImageView) areaView.findViewById(R.id.act_recording_control_circle3);
     	
     	if(!isTestRecroding)
     	{
@@ -296,12 +306,21 @@ public class ActivityRecording extends Activity
     	
 	}
 	
-	private void fillTextArea(View areaView)
+	private void fillTextArea(View areaView, String sIntro, String sContent)
 	{
+    	textViewIntro = (TextView) areaView.findViewById(R.id.act_recording_text_intro_textvalue);
+    	textViewContent = (TextView) areaView.findViewById(R.id.act_recording_text_prompt_textvalue);
     	
-    	textViewIntro.setOnClickListener(listener);
-    	textViewContent.setOnClickListener(listener);
-    	
+    	if((sIntro.length() != 0) && (sContent.length() != 0))
+    	{
+    		textViewIntro.setText(sIntro);
+    		textViewContent.setText(sContent);
+    	}
+    	else
+    	{
+    		textViewIntro.setText(getString(R.string.act_recording_introarea_text));
+    		textViewContent.setText(getString(R.string.act_recording_promptarea_text));
+    	}
 	}
 	
 	protected class LocalAdapterForActRecording extends BaseAdapter
@@ -336,23 +355,9 @@ public class ActivityRecording extends Activity
 
 		// String[] arealist = {"TEXT_AREA", "CONTROL_AREA_FOR_USER"};
 		@Override
-		public View getView(int position, View convertView, ViewGroup parent) 
-		{
+		public View getView(int position, View convertView, ViewGroup parent) {
 			
 			LinearLayout areaView = null;
-			
-			bRecord = (Button) areaView.findViewById(R.id.act_recording_control_button_record);
-	    	bPlay = (Button) areaView.findViewById(R.id.act_recording_control_button_play);
-	    	bPlay.setEnabled(false);
-	    	bNext = (Button) areaView.findViewById(R.id.act_recording_control_button_next);
-	    	bPrev = (Button) areaView.findViewById(R.id.act_recording_control_button_previous);
-	    	
-	    	imageCircle1 = (ImageView) areaView.findViewById(R.id.act_recording_control_circle1);
-	    	imageCircle2 = (ImageView) areaView.findViewById(R.id.act_recording_control_circle2);
-	    	imageCircle3 = (ImageView) areaView.findViewById(R.id.act_recording_control_circle3);
-			
-	    	textViewIntro = (TextView) areaView.findViewById(R.id.act_recording_text_intro_textvalue);
-	    	textViewContent = (TextView) areaView.findViewById(R.id.act_recording_text_prompt_textvalue);
 			
 			if(arealist[position].equals("TEXT_AREA"))
 			{
@@ -364,7 +369,7 @@ public class ActivityRecording extends Activity
 
 		        try
 		        {
-		        	fillTextArea(areaView);
+		        	fillTextArea(areaView, sIntro, sContent);
 		        }
 		        catch (Exception e) 
 		        {
@@ -421,6 +426,8 @@ public class ActivityRecording extends Activity
 	protected class OnClickListenerForRecording implements OnClickListener
 	{
 		
+		
+		
 		public OnClickListenerForRecording() 
 		{
 			super();
@@ -465,18 +472,14 @@ public class ActivityRecording extends Activity
 					
 				case R.id.act_recording_control_button_previous:
 					Utils.toastText(thisAct, "clicked <<");
+					fillTextArea((View) gridView.getItemAtPosition(0), "test", "test");
 					
-					textViewIntro.setText(getResources().getString(R.string.testviewtext));
-					
-					textViewContent.setText(getResources().getString(R.string.testviewtext));
 					break;
 				
 				case R.id.act_recording_control_button_next:
 					Utils.toastText(thisAct, "clicked >>");
+					fillTextArea((View) gridView.getItemAtPosition(0), null, null);
 					
-					textViewIntro.setText(getResources().getString(R.string.act_recording_introarea_text));
-					
-					textViewContent.setText(getResources().getString(R.string.act_recording_promptarea_text));
 					break;
 				default:
 					break;
