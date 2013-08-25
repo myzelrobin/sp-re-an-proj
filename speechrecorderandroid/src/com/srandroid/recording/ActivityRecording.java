@@ -573,7 +573,8 @@ public class ActivityRecording extends Activity
 					    	
 					    	// recording 
 					    	handler = new Handler(); 
-						    handler.postDelayed(new Runnable() { 
+						    handler.postDelayed(new Runnable() 
+						    { 
 						         public void run() { 
 						        	 updateTextArea(gridView, 
 												recItemsList.get(recItemIndex).recinstructions, 
@@ -604,6 +605,10 @@ public class ActivityRecording extends Activity
 						         } 
 						    }, Integer.parseInt(recItemsList.get(recItemIndex).postrecdelay));
 					    	
+						    if(recItemIndex == 3)
+						    {
+						    	Utils.toastTextToUser(thisAct, "finished recording!");
+						    }
 					    }
 					    
 					}
