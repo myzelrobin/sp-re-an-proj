@@ -525,7 +525,7 @@ public class ActivityRecording extends Activity
 				case R.id.act_recording_control_button_previous:
 					// ner recoding
 					recItemIndex--;
-					if(recItemIndex==-1) recItemIndex = 0;
+					if(recItemIndex<0) recItemIndex = 0;
 					
 					bPlay.setEnabled(false);
 					
@@ -537,7 +537,7 @@ public class ActivityRecording extends Activity
 				case R.id.act_recording_control_button_next:
 					// new recoding
 					recItemIndex++;
-					if(recItemIndex==5) recItemIndex = 0;
+					if(recItemIndex>3) recItemIndex = 3;
 					
 					bPlay.setEnabled(false);
 					
