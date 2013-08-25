@@ -424,11 +424,14 @@ public class Utils
 						+ " to " + Utils.ConstantVars.SCRIPTS_DIR_EXT_PATH);
 		       
 	        }
+	        
+	        
+	        Utils.ConstantVars.exampleScriptFilepath = destFile.getAbsolutePath();
+	        
 	        Log.w(Utils.class.getName(), "copyScriptFilesToAppExtFolder()" 
 					+ " file exists " + destFile.getAbsolutePath()) ;
 	        
-	        if(destFile.getName() == "example_script.xml")
-	        	Utils.ConstantVars.exampleScriptFilepath = destFile.getAbsolutePath();
+	        
 	        
 	    } catch (FileNotFoundException ex) {
 	    	Log.w(Utils.class.getName(), "copyScriptFilesToAppExtFolder() error: " 
