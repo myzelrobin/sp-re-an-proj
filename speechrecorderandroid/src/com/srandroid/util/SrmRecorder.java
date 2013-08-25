@@ -433,7 +433,7 @@ public class SrmRecorder
 		}
 		
 		File file = new File(dirPath, fileName);
-		String fileFullName = file.getAbsolutePath() + "." + SUFFIX;
+		String fileFullName = file.getAbsolutePath() + SUFFIX;
 		setAudioFile(fileFullName);
 		Log.w(this.getClass().getName(), "createFile(): returns a new file at " +  fileFullName);
 		return fileFullName;

@@ -462,8 +462,14 @@ public class ActivityRecording extends Activity
 						bPrev.setEnabled(false);
 						bNext.setEnabled(false);
 						
-						srmRecorder = new SrmRecorder(Utils.ConstantVars.REC_FILES_DIR_EXT_PATH + File.separator + scriptItem.scriptName, 
+						if(isTestRecroding)
+							srmRecorder = new SrmRecorder(Utils.ConstantVars.REC_FILES_DIR_EXT_PATH 
+								+ File.separator + scriptItem.scriptName + File.separator + "test", 
 								recItemsList.get(recItemIndex).itemcode);
+						else 
+							srmRecorder = new SrmRecorder(Utils.ConstantVars.REC_FILES_DIR_EXT_PATH 
+									+ File.separator + scriptItem.scriptName, 
+									recItemsList.get(recItemIndex).itemcode);
 						srmRecorder.startRecording();
 						
 						recordFilepath = srmRecorder.getAudioFile();
@@ -499,8 +505,19 @@ public class ActivityRecording extends Activity
 						//sleep(Integer.parseInt(recItemsList.get(recItemIndex).postrecdelay));
 
 					        	
-					    srmRecorder.stopRecording();
-								
+						
+					    if(isTestRecroding)
+					    	srmRecorder.stopRecording();
+					    else 
+					    {
+					    	srmRecorder.stopRecording();
+					    	recItemIndex++;
+					    	if(recItemIndex > 3) recItemIndex = 3;
+					    	updateTextArea(gridView, 
+									recItemsList.get(recItemIndex).recinstructions, 
+									recItemsList.get(recItemIndex).recprompt);
+					    }
+					    
 						imageCircle1.setImageResource(R.drawable.icon_circle_red);
 						imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
 						imageCircle3.setImageResource(R.drawable.icon_circle_green);
