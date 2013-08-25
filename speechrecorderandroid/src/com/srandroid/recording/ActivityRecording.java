@@ -298,6 +298,8 @@ public class ActivityRecording extends Activity
     	bPlay.setEnabled(false);
     	bNext = (Button) areaView.findViewById(R.id.act_recording_control_button_next);
     	bPrev = (Button) areaView.findViewById(R.id.act_recording_control_button_previous);
+		bPrev.setEnabled(true);
+		bNext.setEnabled(true);
     	
     	imageCircle1 = (ImageView) areaView.findViewById(R.id.act_recording_control_circle1);
     	imageCircle2 = (ImageView) areaView.findViewById(R.id.act_recording_control_circle2);
