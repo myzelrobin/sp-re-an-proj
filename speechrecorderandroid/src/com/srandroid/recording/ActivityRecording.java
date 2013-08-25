@@ -54,15 +54,15 @@ public class ActivityRecording extends Activity
 	
 
 	
-	private static Button bRecord;
+	private Button bRecord;
 	private int isBRecordClicked = 0;
-	private static Button bPlay;
-	private static Button bNext;
-	private static Button bPrev;
+	private Button bPlay;
+	private Button bNext;
+	private Button bPrev;
 	
-	private static ImageView imageCircle1;
-	private static ImageView imageCircle2;
-	private static ImageView imageCircle3;
+	private ImageView imageCircle1;
+	private ImageView imageCircle2;
+	private ImageView imageCircle3;
 	
 	private LocalAdapterForActRecording adapter;
 	
@@ -523,10 +523,11 @@ public class ActivityRecording extends Activity
 					break;
 					
 				case R.id.act_recording_control_button_previous:
-					// ner recoding
+					// new recording
 					recItemIndex--;
+					Log.w(ActivityRecording.class.getName(), "<<, recItemIndex=" + recItemIndex);
 					if(recItemIndex<0) recItemIndex = 0;
-					
+					Log.w(ActivityRecording.class.getName(), "<<, recItemIndex=" + recItemIndex);
 					bPlay.setEnabled(false);
 					
 					updateTextArea(gridView, 
@@ -535,13 +536,12 @@ public class ActivityRecording extends Activity
 					break;
 				
 				case R.id.act_recording_control_button_next:
-					// new recoding
+					// new recording
 					recItemIndex++;
+					Log.w(ActivityRecording.class.getName(), ">>, recItemIndex=" + recItemIndex);
 					if(recItemIndex>3) recItemIndex = 3;
-					
+					Log.w(ActivityRecording.class.getName(), ">>, recItemIndex=" + recItemIndex);
 					bPlay.setEnabled(false);
-					
-					if(isTestRecroding) srmRecorder.finishedTestRecording();
 					
 					updateTextArea(gridView, 
 							recItemsList.get(recItemIndex).recinstructions, 
