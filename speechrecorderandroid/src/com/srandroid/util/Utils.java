@@ -456,22 +456,22 @@ public class Utils
 			File xmlFile = new File(scriptFilepath); 
 			
 			InputStream scriptFile = new FileInputStream(xmlFile);
-			
-			scriptItem = scriptParser.parseScriptMetadata(scriptFile);
-			
-			scriptFile.close();
-			
-//			InputStream scriptFile2 = new FileInputStream(scriptFilepath);
 //			
-//			recordItemList = scriptParser.parseScriptRecordings(scriptFile2);
+//			scriptItem = scriptParser.parseScriptMetadata(scriptFile);
 //			
 //			scriptFile.close();
 			
+			InputStream scriptFile2 = new FileInputStream(scriptFilepath);
+			
+			recordItemList = scriptParser.parseScriptRecordings(scriptFile2);
+			
+			scriptFile.close();
+			
 			Log.w(Utils.class.getName(), "parseScript() finished parsing, "
-					+ "\nscriptItem databasename =" + scriptItem.getDatabaseName()
-					+ "\nscriptItem AuthorEmail =" + scriptItem.getEmailAuthor()
-//					+ "\nList RecordItems count=" + recordItemList.size()
-//					+ "\nList RecordItem test id=2 getIntro=" + recordItemList.get(1).getRecinstructions()
+//					+ "\nscriptItem databasename =" + scriptItem.getDatabaseName()
+//					+ "\nscriptItem AuthorEmail =" + scriptItem.getEmailAuthor()
+					+ "\nList RecordItems count=" + recordItemList.size()
+					+ "\nList RecordItem test id=2 getIntro=" + recordItemList.get(1).getRecinstructions()
 					+ "\nEND.");
 			
 			
