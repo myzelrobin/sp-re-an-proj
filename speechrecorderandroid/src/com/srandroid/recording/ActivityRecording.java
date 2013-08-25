@@ -480,11 +480,11 @@ public class ActivityRecording extends Activity
 						Log.w(ActivityRecording.class.getName(), "created new Recorder:" + recordFilepath);
 						
 						// change images
-						
 			        	imageCircle1.setImageResource(R.drawable.icon_circle_red);
 						imageCircle2.setImageResource(R.drawable.icon_circle_red);
 						imageCircle3.setImageResource(R.drawable.icon_circle_red);
 						
+						//update images
 						handler = new Handler(); 
 						    handler.postDelayed(new Runnable() { 
 						         public void run() { 
@@ -492,12 +492,8 @@ public class ActivityRecording extends Activity
 									imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
 									imageCircle3.setImageResource(R.drawable.icon_circle_yellow);
 						         } 
-						    }, 2000); 
-						//sleep((Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay)) / 2);
-								
-						//sleep(Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay) / 2);
-								
-						    
+						    }, (Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay)) / 2); 
+						
 						handler = new Handler(); 
 						    handler.postDelayed(new Runnable() { 
 						         public void run() { 
@@ -505,7 +501,7 @@ public class ActivityRecording extends Activity
 									imageCircle2.setImageResource(R.drawable.icon_circle_green);
 									imageCircle3.setImageResource(R.drawable.icon_circle_green);
 						         } 
-						    }, 2000);
+						    }, (Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay)) / 2);
 						
 					}
 					else if (isBRecordClicked == 1)
@@ -514,11 +510,7 @@ public class ActivityRecording extends Activity
 						
 						// stop recording
 						isBRecordClicked = 0;
-						
-						//sleep(Integer.parseInt(recItemsList.get(recItemIndex).postrecdelay));
 
-					        	
-						
 					    if(isTestRecroding)
 					    	srmRecorder.stopRecording();
 					    else 
@@ -537,10 +529,8 @@ public class ActivityRecording extends Activity
 								imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
 								imageCircle3.setImageResource(R.drawable.icon_circle_green);
 					         } 
-					    }, 2000);
-					    
-						
-								
+					    }, Integer.parseInt(recItemsList.get(recItemIndex).postrecdelay));
+					    	
 						bRecord.setText(getResources().getString(R.string.record));
 						bPlay.setEnabled(true);
 						bPrev.setEnabled(true);
