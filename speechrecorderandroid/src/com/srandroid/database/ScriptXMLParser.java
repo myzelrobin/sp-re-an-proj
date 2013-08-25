@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
 
 import com.srandroid.database.TableRecords.RecordItem;
 import com.srandroid.database.TableScripts.ScriptItem;
@@ -36,15 +37,16 @@ public class ScriptXMLParser
     {
         try 
         {
-//        	 XmlPullParserFactory xppf = XmlPullParserFactory.newInstance();
-//        	 xppf.setNamespaceAware(true); 
-//        	 XmlPullParser parser = xppf.newPullParser();
-//        	 
-//        	 xpp.setInput(fis, null);
+        	 XmlPullParserFactory xppf = XmlPullParserFactory.newInstance();
+        	 xppf.setNamespaceAware(false); 
+        	 XmlPullParser parser = xppf.newPullParser();
+        	 
+        	 parser.setInput(in, null);
         	
-            XmlPullParser parser = Xml.newPullParser();
-            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
-            parser.setInput(in, null);
+//            XmlPullParser parser = Xml.newPullParser();
+//            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
+//            parser.setInput(in, null);
+        	 
             parser.nextTag();
             return pullMetadata(parser);
         } finally {
@@ -59,9 +61,15 @@ public class ScriptXMLParser
     {
         try 
         {
-            XmlPullParser parser = Xml.newPullParser();
-            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
-            parser.setInput(in, null);
+		   	 XmlPullParserFactory xppf = XmlPullParserFactory.newInstance();
+		   	 xppf.setNamespaceAware(false); 
+		   	 XmlPullParser parser = xppf.newPullParser();
+		   	 
+		   	 parser.setInput(in, null);
+        	
+//            XmlPullParser parser = Xml.newPullParser();
+//            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
+//            parser.setInput(in, null);
             parser.nextTag();
             return pullScriptRecordings(parser);
         } finally {
