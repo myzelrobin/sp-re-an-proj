@@ -284,7 +284,15 @@
             The quick brown fox jumps over the lazy dog.
             \nThe quick brown fox jumps over the lazy dog.
             \nThe quick brown fox jumps over the lazy dog.</string>
+            
         
+        
+        <!-- activity FinishRecording -->
+        <string name="act_finishrecording_title">Thanks</string>
+        <string name="act_finishrecording_text">
+            Thank you for your participation!\nPlease sign your name blow! 
+        </string>
+        <string name="act_finishrecording_signature_text">SIGNATURE AREA</string>        
 </resources>
 
 

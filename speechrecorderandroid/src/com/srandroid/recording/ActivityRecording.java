@@ -13,6 +13,7 @@ import com.srandroid.database.TableScripts;
 import com.srandroid.database.TableScripts.ScriptItem;
 import com.srandroid.database.TableSessions;
 import com.srandroid.database.SrmContentProvider.SrmUriMatcher;
+import com.srandroid.main.ActivitySessionDetails;
 import com.srandroid.recording.ActivityPreRecording.LocalAdapterForActPreRec;
 import com.srandroid.speechrecorder.R;
 import com.srandroid.util.SrmRecorder;
@@ -546,8 +547,9 @@ public class ActivityRecording extends Activity
 						;
 					    if(isTestRecroding)
 					    {
-					    	Log.w(ActivityRecording.class.getName(), "test recording: click stop");
 					    	// test recording
+					    	
+					    	Log.w(ActivityRecording.class.getName(), "test recording: click stop");
 					    	srmRecorder.stopRecording();
 					    	
 						    handler = new Handler(); 
@@ -572,9 +574,10 @@ public class ActivityRecording extends Activity
 						}
 					    else 
 					    {
+					    	// recording 
+					    	
 					    	Log.w(ActivityRecording.class.getName(), "recording: click stop");
 					    	
-					    	// recording 
 					    	handler = new Handler(); 
 						    handler.postDelayed(new Runnable() 
 						    { 
@@ -612,6 +615,9 @@ public class ActivityRecording extends Activity
 						    if(recItemIndex == 3)
 						    {
 						    	Utils.toastTextToUser(thisAct, "finished recording!");
+						    	
+						    	Intent newI = new Intent(thisAct, ActivityFinishRecording.class);
+					        	thisAct.startActivity(newI);
 						    }
 					    }
 					    
