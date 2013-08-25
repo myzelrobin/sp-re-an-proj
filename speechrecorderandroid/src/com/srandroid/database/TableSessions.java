@@ -120,19 +120,10 @@ public class TableSessions
 	    String sTime = "" + mHour + ":" + mMinute + ":" + mSecond;
 	    values.put(COLUMN_TIME, sTime);
 	    
-	    
-	    // place, gps_data
-	    if(Utils.ConstantVars.GPS_INFO != "device unavailable")
-	    {
+	    String sPlace = "Munich";
+	    values.put(COLUMN_PLACE, sPlace);
 	    	
-	    }
-	    else
-	    {
-	    	String sPlace = "Munich";
-	    	values.put(COLUMN_PLACE, sPlace);
-	    	
-	    	values.put(COLUMN_GPS_DATA, Utils.ConstantVars.GPS_INFO);
-	    }
+	    values.put(COLUMN_GPS_DATA, Utils.ConstantVars.GPS_INFO);
 	    
 	    // device data
 	    values.put(COLUMN_DEVICE_DATA, Utils.ConstantVars.DEVICE_ID);
