@@ -490,6 +490,7 @@ public class ActivityRecording extends Activity
 						isBRecordClicked = 1;						
 						
 						bRecord.setText(getResources().getString(R.string.stop));
+						bRecord.setEnabled(false);
 						bPlay.setEnabled(false);
 						bPrev.setEnabled(false);
 						bNext.setEnabled(false);
@@ -528,6 +529,7 @@ public class ActivityRecording extends Activity
 								        	imageCircle1.setImageResource(R.drawable.icon_circle_green);
 											imageCircle2.setImageResource(R.drawable.icon_circle_green);
 											imageCircle3.setImageResource(R.drawable.icon_circle_green);
+											bRecord.setEnabled(true);
 								         } 
 								    }, (Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay)) / 2);
 						         } 
@@ -540,14 +542,14 @@ public class ActivityRecording extends Activity
 					{
 						// stop recording
 						isBRecordClicked = 0;
-
+						bRecord.setEnabled(false)
+						;
 					    if(isTestRecroding)
 					    {
 					    	Log.w(ActivityRecording.class.getName(), "test recording: click stop");
 					    	// test recording
 					    	srmRecorder.stopRecording();
 					    	
-
 						    handler = new Handler(); 
 						    handler.postDelayed(new Runnable() { 
 						         public void run() { 
@@ -561,6 +563,7 @@ public class ActivityRecording extends Activity
 									
 
 									bRecord.setText(getResources().getString(R.string.record));
+									bRecord.setEnabled(true);
 									bPlay.setEnabled(true);
 									bPrev.setEnabled(true);
 									bNext.setEnabled(true);
@@ -599,6 +602,7 @@ public class ActivityRecording extends Activity
 							    	
 
 									bRecord.setText(getResources().getString(R.string.record));
+									bRecord.setEnabled(true);
 									bPlay.setEnabled(true);
 									bPrev.setEnabled(true);
 									bNext.setEnabled(true);
