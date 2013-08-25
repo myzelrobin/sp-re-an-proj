@@ -68,6 +68,23 @@ public class TableServers
 		
 	}
 	
+	
+	public static void setValuesForInsertServerItem(ContentValues values, 
+			String address,
+			String username,
+			String password,
+			String description)
+	{
+		
+		values.put(COLUMN_ADDRESS, address);
+		
+		values.put(COLUMN_USERNAME, username);
+		
+		values.put(COLUMN_PASSWORD, password);
+		
+		values.put(COLUMN_DESCRIPTION, description);
+		
+	}
 
 	public static class ServerItem {
 

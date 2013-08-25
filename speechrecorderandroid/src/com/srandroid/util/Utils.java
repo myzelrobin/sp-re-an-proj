@@ -55,7 +55,7 @@ public class Utils
 		
 		// device informations
 		public static String DEVICE_ID = "default unknow";
-		public static String GPS_INFO = "default device unavailable";
+		public static String GPS_INFO = "device unavailable";
 		
 		// SharedPreferece key and default values
 		public static final String KEY_PREFSCREEN_RECVALUE = "prefscreen_recvalue";
@@ -122,8 +122,9 @@ public class Utils
 		public static String APP_FILES_DIR_INT_PATH; // app internal folder "files"
 		public static String APP_DIR_EXT_PATH; // app external root foler
 		public static String APP_FILES_DIR_EXT_PATH; // app external foler "files"
-		public static String REC_FILES_DIR_EXT_PATH; // folder "records" in "files"
-		public static String REC_TEST_DIR_EXT_PATH; // folder "test_mic" in "records"
+		public static String REC_FILES_DIR_EXT_PATH; // folder "records" in external "files"
+		public static String TEST_MIC_DIR_EXT_PATH; // folder "test_mic" in external "records"
+		public static String SCRIPTS_DIR_EXT_PATH; // folder "scripts" in external files 
 		
 		
 		
@@ -270,8 +271,12 @@ public class Utils
 			Log.w(Utils.class.getName(), "REC_FILES_DIR_EXT=" + REC_FILES_DIR_EXT_PATH);
 			
 			// make folder path in sdcard(/mnt/sdcard/Android/APP_PACKAGE/records/test)
-			REC_TEST_DIR_EXT_PATH = makeDir(REC_FILES_DIR_EXT_PATH, "test");
-			Log.w(Utils.class.getName(), "REC_TEST_DIR_EXT=" + REC_TEST_DIR_EXT_PATH);
+			TEST_MIC_DIR_EXT_PATH = makeDir(REC_FILES_DIR_EXT_PATH, "test");
+			Log.w(Utils.class.getName(), "REC_TEST_DIR_EXT=" + TEST_MIC_DIR_EXT_PATH);
+			
+			// make folder path in sdcard()
+			SCRIPTS_DIR_EXT_PATH = makeDir(APP_DIR_EXT_PATH, "scripts");
+			Log.w(Utils.class.getName(), "SCRIPTS_DIR_EXT_PATH=" + SCRIPTS_DIR_EXT_PATH);
 			
 			getScreenSize(context);
 			setLayoutValuesInVerticalMode();
@@ -438,7 +443,9 @@ public class Utils
 		{
 			return app_dir_ext_path_temp;
 		}
-		Log.w(Utils.class.getName(), "getAppExternalDir(): Can NOT make directory: " + app_dir_ext_path_temp);
+		Log.w(Utils.class.getName(), 
+				"getAppExternalDir(): Can NOT make directory: " 
+				+ app_dir_ext_path_temp);
 		return null;
 	}
 	
@@ -455,11 +462,14 @@ public class Utils
 			}
 			return dir.getAbsolutePath();
 		}
-		Log.w(Utils.class.getName(), "makeDir(): Can NOT make directory, parent folder path is null: " + parentFolderPath);
+		Log.w(Utils.class.getName(), 
+				"makeDir(): Can NOT make directory, parent folder path is null: " 
+				+ parentFolderPath);
 		return null;
 	}
 	
-	public static void playRecord(Context context, String audioFileName) throws ActivityNotFoundException
+	public static void playRecord(Context context, String audioFileName) 
+			throws ActivityNotFoundException
 	 {
 		 Intent intent = new Intent(android.content.Intent.ACTION_VIEW);
          Uri data = Uri.parse("file://" + audioFileName);
@@ -474,8 +484,9 @@ public class Utils
 		DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
 		float screenWidthDp = displayMetrics.widthPixels / displayMetrics.density; 
 		float screenHeightDp = displayMetrics.heightPixels / displayMetrics.density;
-		Log.w(Utils.class.getName(), "getScreenSize() gets the screen size in DP width=" + screenWidthDp
-					+ " height=" + screenHeightDp);
+		Log.w(Utils.class.getName(), 
+				"getScreenSize() gets the screen size in DP width=" 
+				+ screenWidthDp + " height=" + screenHeightDp);
 		
 		// use width and height as in vertical mode, so width < height
 		if(screenWidthDp > screenHeightDp)

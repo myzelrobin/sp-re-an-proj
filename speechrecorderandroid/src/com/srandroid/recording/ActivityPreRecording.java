@@ -4,6 +4,7 @@
 package com.srandroid.recording;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import com.srandroid.speechrecorder.R;
@@ -15,12 +16,15 @@ import com.srandroid.main.ActivityScriptDetails;
 import com.srandroid.util.Utils;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -189,7 +193,15 @@ public class ActivityPreRecording extends Activity
 		     // actionbar buttons
         	case R.id.act_prerecording_button_test:
         		
-        		// a method to insert new session
+        		Uri uriNewSessionitem = insertNewSession();
+        		
+        		Log.w(this.getClass().getName(), "inserted new session item:" + uriNewSessionitem);
+        		
+        		Utils.ConstantVars.sessionItemIdForNewSession = 
+        				uriNewSessionitem.getLastPathSegment();
+        		
+        		Log.w(this.getClass().getName(), "new session item id=" 
+        				+ Utils.ConstantVars.sessionItemIdForNewSession);
         		
 	    		Utils.toastTextToUser(this, "start test recording");
 	    		
@@ -206,6 +218,7 @@ public class ActivityPreRecording extends Activity
 	    return super.onOptionsItemSelected(item);
     }
 	
+
 	@Override
 	protected void onSaveInstanceState(Bundle savedInstanceState) 
 	{
@@ -228,6 +241,23 @@ public class ActivityPreRecording extends Activity
 	{
 	    getActionBar().setTitle(title);
 	}
+	
+	
+	private Uri insertNewSession() 
+	{
+		ContentValues values = new ContentValues();
+		
+		TableSessions.setValuesForInsertSessionItem(values, 
+				Utils.ConstantVars.scriptItemIdForNewSession, 
+				Utils.ConstantVars.speakerItemIdForNewSession);
+		
+		Uri uriNewSessionItem = 
+				getContentResolver().insert(SrmUriMatcher.CONTENT_URI_TABLE_SESSIONS, values);
+		
+		return uriNewSessionItem;
+		
+	}
+
 
 	private void fillSpeakerItem(View view)
 	{

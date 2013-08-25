@@ -91,8 +91,8 @@ public class SrmRecorder
 		{
 		   Log.w(this.getClass().getName(), 
 				   "Folder to save audio file doese NOT exist, save audio file to " 
-						   + Utils.ConstantVars.REC_TEST_DIR_EXT_PATH);
-		   dirPath = Utils.ConstantVars.REC_TEST_DIR_EXT_PATH;
+						   + Utils.ConstantVars.TEST_MIC_DIR_EXT_PATH);
+		   dirPath = Utils.ConstantVars.TEST_MIC_DIR_EXT_PATH;
 		}
 		if(fileName == null)
 		{
@@ -116,8 +116,9 @@ public class SrmRecorder
 		if(dirPath == null)
 		{
 		   Log.w(this.getClass().getName(), 
-				   "Folder to save audio file doese NOT exist, save audio file to " + Utils.ConstantVars.REC_TEST_DIR_EXT_PATH);
-		   dirPath = Utils.ConstantVars.REC_TEST_DIR_EXT_PATH;
+				   "Folder to save audio file doese NOT exist, save audio file to " 
+					+ Utils.ConstantVars.TEST_MIC_DIR_EXT_PATH);
+		   dirPath = Utils.ConstantVars.TEST_MIC_DIR_EXT_PATH;
 		}
 		if(fileName == null)
 		{

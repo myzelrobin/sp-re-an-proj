@@ -3,10 +3,13 @@
  */
 package com.srandroid.database;
 
+import java.util.Calendar;
+
 import com.srandroid.util.Utils;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.text.format.Time;
 import android.util.Log;
 
 
@@ -80,6 +83,7 @@ public class TableSessions
 			values.put(COLUMN_GPS_DATA, Utils.ConstantVars.GPS_INFO);
 			values.put(COLUMN_IS_FINISHED, "finished");
 			values.put(COLUMN_IS_UPLOADED, "unuploaded");
+			values.put(COLUMN_LAST_SECTION, "null");
 			values.put(COLUMN_SCRIPT_ID, ""+i);
 			values.put(COLUMN_SPEAKER_ID, ""+i);
 			db.insert(TABLE_SESSIONS, null, values);
@@ -87,6 +91,59 @@ public class TableSessions
 		
 	}
 	
+	
+	public static void setValuesForInsertSessionItem(ContentValues values, 
+			String scriptId, 
+			String speakerId)
+	{
+		// is_finished, is_uploaded,
+		values.put(COLUMN_IS_FINISHED, "unfinished");
+		values.put(COLUMN_IS_UPLOADED, "unuploaded");
+		
+		// last section
+		values.put(COLUMN_LAST_SECTION, "null");
+		
+		// date
+		Calendar cal = Calendar.getInstance();
+	    int mYear = cal.get(Calendar.YEAR);
+	    int mMonth = cal.get(Calendar.MONTH);
+	    int mDay = cal.get(Calendar.DAY_OF_MONTH);
+	    String sDate = "" + mYear + "-" + mMonth + "-" + mDay;
+	    values.put(COLUMN_DATE, sDate);
+	    
+	    // time
+	    Time time = new Time();
+	    time.setToNow();
+	    int mHour = time.hour;
+	    int mMinute = time.minute;
+	    int mSecond = time.second;
+	    String sTime = "" + mHour + ":" + mMinute + ":" + mSecond;
+	    values.put(COLUMN_TIME, sTime);
+	    
+	    
+	    // place, gps_data
+	    if(Utils.ConstantVars.GPS_INFO != "device unavailable")
+	    {
+	    	
+	    }
+	    else
+	    {
+	    	String sPlace = "Munich";
+	    	values.put(COLUMN_PLACE, sPlace);
+	    	
+	    	values.put(COLUMN_GPS_DATA, Utils.ConstantVars.GPS_INFO);
+	    }
+	    
+	    // device data
+	    values.put(COLUMN_DEVICE_DATA, Utils.ConstantVars.DEVICE_ID);
+	    
+	    // script_id
+	    values.put(COLUMN_SCRIPT_ID, Integer.parseInt(scriptId));
+	    
+	    // speaker_id
+	    values.put(COLUMN_SPEAKER_ID, Integer.parseInt(speakerId));
+	    
+	}
 
 	public static class Sessionitem {
 	

@@ -3,8 +3,13 @@
  */
 package com.srandroid.database;
 
+import java.util.Calendar;
+
+import com.srandroid.util.Utils;
+
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.text.format.Time;
 import android.util.Log;
 
 
@@ -63,6 +68,21 @@ public class TableRecords
 			else values.put(COLUMN_ISUPLOADED, "unuploaded");
 			db.insert(TABLE_RECORDS, null, values);
 		}
+		
+	}
+	
+	public static void setValuesForInsertRecordItem(ContentValues values, 
+			String recFilepath,
+			String sectionId)
+	{
+		// section_id
+		values.put(COLUMN_SECTION_ID, Integer.parseInt(sectionId));
+		
+		// record_path
+		values.put(COLUMN_FILEPATH, recFilepath);
+		
+		// is_uploaded
+		values.put(COLUMN_ISUPLOADED, "unuploaded");
 		
 	}
 

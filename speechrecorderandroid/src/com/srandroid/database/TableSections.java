@@ -3,6 +3,7 @@
  */
 package com.srandroid.database;
 
+import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
@@ -17,9 +18,9 @@ public class TableSections
 	public static final String TABLE_SECTIONS = "sections";
 	public static final String COLUMN_ID = "_id"; // key
 	public static final String COLUMN_SECTIONID_INSCRIPT = "sctionid_inscript"; // text not null
-	public static final String COLUMN_SCRIPT_ID = "script_id"; // foreign key reference scritps(_id)
 	public static final String COLUMN_INTROTEXT = "intro_text"; // text not null 
 	public static final String COLUMN_CONTENTTEXT = "cont_text"; // text not null 
+	public static final String COLUMN_SCRIPT_ID = "script_id"; // foreign key reference scritps(_id)
 	
 	// SQL statement CREATE TABLE sections
 	private static final String CREATE_TABLE_SECTIONS = 
@@ -47,6 +48,22 @@ public class TableSections
 		Log.w(TableSections.class.getName(), "onUpgrade(): will upgrade table: " + TABLE_SECTIONS);
 		db.execSQL("drop table if exists " + TABLE_SECTIONS  + ";\n");
 		onCreate(db);
+	}
+	
+	public static void setValuesForInsertSectionItem(ContentValues values, 
+			String scriptId,
+			String sectionIdInScript,
+			String intro,
+			String content)
+	{
+		values.put(COLUMN_SCRIPT_ID, Integer.parseInt(scriptId));
+		
+		values.put(COLUMN_SECTIONID_INSCRIPT, sectionIdInScript);
+		
+		values.put(COLUMN_INTROTEXT, intro);
+		
+		values.put(COLUMN_CONTENTTEXT, content);
+		
 	}
 	
 	

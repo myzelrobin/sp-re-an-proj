@@ -75,6 +75,26 @@ public class TableSpeakers
 	}
 	
 
+	public static void setValuesForInsertSectionItem(ContentValues values, 
+			String firstname,
+			String surname,
+			String accent,
+			String sex,
+			String birthday)
+	{
+		values.put(COLUMN_FIRSTNAME, firstname);
+		
+		values.put(COLUMN_SURNAME, surname);
+		
+		values.put(COLUMN_ACCENT, accent);
+		
+		values.put(COLUMN_SEX, sex);
+		
+		values.put(COLUMN_BIRTHDAY, birthday);
+		
+		
+	}
+	
 	public static class SpeakerItem {
 
 		private String item_id = "speaker#";
