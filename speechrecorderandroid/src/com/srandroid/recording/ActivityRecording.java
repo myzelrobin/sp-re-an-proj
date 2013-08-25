@@ -54,15 +54,15 @@ public class ActivityRecording extends Activity
 	
 
 	
-	protected Button bRecord;
+	private static Button bRecord;
 	private int isBRecordClicked = 0;
-	protected Button bPlay;
-	protected Button bNext;
-	protected Button bPrev;
+	private static Button bPlay;
+	private static Button bNext;
+	private static Button bPrev;
 	
-	protected ImageView imageCircle1;
-	protected ImageView imageCircle2;
-	protected ImageView imageCircle3;
+	private static ImageView imageCircle1;
+	private static ImageView imageCircle2;
+	private static ImageView imageCircle3;
 	
 	private LocalAdapterForActRecording adapter;
 	
