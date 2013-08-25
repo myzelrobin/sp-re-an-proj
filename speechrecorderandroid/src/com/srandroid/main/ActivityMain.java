@@ -687,8 +687,7 @@ public class ActivityMain extends Activity {
 					case Utils.ConstantVars.POS_SESSIONS:
 						
 						Log.w(this.getActivity().getClass().getName(), 
-								"clicked session ttem position=" 
-										+ " key_id=" + test + " rowId=" + rowId );
+								"clicked session ttem position=" + position + " rowId=" + rowId );
 						Intent i1=new Intent(this.getActivity(), ActivitySessionDetails.class);
 						i1.putExtra("itemId", Long.toString(rowId));
 						this.getActivity().startActivity(i1);
@@ -697,8 +696,7 @@ public class ActivityMain extends Activity {
 						
 					case Utils.ConstantVars.POS_SCRIPTS:
 						Log.w(this.getActivity().getClass().getName(), 
-								"clicked script item position=" 
-										+ " key_id=" + test + " rowId=" + rowId );
+								"clicked script item position=" + position + " rowId=" + rowId );
 						
 						Intent i2=new Intent(this.getActivity(), ActivityScriptDetails.class);
 						i2.putExtra("itemId", Long.toString(rowId));
@@ -708,8 +706,7 @@ public class ActivityMain extends Activity {
 						
 					case Utils.ConstantVars.POS_SPEAKERS:
 						Log.w(this.getActivity().getClass().getName(), 
-								"clicked speaker item position=" 
-										+ " key_id=" + test + " rowId=" + rowId);
+								"clicked speaker item position=" + position + " rowId=" + rowId);
 						
 						Intent i3=new Intent(this.getActivity(), ActivitySpeakerDetails.class);
 						i3.putExtra("itemId", Long.toString(rowId));

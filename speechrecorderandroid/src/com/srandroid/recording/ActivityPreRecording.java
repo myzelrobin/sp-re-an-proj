@@ -419,7 +419,8 @@ public class ActivityPreRecording extends Activity
 		}
 
 		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
+		public View getView(int position, View convertView, ViewGroup parent) 
+		{
 			
 			LinearLayout itemView = null;
 			

@@ -106,6 +106,12 @@
             android:label="@string/act_finishrecording_title" >
         </activity>
         
+        <activity 
+            android:screenOrientation="landscape"
+            android:name="com.srandroid.main.TestActivitySessionDetails"
+            android:label="@string/act_sessiondetails_title" >
+        </activity>
+        
          <provider
             android:authorities="com.srandroid.contentprovider"
             android:name="com.srandroid.database.SrmContentProvider" >
