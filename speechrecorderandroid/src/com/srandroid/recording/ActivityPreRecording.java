@@ -204,9 +204,9 @@ public class ActivityPreRecording extends Activity
         				+ Utils.ConstantVars.sessionItemIdForNewSession);
         		
         		
-        		Utils.parseScript(Utils.ConstantVars.exampleScriptFilepath, 
-        				Utils.ConstantVars.scriptItemForNewSession, 
-        				Utils.ConstantVars.recordItemListForNewSession);
+//        		Utils.parseScript(Utils.ConstantVars.exampleScriptFilepath, 
+//        				Utils.ConstantVars.scriptItemForNewSession, 
+//        				Utils.ConstantVars.recordItemListForNewSession);
         		
 	    		Utils.toastTextToUser(this, "start test recording");
 	    		
