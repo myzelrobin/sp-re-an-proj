@@ -474,9 +474,9 @@ public class ActivityRecording extends Activity
 					        {
 					        	Log.w(ActivityRecording.class.getName(), "created new Thread, start updateing images");
 					        	
-					        	imageCircle1.setImageResource(R.drawable.icon_circle_red);
-								imageCircle2.setImageResource(R.drawable.icon_circle_red);
-								imageCircle3.setImageResource(R.drawable.icon_circle_red);
+//					        	imageCircle1.setImageResource(R.drawable.icon_circle_red);
+//								imageCircle2.setImageResource(R.drawable.icon_circle_red);
+//								imageCircle3.setImageResource(R.drawable.icon_circle_red);
 								
 								try {
 									sleep((Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay)) / 2);
@@ -488,9 +488,9 @@ public class ActivityRecording extends Activity
 									e.printStackTrace();
 								}
 								
-								imageCircle1.setImageResource(R.drawable.icon_circle_yellow);
-								imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
-								imageCircle3.setImageResource(R.drawable.icon_circle_yellow);
+//								imageCircle1.setImageResource(R.drawable.icon_circle_yellow);
+//								imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
+//								imageCircle3.setImageResource(R.drawable.icon_circle_yellow);
 								
 								try {
 									sleep(Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay) / 2);
@@ -502,9 +502,9 @@ public class ActivityRecording extends Activity
 									e.printStackTrace();
 								}
 								
-								imageCircle1.setImageResource(R.drawable.icon_circle_green);
-								imageCircle2.setImageResource(R.drawable.icon_circle_green);
-								imageCircle3.setImageResource(R.drawable.icon_circle_green);
+//								imageCircle1.setImageResource(R.drawable.icon_circle_green);
+//								imageCircle2.setImageResource(R.drawable.icon_circle_green);
+//								imageCircle3.setImageResource(R.drawable.icon_circle_green);
 					        }
 					    }.start();
 					    
@@ -532,9 +532,9 @@ public class ActivityRecording extends Activity
 					        	
 					        	srmRecorder.stopRecording();
 								
-								imageCircle1.setImageResource(R.drawable.icon_circle_red);
-								imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
-								imageCircle3.setImageResource(R.drawable.icon_circle_green);
+//								imageCircle1.setImageResource(R.drawable.icon_circle_red);
+//								imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
+//								imageCircle3.setImageResource(R.drawable.icon_circle_green);
 								
 								bRecord.setText(getResources().getString(R.string.record));
 								bPlay.setEnabled(true);
