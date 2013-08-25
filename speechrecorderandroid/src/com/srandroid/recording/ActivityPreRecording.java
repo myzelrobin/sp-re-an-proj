@@ -203,6 +203,11 @@ public class ActivityPreRecording extends Activity
         		Log.w(this.getClass().getName(), "new session item id=" 
         				+ Utils.ConstantVars.sessionItemIdForNewSession);
         		
+        		
+        		Utils.parseScript(Utils.ConstantVars.exampleScriptFilepath, 
+        				Utils.ConstantVars.scriptItemForNewSession, 
+        				Utils.ConstantVars.recordItemListForNewSession);
+        		
 	    		Utils.toastTextToUser(this, "start test recording");
 	    		
 	    		Intent newI = new Intent(this, ActivityRecording.class);

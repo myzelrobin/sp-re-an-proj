@@ -22,12 +22,6 @@ public class TableScripts
 	public static final String COLUMN_COUNT = "count"; // integer
 	public static final String COLUMN_SERVER_ID = "server_id"; // foreign key reference servers(id)
 	
-
-	public static final String[] ALL_COLUMNS = 
-		{COLUMN_ID,
-		COLUMN_DESCRIPTION,
-		COLUMN_FILEPATH,
-		COLUMN_SERVER_ID};
 	
 	// SQL statement CREATE TABLE scripts
 	private static final String CREATE_TABLE_SCRIPTS = 
@@ -92,43 +86,40 @@ public class TableScripts
 
 	public static class ScriptItem {
 
-		private String item_id = "script#";
-		private String key_id = null; // key
-		private String filepath = null;
-		private String description = null;
-		private String server_id = null;
+		private String idInTable ;
+		private String filepath;
+		private String description; // key "ScriptName"
+		private String serverId;
+		
+		private String filename;
+		private String databaseName;
+		private String scriptName;
+		private String scriptAuthor;
+		private String EmailAuthor;
+		
+		private String recordingItemsCount;
+		
 		
 		public ScriptItem() {
 			// TODO Auto-generated constructor stub
 		}
 
-		/**
-		 * @return the item_id
-		 */
-		public String getItem_id() {
-			return item_id;
-		}
 
 		/**
-		 * @param item_id the item_id to set
+		 * @return the idInTable
 		 */
-		public void setItem_id(String item_id) {
-			this.item_id = item_id;
+		public String getIdInTable() {
+			return idInTable;
 		}
 
-		/**
-		 * @return the key_id
-		 */
-		public String getKey_id() {
-			return key_id;
-		}
 
 		/**
-		 * @param key_id the key_id to set
+		 * @param idInTable the idInTable to set
 		 */
-		public void setKey_id(String key_id) {
-			this.key_id = key_id;
+		public void setIdInTable(String idInTable) {
+			this.idInTable = idInTable;
 		}
+
 
 		/**
 		 * @return the filepath
@@ -137,12 +128,14 @@ public class TableScripts
 			return filepath;
 		}
 
+
 		/**
 		 * @param filepath the filepath to set
 		 */
 		public void setFilepath(String filepath) {
 			this.filepath = filepath;
 		}
+
 
 		/**
 		 * @return the description
@@ -151,6 +144,7 @@ public class TableScripts
 			return description;
 		}
 
+
 		/**
 		 * @param description the description to set
 		 */
@@ -158,19 +152,119 @@ public class TableScripts
 			this.description = description;
 		}
 
-		/**
-		 * @return the server_id
-		 */
-		public String getServer_id() {
-			return server_id;
-		}
 
 		/**
-		 * @param server_id the server_id to set
+		 * @return the serverId
 		 */
-		public void setServer_id(String server_id) {
-			this.server_id = server_id;
+		public String getServerId() {
+			return serverId;
 		}
+
+
+		/**
+		 * @param serverId the serverId to set
+		 */
+		public void setServerId(String serverId) {
+			this.serverId = serverId;
+		}
+
+
+		/**
+		 * @return the filename
+		 */
+		public String getFilename() {
+			return filename;
+		}
+
+
+		/**
+		 * @param filename the filename to set
+		 */
+		public void setFilename(String filename) {
+			this.filename = filename;
+		}
+
+
+		/**
+		 * @return the databaseName
+		 */
+		public String getDatabaseName() {
+			return databaseName;
+		}
+
+
+		/**
+		 * @param databaseName the databaseName to set
+		 */
+		public void setDatabaseName(String databaseName) {
+			this.databaseName = databaseName;
+		}
+
+
+		/**
+		 * @return the scriptName
+		 */
+		public String getScriptName() {
+			return scriptName;
+		}
+
+
+		/**
+		 * @param scriptName the scriptName to set
+		 */
+		public void setScriptName(String scriptName) {
+			this.scriptName = scriptName;
+		}
+
+
+		/**
+		 * @return the scriptAuthor
+		 */
+		public String getScriptAuthor() {
+			return scriptAuthor;
+		}
+
+
+		/**
+		 * @param scriptAuthor the scriptAuthor to set
+		 */
+		public void setScriptAuthor(String scriptAuthor) {
+			this.scriptAuthor = scriptAuthor;
+		}
+
+
+		/**
+		 * @return the emailAuthor
+		 */
+		public String getEmailAuthor() {
+			return EmailAuthor;
+		}
+
+
+		/**
+		 * @param emailAuthor the emailAuthor to set
+		 */
+		public void setEmailAuthor(String emailAuthor) {
+			EmailAuthor = emailAuthor;
+		}
+
+
+		/**
+		 * @return the recordingItemsCount
+		 */
+		public String getRecordingItemsCount() {
+			return recordingItemsCount;
+		}
+
+
+		/**
+		 * @param recordingItemsCount the recordingItemsCount to set
+		 */
+		public void setRecordingItemsCount(String recordingItemsCount) {
+			this.recordingItemsCount = recordingItemsCount;
+		}
+
+
 
 	}
 

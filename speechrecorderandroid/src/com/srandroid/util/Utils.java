@@ -1,16 +1,22 @@
 package com.srandroid.util;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
+
+import org.xmlpull.v1.XmlPullParserException;
 
 import com.srandroid.speechrecorder.R;
 import com.srandroid.database.DBAccessor;
+import com.srandroid.database.ScriptXMLParser;
+import com.srandroid.database.TableRecords.RecordItem;
 import com.srandroid.database.TableScripts.ScriptItem;
 import com.srandroid.database.TableSpeakers.SpeakerItem;
 
@@ -150,6 +156,10 @@ public class Utils
 		public static String speakerItemIdForNewSession = null;
 		public static String scriptItemIdForNewSession = null;
 		public static String sessionItemIdForNewSession = null;
+		public static ScriptItem scriptItemForNewSession = null;
+		public static List<RecordItem> recordItemListForNewSession = null;
+		
+		public static String exampleScriptFilepath = null;
 		
 		// database
 		public static final String TESTDB_FOLDER_PATH = 
@@ -387,6 +397,8 @@ public class Utils
 	
 	public static void copyScriptFilesToAppExtFolder(String fileName, AssetManager assetsManager)
 	{
+		Log.w(Utils.class.getName(), "copyScriptFilesToAppExtFolder()" 
+				+ "will copy script " + fileName + " to " + Utils.ConstantVars.SCRIPTS_DIR_EXT_PATH);
 		
 		// better  not hard code storage directory . use Environment.getExternalStorageDirectory()
 		String destFilePath = Utils.ConstantVars.SCRIPTS_DIR_EXT_PATH + File.separator + fileName;
@@ -394,27 +406,71 @@ public class Utils
 		{
 
 	        File destFile = new File(destFilePath);
-	        InputStream in = assetsManager.open(fileName);
-	        OutputStream out = new FileOutputStream(destFile);
+	        if(!destFile.exists())
+	        {
+	        	InputStream in = assetsManager.open(fileName);
+		        OutputStream out = new FileOutputStream(destFile);
 
-	        byte[] buf = new byte[1024];
-	        int len;
-	        while ((len = in.read(buf)) > 0) {
-	            out.write(buf, 0, len);
+		        byte[] buf = new byte[1024];
+		        int len;
+		        while ((len = in.read(buf)) > 0) {
+		            out.write(buf, 0, len);
+		        }
+		        in.close();
+		        out.close();
+		        
+		        Log.w(Utils.class.getName(), "copyScriptFilesToAppExtFolder()" 
+						+ "finished copying script " + fileName 
+						+ " to " + Utils.ConstantVars.SCRIPTS_DIR_EXT_PATH);
+		       
 	        }
-	        in.close();
-	        out.close();
-	        System.out.println("File copied.");
+	        Log.w(Utils.class.getName(), "copyScriptFilesToAppExtFolder()" 
+					+ " file exists " + destFile.getAbsolutePath()) ;
+	        
+	        if(destFile.getName() == "example_script.xml")
+	        	Utils.ConstantVars.exampleScriptFilepath = destFile.getAbsolutePath();
+	        
 	    } catch (FileNotFoundException ex) {
-	    	Log.w(Utils.class.getName(), "copyScriptFilesToAppExtFolder()" 
+	    	Log.w(Utils.class.getName(), "copyScriptFilesToAppExtFolder() error: " 
 	    			+ ex.getMessage() + " in " 
 	    			+ Utils.ConstantVars.SCRIPTS_DIR_EXT_PATH);
 	    } catch (IOException e) {
-	    	Log.w(Utils.class.getName(), "copyScriptFilesToAppExtFolder()" 
+	    	Log.w(Utils.class.getName(), "copyScriptFilesToAppExtFolder() error:" 
 	    			+ e.getMessage());
 	    }
 	}
 	
+	public static void parseScript(
+			String scriptFilepath, 
+			ScriptItem scriptItem, 
+			List<RecordItem> recordItemList)
+	{
+		ScriptXMLParser scriptParser = new ScriptXMLParser();
+		
+		try {
+			InputStream scriptFile = new FileInputStream(scriptFilepath);
+			
+			scriptItem = scriptParser.parseScriptMetadata(scriptFile);
+			
+			scriptFile.close();
+			
+			InputStream scriptFile2 = new FileInputStream(scriptFilepath);
+			
+			recordItemList = scriptParser.parseScriptRecordings(scriptFile2);
+			
+			scriptFile.close();
+			
+		} catch (FileNotFoundException e) {
+			Log.w(Utils.class.getName(), "parseScript() error:" 
+					+ e.getMessage());
+		} catch (XmlPullParserException e) {
+			Log.w(Utils.class.getName(), "parseScript() error:" 
+					+ e.getMessage());
+		} catch (IOException e) {
+			Log.w(Utils.class.getName(), "parseScript() error:" 
+					+ e.getMessage());
+		}
+	}
 	
 
 	public static void getDeviceId(Context context) 

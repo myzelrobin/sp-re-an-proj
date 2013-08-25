@@ -1,5 +1,6 @@
 package com.srandroid.main;
 
+import java.io.File;
 import java.sql.Savepoint;
 import java.util.Arrays;
 
@@ -112,8 +113,10 @@ public class ActivityMain extends Activity {
 		
 		new Thread()
 	    {
-	        public void run() {
-	            Utils.copyScriptFilesToAppExtFolder("example_script.xml", getApplication().getAssets());
+	        public void run() 
+	        {
+	            Utils.copyScriptFilesToAppExtFolder("example_script.xml", 
+	            		getApplication().getAssets());
 	        }
 	    }.start();
 		

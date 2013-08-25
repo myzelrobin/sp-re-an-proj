@@ -23,8 +23,12 @@ public class TableRecords
 	public static final String TABLE_RECORDS = "records";
 	public static final String COLUMN_ID = "_id"; // key
 	public static final String COLUMN_FILEPATH = "filepath"; // text not null
-	public static final String COLUMN_ISUPLOADED = "is_uploaded"; //  text default: false
-	public static final String COLUMN_SECTION_ID = "section_id"; // foreign key reference sections(_id)
+	public static final String COLUMN_INSTRUCTION = "instruction"; // text not null
+	public static final String COLUMN_PROMPT = "prompt"; // text not null
+	public static final String COLUMN_COMMENT = "comment"; // text not null
+	public static final String COLUMN_ITEMCODE = "itemcode"; // text not null
+	public static final String COLUMN_ISUPLOADED = "is_uploaded"; //  text default: uploaded/unuploaded
+	public static final String COLUMN_SCRIPT_ID = "script_id"; // foreign key reference scripts(_id)
 	
 	
 	
@@ -35,9 +39,13 @@ public class TableRecords
 		+ " ( "
 		+ COLUMN_ID + " integer primary key autoincrement, "
 		+ COLUMN_FILEPATH + " text not null, "
+		+ COLUMN_INSTRUCTION + " text not null, "
+		+ COLUMN_PROMPT + " text not null, "
+		+ COLUMN_COMMENT + " text, "
+		+ COLUMN_ITEMCODE + " text not null, "
 		+ COLUMN_ISUPLOADED + " text, "
-		+ COLUMN_SECTION_ID + " integer, "
-		+ " FOREIGN KEY (" + COLUMN_SECTION_ID + ") REFERENCES sections(_id)"
+		+ COLUMN_SCRIPT_ID + " integer, "
+		+ " FOREIGN KEY (" + COLUMN_SCRIPT_ID + ") REFERENCES scripts(_id)"
 		+ " );";
 	
 	// create table records
@@ -45,7 +53,6 @@ public class TableRecords
 	{
 		Log.w(TableRecords.class.getName(), "onCreate(): will create table: " + TABLE_RECORDS);
 		db.execSQL(CREATE_TABLE_RECORDS);
-		insertRecordExamples(db);
 	}
 	
 	// upgrade table records
@@ -56,100 +63,113 @@ public class TableRecords
 		onCreate(db);
 	}
 	
-	public static void insertRecordExamples(SQLiteDatabase db) 
-	{
-		Log.w(TableRecords.class.getName(), "insertRecordExamples() will insert examples");
-		ContentValues values = new ContentValues(); 
-		for(int i=1; i<11; i++)
-		{
-			values.put(COLUMN_FILEPATH, "/mnt/sdcard/APP_FOLDER/recrods/section_id/" + i);
-			values.put(COLUMN_SECTION_ID, i);
-			if( i % 2 == 0) values.put(COLUMN_ISUPLOADED, "uploaded");
-			else values.put(COLUMN_ISUPLOADED, "unuploaded");
-			db.insert(TABLE_RECORDS, null, values);
-		}
-		
-	}
-	
 	public static void setValuesForInsertRecordItem(ContentValues values, 
+			String scriptId,
 			String recFilepath,
-			String sectionId)
+			String instruction,
+			String prompt,
+			String comment,
+			String itemcode)
 	{
 		// section_id
-		values.put(COLUMN_SECTION_ID, Integer.parseInt(sectionId));
+		values.put(COLUMN_SCRIPT_ID, Integer.parseInt(scriptId));
+
+		// is_uploaded
+		values.put(COLUMN_ISUPLOADED, "unuploaded");
 		
 		// record_path
 		values.put(COLUMN_FILEPATH, recFilepath);
 		
-		// is_uploaded
-		values.put(COLUMN_ISUPLOADED, "unuploaded");
+		values.put(COLUMN_INSTRUCTION, instruction);
+		
+		values.put(COLUMN_PROMPT, prompt);
+		
+		values.put(COLUMN_COMMENT, comment);
+		
+		values.put(COLUMN_ITEMCODE, itemcode);
 		
 	}
 
-	public class RecordItem {
+	public static class RecordItem {
 
-		private String item_id = "record#";
-		private String key_id = null; 
-		private String filepath = null; 
-		private String section_id = null;
-		private String isUploaded = null;
-		public RecordItem() {
+		private String idInTable;
+		private String filepath; 
+		private String scriptId;
+		private String isUploaded;
+		
+		// section information, important?
+		// attributes
+		private String sectionname;
+		private String mode;
+		private String order;
+		private String promptphase;
+		private String speakerdisplay;
+
+		// recording elememt
+		private String itemcode;
+		
+		private String postrecdelay;
+		private String prerecdelay;
+		private String recduration;
+		
+		private String recinstructions;
+		private String recprompt;
+		private String reccomment;
+		
+		public RecordItem() 
+		{
 			
 		}
+
 		/**
-		 * @return the item_id
+		 * @return the idInTable
 		 */
-		public String getItem_id() {
-			return item_id;
+		public String getIdInTable() {
+			return idInTable;
 		}
+
 		/**
-		 * @param item_id the item_id to set
+		 * @param idInTable the idInTable to set
 		 */
-		public void setItem_id(String item_id) {
-			this.item_id = item_id;
+		public void setIdInTable(String idInTable) {
+			this.idInTable = idInTable;
 		}
-		/**
-		 * @return the key_id
-		 */
-		public String getKey_id() {
-			return key_id;
-		}
-		/**
-		 * @param key_id the key_id to set
-		 */
-		public void setKey_id(String key_id) {
-			this.key_id = key_id;
-		}
+
 		/**
 		 * @return the filepath
 		 */
 		public String getFilepath() {
 			return filepath;
 		}
+
 		/**
 		 * @param filepath the filepath to set
 		 */
 		public void setFilepath(String filepath) {
 			this.filepath = filepath;
 		}
+
 		/**
-		 * @return the section_id
+		 * @return the scriptId
 		 */
-		public String getSection_id() {
-			return section_id;
+		public String getScriptId() {
+			return scriptId;
 		}
+
 		/**
-		 * @param section_id the section_id to set
+		 * @param scriptId the scriptId to set
 		 */
-		public void setSection_id(String section_id) {
-			this.section_id = section_id;
+		public void setScriptId(String scriptId) {
+			this.scriptId = scriptId;
 		}
+
 		/**
 		 * @return the isUploaded
 		 */
 		public String getIsUploaded() {
 			return isUploaded;
 		}
+
 		/**
 		 * @param isUploaded the isUploaded to set
 		 */
@@ -157,6 +177,173 @@ public class TableRecords
 			this.isUploaded = isUploaded;
 		}
 
+		/**
+		 * @return the sectionname
+		 */
+		public String getSectionname() {
+			return sectionname;
+		}
+
+		/**
+		 * @param sectionname the sectionname to set
+		 */
+		public void setSectionname(String sectionname) {
+			this.sectionname = sectionname;
+		}
+
+		/**
+		 * @return the mode
+		 */
+		public String getMode() {
+			return mode;
+		}
+
+		/**
+		 * @param mode the mode to set
+		 */
+		public void setMode(String mode) {
+			this.mode = mode;
+		}
+
+		/**
+		 * @return the order
+		 */
+		public String getOrder() {
+			return order;
+		}
+
+		/**
+		 * @param order the order to set
+		 */
+		public void setOrder(String order) {
+			this.order = order;
+		}
+
+		/**
+		 * @return the promptphase
+		 */
+		public String getPromptphase() {
+			return promptphase;
+		}
+
+		/**
+		 * @param promptphase the promptphase to set
+		 */
+		public void setPromptphase(String promptphase) {
+			this.promptphase = promptphase;
+		}
+
+		/**
+		 * @return the speakerdisplay
+		 */
+		public String getSpeakerdisplay() {
+			return speakerdisplay;
+		}
+
+		/**
+		 * @param speakerdisplay the speakerdisplay to set
+		 */
+		public void setSpeakerdisplay(String speakerdisplay) {
+			this.speakerdisplay = speakerdisplay;
+		}
+
+		/**
+		 * @return the itemcode
+		 */
+		public String getItemcode() {
+			return itemcode;
+		}
+
+		/**
+		 * @param itemcode the itemcode to set
+		 */
+		public void setItemcode(String itemcode) {
+			this.itemcode = itemcode;
+		}
+
+		/**
+		 * @return the postrecdelay
+		 */
+		public String getPostrecdelay() {
+			return postrecdelay;
+		}
+
+		/**
+		 * @param postrecdelay the postrecdelay to set
+		 */
+		public void setPostrecdelay(String postrecdelay) {
+			this.postrecdelay = postrecdelay;
+		}
+
+		/**
+		 * @return the prerecdelay
+		 */
+		public String getPrerecdelay() {
+			return prerecdelay;
+		}
+
+		/**
+		 * @param prerecdelay the prerecdelay to set
+		 */
+		public void setPrerecdelay(String prerecdelay) {
+			this.prerecdelay = prerecdelay;
+		}
+
+		/**
+		 * @return the recduration
+		 */
+		public String getRecduration() {
+			return recduration;
+		}
+
+		/**
+		 * @param recduration the recduration to set
+		 */
+		public void setRecduration(String recduration) {
+			this.recduration = recduration;
+		}
+
+		/**
+		 * @return the recinstructions
+		 */
+		public String getRecinstructions() {
+			return recinstructions;
+		}
+
+		/**
+		 * @param recinstructions the recinstructions to set
+		 */
+		public void setRecinstructions(String recinstructions) {
+			this.recinstructions = recinstructions;
+		}
+
+		/**
+		 * @return the recprompt
+		 */
+		public String getRecprompt() {
+			return recprompt;
+		}
+
+		/**
+		 * @param recprompt the recprompt to set
+		 */
+		public void setRecprompt(String recprompt) {
+			this.recprompt = recprompt;
+		}
+
+		/**
+		 * @return the reccomment
+		 */
+		public String getReccomment() {
+			return reccomment;
+		}
+
+		/**
+		 * @param reccomment the reccomment to set
+		 */
+		public void setReccomment(String reccomment) {
+			this.reccomment = reccomment;
+		}
 	}
 
 }
