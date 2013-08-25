@@ -92,29 +92,29 @@ public class TableRecords
 
 	public static class RecordItem {
 
-		private String idInTable;
-		private String filepath; 
-		private String scriptId;
-		private String isUploaded;
+		public String idInTable;
+		public String filepath; 
+		public String scriptId;
+		public String isUploaded;
 		
 		// section information, important?
 		// attributes
-		private String sectionname;
-		private String mode;
-		private String order;
-		private String promptphase;
-		private String speakerdisplay;
+		public String sectionname;
+		public String mode;
+		public String order;
+		public String promptphase;
+		public String speakerdisplay;
 
 		// recording elememt
-		private String itemcode;
+		public String itemcode;
 		
-		private String postrecdelay;
-		private String prerecdelay;
-		private String recduration;
+		public String postrecdelay;
+		public String prerecdelay;
+		public String recduration;
 		
-		private String recinstructions;
-		private String recprompt;
-		private String reccomment;
+		public String recinstructions;
+		public String recprompt;
+		public String reccomment;
 		
 		public RecordItem() 
 		{

@@ -193,6 +193,7 @@ public class ActivityPreRecording extends Activity
 		     // actionbar buttons
         	case R.id.act_prerecording_button_test:
         		
+        		// insert new session
         		Uri uriNewSessionitem = insertNewSession();
         		
         		Log.w(this.getClass().getName(), "inserted new session item:" + uriNewSessionitem);
@@ -203,10 +204,15 @@ public class ActivityPreRecording extends Activity
         		Log.w(this.getClass().getName(), "new session item id=" 
         				+ Utils.ConstantVars.sessionItemIdForNewSession);
         		
+        		// insert new sections, XMLPullParser has bugs! 
+        		// Use fake ScriptItem and List<RecordItem> in Utils
+        		Utils.prepareItemsForNewSessions();
+        		
         		
 //        		Utils.parseScript(Utils.ConstantVars.exampleScriptFilepath, 
 //        				Utils.ConstantVars.scriptItemForNewSession, 
 //        				Utils.ConstantVars.recordItemListForNewSession);
+
         		
 	    		Utils.toastTextToUser(this, "start test recording");
 	    		

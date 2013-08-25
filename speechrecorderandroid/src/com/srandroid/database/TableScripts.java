@@ -86,16 +86,16 @@ public class TableScripts
 
 	public static class ScriptItem {
 
-		private String idInTable ;
-		private String filepath;
-		private String description; // key "ScriptName"
-		private String serverId;
+		public String idInTable ;
+		public String filepath;
+		public String description; // key "ScriptName"
+		public String serverId;
 		
-		private String filename;
-		private String databaseName;
-		private String scriptName;
-		private String scriptAuthor;
-		private String EmailAuthor;
+		public String filename;
+		public String databaseName;
+		public String scriptName;
+		public String scriptAuthor;
+		public String EmailAuthor;
 		
 		private String recordingItemsCount;
 		

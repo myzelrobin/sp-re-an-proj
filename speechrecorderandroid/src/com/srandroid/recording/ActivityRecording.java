@@ -3,21 +3,27 @@
  */
 package com.srandroid.recording;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.srandroid.database.TableRecords.RecordItem;
 import com.srandroid.database.TableScripts;
+import com.srandroid.database.TableScripts.ScriptItem;
 import com.srandroid.database.TableSessions;
 import com.srandroid.database.SrmContentProvider.SrmUriMatcher;
 import com.srandroid.recording.ActivityPreRecording.LocalAdapterForActPreRec;
 import com.srandroid.speechrecorder.R;
+import com.srandroid.util.SrmRecorder;
 import com.srandroid.util.Utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ClipData.Item;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -46,6 +52,8 @@ public class ActivityRecording extends Activity
 	
 	private GridView gridView;
 	
+
+	
 	private Button bRecord;
 	private int isBRecordClicked = 0;
 	private Button bPlay;
@@ -59,6 +67,15 @@ public class ActivityRecording extends Activity
 	private LocalAdapterForActRecording adapter;
 	
 	private OnClickListenerForRecording listener;
+	
+	private SrmRecorder srmRecorder;
+	
+	private int recItemIndex = 0;
+	
+	private ScriptItem scriptItem;
+	private List<RecordItem> recItemsList;
+	
+	private String recordFilepath;
 	
 	private static Activity thisAct;
 	/**
@@ -316,6 +333,7 @@ public class ActivityRecording extends Activity
     	}
 	}
 	
+	
 	protected class LocalAdapterForActRecording extends BaseAdapter
 	{
 		private Context context;
@@ -431,36 +449,144 @@ public class ActivityRecording extends Activity
 					if(isBRecordClicked == 0)
 					{
 						// start recording
-						isBRecordClicked = 1;
-						bRecord.setText(getResources().getString(R.string.stop));
+						isBRecordClicked = 1;						
 						
-						imageCircle1.setImageResource(R.drawable.icon_circle_yellow);
-						imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
-						imageCircle3.setImageResource(R.drawable.icon_circle_yellow);
+						scriptItem = Utils.ConstantVars.scriptItemForNewSession;
+						recItemsList = Utils.ConstantVars.recordItemListForNewSession;
+						
+						bRecord.setText(getResources().getString(R.string.stop));
+						bPlay.setEnabled(false);
+						bPrev.setEnabled(false);
+						bNext.setEnabled(false);
+						
+						srmRecorder = new SrmRecorder(Utils.ConstantVars.REC_FILES_DIR_EXT_PATH + File.separator + scriptItem.scriptName, 
+								recItemsList.get(recItemIndex).itemcode);
+						srmRecorder.startRecording();
+						
+						recordFilepath = srmRecorder.getAudioFile();
+						Log.w(ActivityRecording.class.getName(), "created new Recorder, start recording");
+						Log.w(ActivityRecording.class.getName(), "created new Recorder:" + recordFilepath);
+						
+						// change images
+						new Thread()
+					    {
+					        public void run() 
+					        {
+					        	Log.w(ActivityRecording.class.getName(), "created new Thread, start updateing images");
+					        	
+					        	imageCircle1.setImageResource(R.drawable.icon_circle_red);
+								imageCircle2.setImageResource(R.drawable.icon_circle_red);
+								imageCircle3.setImageResource(R.drawable.icon_circle_red);
+								
+								try {
+									sleep((Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay)) / 2);
+								} catch (NumberFormatException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								} catch (InterruptedException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								
+								imageCircle1.setImageResource(R.drawable.icon_circle_yellow);
+								imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
+								imageCircle3.setImageResource(R.drawable.icon_circle_yellow);
+								
+								try {
+									sleep(Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay) / 2);
+								} catch (NumberFormatException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								} catch (InterruptedException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								
+								imageCircle1.setImageResource(R.drawable.icon_circle_green);
+								imageCircle2.setImageResource(R.drawable.icon_circle_green);
+								imageCircle3.setImageResource(R.drawable.icon_circle_green);
+					        }
+					    }.start();
+					    
 					}
 					else if (isBRecordClicked == 1)
 					{
 						// stop recording
 						isBRecordClicked = 0;
-						bRecord.setText(getResources().getString(R.string.record));
 						
-						imageCircle1.setImageResource(R.drawable.icon_circle_green);
-						imageCircle2.setImageResource(R.drawable.icon_circle_green);
-						imageCircle3.setImageResource(R.drawable.icon_circle_green);
+						new Thread()
+					    {
+					        public void run() 
+					        {
+					        	Log.w(ActivityRecording.class.getName(), "created new Thread, stop recording");
+					        	
+					        	try {
+									sleep(Integer.parseInt(recItemsList.get(recItemIndex).postrecdelay));
+								} catch (NumberFormatException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								} catch (InterruptedException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+					        	
+					        	srmRecorder.stopRecording();
+								
+								imageCircle1.setImageResource(R.drawable.icon_circle_red);
+								imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
+								imageCircle3.setImageResource(R.drawable.icon_circle_green);
+								
+								bRecord.setText(getResources().getString(R.string.record));
+								bPlay.setEnabled(true);
+								bPrev.setEnabled(true);
+								bNext.setEnabled(true);
+					        	
+					        }
+					    }.start();
+						
+						
 					}
 					
 					break;
 				
 				case R.id.act_recording_control_button_play:
-					Utils.toastText(thisAct, "clicked Play");
+					// intent 
+					
+					// play the record
+					try {
+						Utils.playRecord(thisAct, srmRecorder.getAudioFile());
+					} catch (ActivityNotFoundException e) {
+						Log.w(ActivityRecording.class.getName(), 
+								"Utils.playRecord() throws Exceptions " + e.getMessage());
+					}
+					
+					bPlay.setEnabled(false);
 					break;
 					
 				case R.id.act_recording_control_button_previous:
+					// ner recoding
+					recItemIndex--;
+					if(recItemIndex==-1) recItemIndex = 0;
 					
+					bPlay.setEnabled(false);
+					
+					updateTextArea(gridView, 
+							recItemsList.get(recItemIndex).recinstructions, 
+							recItemsList.get(recItemIndex).recprompt);
 					break;
 				
 				case R.id.act_recording_control_button_next:
-					updateTextArea(gridView, "Intro", "Content");
+					// new recoding
+					recItemIndex++;
+					if(recItemIndex==5) recItemIndex = 0;
+					
+					bPlay.setEnabled(false);
+					
+					if(isTestRecroding) srmRecorder.finishedTestRecording();
+					
+					updateTextArea(gridView, 
+							recItemsList.get(recItemIndex).recinstructions, 
+							recItemsList.get(recItemIndex).recprompt);
 					
 					break;
 				default:
@@ -468,7 +594,11 @@ public class ActivityRecording extends Activity
 			}
 			
 		}
+
+
+		
 		
 	}
-	
+
+
 }

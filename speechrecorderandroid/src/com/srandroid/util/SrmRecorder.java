@@ -273,6 +273,7 @@ public class SrmRecorder
 		deleteRawFile();
 	}
 	
+	
 	public void stopTestMicrophone() 
 	{
 		if(null != audioRecorder)
@@ -423,27 +424,29 @@ public class SrmRecorder
 	
 	private String createFile()
 	{
-		File file = new File(dirPath, fileName);
+		File fileFolder = new File(dirPath);
 		
-		if(!file.exists())
+		if(!fileFolder.exists())
 		{
-			file.mkdirs();
-			Log.w(this.getClass().getName(), "getFileName(): make a new folder at " +  file.getAbsolutePath());
+			fileFolder.mkdirs();
+			Log.w(this.getClass().getName(), "createFile(): make a new folder at " +  fileFolder.getAbsolutePath());
 		}
-		String fileFullName = file.getAbsolutePath() + File.separator + System.currentTimeMillis() + SUFFIX;
+		
+		File file = new File(dirPath, fileName);
+		String fileFullName = file.getAbsolutePath() + "." + SUFFIX;
 		setAudioFile(fileFullName);
-		Log.w(this.getClass().getName(), "getFileName(): returns a new file at " +  fileFullName);
+		Log.w(this.getClass().getName(), "createFile(): returns a new file at " +  fileFullName);
 		return fileFullName;
 	}
 	
 	private String createRawFile() 
 	{
-		File file = new File(dirPath, fileName);
+		File fileFolder = new File(dirPath);
 		
-		if(!file.exists())
+		if(!fileFolder.exists())
 		{
-			file.mkdirs();
-			Log.w(this.getClass().getName(), "getRawFileName(): make a new folder at " +  file.getAbsolutePath());
+			fileFolder.mkdirs();
+			Log.w(this.getClass().getName(), "createRawFile(): make a new folder at " +  fileFolder.getAbsolutePath());
 		}
 		
 		File tempFile = new File(dirPath, AUDIO_RECORDER_TEMP_FILE);
@@ -454,9 +457,11 @@ public class SrmRecorder
 												+  tempFile.getAbsolutePath());
 			tempFile.delete();
 		}
-		String rawFileFullName = file.getAbsolutePath() + File.separator + AUDIO_RECORDER_TEMP_FILE;
+		
+		File file = new File(dirPath, fileName);
+		String rawFileFullName = file.getAbsolutePath() + "_" + AUDIO_RECORDER_TEMP_FILE;
 		setRawAudioFile(rawFileFullName);
-		Log.w(this.getClass().getName(), "getRawFileName(): returns a new rawfile at " + rawFileFullName);
+		Log.w(this.getClass().getName(), "createRawFile(): returns a new rawfile at " + rawFileFullName);
 		return rawFileFullName;
 	}
 	

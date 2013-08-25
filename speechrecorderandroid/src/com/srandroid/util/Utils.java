@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -443,51 +444,134 @@ public class Utils
 	    }
 	}
 	
-	public static void parseScript(
-			String scriptFilepath, 
-			ScriptItem scriptItem, 
-			List<RecordItem> recordItemList)
+	public static void prepareItemsForNewSessions()
 	{
-		Log.w(Utils.class.getName(), "parseScript() will parse file!");
+		ScriptItem scriptItem = new ScriptItem();
+		scriptItem.databaseName = "SpeechRecorder Demonstration";
+		scriptItem.scriptName = "SpeechRecorder Sample Recording Script";
+		scriptItem.scriptAuthor = "Chr. Draxler, Phonetics Institute, University of Munich";
+		scriptItem.EmailAuthor = "draxler@phonetik.uni-muenchen.de";
+		scriptItem.serverId = "unknown";
+		scriptItem.idInTable = Utils.ConstantVars.scriptItemIdForNewSession;
+		scriptItem.filepath = Utils.ConstantVars.exampleScriptFilepath;
+		Utils.ConstantVars.scriptItemForNewSession = scriptItem;
 		
-		ScriptXMLParser scriptParser = new ScriptXMLParser();
+		Log.w(Utils.class.getName(), "prepareItemsForNewSessions()" 
+				+ " added new scriptItemForNewSession") ;
 		
-		try {
-			File xmlFile = new File(scriptFilepath); 
-			
-			InputStream scriptFile = new FileInputStream(xmlFile);
+		
+		List<RecordItem> recItemsList = new ArrayList<RecordItem> ();
+		
+		RecordItem recordItem1 = new RecordItem();
+		recordItem1.mode = "manual";
+		recordItem1.sectionname = "Introduction";
+		recordItem1.order = "sequential";
+		recordItem1.promptphase = "idle";
+		recordItem1.speakerdisplay = "false";
+		recordItem1.itemcode = "demo_001";
+		recordItem1.prerecdelay = "2000";
+		recordItem1.postrecdelay = "500";
+		recordItem1.recduration = "20000";
+		recordItem1.recinstructions = "Welcome to the SpeechRecorder Demo Script.\nHere you'll find the instructions...";
+		recordItem1.recprompt = "and here is the prompt: a text to read, a question to answer, a picture to describe, or something completely different.";
+		recordItem1.reccomment = "This is a comment";
+		recItemsList.add(recordItem1);
+		
+		
+		RecordItem recordItem2 = new RecordItem();
+		recordItem2.mode = "manual";
+		recordItem2.sectionname = "Introduction";
+		recordItem2.order = "sequential";
+		recordItem2.promptphase = "idle";
+		recordItem2.speakerdisplay = "false";
+		recordItem2.itemcode = "demo_002";
+		recordItem2.prerecdelay = "2000";
+		recordItem2.postrecdelay = "500";
+		recordItem2.recduration = "20000";
+		recordItem2.recinstructions = "Please read the digits";
+		recordItem2.recprompt = "2 7 4 1 6 8 3 9 5 0";
+		recordItem2.reccomment = "This is a comment";
+		recItemsList.add(recordItem2);
+		
+		RecordItem recordItem3 = new RecordItem();
+		recordItem3.mode = "manual";
+		recordItem3.sectionname = "Introduction";
+		recordItem3.order = "sequential";
+		recordItem3.promptphase = "idle";
+		recordItem3.speakerdisplay = "false";
+		recordItem3.itemcode = "demo_003";
+		recordItem3.prerecdelay = "2000";
+		recordItem3.postrecdelay = "500";
+		recordItem3.recduration = "20000";
+		recordItem3.recinstructions = "Please read the bi-lingual sentence";
+		recordItem3.recprompt = "And then he said to me: 'もう一度ダイヤルします'";
+		recordItem3.reccomment = "Expected pronunciation: mou ichido DIAL shimasu";
+		recItemsList.add(recordItem3);
+		
+		RecordItem recordItem4 = new RecordItem();
+		recordItem4.mode = "manual";
+		recordItem4.sectionname = "Introduction";
+		recordItem4.order = "sequential";
+		recordItem4.promptphase = "idle";
+		recordItem4.speakerdisplay = "false";
+		recordItem4.itemcode = "demo_003";
+		recordItem4.prerecdelay = "2000";
+		recordItem4.postrecdelay = "500";
+		recordItem4.recduration = "20000";
+		recordItem4.recinstructions = "Répondez s'il vous plaît";
+		recordItem4.recprompt = "Qu'est-ce que vous avez fait hier soir?";
+		recordItem4.reccomment = "Answer expected in French; one minute recording time";
+		recItemsList.add(recordItem4);
+		
+		Utils.ConstantVars.recordItemListForNewSession = recItemsList;
+		Log.w(Utils.class.getName(), "prepareItemsForNewSessions()" 
+				+ " added new recordItemListForNewSession") ;
+	}
+	
+	
+//	public static void parseScript(
+//			String scriptFilepath, 
+//			ScriptItem scriptItem, 
+//			List<RecordItem> recordItemList)
+//	{
+//		Log.w(Utils.class.getName(), "parseScript() will parse file!");
+//		
+//		ScriptXMLParser scriptParser = new ScriptXMLParser();
+//		
+//		try {
+//			File xmlFile = new File(scriptFilepath); 
+//			
+//			InputStream scriptFile = new FileInputStream(xmlFile);
 //			
 //			scriptItem = scriptParser.parseScriptMetadata(scriptFile);
 //			
 //			scriptFile.close();
-			
-			InputStream scriptFile2 = new FileInputStream(scriptFilepath);
-			
-			recordItemList = scriptParser.parseScriptRecordings(scriptFile2);
-			
-			scriptFile.close();
-			
-			Log.w(Utils.class.getName(), "parseScript() finished parsing, "
+//			
+//			InputStream scriptFile2 = new FileInputStream(scriptFilepath);
+//			
+//			recordItemList = scriptParser.parseScriptRecordings(scriptFile2);
+//			
+//			scriptFile.close();
+//			
+//			Log.w(Utils.class.getName(), "parseScript() finished parsing, "
 //					+ "\nscriptItem databasename =" + scriptItem.getDatabaseName()
 //					+ "\nscriptItem AuthorEmail =" + scriptItem.getEmailAuthor()
-					+ "\nList RecordItems count=" + recordItemList.size()
-					+ "\nList RecordItem test id=2 getIntro=" + recordItemList.get(1).getRecinstructions()
-					+ "\nEND.");
-			
-			
-		} catch (FileNotFoundException e) {
-			Log.w(Utils.class.getName(), "parseScript() error:" 
-					+ e.getMessage());
-		} catch (XmlPullParserException e) {
-			Log.w(Utils.class.getName(), "parseScript() error:" 
-					+ e.getMessage());
-		} catch (IOException e) {
-			Log.w(Utils.class.getName(), "parseScript() error:" 
-					+ e.getMessage());
-		}
-		
-
-	}
+//					+ "\nList RecordItems count=" + recordItemList.size()
+//					+ "\nList RecordItem test id=2 getIntro=" + recordItemList.get(1).getRecinstructions()
+//					+ "\nEND.");
+//			
+//			
+//		} catch (FileNotFoundException e) {
+//			Log.w(Utils.class.getName(), "parseScript() error:" 
+//					+ e.getMessage());
+//		} catch (XmlPullParserException e) {
+//			Log.w(Utils.class.getName(), "parseScript() error:" 
+//					+ e.getMessage());
+//		} catch (IOException e) {
+//			Log.w(Utils.class.getName(), "parseScript() error:" 
+//					+ e.getMessage());
+//		}
+//	}
 	
 
 	public static void getDeviceId(Context context) 
