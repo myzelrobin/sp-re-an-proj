@@ -538,51 +538,74 @@ public class ActivityRecording extends Activity
 					}
 					else if (isBRecordClicked == 1)
 					{
-						Log.w(ActivityRecording.class.getName(), "test recording: click stop");
-						
 						// stop recording
 						isBRecordClicked = 0;
 
 					    if(isTestRecroding)
+					    {
+					    	Log.w(ActivityRecording.class.getName(), "test recording: click stop");
+					    	// test recording
 					    	srmRecorder.stopRecording();
+					    	
+
+						    handler = new Handler(); 
+						    handler.postDelayed(new Runnable() { 
+						         public void run() { 
+						        	 updateTextArea(gridView, 
+												recItemsList.get(recItemIndex).recinstructions, 
+												recItemsList.get(recItemIndex).recprompt);
+						        	 
+						        	imageCircle1.setImageResource(R.drawable.icon_circle_red);
+									imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
+									imageCircle3.setImageResource(R.drawable.icon_circle_green);
+									
+
+									bRecord.setText(getResources().getString(R.string.record));
+									bPlay.setEnabled(true);
+									bPrev.setEnabled(true);
+									bNext.setEnabled(true);
+						         } 
+						    }, Integer.parseInt(recItemsList.get(recItemIndex).postrecdelay));
+						}
 					    else 
 					    {
-					    	srmRecorder.stopRecording();
+					    	Log.w(ActivityRecording.class.getName(), "recording: click stop");
 					    	
-					    	// insert record
-					    	Uri uriNewRecordItem = insertRecord(recItemsList.get(recItemIndex), 
-						    		srmRecorder.getAudioFile());
-					    	
-					    	Log.w(ActivityRecording.class.getName(), "recording click stop, inserted record id="
-					    			+ uriNewRecordItem.getLastPathSegment());
-					    	
-					    	recItemIndex++;
-					    	if(recItemIndex > 3) recItemIndex = 3;
+					    	// recording 
+					    	handler = new Handler(); 
+						    handler.postDelayed(new Runnable() { 
+						         public void run() { 
+						        	 updateTextArea(gridView, 
+												recItemsList.get(recItemIndex).recinstructions, 
+												recItemsList.get(recItemIndex).recprompt);
+						        	 
+						        	imageCircle1.setImageResource(R.drawable.icon_circle_red);
+									imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
+									imageCircle3.setImageResource(R.drawable.icon_circle_green);
+
+									srmRecorder.stopRecording();
+									
+
+							    	// insert record
+							    	Uri uriNewRecordItem = insertRecord(recItemsList.get(recItemIndex), 
+								    		srmRecorder.getAudioFile());
+							    	
+							    	Log.w(ActivityRecording.class.getName(), "recording click stop, inserted record id="
+							    			+ uriNewRecordItem.getLastPathSegment());
+							    	
+							    	recItemIndex++;
+							    	if(recItemIndex > 3) recItemIndex = 3;
+							    	
+
+									bRecord.setText(getResources().getString(R.string.record));
+									bPlay.setEnabled(true);
+									bPrev.setEnabled(true);
+									bNext.setEnabled(true);
+						         } 
+						    }, Integer.parseInt(recItemsList.get(recItemIndex).postrecdelay));
 					    	
 					    }
 					    
-					    
-					    
-					    handler = new Handler(); 
-					    handler.postDelayed(new Runnable() { 
-					         public void run() { 
-					        	 updateTextArea(gridView, 
-											recItemsList.get(recItemIndex).recinstructions, 
-											recItemsList.get(recItemIndex).recprompt);
-					        	 
-					        	imageCircle1.setImageResource(R.drawable.icon_circle_red);
-								imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
-								imageCircle3.setImageResource(R.drawable.icon_circle_green);
-					         } 
-					    }, Integer.parseInt(recItemsList.get(recItemIndex).postrecdelay));
-					    
-					    
-					    
-					    
-						bRecord.setText(getResources().getString(R.string.record));
-						bPlay.setEnabled(true);
-						bPrev.setEnabled(true);
-						bNext.setEnabled(true);
 					}
 					
 					break;
