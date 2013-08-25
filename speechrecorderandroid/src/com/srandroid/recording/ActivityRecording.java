@@ -98,6 +98,9 @@ public class ActivityRecording extends Activity
 		thisAct = this;
 		listener = new OnClickListenerForRecording();
 		
+		scriptItem = Utils.ConstantVars.scriptItemForNewSession;
+		recItemsList = Utils.ConstantVars.recordItemListForNewSession;
+		
 		Bundle extras = getIntent().getExtras(); 
 
 		if (extras != null) 
@@ -446,15 +449,13 @@ public class ActivityRecording extends Activity
 			switch (viewId) 
 			{
 				case R.id.act_recording_control_button_record:
-					Utils.toastText(thisAct, "clicked Record");
 					
 					if(isBRecordClicked == 0)
 					{
+						Log.w(ActivityRecording.class.getName(), "click record");
+						
 						// start recording
 						isBRecordClicked = 1;						
-						
-						scriptItem = Utils.ConstantVars.scriptItemForNewSession;
-						recItemsList = Utils.ConstantVars.recordItemListForNewSession;
 						
 						bRecord.setText(getResources().getString(R.string.stop));
 						bPlay.setEnabled(false);
@@ -490,6 +491,8 @@ public class ActivityRecording extends Activity
 					}
 					else if (isBRecordClicked == 1)
 					{
+						Log.w(ActivityRecording.class.getName(), "click stop");
+						
 						// stop recording
 						isBRecordClicked = 0;
 						
@@ -512,7 +515,7 @@ public class ActivityRecording extends Activity
 				
 				case R.id.act_recording_control_button_play:
 					// intent 
-					
+					Log.w(ActivityRecording.class.getName(), "click play");
 					// play the record
 					try {
 						Utils.playRecord(thisAct, srmRecorder.getAudioFile());
@@ -526,6 +529,7 @@ public class ActivityRecording extends Activity
 					
 				case R.id.act_recording_control_button_previous:
 					// new recording
+					Log.w(ActivityRecording.class.getName(), "click <<");
 					recItemIndex--;
 					Log.w(ActivityRecording.class.getName(), "<<, recItemIndex=" + recItemIndex);
 					if(recItemIndex<0) recItemIndex = 0;
@@ -539,6 +543,8 @@ public class ActivityRecording extends Activity
 				
 				case R.id.act_recording_control_button_next:
 					// new recording
+					
+					Log.w(ActivityRecording.class.getName(), "click >>");
 					recItemIndex++;
 					Log.w(ActivityRecording.class.getName(), ">>, recItemIndex=" + recItemIndex);
 					if(recItemIndex>3) recItemIndex = 3;
