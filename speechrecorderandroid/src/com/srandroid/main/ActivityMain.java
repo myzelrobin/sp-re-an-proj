@@ -110,9 +110,12 @@ public class ActivityMain extends Activity {
 		
 		// initialize block
 		
-		
-		
-		
+		new Thread()
+	    {
+	        public void run() {
+	            Utils.copyScriptFilesToAppExtFolder("example_script.xml", getApplication().getAssets());
+	        }
+	    }.start();
 		
 		
 		

@@ -1,7 +1,11 @@
 package com.srandroid.util;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Locale;
 
@@ -15,6 +19,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.AssetManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.NavUtils;
 import android.util.DisplayMetrics;
@@ -288,9 +293,6 @@ public class Utils
 			// gps info
 			getGPSInfo(context);
 			
-			
-			
-			
 			isPreStartInitialized = true;
 			
 			Log.w(Utils.class.getName(), "initializeApp(): finished initializing data before app starts");
@@ -383,6 +385,35 @@ public class Utils
 		return true;
 	}
 	
+	public static void copyScriptFilesToAppExtFolder(String fileName, AssetManager assetsManager)
+	{
+		
+		// better  not hard code storage directory . use Environment.getExternalStorageDirectory()
+		String destFilePath = Utils.ConstantVars.SCRIPTS_DIR_EXT_PATH + File.separator + fileName;
+		try 
+		{
+
+	        File destFile = new File(destFilePath);
+	        InputStream in = assetsManager.open(fileName);
+	        OutputStream out = new FileOutputStream(destFile);
+
+	        byte[] buf = new byte[1024];
+	        int len;
+	        while ((len = in.read(buf)) > 0) {
+	            out.write(buf, 0, len);
+	        }
+	        in.close();
+	        out.close();
+	        System.out.println("File copied.");
+	    } catch (FileNotFoundException ex) {
+	    	Log.w(Utils.class.getName(), "copyScriptFilesToAppExtFolder()" 
+	    			+ ex.getMessage() + " in " 
+	    			+ Utils.ConstantVars.SCRIPTS_DIR_EXT_PATH);
+	    } catch (IOException e) {
+	    	Log.w(Utils.class.getName(), "copyScriptFilesToAppExtFolder()" 
+	    			+ e.getMessage());
+	    }
+	}
 	
 	
 
@@ -439,11 +470,11 @@ public class Utils
 		{
 			return app_dir_ext_path_temp;
 		}
-		if(dir.mkdir())
+		else if(dir.mkdir())
 		{
 			return app_dir_ext_path_temp;
 		}
-		Log.w(Utils.class.getName(), 
+		else Log.w(Utils.class.getName(), 
 				"getAppExternalDir(): Can NOT make directory: " 
 				+ app_dir_ext_path_temp);
 		return null;
