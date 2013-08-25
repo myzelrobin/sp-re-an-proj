@@ -461,11 +461,18 @@ public class Utils
 			
 			scriptFile.close();
 			
-			InputStream scriptFile2 = new FileInputStream(scriptFilepath);
+//			InputStream scriptFile2 = new FileInputStream(scriptFilepath);
+//			
+//			recordItemList = scriptParser.parseScriptRecordings(scriptFile2);
+//			
+//			scriptFile.close();
 			
-			recordItemList = scriptParser.parseScriptRecordings(scriptFile2);
-			
-			scriptFile.close();
+			Log.w(Utils.class.getName(), "parseScript() finished parsing, "
+					+ "\nscriptItem databasename =" + scriptItem.getDatabaseName()
+					+ "\nscriptItem AuthorEmail =" + scriptItem.getEmailAuthor()
+//					+ "\nList RecordItems count=" + recordItemList.size()
+//					+ "\nList RecordItem test id=2 getIntro=" + recordItemList.get(1).getRecinstructions()
+					+ "\nEND.");
 			
 			
 		} catch (FileNotFoundException e) {
@@ -479,12 +486,7 @@ public class Utils
 					+ e.getMessage());
 		}
 		
-		Log.w(Utils.class.getName(), "parseScript() finished parsing, "
-					+ "\nscriptItem databasename =" + scriptItem.getDatabaseName()
-					+ "\nscriptItem AuthorEmail =" + scriptItem.getEmailAuthor()
-					+ "\nList RecordItems count=" + recordItemList.size()
-					+ "\nList RecordItem test id=2 getIntro=" + recordItemList.get(1).getRecinstructions()
-					+ "\nEND.");
+
 	}
 	
 
