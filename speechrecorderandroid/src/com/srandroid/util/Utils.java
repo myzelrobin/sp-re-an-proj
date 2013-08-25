@@ -448,7 +448,9 @@ public class Utils
 		ScriptXMLParser scriptParser = new ScriptXMLParser();
 		
 		try {
-			InputStream scriptFile = new FileInputStream(scriptFilepath);
+			File xmlFile = new File(scriptFilepath); 
+			
+			InputStream scriptFile = new FileInputStream(xmlFile);
 			
 			scriptItem = scriptParser.parseScriptMetadata(scriptFile);
 			

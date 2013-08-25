@@ -36,6 +36,12 @@ public class ScriptXMLParser
     {
         try 
         {
+//        	 XmlPullParserFactory xppf = XmlPullParserFactory.newInstance();
+//        	 xppf.setNamespaceAware(true); 
+//        	 XmlPullParser parser = xppf.newPullParser();
+//        	 
+//        	 xpp.setInput(fis, null);
+        	
             XmlPullParser parser = Xml.newPullParser();
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
             parser.setInput(in, null);
