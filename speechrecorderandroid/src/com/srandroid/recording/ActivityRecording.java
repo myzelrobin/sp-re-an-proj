@@ -468,83 +468,42 @@ public class ActivityRecording extends Activity
 						Log.w(ActivityRecording.class.getName(), "created new Recorder:" + recordFilepath);
 						
 						// change images
-						new Thread()
-					    {
-					        public void run() 
-					        {
-					        	Log.w(ActivityRecording.class.getName(), "created new Thread, start updateing images");
-					        	
-//					        	imageCircle1.setImageResource(R.drawable.icon_circle_red);
-//								imageCircle2.setImageResource(R.drawable.icon_circle_red);
-//								imageCircle3.setImageResource(R.drawable.icon_circle_red);
+						
+			        	imageCircle1.setImageResource(R.drawable.icon_circle_red);
+						imageCircle2.setImageResource(R.drawable.icon_circle_red);
+						imageCircle3.setImageResource(R.drawable.icon_circle_red);
 								
-								try {
-									sleep((Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay)) / 2);
-								} catch (NumberFormatException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								} catch (InterruptedException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
+						//sleep((Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay)) / 2);
 								
-//								imageCircle1.setImageResource(R.drawable.icon_circle_yellow);
-//								imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
-//								imageCircle3.setImageResource(R.drawable.icon_circle_yellow);
+						imageCircle1.setImageResource(R.drawable.icon_circle_yellow);
+						imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
+						imageCircle3.setImageResource(R.drawable.icon_circle_yellow);
 								
-								try {
-									sleep(Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay) / 2);
-								} catch (NumberFormatException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								} catch (InterruptedException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
+
+						//sleep(Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay) / 2);
 								
-//								imageCircle1.setImageResource(R.drawable.icon_circle_green);
-//								imageCircle2.setImageResource(R.drawable.icon_circle_green);
-//								imageCircle3.setImageResource(R.drawable.icon_circle_green);
-					        }
-					    }.start();
-					    
+						imageCircle1.setImageResource(R.drawable.icon_circle_green);
+						imageCircle2.setImageResource(R.drawable.icon_circle_green);
+						imageCircle3.setImageResource(R.drawable.icon_circle_green);
 					}
 					else if (isBRecordClicked == 1)
 					{
 						// stop recording
 						isBRecordClicked = 0;
 						
-						new Thread()
-					    {
-					        public void run() 
-					        {
-					        	Log.w(ActivityRecording.class.getName(), "created new Thread, stop recording");
+						//sleep(Integer.parseInt(recItemsList.get(recItemIndex).postrecdelay));
+
 					        	
-					        	try {
-									sleep(Integer.parseInt(recItemsList.get(recItemIndex).postrecdelay));
-								} catch (NumberFormatException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								} catch (InterruptedException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-					        	
-					        	srmRecorder.stopRecording();
+					    srmRecorder.stopRecording();
 								
-//								imageCircle1.setImageResource(R.drawable.icon_circle_red);
-//								imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
-//								imageCircle3.setImageResource(R.drawable.icon_circle_green);
+						imageCircle1.setImageResource(R.drawable.icon_circle_red);
+						imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
+						imageCircle3.setImageResource(R.drawable.icon_circle_green);
 								
-								bRecord.setText(getResources().getString(R.string.record));
-								bPlay.setEnabled(true);
-								bPrev.setEnabled(true);
-								bNext.setEnabled(true);
-					        	
-					        }
-					    }.start();
-						
-						
+						bRecord.setText(getResources().getString(R.string.record));
+						bPlay.setEnabled(true);
+						bPrev.setEnabled(true);
+						bNext.setEnabled(true);
 					}
 					
 					break;
