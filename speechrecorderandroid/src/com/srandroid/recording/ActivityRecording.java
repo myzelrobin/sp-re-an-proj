@@ -482,6 +482,9 @@ public class ActivityRecording extends Activity
 					
 					if(isBRecordClicked == 0)
 					{
+						
+						// test recoding
+						
 						if(isTestRecroding)
 							Log.w(ActivityRecording.class.getName(), "test recording click record");
 						else
@@ -518,15 +521,19 @@ public class ActivityRecording extends Activity
 						
 						//update images
 						handler = new Handler(); 
-						    handler.postDelayed(new Runnable() { 
-						         public void run() { 
+						    handler.postDelayed(new Runnable() 
+						    { 
+						         public void run() 
+						         { 
 						        	imageCircle1.setImageResource(R.drawable.icon_circle_yellow);
 									imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
 									imageCircle3.setImageResource(R.drawable.icon_circle_yellow);
 									
 									Handler handler2 = new Handler(); 
-								    handler2.postDelayed(new Runnable() { 
-								         public void run() { 
+								    handler2.postDelayed(new Runnable() 
+								    { 
+								         public void run() 
+								         { 
 								        	imageCircle1.setImageResource(R.drawable.icon_circle_green);
 											imageCircle2.setImageResource(R.drawable.icon_circle_green);
 											imageCircle3.setImageResource(R.drawable.icon_circle_green);
@@ -535,16 +542,12 @@ public class ActivityRecording extends Activity
 								    }, (Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay)) / 2);
 						         } 
 						    }, (Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay)) / 2); 
-						
-						
-						
 					}
 					else if (isBRecordClicked == 1)
 					{
 						// stop recording
 						isBRecordClicked = 0;
-						bRecord.setEnabled(false)
-						;
+						bRecord.setEnabled(false);
 					    if(isTestRecroding)
 					    {
 					    	// test recording
@@ -553,16 +556,22 @@ public class ActivityRecording extends Activity
 					    	srmRecorder.stopRecording();
 					    	
 						    handler = new Handler(); 
-						    handler.postDelayed(new Runnable() { 
-						         public void run() { 
+						    handler.postDelayed(new Runnable() 
+						    { 
+						         public void run() 
+						         { 
+						        	
+						        	// update GUI
+						        	imageCircle1.setImageResource(R.drawable.icon_circle_red);
+									imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
+									imageCircle3.setImageResource(R.drawable.icon_circle_green); 
+						        	
+									recItemIndex++;
+							    	if(recItemIndex > 3) recItemIndex = 3;
+							    	
 						        	 updateTextArea(gridView, 
 												recItemsList.get(recItemIndex).recinstructions, 
 												recItemsList.get(recItemIndex).recprompt);
-						        	 
-						        	imageCircle1.setImageResource(R.drawable.icon_circle_red);
-									imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
-									imageCircle3.setImageResource(R.drawable.icon_circle_green);
-									
 
 									bRecord.setText(getResources().getString(R.string.record));
 									bRecord.setEnabled(true);
@@ -581,15 +590,9 @@ public class ActivityRecording extends Activity
 					    	handler = new Handler(); 
 						    handler.postDelayed(new Runnable() 
 						    { 
-						         public void run() { 
-						        	 updateTextArea(gridView, 
-												recItemsList.get(recItemIndex).recinstructions, 
-												recItemsList.get(recItemIndex).recprompt);
+						         public void run() 
+						         { 
 						        	 
-						        	imageCircle1.setImageResource(R.drawable.icon_circle_red);
-									imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
-									imageCircle3.setImageResource(R.drawable.icon_circle_green);
-
 									srmRecorder.stopRecording();
 									
 
@@ -599,10 +602,18 @@ public class ActivityRecording extends Activity
 							    	
 							    	Log.w(ActivityRecording.class.getName(), "recording click stop, inserted record id="
 							    			+ uriNewRecordItem.getLastPathSegment());
+
+							    	// update GUI
+							    	imageCircle1.setImageResource(R.drawable.icon_circle_red);
+									imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
+									imageCircle3.setImageResource(R.drawable.icon_circle_green);
 							    	
 							    	recItemIndex++;
 							    	if(recItemIndex > 3) recItemIndex = 3;
 							    	
+							    	 updateTextArea(gridView, 
+												recItemsList.get(recItemIndex).recinstructions, 
+												recItemsList.get(recItemIndex).recprompt);
 
 									bRecord.setText(getResources().getString(R.string.record));
 									bRecord.setEnabled(true);
@@ -629,9 +640,12 @@ public class ActivityRecording extends Activity
 					// intent 
 					Log.w(ActivityRecording.class.getName(), "click play");
 					// play the record
-					try {
+					try 
+					{
 						Utils.playRecord(thisAct, srmRecorder.getAudioFile());
-					} catch (ActivityNotFoundException e) {
+					} 
+					catch (ActivityNotFoundException e) 
+					{
 						Log.w(ActivityRecording.class.getName(), 
 								"Utils.playRecord() throws Exceptions " + e.getMessage());
 					}
