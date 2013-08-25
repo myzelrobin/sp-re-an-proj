@@ -448,6 +448,8 @@ public class Utils
 			ScriptItem scriptItem, 
 			List<RecordItem> recordItemList)
 	{
+		Log.w(Utils.class.getName(), "parseScript() will parse file!");
+		
 		ScriptXMLParser scriptParser = new ScriptXMLParser();
 		
 		try {
@@ -465,6 +467,7 @@ public class Utils
 			
 			scriptFile.close();
 			
+			
 		} catch (FileNotFoundException e) {
 			Log.w(Utils.class.getName(), "parseScript() error:" 
 					+ e.getMessage());
@@ -475,6 +478,13 @@ public class Utils
 			Log.w(Utils.class.getName(), "parseScript() error:" 
 					+ e.getMessage());
 		}
+		
+		Log.w(Utils.class.getName(), "parseScript() finished parsing, "
+					+ "\nscriptItem databasename =" + scriptItem.getDatabaseName()
+					+ "\nscriptItem AuthorEmail =" + scriptItem.getEmailAuthor()
+					+ "\nList RecordItems count=" + recordItemList.size()
+					+ "\nList RecordItem test id=2 getIntro=" + recordItemList.get(1).getRecinstructions()
+					+ "\nEND.");
 	}
 	
 
