@@ -27,6 +27,7 @@ import android.content.ClipData.Item;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -76,6 +77,8 @@ public class ActivityRecording extends Activity
 	private List<RecordItem> recItemsList;
 	
 	private String recordFilepath;
+	
+	private Handler handler;
 	
 	private static Activity thisAct;
 	/**
@@ -481,19 +484,29 @@ public class ActivityRecording extends Activity
 			        	imageCircle1.setImageResource(R.drawable.icon_circle_red);
 						imageCircle2.setImageResource(R.drawable.icon_circle_red);
 						imageCircle3.setImageResource(R.drawable.icon_circle_red);
-								
+						
+						handler = new Handler(); 
+						    handler.postDelayed(new Runnable() { 
+						         public void run() { 
+						        	imageCircle1.setImageResource(R.drawable.icon_circle_yellow);
+									imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
+									imageCircle3.setImageResource(R.drawable.icon_circle_yellow);
+						         } 
+						    }, 2000); 
 						//sleep((Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay)) / 2);
 								
-						imageCircle1.setImageResource(R.drawable.icon_circle_yellow);
-						imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
-						imageCircle3.setImageResource(R.drawable.icon_circle_yellow);
-								
-
 						//sleep(Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay) / 2);
 								
-						imageCircle1.setImageResource(R.drawable.icon_circle_green);
-						imageCircle2.setImageResource(R.drawable.icon_circle_green);
-						imageCircle3.setImageResource(R.drawable.icon_circle_green);
+						    
+						handler = new Handler(); 
+						    handler.postDelayed(new Runnable() { 
+						         public void run() { 
+						        	imageCircle1.setImageResource(R.drawable.icon_circle_green);
+									imageCircle2.setImageResource(R.drawable.icon_circle_green);
+									imageCircle3.setImageResource(R.drawable.icon_circle_green);
+						         } 
+						    }, 2000);
+						
 					}
 					else if (isBRecordClicked == 1)
 					{
@@ -517,10 +530,16 @@ public class ActivityRecording extends Activity
 									recItemsList.get(recItemIndex).recinstructions, 
 									recItemsList.get(recItemIndex).recprompt);
 					    }
+					    handler = new Handler(); 
+					    handler.postDelayed(new Runnable() { 
+					         public void run() { 
+					        	imageCircle1.setImageResource(R.drawable.icon_circle_red);
+								imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
+								imageCircle3.setImageResource(R.drawable.icon_circle_green);
+					         } 
+					    }, 2000);
 					    
-						imageCircle1.setImageResource(R.drawable.icon_circle_red);
-						imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
-						imageCircle3.setImageResource(R.drawable.icon_circle_green);
+						
 								
 						bRecord.setText(getResources().getString(R.string.record));
 						bPlay.setEnabled(true);
