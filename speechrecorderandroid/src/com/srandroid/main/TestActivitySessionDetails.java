@@ -476,7 +476,6 @@ public class TestActivitySessionDetails extends Activity
 				Log.w(TestActivitySessionDetails.class.getName(), 
 						"queryAllRecordsForScript() queried record items count=" + cursor.getCount());
 				
-				
 				return cursor;
 			}
 			else return null;
@@ -489,6 +488,10 @@ public class TestActivitySessionDetails extends Activity
 			
 			if (cursor != null && cursor.getCount()!=0) 
 			{
+				
+				int id = cursor.getInt(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ID));
+						Log.w(TestActivitySessionDetails.class.getName(), 
+								"fillRecordItem() will fill record item idInTable=" + id);
 				
 				recordItemId = (TextView) view.findViewById(R.id.id_item_record_id_textvalue);
 			    recordItemIntro = (TextView) view.findViewById(R.id.id_item_record_intro_textvalue);
@@ -581,17 +584,19 @@ public class TestActivitySessionDetails extends Activity
 							(LinearLayout) (convertView == null
 							? LayoutInflater.from(context).inflate(R.layout.linearlayout_item_record, parent, false)
 									: convertView);
+					if(cursor != null)
+					{
+						fillRecordItem(itemView, cursor);
+						cursor.moveToNext();
+						if(cursor.isAfterLast()) cursor.close();
+					}
 					
-					fillRecordItem(itemView, cursor);
+					// use arraylist is better
+					// filepathList[position] = 
+					//		cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_FILEPATH));
 					
-					filepathList[position] = 
-							cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_FILEPATH));
 					
-					cursor.moveToNext();
-					if(cursor.isAfterLast()) cursor.close();
 				}
-				
-				
 				
 				return itemView;
 			}
