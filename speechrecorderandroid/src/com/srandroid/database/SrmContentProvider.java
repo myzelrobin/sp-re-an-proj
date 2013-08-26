@@ -287,13 +287,12 @@ public class SrmContentProvider extends ContentProvider
 		
 		srmDB = dbAccesor.getReadableDatabase();
 		
-		Log.w(SrmContentProvider.class.getName(), "query(): will query from tables: " + queryBuilder.getTables());
 		
 		Log.w(SrmContentProvider.class.getName(), "query(): will query: " 
 					+ queryBuilder.buildQueryString(false, 
 							queryBuilder.getTables(), 
 							selectColumns, 
-							wherePart + "=" + wherePartValues, 
+							"(" + wherePart + ") = (" + wherePartValues + ")", 
 							null, 
 							null, 
 							null, 

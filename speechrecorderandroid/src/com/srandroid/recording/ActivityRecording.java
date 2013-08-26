@@ -226,7 +226,8 @@ public class ActivityRecording extends Activity
 	public boolean onCreateOptionsMenu(Menu menu) 
 	{
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.menu_items, menu);
+		if(isTestRecroding)
+			getMenuInflater().inflate(R.menu.menu_items, menu);
 		return true;
 	}
 	
@@ -263,16 +264,6 @@ public class ActivityRecording extends Activity
     	        	this.startActivity(newI);
     	        	
         		}
-        		else 
-        		{
-        			// In Act Recording
-        			Utils.toastText(this, "finish recording, open 'signature' page ");
-    	    		
-//    	    		Intent newI = new Intent(this, ActivitySignature.class);
-//    	        	this.startActivity(newI);
-        		}
-        		
-
         		break;
         	
         	default:
@@ -571,7 +562,7 @@ public class ActivityRecording extends Activity
 									imageCircle3.setImageResource(R.drawable.icon_circle_green); 
 						        	
 									recItemIndex++;
-							    	if(recItemIndex > 4) recItemIndex = 4;
+							    	if(recItemIndex > (recItemsList.size() -1)) recItemIndex = recItemsList.size() -1;
 							    	
 						        	 updateTextArea(gridView, 
 												recItemsList.get(recItemIndex).recinstructions, 
@@ -613,7 +604,7 @@ public class ActivityRecording extends Activity
 									imageCircle3.setImageResource(R.drawable.icon_circle_green);
 							    	
 							    	recItemIndex++;
-							    	if(recItemIndex > 4) recItemIndex = 4;
+							    	if(recItemIndex > (recItemsList.size() -1)) recItemIndex = recItemsList.size() -1;
 							    	
 							    	 updateTextArea(gridView, 
 												recItemsList.get(recItemIndex).recinstructions, 
@@ -677,7 +668,7 @@ public class ActivityRecording extends Activity
 					Log.w(ActivityRecording.class.getName(), "click >>");
 					recItemIndex++;
 					Log.w(ActivityRecording.class.getName(), ">>, recItemIndex=" + recItemIndex);
-					if(recItemIndex>4) recItemIndex = 4;
+					if(recItemIndex>(recItemsList.size() -1)) recItemIndex = recItemsList.size() -1;
 					Log.w(ActivityRecording.class.getName(), ">>, recItemIndex=" + recItemIndex);
 					bPlay.setEnabled(false);
 					
