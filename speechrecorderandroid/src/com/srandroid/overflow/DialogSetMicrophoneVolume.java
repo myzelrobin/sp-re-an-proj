@@ -105,7 +105,7 @@ import com.srandroid.util.Utils;
 								 + ": test mic audio file is deleted at: " 
 								 + recorderForMic.getAudioFile());
 						 
-						// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+						
 						 // here needs a method to set the volume_value
 						 onDialogClosed(true);
 

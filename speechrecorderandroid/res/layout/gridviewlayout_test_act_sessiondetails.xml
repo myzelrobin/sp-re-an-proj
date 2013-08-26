@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridView xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/id_gridview_act_prerecoding"
+android:background="#EEEEEE"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:gravity="center"
+android:orientation="vertical"
+android:numColumns="auto_fit"
+android:columnWidth="400dp"
+android:horizontalSpacing="0dp"
+android:paddingTop="10dp"
+android:verticalSpacing="10dp" >
+
+</GridView>
+
