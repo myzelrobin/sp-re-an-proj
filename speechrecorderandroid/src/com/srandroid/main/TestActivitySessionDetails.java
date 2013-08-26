@@ -624,15 +624,17 @@ public class TestActivitySessionDetails extends Activity
 					if(cursor != null)
 					{
 						fillRecordItem(itemView, cursor, position);
+						
+						if(position == (itemlist.size() -1)) 
+						{
+							cursor.close();
+							this.notifyDataSetInvalidated();
+						}
 					}
 					
 				}
 				
-				if(position == (itemlist.size() -1)) 
-				{
-					cursor.close();
-					this.notifyDataSetInvalidated();
-				}
+				
 				
 				return itemView;
 			}
