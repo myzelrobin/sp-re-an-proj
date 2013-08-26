@@ -189,8 +189,7 @@ public class SrmContentProvider extends ContentProvider
 				srmDB = dbAccesor.getReadableDatabase();
 				
 				String sqlQueryTREC = "SELECT " + resultTREC 
-				+ ", sessions._id, sessions._id as session_key_id, speakers._id as speaker_key_id"
-				+ " FROM sessions LEFT OUTER JOIN speakers ON sessions.speaker_id=speakers._id"
+				+ ", records._id as record_key_id FROM records "
 				+ " WHERE " + wherePart;
 		
 				cursor = srmDB.rawQuery(sqlQueryTREC, null);
