@@ -134,9 +134,9 @@ public class TestActivitySessionDetails extends Activity
 				+ e.getLocalizedMessage());
 			}
 	        
-	        itemlist = new String[2];
+	        itemlist = new String[1];
 	        itemlist[0] = "SESSION_ITEM";
-	        itemlist[1] = "RECORD_ITEM";
+	        //itemlist[1] = "RECORD_ITEM";
 	        
 //	        itemlist = new String[recItemsCount+1];
 //	        filepathList = new String[recItemsCount+1];
@@ -386,6 +386,42 @@ public class TestActivitySessionDetails extends Activity
 			return count;
 		}
 
+		
+
+		private Cursor queryAllRecordsForScript(String scriptId)
+		{
+			Log.w(TestActivitySessionDetails.class.getName(), 
+					"queryAllRecordsForScript() will query record items with scriptIdForSession=" + scriptId);
+			
+			// query from db
+	        String[] selectColumns = {
+					TableRecords.COLUMN_ID,
+					TableRecords.COLUMN_SCRIPT_ID,
+					TableRecords.COLUMN_FILEPATH,
+					TableRecords.COLUMN_INSTRUCTION,
+					TableRecords.COLUMN_PROMPT,
+					TableRecords.COLUMN_COMMENT,
+					TableRecords.COLUMN_ITEMCODE,
+					TableRecords.COLUMN_ISUPLOADED};
+			
+			String wherePart = "script_id=" + scriptId;
+			
+			Cursor cursor = getApplicationContext().getContentResolver().query(
+					SrmUriMatcher.CONTENT_URI_TABLE_RECORDS, 
+					selectColumns, wherePart, null, null);
+			if (cursor != null && cursor.getCount() !=0)
+			{
+				cursor.moveToFirst();
+				
+				Log.w(TestActivitySessionDetails.class.getName(), 
+						"queryAllRecordsForScript() queried record items count=" + cursor.getCount());
+				
+				return cursor;
+			}
+			else return null;
+		}
+		
+		
 		private void fillSessionItem(View view)
 		{
 
@@ -448,39 +484,6 @@ public class TestActivitySessionDetails extends Activity
 	        
 		}
 		
-		private Cursor queryAllRecordsForScript(String scriptId)
-		{
-			Log.w(TestActivitySessionDetails.class.getName(), 
-					"queryAllRecordsForScript() will query record items with scriptIdForSession=" + scriptId);
-			
-			// query from db
-	        String[] selectColumns = {
-					TableRecords.COLUMN_ID,
-					TableRecords.COLUMN_SCRIPT_ID,
-					TableRecords.COLUMN_FILEPATH,
-					TableRecords.COLUMN_INSTRUCTION,
-					TableRecords.COLUMN_PROMPT,
-					TableRecords.COLUMN_COMMENT,
-					TableRecords.COLUMN_ITEMCODE,
-					TableRecords.COLUMN_ISUPLOADED};
-			
-			String wherePart = "script_id=" + scriptId;
-			
-			Cursor cursor = getApplicationContext().getContentResolver().query(
-					SrmUriMatcher.CONTENT_URI_TABLE_RECORDS, 
-					selectColumns, wherePart, null, null);
-			if (cursor != null && cursor.getCount() !=0)
-			{
-				cursor.moveToFirst();
-				
-				Log.w(TestActivitySessionDetails.class.getName(), 
-						"queryAllRecordsForScript() queried record items count=" + cursor.getCount());
-				
-				return cursor;
-			}
-			else return null;
-		}
-		
 		private void fillRecordItem(View view, Cursor cursor)
 		{
 			Log.w(TestActivitySessionDetails.class.getName(), 
@@ -531,7 +534,11 @@ public class TestActivitySessionDetails extends Activity
 				this.context = context;
 				this.itemlist = itemlist;
 				
-				cursor = queryAllRecordsForScript(scriptIdForSession);
+				if(recItemsCount != 0)
+				{
+					
+					cursor = queryAllRecordsForScript(scriptIdForSession);
+				}
 				
 			}
 			
