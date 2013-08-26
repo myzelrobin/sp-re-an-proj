@@ -3,6 +3,8 @@
  */
 package com.srandroid.main;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
@@ -66,15 +68,15 @@ public class TestActivitySessionDetails extends Activity
 	    private TextView scripts;
 	    
 	    private TextView recordItemItemcode;
-	    private  TextView recordItemIntro;
+	    private TextView recordItemIntro;
 	    private TextView recordItemPrompt;
 	    private TextView recordItemComment;
 	    private TextView recordItemScriptid;
 	    private TextView recordItemIsuploaded;
 	    
 	    
-	    private String[] itemlist; // for adapter
-	    private String[] filepathList; // list of record filepathes
+	    private ArrayList itemlist; // for adapter
+	    private ArrayList<String> filepathList; // list of record filepathes
 	    
 	    private Activity thisAct;
 	
@@ -84,15 +86,6 @@ public class TestActivitySessionDetails extends Activity
 	 */
 	public TestActivitySessionDetails() 
 	{
-
-        itemlist = new String[recItemsCount+1];
-        filepathList = new String[recItemsCount+1];
-        itemlist[0] = "SESSION_ITEM";
-        for(int i=1; i<recItemsCount+1; i++)
-        {
-        	itemlist[i] = "RECORD_ITEM";
-        }
-        
 	}
 	
 
@@ -141,6 +134,17 @@ public class TestActivitySessionDetails extends Activity
 				Log.w(this.getClass().getName(), " getIDsForSessionItem() throws " 
 				+ e.getLocalizedMessage());
 			}
+	        
+	        
+
+	        itemlist.add(0, "SESSION_ITEM");
+	        filepathList.add(0, null);
+	        for(int i=1; i<recItemsCount+1; i++)
+	        {
+	        	itemlist.add(i, "RECORD_ITEM");
+	        }
+	        
+	        
 	        
 	        gridView.setAdapter(new LocalAdapterForSessionDetails(this, itemlist));
 	        
@@ -524,8 +528,8 @@ public class TestActivitySessionDetails extends Activity
 			    recordItemPrompt.setText(prompt);
 			    
 			    // records file to play
-			    filepathList[position] = 
-						cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_FILEPATH));
+			    filepathList.add(position,
+						cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_FILEPATH))); 
 			    
 			    cursor.moveToNext();
 			    
@@ -542,13 +546,13 @@ public class TestActivitySessionDetails extends Activity
 			
 
 			private Context context;
-			private String[] itemlist;
+			private ArrayList<String> itemlist;
 			
 			
 			private Cursor cursor;
 
 			public LocalAdapterForSessionDetails(Context context,
-					String[] itemlist) 
+					ArrayList itemlist) 
 			{
 				super();
 				this.context = context;
@@ -565,7 +569,7 @@ public class TestActivitySessionDetails extends Activity
 			@Override
 			public int getCount() {
 				// TODO Auto-generated method stub
-				return itemlist.length;
+				return itemlist.size();
 			}
 
 			@Override
@@ -586,7 +590,7 @@ public class TestActivitySessionDetails extends Activity
 				
 				LinearLayout itemView = null;
 				
-				if(itemlist[position].equals("SESSION_ITEM"))
+				if(itemlist.get(position).equals("SESSION_ITEM"))
 				{
 					Log.w(LocalAdapterForSessionDetails.class.getName(), 
 							"getView() will create sessionitem at position=" + position);
@@ -607,7 +611,7 @@ public class TestActivitySessionDetails extends Activity
 			        }
 
 				}
-				else if(itemlist[position].equals("RECORD_ITEM"))
+				else if(itemlist.get(position).equals("RECORD_ITEM"))
 				{
 					Log.w(LocalAdapterForSessionDetails.class.getName(), 
 							"getView() will create recorditem at position=" + position);
@@ -621,7 +625,12 @@ public class TestActivitySessionDetails extends Activity
 						fillRecordItem(itemView, cursor, position);
 					}
 					
-					if(position == (itemlist.length -1)) cursor.close();
+				}
+				
+				if(position == (itemlist.size() -1)) 
+				{
+					cursor.close();
+					//this.notifyDataSetInvalidated();
 				}
 				
 				return itemView;
