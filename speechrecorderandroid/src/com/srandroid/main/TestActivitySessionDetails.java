@@ -49,7 +49,6 @@ public class TestActivitySessionDetails extends Activity
 {
 		// state
 		public static final String ITEM_URI = "ITEM_URI";
-		private static final String[][] String = null;
 		private String sessionItemId = null;
 		
 		private String speakerIdForSession;
@@ -370,6 +369,9 @@ public class TestActivitySessionDetails extends Activity
 					SrmUriMatcher.CONTENT_URI_TABLE_RECORDS, 
 					selectColumns, wherePart, null, null);
 			cursor.moveToFirst();
+			
+			Log.w(TestActivitySessionDetails.class.getName(), 
+					"getRecordsCountForScript() gets count=" + cursor.getCount());
 			
 			if (cursor != null && cursor.getCount()!=0) 
 			{

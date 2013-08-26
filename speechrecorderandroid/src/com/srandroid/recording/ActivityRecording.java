@@ -300,6 +300,7 @@ public class ActivityRecording extends Activity
 	private void fillControlArea(View areaView)
 	{
 		bRecord = (Button) areaView.findViewById(R.id.act_recording_control_button_record);
+		bRecord.setEnabled(true);
     	bPlay = (Button) areaView.findViewById(R.id.act_recording_control_button_play);
     	bPlay.setEnabled(false);
     	bNext = (Button) areaView.findViewById(R.id.act_recording_control_button_next);
