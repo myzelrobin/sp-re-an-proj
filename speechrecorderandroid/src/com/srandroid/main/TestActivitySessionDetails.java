@@ -605,6 +605,7 @@ public class TestActivitySessionDetails extends Activity
 			        {
 			        	fillSessionItem(itemView);
 			        	itemView.setClickable(false);
+			        	if(position == (itemlist.size() -1)) this.notifyDataSetInvalidated();
 			        }
 			        catch (Exception e) 
 			        {
