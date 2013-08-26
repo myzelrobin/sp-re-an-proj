@@ -75,7 +75,7 @@ public class TestActivitySessionDetails extends Activity
 	    private TextView recordItemIsuploaded;
 	    
 	    
-	    private ArrayList itemlist; // for adapter
+	    private ArrayList<String> itemlist; // for adapter
 	    private ArrayList<String> filepathList; // list of record filepathes
 	    
 	    private Activity thisAct;
@@ -135,7 +135,8 @@ public class TestActivitySessionDetails extends Activity
 				+ e.getLocalizedMessage());
 			}
 	        
-	        
+	        itemlist = new ArrayList<String>();
+	        filepathList = new ArrayList<String>();
 
 	        itemlist.add(0, "SESSION_ITEM");
 	        filepathList.add(0, null);
