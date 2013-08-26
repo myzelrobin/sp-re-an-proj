@@ -116,7 +116,10 @@ public class TestActivitySessionDetails extends Activity
 	        
 	        
 	        // create itemlist
-	        getIDsForSessionItem(sessionItemId);
+	        //getIDsForSessionItem(sessionItemId);
+	        
+	        scriptId = "4";
+	        speakerId = "4";
 	        
 	        int count = getRecordsCountForScript(scriptId);
 	        
