@@ -132,6 +132,8 @@ public class ActivityRecording extends Activity
         	
         	setContentView(R.layout.gridviewlayout_act_recording);
         	
+        	setTitle(getResources().getString(R.string.act_recording_title_testrec));
+        	
         	gridView = (GridView) findViewById(R.id.id_gridview_act_recoding);
             
             String[] arealist = {"TEXT_AREA", "CONTROL_AREA_FOR_USER"};
@@ -148,6 +150,8 @@ public class ActivityRecording extends Activity
         	Log.w(this.getClass().getName(), "from StartRecording, start creating Recording");
         	
         	setContentView(R.layout.gridviewlayout_act_recording);
+        	
+        	setTitle(getResources().getString(R.string.act_recording_title));
         	
         	gridView = (GridView) findViewById(R.id.id_gridview_act_recoding);
             
@@ -567,7 +571,7 @@ public class ActivityRecording extends Activity
 									imageCircle3.setImageResource(R.drawable.icon_circle_green); 
 						        	
 									recItemIndex++;
-							    	if(recItemIndex > 3) recItemIndex = 3;
+							    	if(recItemIndex > 4) recItemIndex = 4;
 							    	
 						        	 updateTextArea(gridView, 
 												recItemsList.get(recItemIndex).recinstructions, 
@@ -609,7 +613,7 @@ public class ActivityRecording extends Activity
 									imageCircle3.setImageResource(R.drawable.icon_circle_green);
 							    	
 							    	recItemIndex++;
-							    	if(recItemIndex > 3) recItemIndex = 3;
+							    	if(recItemIndex > 4) recItemIndex = 4;
 							    	
 							    	 updateTextArea(gridView, 
 												recItemsList.get(recItemIndex).recinstructions, 
@@ -673,7 +677,7 @@ public class ActivityRecording extends Activity
 					Log.w(ActivityRecording.class.getName(), "click >>");
 					recItemIndex++;
 					Log.w(ActivityRecording.class.getName(), ">>, recItemIndex=" + recItemIndex);
-					if(recItemIndex>3) recItemIndex = 3;
+					if(recItemIndex>4) recItemIndex = 4;
 					Log.w(ActivityRecording.class.getName(), ">>, recItemIndex=" + recItemIndex);
 					bPlay.setEnabled(false);
 					

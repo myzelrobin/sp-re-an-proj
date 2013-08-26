@@ -55,8 +55,8 @@ public class TestActivitySessionDetails extends Activity
 		private static final String[][] String = null;
 		private String sessionItemId = null;
 		
-		private String speakerId;
-		private String scriptId;
+		private String speakerIdForSession;
+		private String scriptIdForSession;
 		
 		private CharSequence activity_title;
 		
@@ -75,12 +75,15 @@ public class TestActivitySessionDetails extends Activity
 	    
 	    private String[] itemlist; // for adapter
 	    private String[] filepathList; // list of record filepathes
+	    
+	    private Activity thisAct;
 	
 	/**
 	 * 
 	 */
-	public TestActivitySessionDetails() {
-		// TODO Auto-generated constructor stub
+	public TestActivitySessionDetails() 
+	{
+		
 	}
 	
 
@@ -89,6 +92,8 @@ public class TestActivitySessionDetails extends Activity
 		protected void onCreate(Bundle savedInstanceState) 
 		{
 			super.onCreate(savedInstanceState);
+			
+			thisAct = this;
 			
 			// start activity from main
 			Bundle extras = getIntent().getExtras(); 
@@ -112,24 +117,23 @@ public class TestActivitySessionDetails extends Activity
 	        setContentView(R.layout.gridviewlayout_test_act_sessiondetails);
 	        
 	        
-	        gridView = (GridView) findViewById(R.id.id_gridview_act_prerecoding);
+	        gridView = (GridView) findViewById(R.id.id_gridview_testact_sessiondetails);
 	        
 	        
 	        // create itemlist
-	        //getIDsForSessionItem(sessionItemId);
+	        getIDsForSessionItem(sessionItemId);
 	        
-	        scriptId = "4";
-	        speakerId = "4";
+	        int count = getRecordsCountForScript(scriptIdForSession);
 	        
-	        int count = getRecordsCountForScript(scriptId);
-	        
-	        itemlist = new String[count+1];
-	        filepathList = new String[count+1];
 	        itemlist[0] = "SESSION_ITEM";
-	        for(int i=1; i<count+1; i++)
-	        {
-	        	itemlist[i] = "RECORD_ITEM";
-	        }
+	        
+//	        itemlist = new String[count+1];
+//	        filepathList = new String[count+1];
+//	        itemlist[0] = "SESSION_ITEM";
+//	        for(int i=1; i<count+1; i++)
+//	        {
+//	        	itemlist[i] = "RECORD_ITEM";
+//	        }
 	        
 	        gridView.setAdapter(new LocalAdapterForSessionDetails(this, itemlist));
 	        
@@ -236,8 +240,8 @@ public class TestActivitySessionDetails extends Activity
 	        		
 		        		Utils.toastTextToUser(this, "prepare recording");
 		        		
-		        		Utils.ConstantVars.speakerItemIdForNewSession = speakerId;
-		        		Utils.ConstantVars.scriptItemIdForNewSession = scriptId;
+		        		Utils.ConstantVars.speakerItemIdForNewSession = speakerIdForSession;
+		        		Utils.ConstantVars.scriptItemIdForNewSession = scriptIdForSession;
 		        		
 		        		Log.w(this.getClass().getName(), " set Utils.speakerID=" 
 		        				+ Utils.ConstantVars.speakerItemIdForNewSession 
@@ -279,50 +283,69 @@ public class TestActivitySessionDetails extends Activity
 		}
 
 
+
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, 
+				View itemView, 
+				int position,
+				long rowId) 
+		{
+			Utils.toastText(thisAct, "clicked item position=" + position + " rowId=" + rowId);
+			
+//			// play the record
+//			try {
+//				Utils.playRecord(this, filepathList[position]);
+//			} catch (ActivityNotFoundException e) {
+//				Log.w(this.getClass().getName(), 
+//						"Utils.playRecord() throws Exceptions " + e.getMessage());
+//			}
+		}
+		
 		private void getIDsForSessionItem(String sessionItemId)
 		{
 			Log.w(TestActivitySessionDetails.class.getName(), 
-					"getIDsForSessionItem() will query scriptId and speakerId from table sessions"
+					"getIDsForSessionItem() will query scriptIdForSession and speakerIdForSession from table sessions"
 					+ " with sessionItemId=" + sessionItemId);
 			
-			// query from db
-	        String[] selectColumns = {
-	        		TableSessions.COLUMN_ID,
-					TableSessions.COLUMN_SCRIPT_ID,
-					TableSessions.COLUMN_SPEAKER_ID};
+//			// query from db
+//	        String[] selectColumns = {
+//	        		TableSessions.COLUMN_ID,
+//					TableSessions.COLUMN_SCRIPT_ID,
+//					TableSessions.COLUMN_SPEAKER_ID};
 			
 	        Uri uri = Uri.parse(SrmUriMatcher.CONTENT_URI_TABLE_SESSIONS + "/" + sessionItemId);
 	        
-			Cursor cursor = getContentResolver().query(uri, selectColumns, null, null, null);
+			Cursor cursor = getContentResolver().query(uri, null, null, null, null);
 			
 			
 			if (cursor != null && cursor.getCount()!=0) 
 			{
 				int scriptIdTemp = 
 						cursor.getInt(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SCRIPT_ID));
-				scriptId = Integer.toString(scriptIdTemp);
+				scriptIdForSession = Integer.toString(scriptIdTemp);
 				
 				int speakerIdTemp =
 						cursor.getInt(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SPEAKER_ID));
-				speakerId = Integer.toString(speakerIdTemp);
+				speakerIdForSession = Integer.toString(speakerIdTemp);
 				
 				
 				Log.w(TestActivitySessionDetails.class.getName(), 
-						"getIDsForSessionItem() find scriptId=" + scriptId);
+						"getIDsForSessionItem() find scriptIdForSession=" + scriptIdForSession);
 				
 				Log.w(TestActivitySessionDetails.class.getName(), 
-						"getIDsForSessionItem() find speakerId=" + speakerId);
+						"getIDsForSessionItem() find speakerIdForSession=" + speakerIdForSession);
 			}
 			
 			
 			cursor.close();
 		}
 		
-		private int getRecordsCountForScript(String scriptId)
+		private int getRecordsCountForScript(String scriptIdTemp)
 		{
 			Log.w(TestActivitySessionDetails.class.getName(), 
 					"getRecordsCountForScript() will query item count from table records "
-					+ "with scriptId=" + scriptId);
+					+ "with scriptIdForSession=" + scriptIdTemp);
 			
 			int count = 0;
 			
@@ -331,7 +354,7 @@ public class TestActivitySessionDetails extends Activity
 	        		TableRecords.COLUMN_ID,
 	        		TableRecords.COLUMN_SCRIPT_ID};
 			
-	        String wherePart = "script_id=" + scriptId;
+	        String wherePart = "script_id=" + scriptIdTemp;
 			
 			Cursor cursor = getContentResolver().query(SrmUriMatcher.CONTENT_URI_TABLE_RECORDS, 
 					selectColumns, wherePart, null, null);
@@ -412,7 +435,7 @@ public class TestActivitySessionDetails extends Activity
 		private Cursor queryAllRecordsForScript(String scriptId)
 		{
 			Log.w(TestActivitySessionDetails.class.getName(), 
-					"queryAllRecordsForScript() will query record items with scriptId=" + scriptId);
+					"queryAllRecordsForScript() will query record items with scriptIdForSession=" + scriptId);
 			
 			// query from db
 	        String[] selectColumns = {
@@ -480,7 +503,7 @@ public class TestActivitySessionDetails extends Activity
 				this.context = context;
 				this.itemlist = itemlist;
 				
-				cursor = queryAllRecordsForScript(scriptId);
+				cursor = queryAllRecordsForScript(scriptIdForSession);
 				cursor.moveToFirst();
 				
 			}
@@ -550,19 +573,4 @@ public class TestActivitySessionDetails extends Activity
 		}
 
 
-
-		@Override
-		public void onItemClick(AdapterView<?> parent, 
-				View itemView, 
-				int position,
-				long rowId) 
-		{
-			// play the record
-			try {
-				Utils.playRecord(this, filepathList[position]);
-			} catch (ActivityNotFoundException e) {
-				Log.w(this.getClass().getName(), 
-						"Utils.playRecord() throws Exceptions " + e.getMessage());
-			}
-		}
 }

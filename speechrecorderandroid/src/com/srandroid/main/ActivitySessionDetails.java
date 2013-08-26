@@ -99,16 +99,14 @@ public class ActivitySessionDetails extends Activity
 			Cursor cursor = getContentResolver().query(SrmUriMatcher.CONTENT_URI_TABLE_SESSIONS_LEFTJOIN_SPEAKERS, 
 					selectColumns, wherePart, null, null);
 			
-			
-			
 	        if (cursor != null && cursor.getCount()!=0) 
 			{
+	        	cursor.moveToFirst();
 				
 				Log.w(this.getClass().getName(), " will create view of this activity.");
 				
 				setContentView(R.layout.linearlayout_activity_sessiondetails);
 				
-		        
 		        sessionid = (TextView) findViewById(R.id.act_sessiondetails_sessionid_textvalue);
 		        datetime = (TextView) findViewById(R.id.act_sessionsdetails_datetime_textvalue);
 		        place = (TextView) findViewById(R.id.act_sessiondetails_place_textvalue);
@@ -116,14 +114,6 @@ public class ActivitySessionDetails extends Activity
 		        speakers = (TextView) findViewById(R.id.act_sessiondetails_speakers_textvalue);
 		        scripts = (TextView) findViewById(R.id.act_sessiondetails_scripts_textvalue);
 		        
-		        
-		        
-	        	
-				cursor.moveToFirst();
-				
-				
-				
-				
 				String idText = cursor.getString(cursor.getColumnIndexOrThrow("session_key_id"));
 				sessionid.setText("Session #" + idText);
 				setTitle("Session #" + idText);
@@ -143,7 +133,6 @@ public class ActivitySessionDetails extends Activity
 				
 				speakerId = cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SPEAKER_ID));
 				speakers.setText(speakerId);
-				
 				
 			}
 	        
