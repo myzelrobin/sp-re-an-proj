@@ -316,7 +316,7 @@ public class TestActivitySessionDetails extends Activity
 			
 	        Uri uri = Uri.parse(SrmUriMatcher.CONTENT_URI_TABLE_SESSIONS + "/" + sessionItemId);
 	        
-			Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+			Cursor cursor = getApplicationContext().getContentResolver().query(uri, null, null, null, null);
 			
 			
 			if (cursor != null && cursor.getCount()!=0) 
