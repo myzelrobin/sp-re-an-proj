@@ -481,7 +481,7 @@ public class TestActivitySessionDetails extends Activity
 	        
 		}
 		
-		private void fillRecordItem(View view, Cursor cursor)
+		private void fillRecordItem(View view, Cursor cursor, int position)
 		{
 			Log.w(TestActivitySessionDetails.class.getName(), 
 					"fillRecordItem() will fill record item");
@@ -507,7 +507,10 @@ public class TestActivitySessionDetails extends Activity
 			    String prompt = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_PROMPT));
 			    recordItemPrompt.setText(prompt);
 			    
-			    // a method in adapter to setOnClickListener to 
+			    // records file to play
+			    filepathList[position] = 
+						cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_FILEPATH));
+			    
 			}
 			
 		}
@@ -593,20 +596,10 @@ public class TestActivitySessionDetails extends Activity
 									: convertView);
 					if(cursor != null)
 					{
-						
-						Log.w(LocalAdapterForSessionDetails.class.getName(), 
-								"getView() will create recorditem at position=" + position
-								+ " and record_key_id=" + 
-								cursor.getInt(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ID)));
-						
-						fillRecordItem(itemView, cursor);
+						fillRecordItem(itemView, cursor, position);
 						cursor.moveToNext();
 						if(cursor.isAfterLast()) cursor.close();
 					}
-					
-					// use arraylist is better
-					 filepathList[position] = 
-							cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_FILEPATH));
 					
 					
 				}
