@@ -288,21 +288,21 @@ public class TestActivitySessionDetails extends Activity
 					TableSessions.COLUMN_SCRIPT_ID,
 					TableSessions.COLUMN_SPEAKER_ID};
 			
+	        Uri uri = Uri.parse(SrmUriMatcher.CONTENT_URI_TABLE_SESSIONS + "/" + sessionItemId);
 	        
-	        String wherePart = "_id=" + sessionItemId;
+			Cursor cursor = getContentResolver().query(uri, selectColumns, null, null, null);
 			
-			Cursor cursor = getContentResolver().query(SrmUriMatcher.CONTENT_URI_TABLE_SESSIONS, 
-					selectColumns, wherePart, null, null);
 			
 			if (cursor != null && cursor.getCount()!=0) 
 			{
-				//scriptId = 
-						cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SCRIPT_ID));
+				int scriptIdTemp = 
+						cursor.getInt(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SCRIPT_ID));
+				scriptId = Integer.toString(scriptIdTemp);
 				
-				scriptId = "4";
-						
-				speakerId =
-						cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SPEAKER_ID));
+				int speakerIdTemp =
+						cursor.getInt(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SPEAKER_ID));
+				speakerId = Integer.toString(speakerIdTemp);
+				
 				
 				Log.w(TestActivitySessionDetails.class.getName(), 
 						"getIDsForSessionItem() find scriptId=" + scriptId);
@@ -394,12 +394,11 @@ public class TestActivitySessionDetails extends Activity
 				
 				// here for isuploaded, this column is not in db
 				
-				String scriptIdTemp = cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SCRIPT_ID));
-				scripts.setText(scriptIdTemp);
+				int scriptIdTemp = cursor.getInt(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SCRIPT_ID));
+				scripts.setText(Integer.toString(scriptIdTemp));
 				
-				String speakerIdTemp = cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SPEAKER_ID));
-				speakers.setText(speakerIdTemp);
-				
+				int speakerIdTemp = cursor.getInt(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SPEAKER_ID));
+				speakers.setText(Integer.toString(speakerIdTemp));
 				
 			}
 	        
