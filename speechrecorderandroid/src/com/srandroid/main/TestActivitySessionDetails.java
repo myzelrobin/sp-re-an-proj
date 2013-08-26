@@ -631,7 +631,7 @@ public class TestActivitySessionDetails extends Activity
 				if(position == (itemlist.size() -1)) 
 				{
 					cursor.close();
-					//this.notifyDataSetInvalidated();
+					this.notifyDataSetInvalidated();
 				}
 				
 				return itemView;
