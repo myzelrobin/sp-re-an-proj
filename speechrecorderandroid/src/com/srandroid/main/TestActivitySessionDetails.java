@@ -296,9 +296,11 @@ public class TestActivitySessionDetails extends Activity
 			
 			if (cursor != null && cursor.getCount()!=0) 
 			{
-				scriptId = 
+				//scriptId = 
 						cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SCRIPT_ID));
 				
+				scriptId = "4";
+						
 				speakerId =
 						cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SPEAKER_ID));
 				
