@@ -178,30 +178,7 @@ public class SrmContentProvider extends ContentProvider
 						+ "=" + uri.getLastPathSegment());
 				break;
 			case SrmUriMatcher.TABLE_RECORDS:
-				
-				StringBuilder builderTREC = new StringBuilder();
-				builderTREC.append(selectColumns[0]);
-				for (int i = 1; i < selectColumns.length; i++) {
-				   builderTREC.append("," + selectColumns[i]);
-				}
-				String resultTREC = builderTREC.toString();
-				
-				srmDB = dbAccesor.getReadableDatabase();
-				
-				String sqlQueryTREC = "SELECT " + resultTREC 
-				+ ", records._id as record_key_id FROM records"
-				+ " WHERE " + wherePart;
-				
-				Log.w(SrmContentProvider.class.getName(), "query(): will query: " + sqlQueryTREC);
-		
-				cursor = srmDB.rawQuery(sqlQueryTREC, null);
-				
-				cursor.setNotificationUri(getContext().getContentResolver(), uri); 
-				
-				return cursor;
-				
-				// with queryBuilder does not work
-				//break;
+				break;
 			case SrmUriMatcher.RECORD_ITEM_ID:
 				queryBuilder.appendWhere(TableRecords.COLUMN_ID 
 						+ "=" + uri.getLastPathSegment());
