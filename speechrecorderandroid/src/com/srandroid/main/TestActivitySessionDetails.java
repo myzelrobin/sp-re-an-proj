@@ -65,9 +65,13 @@ public class TestActivitySessionDetails extends Activity
 	    private TextView speakers;
 	    private TextView scripts;
 	    
-	    private TextView recordItemId;
+	    private TextView recordItemItemcode;
 	    private  TextView recordItemIntro;
 	    private TextView recordItemPrompt;
+	    private TextView recordItemComment;
+	    private TextView recordItemScriptid;
+	    private TextView recordItemIsuploaded;
+	    
 	    
 	    private String[] itemlist; // for adapter
 	    private String[] filepathList; // list of record filepathes
@@ -80,7 +84,15 @@ public class TestActivitySessionDetails extends Activity
 	 */
 	public TestActivitySessionDetails() 
 	{
-		
+
+        itemlist = new String[recItemsCount+1];
+        filepathList = new String[recItemsCount+1];
+        itemlist[0] = "SESSION_ITEM";
+        for(int i=1; i<recItemsCount+1; i++)
+        {
+        	itemlist[i] = "RECORD_ITEM";
+        }
+        
 	}
 	
 
@@ -129,14 +141,6 @@ public class TestActivitySessionDetails extends Activity
 				Log.w(this.getClass().getName(), " getIDsForSessionItem() throws " 
 				+ e.getLocalizedMessage());
 			}
-	        
-	        itemlist = new String[recItemsCount+1];
-	        filepathList = new String[recItemsCount+1];
-	        itemlist[0] = "SESSION_ITEM";
-	        for(int i=1; i<recItemsCount+1; i++)
-	        {
-	        	itemlist[i] = "RECORD_ITEM";
-	        }
 	        
 	        gridView.setAdapter(new LocalAdapterForSessionDetails(this, itemlist));
 	        
@@ -472,8 +476,9 @@ public class TestActivitySessionDetails extends Activity
 					int scriptIdTemp = cursor.getInt(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SCRIPT_ID));
 					scripts.setText(Integer.toString(scriptIdTemp));
 					
-					int speakerIdTemp = cursor.getInt(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SPEAKER_ID));
-					speakers.setText(Integer.toString(speakerIdTemp));
+					String firstname = cursor.getString(cursor.getColumnIndexOrThrow(TableSpeakers.COLUMN_FIRSTNAME));
+					String surname = cursor.getString(cursor.getColumnIndexOrThrow(TableSpeakers.COLUMN_SURNAME));
+					speakers.setText(firstname + " " + surname);
 				
 			}
 	        
@@ -483,8 +488,6 @@ public class TestActivitySessionDetails extends Activity
 		
 		private void fillRecordItem(View view, Cursor cursor, int position)
 		{
-			if(cursor.isAfterLast())	cursor.close();
-			
 			Log.w(TestActivitySessionDetails.class.getName(), 
 					"fillRecordItem() will fill record item");
 			
@@ -495,16 +498,27 @@ public class TestActivitySessionDetails extends Activity
 				Log.w(TestActivitySessionDetails.class.getName(), 
 								"fillRecordItem() will fill record item idInTable=" + id);
 				
-				recordItemId = (TextView) view.findViewById(R.id.id_item_record_id_textvalue);
-			    recordItemIntro = (TextView) view.findViewById(R.id.id_item_record_intro_textvalue);
-			    recordItemPrompt = (TextView) view.findViewById(R.id.id_item_record_prompt_textvalue);
-			    // recordItemButtonPlay = (ImageButton) view.findViewById(R.id.id_item_record_button_play);
+				recordItemItemcode = (TextView) view.findViewById(R.id.recorditem_itemcode_textvalue);
+				recordItemScriptid = (TextView) view.findViewById(R.id.recorditem_script_id_textvalue);
+				recordItemIsuploaded = (TextView) view.findViewById(R.id.recorditem_isuploaded_textvalue);
+			    recordItemIntro = (TextView) view.findViewById(R.id.recorditem_intro_textvalue);
+			    recordItemComment = (TextView) view.findViewById(R.id.recorditem_comment_textvalue);
+			    recordItemPrompt = (TextView) view.findViewById(R.id.recorditem_prompt_textvalue);
 		        
 			    String itemcode = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ITEMCODE));
-			    recordItemId.setText(itemcode);
+			    recordItemItemcode.setText(itemcode);
+			    
+			    String scriptidTemp = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_SCRIPT_ID));
+			    recordItemScriptid.setText("Script #" + scriptidTemp);
+			    
+			    String isuploaded = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ISUPLOADED));
+			    recordItemIsuploaded.setText(isuploaded);
 			    
 			    String instruction = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_INSTRUCTION));
 			    recordItemIntro.setText(instruction);
+			    
+			    String comment = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_COMMENT));
+			    recordItemComment.setText(comment);
 			    
 			    String prompt = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_PROMPT));
 			    recordItemPrompt.setText(prompt);
@@ -595,17 +609,19 @@ public class TestActivitySessionDetails extends Activity
 				}
 				else if(itemlist[position].equals("RECORD_ITEM"))
 				{
+					Log.w(LocalAdapterForSessionDetails.class.getName(), 
+							"getView() will create recorditem at position=" + position);
 					
 					itemView = 
 							(LinearLayout) (convertView == null
-							? LayoutInflater.from(context).inflate(R.layout.linearlayout_item_record, parent, false)
+							? LayoutInflater.from(context).inflate(R.layout.linearlayout_act_sessiondetails_recorditem, parent, false)
 									: convertView);
 					if(cursor != null)
 					{
 						fillRecordItem(itemView, cursor, position);
 					}
 					
-					
+					if(position == (itemlist.length -1)) cursor.close();
 				}
 				
 				return itemView;

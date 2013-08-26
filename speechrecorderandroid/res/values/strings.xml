@@ -196,7 +196,21 @@
         <string name="session1_creation_day">YYYY,MM,DD</string>
         <string name="session1_isfinished">Finished</string>
 
+        <!-- item record -->
+        <string name="recorditem_id_text">itemcode</string>
+        <string name="recorditem_intro_text">Instr.</string>
+        <string name="recorditem_prompt_text">Prompt</string>
+        <string name="recorditem_comment_text">Comment</string>
+        <string name="recorditem_scriptid_text">Script</string>
+        <string name="recorditem_isuploaded_text">isuploaded</string>
         
+        <!-- Record Example -->
+        <string name="record1_id">item_000</string>
+        <string name="record1_intro">InstructionExample</string>
+        <string name="record1_prompt">PromptExample</string>
+        <string name="record1_comment">CommentExample</string>
+        <string name="record1_scriptid">ScriptID#</string>
+        <string name="record1_isuploaded">IsuploadedExample</string>
         
         <!-- activity add speaker -->
         <string name="activity_addspeaker_title">Add Speaker</string>
@@ -248,11 +262,7 @@
         <string name="act_sessiondetails_scripts_text2">No scripts informations</string>
         <string name="act_sessiondetails_speakers_text2">No speakers informations</string>
         
-        <!-- item record -->
-        <string name="item_record_id_text">item_000</string>
-        <string name="item_record_intro_text">Instruction</string>
-        <string name="item_record_prompt_text">Prompt</string>
-        <string name="item_record_isuploaded_text">isuploaded</string>
+        
         
         <!-- activity PreRecording -->
         <string name="act_prerecording_title">Prepare Recording</string>

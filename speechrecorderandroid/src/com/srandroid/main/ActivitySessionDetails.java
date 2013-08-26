@@ -132,7 +132,9 @@ public class ActivitySessionDetails extends Activity
 				scripts.setText(scriptId);
 				
 				speakerId = cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SPEAKER_ID));
-				speakers.setText(speakerId);
+				String firstname = cursor.getString(cursor.getColumnIndexOrThrow(TableSpeakers.COLUMN_FIRSTNAME));
+				String surname = cursor.getString(cursor.getColumnIndexOrThrow(TableSpeakers.COLUMN_SURNAME));
+				speakers.setText(firstname + " " + surname);
 				
 			}
 	        
