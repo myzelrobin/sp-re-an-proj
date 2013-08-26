@@ -198,6 +198,7 @@ public class SrmContentProvider extends ContentProvider
 				
 				return cursor;
 				
+				// with queryBuilder does not work
 				//break;
 			case SrmUriMatcher.RECORD_ITEM_ID:
 				queryBuilder.appendWhere(TableRecords.COLUMN_ID 
