@@ -590,7 +590,7 @@ public class TestActivitySessionDetails extends Activity
 				
 				
 				
-				return null;
+				return itemView;
 			}
 			
 		}
