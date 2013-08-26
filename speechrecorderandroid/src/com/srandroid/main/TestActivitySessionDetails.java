@@ -288,10 +288,11 @@ public class TestActivitySessionDetails extends Activity
 					TableSessions.COLUMN_SCRIPT_ID,
 					TableSessions.COLUMN_SPEAKER_ID};
 			
-	        Uri uri = Uri.parse(SrmUriMatcher.CONTENT_ITEM_TYPE_SESSION + "/" + sessionItemId);
 	        
-			Cursor cursor = getContentResolver().query(uri, selectColumns, null, null, null);
+	        String wherePart = "_id=" + sessionItemId;
 			
+			Cursor cursor = getContentResolver().query(SrmUriMatcher.CONTENT_URI_TABLE_SESSIONS, 
+					selectColumns, wherePart, null, null);
 			
 			if (cursor != null && cursor.getCount()!=0) 
 			{
