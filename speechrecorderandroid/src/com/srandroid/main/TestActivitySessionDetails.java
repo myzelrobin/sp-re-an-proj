@@ -369,7 +369,8 @@ public class TestActivitySessionDetails extends Activity
 			
 	        String wherePart = "script_id=" + scriptIdTemp;
 			
-			Cursor cursor = getContentResolver().query(SrmUriMatcher.CONTENT_URI_TABLE_RECORDS, 
+			Cursor cursor = getApplicationContext().getContentResolver().query(
+					SrmUriMatcher.CONTENT_URI_TABLE_RECORDS, 
 					selectColumns, wherePart, null, null);
 			
 			if (cursor != null && cursor.getCount()!=0) 
@@ -403,7 +404,8 @@ public class TestActivitySessionDetails extends Activity
 			
 			String wherePart = "session_key_id=" + sessionItemId;
 			
-			Cursor cursor = getContentResolver().query(SrmUriMatcher.CONTENT_URI_TABLE_SESSIONS_LEFTJOIN_SPEAKERS, 
+			Cursor cursor = getApplicationContext().getContentResolver().query(
+					SrmUriMatcher.CONTENT_URI_TABLE_SESSIONS_LEFTJOIN_SPEAKERS, 
 					selectColumns, wherePart, null, null);
 			
 			
@@ -464,7 +466,8 @@ public class TestActivitySessionDetails extends Activity
 			
 			String wherePart = "script_id=" + scriptId;
 			
-			Cursor cursor = getContentResolver().query(SrmUriMatcher.CONTENT_URI_TABLE_RECORDS, 
+			Cursor cursor = getApplicationContext().getContentResolver().query(
+					SrmUriMatcher.CONTENT_URI_TABLE_RECORDS, 
 					selectColumns, wherePart, null, null);
 			if (cursor != null && cursor.getCount() !=0)
 			{
@@ -473,6 +476,7 @@ public class TestActivitySessionDetails extends Activity
 				Log.w(TestActivitySessionDetails.class.getName(), 
 						"queryAllRecordsForScript() queried record items count=" + cursor.getCount());
 				
+				
 				return cursor;
 			}
 			else return null;
@@ -480,6 +484,9 @@ public class TestActivitySessionDetails extends Activity
 		
 		private void fillRecordItem(View view, Cursor cursor)
 		{
+			Log.w(TestActivitySessionDetails.class.getName(), 
+					"fillRecordItem() will fill record item");
+			
 			if (cursor != null && cursor.getCount()!=0) 
 			{
 				
