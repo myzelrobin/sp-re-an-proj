@@ -290,19 +290,24 @@ public class TestActivitySessionDetails extends Activity
 			
 	        Uri uri = Uri.parse(SrmUriMatcher.CONTENT_ITEM_TYPE_SESSION + "/" + sessionItemId);
 	        
-			Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+			Cursor cursor = getContentResolver().query(uri, selectColumns, null, null, null);
 			
-			scriptId = 
-					cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SCRIPT_ID));
 			
-			speakerId =
-					cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SPEAKER_ID));
+			if (cursor != null && cursor.getCount()!=0) 
+			{
+				scriptId = 
+						cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SCRIPT_ID));
+				
+				speakerId =
+						cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SPEAKER_ID));
+				
+				Log.w(TestActivitySessionDetails.class.getName(), 
+						"getIDsForSessionItem() find scriptId=" + scriptId);
+				
+				Log.w(TestActivitySessionDetails.class.getName(), 
+						"getIDsForSessionItem() find speakerId=" + speakerId);
+			}
 			
-			Log.w(TestActivitySessionDetails.class.getName(), 
-					"getIDsForSessionItem() find scriptId=" + scriptId);
-			
-			Log.w(TestActivitySessionDetails.class.getName(), 
-					"getIDsForSessionItem() find speakerId=" + speakerId);
 			
 			cursor.close();
 		}
@@ -312,6 +317,8 @@ public class TestActivitySessionDetails extends Activity
 			Log.w(TestActivitySessionDetails.class.getName(), 
 					"getRecordsCountForScript() will query item count from table records "
 					+ "with scriptId=" + scriptId);
+			
+			int count = 0;
 			
 			// query from db
 	        String[] selectColumns = {
@@ -323,10 +330,13 @@ public class TestActivitySessionDetails extends Activity
 			Cursor cursor = getContentResolver().query(SrmUriMatcher.CONTENT_URI_TABLE_RECORDS, 
 					selectColumns, wherePart, null, null);
 			
-			int count = cursor.getCount();
-			
-			Log.w(TestActivitySessionDetails.class.getName(), 
-					"getRecordsCountForScript() gets count=" + count);
+			if (cursor != null && cursor.getCount()!=0) 
+			{
+				count = cursor.getCount();
+				
+				Log.w(TestActivitySessionDetails.class.getName(), 
+						"getRecordsCountForScript() gets count=" + count);
+			}
 			
 			cursor.close();
 			
@@ -418,7 +428,8 @@ public class TestActivitySessionDetails extends Activity
 			Log.w(TestActivitySessionDetails.class.getName(), 
 					"queryAllRecordsForScript() queried record items count=" + cursor.getCount());
 			
-			return cursor;
+			if (cursor != null && cursor.getCount()!=0) return cursor;
+			else return null;
 		}
 		
 		private void fillRecordItem(View view, Cursor cursor)
