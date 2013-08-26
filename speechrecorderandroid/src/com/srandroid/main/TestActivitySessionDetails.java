@@ -123,8 +123,8 @@ public class TestActivitySessionDetails extends Activity
 	        
 	        int count = getRecordsCountForScript(scriptId);
 	        
-	        itemlist = String[count+1];
-	        filepathList = String[count+1];
+	        itemlist = new String[count+1];
+	        filepathList = new String[count+1];
 	        itemlist[0] = "SESSION_ITEM";
 	        for(int i=1; i<count+1; i++)
 	        {
