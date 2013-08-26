@@ -116,7 +116,7 @@ public class TestActivitySessionDetails extends Activity
 	        
 	        
 	        // create itemlist
-	        scriptId = getScriptIdForSessionItem(sessionItemId);
+	        getIDsForSessionItem(sessionItemId);
 	        
 	        int count = getRecordsCountForScript(scriptId);
 	        
@@ -276,28 +276,35 @@ public class TestActivitySessionDetails extends Activity
 		}
 
 
-		private String getScriptIdForSessionItem(String sessionItemId)
+		private void getIDsForSessionItem(String sessionItemId)
 		{
 			Log.w(TestActivitySessionDetails.class.getName(), 
-					"getScriptIdForSessionItem() will query scriptId from table sessions"
+					"getIDsForSessionItem() will query scriptId and speakerId from table sessions"
 					+ " with sessionItemId=" + sessionItemId);
 			
 			// query from db
 	        String[] selectColumns = {
 	        		TableSessions.COLUMN_ID,
-					TableSessions.COLUMN_SCRIPT_ID};
+					TableSessions.COLUMN_SCRIPT_ID,
+					TableSessions.COLUMN_SPEAKER_ID};
 			
-	        Uri uri = Uri.parse(SrmUriMatcher.CONTENT_ITEM_TYPE_RECORD + "/" + sessionItemId);
+	        Uri uri = Uri.parse(SrmUriMatcher.CONTENT_ITEM_TYPE_SESSION + "/" + sessionItemId);
 	        
 			Cursor cursor = getContentResolver().query(uri, null, null, null, null);
 			
-			String scriptId = 
+			scriptId = 
 					cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SCRIPT_ID));
 			
-			Log.w(TestActivitySessionDetails.class.getName(), 
-					"getScriptIdForSessionItem() find scriptId=" + scriptId);
+			speakerId =
+					cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SPEAKER_ID));
 			
-			return scriptId;
+			Log.w(TestActivitySessionDetails.class.getName(), 
+					"getIDsForSessionItem() find scriptId=" + scriptId);
+			
+			Log.w(TestActivitySessionDetails.class.getName(), 
+					"getIDsForSessionItem() find speakerId=" + speakerId);
+			
+			cursor.close();
 		}
 		
 		private int getRecordsCountForScript(String scriptId)
@@ -320,6 +327,8 @@ public class TestActivitySessionDetails extends Activity
 			
 			Log.w(TestActivitySessionDetails.class.getName(), 
 					"getRecordsCountForScript() gets count=" + count);
+			
+			cursor.close();
 			
 			return count;
 		}
@@ -372,11 +381,11 @@ public class TestActivitySessionDetails extends Activity
 				
 				// here for isuploaded, this column is not in db
 				
-				scriptId = cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SCRIPT_ID));
-				scripts.setText(scriptId);
+				String scriptIdTemp = cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SCRIPT_ID));
+				scripts.setText(scriptIdTemp);
 				
-				speakerId = cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SPEAKER_ID));
-				speakers.setText(speakerId);
+				String speakerIdTemp = cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SPEAKER_ID));
+				speakers.setText(speakerIdTemp);
 				
 				
 			}
