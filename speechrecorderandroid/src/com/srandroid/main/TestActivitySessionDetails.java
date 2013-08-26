@@ -328,11 +328,11 @@ public class TestActivitySessionDetails extends Activity
 	        Uri uri = Uri.parse(SrmUriMatcher.CONTENT_URI_TABLE_SESSIONS + "/" + sessionItemId);
 	        
 			Cursor cursor = getApplicationContext().getContentResolver().query(uri, null, null, null, null);
-			
+			cursor.moveToFirst();
 			
 			if (cursor != null && cursor.getCount()!=0) 
 			{
-				cursor.moveToFirst();
+				
 				
 				int scriptIdTemp = 
 						cursor.getInt(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SCRIPT_ID));
@@ -372,6 +372,7 @@ public class TestActivitySessionDetails extends Activity
 			Cursor cursor = getApplicationContext().getContentResolver().query(
 					SrmUriMatcher.CONTENT_URI_TABLE_RECORDS, 
 					selectColumns, wherePart, null, null);
+			cursor.moveToFirst();
 			
 			if (cursor != null && cursor.getCount()!=0) 
 			{
@@ -409,9 +410,10 @@ public class TestActivitySessionDetails extends Activity
 			Cursor cursor = getApplicationContext().getContentResolver().query(
 					SrmUriMatcher.CONTENT_URI_TABLE_RECORDS, 
 					selectColumns, wherePart, null, null);
+			cursor.moveToFirst();
 			if (cursor != null && cursor.getCount() !=0)
 			{
-				cursor.moveToFirst();
+				
 				
 				Log.w(TestActivitySessionDetails.class.getName(), 
 						"queryAllRecordsForScript() queried record items count=" + cursor.getCount());
@@ -443,7 +445,7 @@ public class TestActivitySessionDetails extends Activity
 			Cursor cursor = getApplicationContext().getContentResolver().query(
 					SrmUriMatcher.CONTENT_URI_TABLE_SESSIONS_LEFTJOIN_SPEAKERS, 
 					selectColumns, wherePart, null, null);
-			
+			cursor.moveToFirst();
 			
 			
 	        if (cursor != null && cursor.getCount()!=0) 
@@ -455,7 +457,7 @@ public class TestActivitySessionDetails extends Activity
 		        speakers = (TextView) view.findViewById(R.id.act_sessiondetails_speakers_textvalue);
 		        scripts = (TextView) view.findViewById(R.id.act_sessiondetails_scripts_textvalue);
 		        
-				cursor.moveToFirst();
+				
 				
 				
 					String idText = cursor.getString(cursor.getColumnIndexOrThrow("session_key_id"));

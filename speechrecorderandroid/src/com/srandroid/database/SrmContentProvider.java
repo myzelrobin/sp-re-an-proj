@@ -293,7 +293,7 @@ public class SrmContentProvider extends ContentProvider
 					+ queryBuilder.buildQueryString(false, 
 							queryBuilder.getTables(), 
 							selectColumns, 
-							wherePart, 
+							wherePart + "=" + wherePartValues, 
 							null, 
 							null, 
 							null, 
