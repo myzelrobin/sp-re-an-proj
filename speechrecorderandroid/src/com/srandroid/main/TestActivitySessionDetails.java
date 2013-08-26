@@ -134,7 +134,7 @@ public class TestActivitySessionDetails extends Activity
 				+ e.getLocalizedMessage());
 			}
 	        
-	        
+	        itemlist = new String[recItemsCount+1];
 	        itemlist[0] = "SESSION_ITEM";
 	        
 //	        itemlist = new String[recItemsCount+1];
@@ -331,6 +331,8 @@ public class TestActivitySessionDetails extends Activity
 			
 			if (cursor != null && cursor.getCount()!=0) 
 			{
+				cursor.moveToFirst();
+				
 				int scriptIdTemp = 
 						cursor.getInt(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SCRIPT_ID));
 				scriptIdForSession = Integer.toString(scriptIdTemp);
