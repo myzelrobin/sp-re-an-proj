@@ -134,8 +134,9 @@ public class TestActivitySessionDetails extends Activity
 				+ e.getLocalizedMessage());
 			}
 	        
-	        itemlist = new String[recItemsCount+1];
+	        itemlist = new String[2];
 	        itemlist[0] = "SESSION_ITEM";
+	        itemlist[1] = "RECORD_ITEM";
 	        
 //	        itemlist = new String[recItemsCount+1];
 //	        filepathList = new String[recItemsCount+1];
@@ -418,7 +419,7 @@ public class TestActivitySessionDetails extends Activity
 		        
 				cursor.moveToFirst();
 				
-				try {
+				
 					String idText = cursor.getString(cursor.getColumnIndexOrThrow("session_key_id"));
 					sessionid.setText("Session #" + idText);
 					setTitle("Session #" + idText);
@@ -438,11 +439,6 @@ public class TestActivitySessionDetails extends Activity
 					
 					int speakerIdTemp = cursor.getInt(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SPEAKER_ID));
 					speakers.setText(Integer.toString(speakerIdTemp));
-				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					Log.w(TestActivitySessionDetails.class.getName(), 
-							"fillSessionItem() throws error " + e.getLocalizedMessage());
-				}
 				
 			}
 	        
@@ -470,13 +466,13 @@ public class TestActivitySessionDetails extends Activity
 			
 			Cursor cursor = getContentResolver().query(SrmUriMatcher.CONTENT_URI_TABLE_RECORDS, 
 					selectColumns, wherePart, null, null);
-			
-			Log.w(TestActivitySessionDetails.class.getName(), 
-					"queryAllRecordsForScript() queried record items count=" + cursor.getCount());
-			
 			if (cursor != null && cursor.getCount() !=0)
 			{
 				cursor.moveToFirst();
+				
+				Log.w(TestActivitySessionDetails.class.getName(), 
+						"queryAllRecordsForScript() queried record items count=" + cursor.getCount());
+				
 				return cursor;
 			}
 			else return null;
