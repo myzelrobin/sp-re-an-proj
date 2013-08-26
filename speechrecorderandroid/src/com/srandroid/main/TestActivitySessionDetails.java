@@ -388,7 +388,7 @@ public class TestActivitySessionDetails extends Activity
 		{
 
 			Log.w(TestActivitySessionDetails.class.getName(), 
-					"fillSessionItem() will query seesion item id=" + sessionItemId);
+					"fillSessionItem() will fill session item id=" + sessionItemId);
 	        // query from db
 	        String[] selectColumns = {
 					TableSessions.COLUMN_DATE,
@@ -418,25 +418,31 @@ public class TestActivitySessionDetails extends Activity
 		        
 				cursor.moveToFirst();
 				
-				String idText = cursor.getString(cursor.getColumnIndexOrThrow("session_key_id"));
-				sessionid.setText("Session #" + idText);
-				setTitle("Session #" + idText);
-				
-				String sDate = cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_DATE));
-				String sTime = cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_TIME));
-				datetime.setText(sDate + " " + sTime);
-				
-				place.setText(cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_PLACE)));
-				
-				isfinished.setText(cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_IS_FINISHED)));
-				
-				// here for isuploaded, this column is not in db
-				
-				int scriptIdTemp = cursor.getInt(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SCRIPT_ID));
-				scripts.setText(Integer.toString(scriptIdTemp));
-				
-				int speakerIdTemp = cursor.getInt(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SPEAKER_ID));
-				speakers.setText(Integer.toString(speakerIdTemp));
+				try {
+					String idText = cursor.getString(cursor.getColumnIndexOrThrow("session_key_id"));
+					sessionid.setText("Session #" + idText);
+					setTitle("Session #" + idText);
+					
+					String sDate = cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_DATE));
+					String sTime = cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_TIME));
+					datetime.setText(sDate + " " + sTime);
+					
+					place.setText(cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_PLACE)));
+					
+					isfinished.setText(cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_IS_FINISHED)));
+					
+					// here for isuploaded, this column is not in db
+					
+					int scriptIdTemp = cursor.getInt(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SCRIPT_ID));
+					scripts.setText(Integer.toString(scriptIdTemp));
+					
+					int speakerIdTemp = cursor.getInt(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SPEAKER_ID));
+					speakers.setText(Integer.toString(speakerIdTemp));
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					Log.w(TestActivitySessionDetails.class.getName(), 
+							"fillSessionItem() throws error " + e.getLocalizedMessage());
+				}
 				
 			}
 	        
