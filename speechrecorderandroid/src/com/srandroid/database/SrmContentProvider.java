@@ -289,7 +289,8 @@ public class SrmContentProvider extends ContentProvider
 		
 		
 		Log.w(SrmContentProvider.class.getName(), "query(): will query: " 
-					+ queryBuilder.buildQueryString(false, 
+					+ queryBuilder.buildQueryString(
+							false, 
 							queryBuilder.getTables(), 
 							selectColumns, 
 							"(" + wherePart + ") = (" + wherePartValues + ")", 
@@ -299,12 +300,12 @@ public class SrmContentProvider extends ContentProvider
 							null));
 		
 		cursor = queryBuilder.query(srmDB, 
-											selectColumns,  // select
-											wherePart, // where
-											wherePartValues,  // where =
-											null,  // group by
-											null,  // having
-											sortOrder);  // sort by
+									selectColumns,  // select
+									wherePart, // where
+									wherePartValues,  // where =
+									null,  // group by
+									null,  // having
+									sortOrder);  // sort by
 		
 		
 		// By default, CursorAdapter objects will get this notification.

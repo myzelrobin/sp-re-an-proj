@@ -130,17 +130,13 @@ public class TestActivitySessionDetails extends Activity
 				+ e.getLocalizedMessage());
 			}
 	        
-	        itemlist = new String[1];
+	        itemlist = new String[recItemsCount+1];
+	        filepathList = new String[recItemsCount+1];
 	        itemlist[0] = "SESSION_ITEM";
-	        //itemlist[1] = "RECORD_ITEM";
-	        
-//	        itemlist = new String[recItemsCount+1];
-//	        filepathList = new String[recItemsCount+1];
-//	        itemlist[0] = "SESSION_ITEM";
-//	        for(int i=1; i<count+1; i++)
-//	        {
-//	        	itemlist[i] = "RECORD_ITEM";
-//	        }
+	        for(int i=1; i<recItemsCount+1; i++)
+	        {
+	        	itemlist[i] = "RECORD_ITEM";
+	        }
 	        
 	        gridView.setAdapter(new LocalAdapterForSessionDetails(this, itemlist));
 	        
@@ -494,7 +490,7 @@ public class TestActivitySessionDetails extends Activity
 			{
 				
 				int id = cursor.getInt(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ID));
-						Log.w(TestActivitySessionDetails.class.getName(), 
+				Log.w(TestActivitySessionDetails.class.getName(), 
 								"fillRecordItem() will fill record item idInTable=" + id);
 				
 				recordItemId = (TextView) view.findViewById(R.id.id_item_record_id_textvalue);
@@ -569,6 +565,9 @@ public class TestActivitySessionDetails extends Activity
 				
 				if(itemlist[position].equals("SESSION_ITEM"))
 				{
+					Log.w(LocalAdapterForSessionDetails.class.getName(), 
+							"getView() will create sessionitem at position=" + position);
+					
 					itemView = 
 							(LinearLayout) (convertView == null
 							? LayoutInflater.from(context).inflate(R.layout.linearlayout_activity_sessiondetails, parent, false)
@@ -594,14 +593,20 @@ public class TestActivitySessionDetails extends Activity
 									: convertView);
 					if(cursor != null)
 					{
+						
+						Log.w(LocalAdapterForSessionDetails.class.getName(), 
+								"getView() will create recorditem at position=" + position
+								+ " and record_key_id=" + 
+								cursor.getInt(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ID)));
+						
 						fillRecordItem(itemView, cursor);
 						cursor.moveToNext();
 						if(cursor.isAfterLast()) cursor.close();
 					}
 					
 					// use arraylist is better
-					// filepathList[position] = 
-					//		cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_FILEPATH));
+					 filepathList[position] = 
+							cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_FILEPATH));
 					
 					
 				}
