@@ -78,6 +78,7 @@ public class TestActivitySessionDetails extends Activity
 	    
 	    private Activity thisAct;
 	
+	    private int recItemsCount;
 	/**
 	 * 
 	 */
@@ -121,14 +122,23 @@ public class TestActivitySessionDetails extends Activity
 	        
 	        
 	        // create itemlist
-	        getIDsForSessionItem(sessionItemId);
+	        try 
+	        {
+				getIDsForSessionItem(sessionItemId);
+				recItemsCount = getRecordsCountForScript(scriptIdForSession);
+			} 
+	        catch (Exception e) 
+	        {
+				// TODO Auto-generated catch block
+				Log.w(this.getClass().getName(), " getIDsForSessionItem() throws " 
+				+ e.getLocalizedMessage());
+			}
 	        
-	        int count = getRecordsCountForScript(scriptIdForSession);
 	        
 	        itemlist[0] = "SESSION_ITEM";
 	        
-//	        itemlist = new String[count+1];
-//	        filepathList = new String[count+1];
+//	        itemlist = new String[recItemsCount+1];
+//	        filepathList = new String[recItemsCount+1];
 //	        itemlist[0] = "SESSION_ITEM";
 //	        for(int i=1; i<count+1; i++)
 //	        {
