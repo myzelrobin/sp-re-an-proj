@@ -483,6 +483,8 @@ public class TestActivitySessionDetails extends Activity
 		
 		private void fillRecordItem(View view, Cursor cursor, int position)
 		{
+			if(cursor.isAfterLast())	cursor.close();
+			
 			Log.w(TestActivitySessionDetails.class.getName(), 
 					"fillRecordItem() will fill record item");
 			
@@ -511,7 +513,11 @@ public class TestActivitySessionDetails extends Activity
 			    filepathList[position] = 
 						cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_FILEPATH));
 			    
+			    cursor.moveToNext();
+			    
 			}
+			
+			
 			
 		}
 		
@@ -597,8 +603,6 @@ public class TestActivitySessionDetails extends Activity
 					if(cursor != null)
 					{
 						fillRecordItem(itemView, cursor, position);
-						cursor.moveToNext();
-						if(cursor.isAfterLast()) cursor.close();
 					}
 					
 					
