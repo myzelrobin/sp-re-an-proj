@@ -289,6 +289,15 @@ public class SrmContentProvider extends ContentProvider
 		
 		Log.w(SrmContentProvider.class.getName(), "query(): will query from tables: " + queryBuilder.getTables());
 		
+		Log.w(SrmContentProvider.class.getName(), "query(): will query: " 
+					+ queryBuilder.query(srmDB, 
+							selectColumns,  // select
+							wherePart, // where
+							wherePartValues,  // where =
+							null,  // group by
+							null,  // having
+							sortOrder).toString());
+		
 		cursor = queryBuilder.query(srmDB, 
 											selectColumns,  // select
 											wherePart, // where
