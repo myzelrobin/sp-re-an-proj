@@ -191,6 +191,8 @@ public class SrmContentProvider extends ContentProvider
 				String sqlQueryTREC = "SELECT " + resultTREC 
 				+ ", records._id as record_key_id FROM records "
 				+ " WHERE " + wherePart;
+				
+				Log.w(SrmContentProvider.class.getName(), "query(): will query: " + sqlQueryTREC);
 		
 				cursor = srmDB.rawQuery(sqlQueryTREC, null);
 				
