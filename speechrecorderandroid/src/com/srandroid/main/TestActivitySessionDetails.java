@@ -468,7 +468,11 @@ public class TestActivitySessionDetails extends Activity
 			Log.w(TestActivitySessionDetails.class.getName(), 
 					"queryAllRecordsForScript() queried record items count=" + cursor.getCount());
 			
-			if (cursor != null && cursor.getCount()!=0) return cursor;
+			if (cursor != null && cursor.getCount() !=0)
+			{
+				cursor.moveToFirst();
+				return cursor;
+			}
 			else return null;
 		}
 		
@@ -516,7 +520,6 @@ public class TestActivitySessionDetails extends Activity
 				this.itemlist = itemlist;
 				
 				cursor = queryAllRecordsForScript(scriptIdForSession);
-				cursor.moveToFirst();
 				
 			}
 			
@@ -574,10 +577,12 @@ public class TestActivitySessionDetails extends Activity
 					
 					filepathList[position] = 
 							cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_FILEPATH));
+					
+					cursor.moveToNext();
+					if(cursor.isAfterLast()) cursor.close();
 				}
 				
-				cursor.moveToNext();
-				if(cursor.isAfterLast()) cursor.close();
+				
 				
 				return null;
 			}
