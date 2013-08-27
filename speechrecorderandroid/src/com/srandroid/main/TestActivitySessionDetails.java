@@ -157,6 +157,8 @@ public class TestActivitySessionDetails extends Activity
 	        gridView.setOnItemClickListener(this);
 	        
 	        
+	        Utils.toastTextToUser(getApplicationContext(), "click record item to play");
+	        
 	        // enable home button
 	        getActionBar().setDisplayHomeAsUpEnabled(true);
 	        getActionBar().setHomeButtonEnabled(true);
@@ -658,7 +660,7 @@ public class TestActivitySessionDetails extends Activity
 				        {
 				            Log.w(LocalAdapterForSessionDetails.class.getName(), 
 									"getView() created recorditem at position=" + position 
-									+ " throws error:" + e.getLocalizedMessage());
+									+ " throws error:" + e.getMessage());
 				        }
 					}
 					
