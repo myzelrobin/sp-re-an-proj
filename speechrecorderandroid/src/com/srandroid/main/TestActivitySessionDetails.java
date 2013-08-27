@@ -154,6 +154,8 @@ public class TestActivitySessionDetails extends Activity
 	        
 	        gridView.setAdapter(localAdapter);
 	        
+	        gridView.setOnItemClickListener(this);
+	        
 	        
 	        // enable home button
 	        getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -649,7 +651,6 @@ public class TestActivitySessionDetails extends Activity
 						fillRecordItem(itemView, cursor, position);
 					}
 					
-					itemView.setClickable(true);
 					
 				}
 				
