@@ -520,14 +520,8 @@ public class ActivityRecording extends Activity
 							Log.w(ActivityRecording.class.getName(), "recording click record");
 						
 						// start recording
-						isBRecordClicked = 1;						
 						
-						bRecord.setText(getResources().getString(R.string.stop));
-						bRecord.setEnabled(false);
-						bPlay.setEnabled(false);
-						bPrev.setEnabled(false);
-						bNext.setEnabled(false);
-						
+						// new recorder
 						if(isTestRecroding)
 							srmRecorder = new SrmRecorder(Utils.ConstantVars.REC_FILES_DIR_EXT_PATH 
 								+ File.separator + "sessionID-" + Utils.ConstantVars.sessionItemIdForNewSession + "_"
@@ -544,6 +538,17 @@ public class ActivityRecording extends Activity
 						recordFilepath = srmRecorder.getAudioFile();
 						Log.w(ActivityRecording.class.getName(), "created new Recorder, start recording");
 						Log.w(ActivityRecording.class.getName(), "created new Recorder:" + recordFilepath);
+						
+
+						// update ui
+						isBRecordClicked = 1;						
+						
+						// buttons
+						bRecord.setText(getResources().getString(R.string.stop));
+						bRecord.setEnabled(false);
+						bPlay.setEnabled(false);
+						bPrev.setEnabled(false);
+						bNext.setEnabled(false);
 						
 						// change images
 			        	imageCircle1.setImageResource(R.drawable.icon_circle_red);
@@ -620,9 +625,7 @@ public class ActivityRecording extends Activity
 					    	
 					    	Log.w(ActivityRecording.class.getName(), "recording: click stop");
 					    	
-					    	recItemIndex++;
-					    	
-					    	
+					    	bRecord.setEnabled(false);
 					    	
 					    	handler = new Handler(); 
 						    handler.postDelayed(new Runnable() 
@@ -639,6 +642,10 @@ public class ActivityRecording extends Activity
 							    	
 							    	Log.w(ActivityRecording.class.getName(), "recording click stop, inserted record id="
 							    			+ uriNewRecordItem.getLastPathSegment());
+							    	
+							    	
+							    	recItemIndex++;
+							    	
 							    	
 
 									if(recItemIndex > recItemsList.size() -1)
