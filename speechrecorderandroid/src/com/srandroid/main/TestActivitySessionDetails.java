@@ -313,7 +313,6 @@ public class TestActivitySessionDetails extends Activity
 		{
 			if(position != 0)
 			{
-				Utils.toastText(thisAct, "clicked item position=" + position + " rowId=" + rowId);
 
 				TextView filepathTextTemp = 
 						(TextView) itemView.findViewById(R.id.recorditem_filepath_textvalue);

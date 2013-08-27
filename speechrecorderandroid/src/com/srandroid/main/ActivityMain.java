@@ -304,9 +304,6 @@ public class ActivityMain extends Activity {
         switch(item.getItemId())
         {
         	// actionbar buttons
-        	case R.id.button_add_session:
-        		Utils.toastText(getApplicationContext(), "clicked add session");
-        		break;
         	case R.id.button_search_sessions:
         		Utils.toastText(getApplicationContext(), "clicked search sessions");
         		break;
@@ -504,7 +501,7 @@ public class ActivityMain extends Activity {
     				(LayoutInflater) getActivity().getSystemService(
     						Context.LAYOUT_INFLATER_SERVICE);
 			fragmentView = gridInflater.inflate(
-					R.layout.gridview_in_fragment_in_activitymain, null);
+					R.layout.gridviewlayout_fragment_in_activitymain, null);
     		
 			gridView = (GridView) fragmentView.findViewById(
 							R.id.gridview_in_fragment_in_activitymain);

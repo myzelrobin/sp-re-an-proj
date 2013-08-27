@@ -534,7 +534,7 @@ public class Utils
 		recordItem5.recduration = "20000";
 		recordItem5.recinstructions = "Answer the question below";
 		recordItem5.recprompt = "How is the weather today?";
-		recordItem5.reccomment = "Wish an answer about weather";
+		recordItem5.reccomment = "Expect an answer about weather";
 		recItemsList.add(recordItem5);
 		
 		Utils.ConstantVars.recordItemListForNewSession = recItemsList;

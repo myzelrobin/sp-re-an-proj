@@ -19,8 +19,8 @@
                 android:gravity="center"
                 android:padding="30dp"
                 android:text="@string/act_recording_introarea_text" 
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textSize="18sp"
+                android:textStyle="italic" />
         </LinearLayout>
         
         <LinearLayout
@@ -34,7 +34,7 @@
                 android:padding="15dp"
                 android:gravity="center"
                 android:text="@string/act_recording_promptarea_text" 
-                android:textSize="20sp"
+                android:textSize="22sp"
                 android:textStyle="bold" />
         </LinearLayout>
         
