@@ -138,6 +138,8 @@ public class ActivityRecording extends Activity
         	
         	setTitle(getResources().getString(R.string.act_recording_title_testrec));
         	
+        	recItemIndex = 0;
+        	
         	gridView = (GridView) findViewById(R.id.id_gridview_act_recoding);
             
             String[] arealist = {"TEXT_AREA", "CONTROL_AREA_FOR_USER"};
@@ -156,6 +158,8 @@ public class ActivityRecording extends Activity
         	setContentView(R.layout.gridviewlayout_act_recording);
         	
         	setTitle(getResources().getString(R.string.act_recording_title));
+        	
+        	recItemIndex = 1;
         	
         	gridView = (GridView) findViewById(R.id.id_gridview_act_recoding);
             
@@ -301,21 +305,12 @@ public class ActivityRecording extends Activity
 	    getActionBar().setTitle(title);
 	}
 	
-	private void fillTextArea(View areaView)
+	private void fillTextArea()
 	{
-		if(isTestRecroding)
-		{
-			recItemIndex = 0;
-		}
-		else
-		{
-			recItemIndex = 1;
-		}
-		
-		instrText = (TextView) areaView.findViewById(R.id.act_recording_text_intro_textvalue);
+		instrText = (TextView) gridView.findViewById(R.id.act_recording_text_intro_textvalue);
 		instrText.setText(recItemsList.get(recItemIndex).recinstructions);
 		
-		promptText = (TextView) areaView.findViewById(R.id.act_recording_text_prompt_textvalue);
+		promptText = (TextView) gridView.findViewById(R.id.act_recording_text_prompt_textvalue);
 		promptText.setText(recItemsList.get(recItemIndex).recprompt);
 		
 	}
@@ -435,7 +430,7 @@ public class ActivityRecording extends Activity
 				
 				try
 		        {
-		        	fillTextArea(areaView);
+		        	fillTextArea();
 		        }
 		        catch (Exception e) 
 		        {
