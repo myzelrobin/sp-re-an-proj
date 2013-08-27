@@ -107,7 +107,6 @@
         </activity>
         
         <activity 
-            android:screenOrientation="landscape"
             android:name="com.srandroid.main.TestActivitySessionDetails"
             android:label="@string/act_sessiondetails_title"
             android:parentActivityName="com.srandroid.main.ActivityMain" >
