@@ -58,7 +58,6 @@ public class TableSessions
 	{
 		Log.w(TableSessions.class.getName(), "onCreate(): will create table: " + TABLE_SESSIONS);
 		db.execSQL(CREATE_TABLE_SESSIONS);
-		insertSessionExamples(db);
 	}
 	
 	// upgrade table sessions
