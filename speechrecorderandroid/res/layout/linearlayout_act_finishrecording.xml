@@ -5,28 +5,28 @@
 
     <LinearLayout
     android:background="#FFFFFF"
-    android:layout_width="400dp"
-    android:layout_height="300dp"
+    android:layout_width="600dp"
+    android:layout_height="450dp"
     android:gravity="center"
     android:orientation="vertical" >
         
         <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="75dp"
         android:orientation="horizontal"
-        android:gravity="center" >
+        android:gravity="center"  >
                     <TextView
                     android:id="@+id/act_finishrec_thank_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/act_finishrecording_text" 
-                    android:textSize="20sp" />
+                    android:textSize="18sp"/>
         </LinearLayout>
         
         
         <LinearLayout
-        android:layout_width="360dp"
-        android:layout_height="200dp"
+        android:layout_width="500dp"
+        android:layout_height="300dp"
         android:background="#000000"
         android:orientation="horizontal"
         android:gravity="center" >
@@ -40,7 +40,7 @@
         
         <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="75dp"
         android:orientation="horizontal"
         android:gravity="center" >
                     
