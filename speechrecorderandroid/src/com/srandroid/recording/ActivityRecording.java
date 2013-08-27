@@ -650,21 +650,25 @@ public class ActivityRecording extends Activity
 								    	Intent newI = new Intent(thisAct, ActivityFinishRecording.class);
 							        	thisAct.startActivity(newI);
 								    }
-							    	
-							    	// update GUI
-							    	imageCircle1.setImageResource(R.drawable.icon_circle_red);
-							    	imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
-							    	imageCircle3.setImageResource(R.drawable.icon_circle_green);
-							    	
-							    	 updateTextArea(gridView, 
-												recItemsList.get(recItemIndex).recinstructions, 
-												recItemsList.get(recItemIndex).recprompt);
+									else 
+									{
 
-									bRecord.setText(getResources().getString(R.string.record));
-									bRecord.setEnabled(true);
-									bPlay.setEnabled(true);
-									bPrev.setEnabled(true);
-									bNext.setEnabled(true);
+								    	// update GUI
+								    	imageCircle1.setImageResource(R.drawable.icon_circle_red);
+								    	imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
+								    	imageCircle3.setImageResource(R.drawable.icon_circle_green);
+								    	
+								    	 updateTextArea(gridView, 
+													recItemsList.get(recItemIndex).recinstructions, 
+													recItemsList.get(recItemIndex).recprompt);
+
+										bRecord.setText(getResources().getString(R.string.record));
+										bRecord.setEnabled(true);
+										bPlay.setEnabled(true);
+										bPrev.setEnabled(true);
+										bNext.setEnabled(true);
+									}
+							    	
 									
 						         } 
 						    }, Integer.parseInt(recItemsList.get(recItemIndex).postrecdelay));
