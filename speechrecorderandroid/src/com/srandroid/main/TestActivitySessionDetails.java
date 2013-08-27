@@ -192,6 +192,11 @@ public class TestActivitySessionDetails extends Activity
 		@Override
 	    protected void onStop()
 	    {
+			if(localAdapter.getCursor() != null)
+			{
+				
+				localAdapter.getCursor().close();
+			}
 			super.onStop();
 		}
 		
