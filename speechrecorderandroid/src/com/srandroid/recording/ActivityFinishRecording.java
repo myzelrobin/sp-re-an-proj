@@ -82,13 +82,14 @@ public class ActivityFinishRecording extends Activity
 				
 				Log.w(this.getClass().getName(), " will update session item as finished, id="
 						+ Utils.ConstantVars.sessionItemIdForNewSession);
-				Uri uriTemp = Uri.parse(SrmUriMatcher.CONTENT_ITEM_TYPE_SESSION 
-						+ "/" + Utils.ConstantVars.sessionItemIdForNewSession);
+				
+				String wherePart = "_id=" + Utils.ConstantVars.sessionItemIdForNewSession;
 				
 				ContentValues valuesTemp = new ContentValues();
 				valuesTemp.put(TableSessions.COLUMN_IS_FINISHED, "finished");
 				
-				int updatedItemId = getContentResolver().update(uriTemp, valuesTemp, null, null);
+				int updatedItemId = getApplicationContext().getContentResolver().
+						update(SrmUriMatcher.CONTENT_URI_TABLE_SESSIONS, valuesTemp, wherePart, null);
 				
 				Log.w(this.getClass().getName(), " updated session item as finished, id=" + updatedItemId);
 				

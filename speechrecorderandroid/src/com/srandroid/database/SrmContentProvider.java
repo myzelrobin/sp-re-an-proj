@@ -756,6 +756,7 @@ public class SrmContentProvider extends ContentProvider
 						+ ") from table " + table);
 				rowUpdated = srmDB.update(table, values, wherePart, wherePartValues);
 				break;
+			
 			case 2:
 				// 2: update item with id
 				Log.w(SrmContentProvider.class.getName(), 
@@ -763,6 +764,7 @@ public class SrmContentProvider extends ContentProvider
 						+ " from table " + table);
 				rowUpdated = srmDB.update(table, values, _id + "=" + requestedID, null);
 				break;
+			
 			case 3:
 				// 3: update item with id and conditions
 				Log.w(SrmContentProvider.class.getName(), 
