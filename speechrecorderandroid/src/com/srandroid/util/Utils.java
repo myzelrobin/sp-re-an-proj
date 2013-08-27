@@ -532,9 +532,9 @@ public class Utils
 		recordItem5.prerecdelay = "2000";
 		recordItem5.postrecdelay = "500";
 		recordItem5.recduration = "20000";
-		recordItem5.recinstructions = "Var snäll och bokstavera";
-		recordItem5.recprompt = "M O R G O N S T U N D";
-		recordItem5.reccomment = "Swedish spelling";
+		recordItem5.recinstructions = "Answer the question below";
+		recordItem5.recprompt = "How is the weather today?";
+		recordItem5.reccomment = "Wish an answer about weather";
 		recItemsList.add(recordItem5);
 		
 		Utils.ConstantVars.recordItemListForNewSession = recItemsList;
