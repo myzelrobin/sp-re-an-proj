@@ -165,16 +165,16 @@ public class TestActivitySessionDetails extends Activity
 	        	@Override
 	            public void onScrollStateChanged(AbsListView view, int scrollState) {
 
-/*	                if(scrollState != SCROLL_STATE_IDLE) {
-	                  mAdapter.setFlinging(true);
+	                if(scrollState != SCROLL_STATE_IDLE) {
+	                	localAdapter.setCanCreateNew(false);
 	                } else {
-	                  mAdapter.setFlinging(false);   
+	                	localAdapter.setCanCreateNew(true);
 	                }
-*/
-	                int first = view.getFirstVisiblePosition(); 
+
+	                int current = view.getLastVisiblePosition(); 
 	                int count = view.getChildCount(); 
 
-	                if (scrollState == SCROLL_STATE_IDLE && (first + count > localAdapter.getCount()) ) 
+	                if (scrollState == SCROLL_STATE_IDLE && (current <= localAdapter.getCount()) ) 
 	                { 
 	                	localAdapter.setCanCreateNew(false);
 	                }
