@@ -75,7 +75,7 @@ public class TestActivitySessionDetails extends Activity
 	    private TextView recordItemComment;
 	    private TextView recordItemScriptid;
 	    private TextView recordItemIsuploaded;
-	    
+	    private TextView recordItemFilepath;
 	    
 	    private ArrayList<String> itemlist; // for adapter
 	    private ArrayList<String> filepathList; // list of record filepathes
@@ -311,15 +311,24 @@ public class TestActivitySessionDetails extends Activity
 				int position,
 				long rowId) 
 		{
-			Utils.toastText(thisAct, "clicked item position=" + position + " rowId=" + rowId);
-			
-			// play the record
-			try {
-				Utils.playRecord(this, filepathList.get(position));
-			} catch (ActivityNotFoundException e) {
-				Log.w(TestActivitySessionDetails.class.getName(), 
-						"Utils.playRecord() throws Exceptions " + e.getMessage());
+			if(position != 0)
+			{
+				Utils.toastText(thisAct, "clicked item position=" + position + " rowId=" + rowId);
+
+				TextView filepathTextTemp = 
+						(TextView) itemView.findViewById(R.id.recorditem_filepath_textvalue);
+				String filepathTemp = (String) filepathTextTemp.getText();
+				
+				// play the record
+				try {
+					Utils.playRecord(this, filepathTemp);
+				} catch (ActivityNotFoundException e) {
+					Log.w(TestActivitySessionDetails.class.getName(), 
+							"Utils.playRecord() throws Exceptions " + e.getMessage());
+				}
 			}
+			
+			
 		}
 		
 		private void getIDsForSessionItem(String sessionItemId)
@@ -546,6 +555,7 @@ public class TestActivitySessionDetails extends Activity
 			    recordItemIntro = (TextView) view.findViewById(R.id.recorditem_intro_textvalue);
 			    recordItemComment = (TextView) view.findViewById(R.id.recorditem_comment_textvalue);
 			    recordItemPrompt = (TextView) view.findViewById(R.id.recorditem_prompt_textvalue);
+			    recordItemFilepath = (TextView) view.findViewById(R.id.recorditem_filepath_textvalue);
 		        
 			    String itemcode = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ITEMCODE));
 			    recordItemItemcode.setText(itemcode);
@@ -565,9 +575,12 @@ public class TestActivitySessionDetails extends Activity
 			    String prompt = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_PROMPT));
 			    recordItemPrompt.setText(prompt);
 			    
-			    // records file to play
-			    filepathList.add(position,
-						cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_FILEPATH))); 
+			    String filepath = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_FILEPATH));;
+			    recordItemFilepath.setText(filepath);
+			    
+//			    // records file to play
+//			    filepathList.add(position,
+//						cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_FILEPATH))); 
 			}
 			
 			
