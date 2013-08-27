@@ -154,7 +154,6 @@ public class TestActivitySessionDetails extends Activity
 	        
 	        gridView.setAdapter(localAdapter);
 	        
-	        gridView.setClickable(true);
 	        
 	        // enable home button
 	        getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -310,13 +309,13 @@ public class TestActivitySessionDetails extends Activity
 		{
 			Utils.toastText(thisAct, "clicked item position=" + position + " rowId=" + rowId);
 			
-//			// play the record
-//			try {
-//				Utils.playRecord(this, filepathList[position]);
-//			} catch (ActivityNotFoundException e) {
-//				Log.w(this.getClass().getName(), 
-//						"Utils.playRecord() throws Exceptions " + e.getMessage());
-//			}
+			// play the record
+			try {
+				Utils.playRecord(this, filepathList.get(position));
+			} catch (ActivityNotFoundException e) {
+				Log.w(TestActivitySessionDetails.class.getName(), 
+						"Utils.playRecord() throws Exceptions " + e.getMessage());
+			}
 		}
 		
 		private void getIDsForSessionItem(String sessionItemId)
@@ -409,7 +408,7 @@ public class TestActivitySessionDetails extends Activity
 					recordItemIndexList.add(i, 
 							cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ID)));
 				}
-				 */
+				*/
 			}
 			
 			cursor.close();
@@ -649,6 +648,8 @@ public class TestActivitySessionDetails extends Activity
 						
 						fillRecordItem(itemView, cursor, position);
 					}
+					
+					itemView.setClickable(true);
 					
 				}
 				
