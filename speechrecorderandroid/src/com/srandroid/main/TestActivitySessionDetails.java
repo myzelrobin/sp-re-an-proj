@@ -174,11 +174,10 @@ public class TestActivitySessionDetails extends Activity
 	                int first = view.getFirstVisiblePosition(); 
 	                int count = view.getChildCount(); 
 
-	                if ((first + count > localAdapter.getCount())) 
+	                if (scrollState == SCROLL_STATE_IDLE && (first + count > localAdapter.getCount()) ) 
 	                { 
 	                	localAdapter.setCanCreateNew(false);
 	                }
-	        
 
 	            }
 	        }); 
