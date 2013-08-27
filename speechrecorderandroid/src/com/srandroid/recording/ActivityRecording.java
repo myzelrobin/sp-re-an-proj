@@ -341,8 +341,6 @@ public class ActivityRecording extends Activity
 					
 					// change images
 		        	imageCircle1.setImageResource(R.drawable.icon_circle_red);
-					imageCircle2.setImageResource(R.drawable.icon_circle_red);
-					imageCircle3.setImageResource(R.drawable.icon_circle_red);
 					
 					//update images
 					handler = new Handler(); 
@@ -351,8 +349,6 @@ public class ActivityRecording extends Activity
 					         public void run() 
 					         { 
 					        	imageCircle1.setImageResource(R.drawable.icon_circle_yellow);
-								imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
-								imageCircle3.setImageResource(R.drawable.icon_circle_yellow);
 								
 								Handler handler2 = new Handler(); 
 							    handler2.postDelayed(new Runnable() 
@@ -360,8 +356,6 @@ public class ActivityRecording extends Activity
 							         public void run() 
 							         { 
 							        	imageCircle1.setImageResource(R.drawable.icon_circle_green);
-										imageCircle2.setImageResource(R.drawable.icon_circle_green);
-										imageCircle3.setImageResource(R.drawable.icon_circle_green);
 										bRecord.setEnabled(true);
 										
 										Handler handler3 = new Handler(); 
@@ -370,8 +364,8 @@ public class ActivityRecording extends Activity
 									         public void run() 
 									         { 
 									        	imageCircle1.setVisibility(View.INVISIBLE);
-												imageCircle2.setVisibility(View.INVISIBLE);
-												imageCircle3.setVisibility(View.INVISIBLE);
+									        	instrText.setVisibility(View.INVISIBLE);
+									        	
 									         } 
 									    }, (Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay)) / 2);
 							         } 
@@ -417,12 +411,10 @@ public class ActivityRecording extends Activity
 
 							    	// update GUI
 							    	imageCircle1.setImageResource(R.drawable.icon_circle_red);
-							    	imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
-							    	imageCircle3.setImageResource(R.drawable.icon_circle_green);
-							    	
 							    	imageCircle1.setVisibility(View.VISIBLE);
-									imageCircle2.setVisibility(View.VISIBLE);
-									imageCircle3.setVisibility(View.VISIBLE);
+							    	
+							    	instrText.setVisibility(View.VISIBLE);
+							    	
 							    	
 							    	
 							    	instrText.setText(recItemsList.get(recItemIndex).recinstructions);
@@ -511,11 +503,7 @@ public class ActivityRecording extends Activity
 		bRecord.setOnClickListener(this);
 		
 		imageCircle1 = (ImageView) findViewById(R.id.act_recording_control_circle1);
-    	imageCircle2 = (ImageView) findViewById(R.id.act_recording_control_circle2);
-    	imageCircle3 = (ImageView) findViewById(R.id.act_recording_control_circle3);
     	imageCircle1.setImageResource(R.drawable.icon_circle_red);
-    	imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
-    	imageCircle3.setImageResource(R.drawable.icon_circle_green);
     	
 	}
 
