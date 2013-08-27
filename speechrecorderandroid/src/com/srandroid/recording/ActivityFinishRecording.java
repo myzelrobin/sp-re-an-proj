@@ -3,6 +3,8 @@
  */
 package com.srandroid.recording;
 
+import com.srandroid.database.TableSessions;
+import com.srandroid.database.SrmContentProvider.SrmUriMatcher;
 import com.srandroid.main.ActivitySessionDetails;
 import com.srandroid.main.TestActivitySessionDetails;
 import com.srandroid.speechrecorder.R;
@@ -10,9 +12,11 @@ import com.srandroid.util.Utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.test.ActivityTestCase;
 import android.util.Log;
@@ -72,8 +76,23 @@ public class ActivityFinishRecording extends Activity
 			@Override
 			public void onClick(View v) 
 			{
-				Utils.toastTextToUser(getApplicationContext(), "check finished session");
+				//Utils.toastTextToUser(getApplicationContext(), "check finished session");
 	    		
+				// update session
+				
+				Log.w(this.getClass().getName(), " will update session item as finished, id="
+						+ Utils.ConstantVars.sessionItemIdForNewSession);
+				Uri uriTemp = Uri.parse(SrmUriMatcher.CONTENT_ITEM_TYPE_SESSION 
+						+ "/" + Utils.ConstantVars.sessionItemIdForNewSession);
+				
+				ContentValues valuesTemp = new ContentValues();
+				valuesTemp.put(TableSessions.COLUMN_IS_FINISHED, "finished");
+				
+				int updatedItemId = getContentResolver().update(uriTemp, valuesTemp, null, null);
+				
+				Log.w(this.getClass().getName(), " updated session item as finished, id=" + updatedItemId);
+				
+				
 	    		Intent newI = new Intent(thisAct, TestActivitySessionDetails.class);
 	    		newI.putExtra("itemId", Utils.ConstantVars.sessionItemIdForNewSession);
 	    		
