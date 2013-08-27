@@ -528,6 +528,10 @@ public class ActivityRecording extends Activity
 									+ scriptItem.scriptName, 
 									recItemsList.get(recItemIndex).itemcode);
 						
+						
+						
+						
+						
 						srmRecorder.startRecording();
 						
 						recordFilepath = srmRecorder.getAudioFile();
@@ -586,8 +590,6 @@ public class ActivityRecording extends Activity
 					    	
 					    	Log.w(ActivityRecording.class.getName(), "test recording: click stop");
 					    	
-					    	recItemIndex++;
-					    	if(recItemIndex > (recItemsList.size() -1)) recItemIndex = recItemsList.size() -1;
 					    	
 						    handler = new Handler(); 
 						    handler.postDelayed(new Runnable() 
@@ -595,9 +597,11 @@ public class ActivityRecording extends Activity
 						         public void run() 
 						         {
 						        	 srmRecorder.stopRecording();
-								    	
-						        	 
-							    	// update GUI
+								    
+						        	 // update GUI
+						        	recItemIndex++;
+								    if(recItemIndex > (recItemsList.size() -1)) recItemIndex = recItemsList.size() -1;
+								    
 							    	imageCircle1.setImageResource(R.drawable.icon_circle_red);
 							    	imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
 							    	imageCircle3.setImageResource(R.drawable.icon_circle_green); 
@@ -640,9 +644,6 @@ public class ActivityRecording extends Activity
 							    	
 							    	
 							    	recItemIndex++;
-							    	
-							    	
-
 									if(recItemIndex > recItemsList.size() -1)
 								    {
 								    	Utils.toastTextToUser(thisAct, "finished recording!");
