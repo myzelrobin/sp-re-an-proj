@@ -154,35 +154,6 @@ public class TestActivitySessionDetails extends Activity
 	        
 	        gridView.setAdapter(localAdapter);
 	        
-	        gridView.setOnScrollListener(new OnScrollListener() { 
-
-
-	        	@Override
-	            public void onScroll(AbsListView view, int firstVisibleItem,
-	                    int visibleItemCount, int totalItemCount) {
-
-	            }
-	        	@Override
-	            public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-	                if(scrollState != SCROLL_STATE_IDLE) {
-	                	localAdapter.setCanCreateNew(false);
-	                } else {
-	                	localAdapter.setCanCreateNew(true);
-	                }
-
-	                int current = view.getLastVisiblePosition(); 
-	                int count = view.getChildCount(); 
-
-	                if (scrollState == SCROLL_STATE_IDLE && (current <= localAdapter.getCount()) ) 
-	                { 
-	                	localAdapter.setCanCreateNew(false);
-	                }
-
-	            }
-	        }); 
-	        
-	        
 	        gridView.setClickable(true);
 	        
 	        // enable home button
@@ -418,6 +389,27 @@ public class TestActivitySessionDetails extends Activity
 				
 				Log.w(TestActivitySessionDetails.class.getName(), 
 						"getRecordsCountForScript() gets count=" + count);
+				
+				/*				
+				recItemsCount = cursor.getCount();
+				
+				itemlist = new ArrayList<String> ();
+				filepathList = new ArrayList<String> ();
+				recordItemIndexList = new ArrayList<String> ();
+				
+				itemlist.add(0, "SESSION_ITEM");
+				for(int i = 1; i < recItemsCount + 1; i++)
+				{
+					itemlist.add(0, "RECORD_ITEM");
+				}
+				
+				recordItemIndexList.add(0, Integer.toString(-1));
+				for(int i = 1; i < recItemsCount + 1; i++)
+				{
+					recordItemIndexList.add(i, 
+							cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ID)));
+				}
+				 */
 			}
 			
 			cursor.close();
@@ -451,8 +443,6 @@ public class TestActivitySessionDetails extends Activity
 			cursor.moveToFirst();
 			if (cursor != null && cursor.getCount() !=0)
 			{
-				
-				
 				Log.w(TestActivitySessionDetails.class.getName(), 
 						"queryAllRecordsForScript() queried record items count=" + cursor.getCount());
 				
@@ -565,9 +555,6 @@ public class TestActivitySessionDetails extends Activity
 			    // records file to play
 			    filepathList.add(position,
 						cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_FILEPATH))); 
-			    
-			    cursor.moveToNext();
-			    
 			}
 			
 			
@@ -582,7 +569,7 @@ public class TestActivitySessionDetails extends Activity
 
 			private Context context;
 			private ArrayList<String> itemlist;
-			private boolean canCreateNew;
+			
 			
 			private Cursor cursor;
 
@@ -592,7 +579,6 @@ public class TestActivitySessionDetails extends Activity
 				super();
 				this.context = context;
 				this.itemlist = itemlist;
-				this.canCreateNew = true;
 				
 				if(recItemsCount != 0)
 				{
@@ -621,62 +607,52 @@ public class TestActivitySessionDetails extends Activity
 			}
 
 			
-			private void setCanCreateNew(boolean canCreateNew)
-			{
-				this.canCreateNew = canCreateNew;
-			}
-			
 			@Override
 			public View getView(int position, View convertView, ViewGroup parent) 
 			{
 				
 				LinearLayout itemView = null;
 				
-				
-				if(canCreateNew)
+				if(itemlist.get(position).equals("SESSION_ITEM"))
 				{
-					if(itemlist.get(position).equals("SESSION_ITEM"))
-					{
-						Log.w(LocalAdapterForSessionDetails.class.getName(), 
-								"getView() will create sessionitem at position=" + position);
-						
-						itemView = 
-								(LinearLayout) (convertView == null
-								? LayoutInflater.from(context).inflate(R.layout.linearlayout_activity_sessiondetails, parent, false)
-										: convertView);
+					Log.w(LocalAdapterForSessionDetails.class.getName(), 
+							"getView() will create sessionitem at position=" + position);
+					
+					itemView = 
+							(LinearLayout) (convertView == null
+							? LayoutInflater.from(context).inflate(R.layout.linearlayout_activity_sessiondetails, parent, false)
+									: convertView);
 
-				        try
-				        {
-				        	fillSessionItem(itemView);
-				        	itemView.setClickable(false);
-				        }
-				        catch (Exception e) 
-				        {
-				            e.printStackTrace();
-				        }
+			        try
+			        {
+			        	fillSessionItem(itemView);
+			        	itemView.setClickable(false);
+			        }
+			        catch (Exception e) 
+			        {
+			            e.printStackTrace();
+			        }
 
-					}
-					else if(itemlist.get(position).equals("RECORD_ITEM"))
-					{
-						Log.w(LocalAdapterForSessionDetails.class.getName(), 
-								"getView() will create recorditem at position=" + position);
-						
-						itemView = 
-								(LinearLayout) (convertView == null
-								? LayoutInflater.from(context).inflate(R.layout.linearlayout_act_sessiondetails_recorditem, parent, false)
-										: convertView);
-						if(cursor != null)
-						{
-							fillRecordItem(itemView, cursor, position);
-							
-							if(position == (itemlist.size() -1)) 
-							{
-								cursor.close();
-							}
-						}
-						
-					}
 				}
+				else if(itemlist.get(position).equals("RECORD_ITEM"))
+				{
+					Log.w(LocalAdapterForSessionDetails.class.getName(), 
+							"getView() will create recorditem at position=" + position);
+					
+					itemView = 
+							(LinearLayout) (convertView == null
+							? LayoutInflater.from(context).inflate(R.layout.linearlayout_act_sessiondetails_recorditem, parent, false)
+									: convertView);
+					if(cursor != null)
+					{
+						cursor.moveToPosition(position - 1);
+						
+						fillRecordItem(itemView, cursor, position);
+					}
+					
+				}
+				
+				
 				
 				return itemView;
 			}
