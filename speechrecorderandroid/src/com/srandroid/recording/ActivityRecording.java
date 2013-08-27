@@ -621,7 +621,7 @@ public class ActivityRecording extends Activity
 						         } 
 						    }, Integer.parseInt(recItemsList.get(recItemIndex).postrecdelay));
 					    	
-						    if(recItemIndex == 3)
+						    if(recItemIndex == recItemsList.size() -1)
 						    {
 						    	Utils.toastTextToUser(thisAct, "finished recording!");
 						    	
