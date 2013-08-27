@@ -631,7 +631,9 @@ public class TestActivitySessionDetails extends Activity
 			        }
 			        catch (Exception e) 
 			        {
-			            e.printStackTrace();
+			        	Log.w(LocalAdapterForSessionDetails.class.getName(), 
+								"getView() created sessionitem at position=" + position 
+								+ " throws error:" + e.getLocalizedMessage());
 			        }
 
 				}
@@ -648,7 +650,16 @@ public class TestActivitySessionDetails extends Activity
 					{
 						cursor.moveToPosition(position - 1);
 						
-						fillRecordItem(itemView, cursor, position);
+						try
+				        {
+							fillRecordItem(itemView, cursor, position);
+				        }
+				        catch (Exception e) 
+				        {
+				            Log.w(LocalAdapterForSessionDetails.class.getName(), 
+									"getView() created recorditem at position=" + position 
+									+ " throws error:" + e.getLocalizedMessage());
+				        }
 					}
 					
 					
