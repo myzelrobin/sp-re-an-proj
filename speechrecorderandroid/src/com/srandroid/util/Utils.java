@@ -477,6 +477,22 @@ public class Utils
 		recordItem1.reccomment = "This is a comment";
 		recItemsList.add(recordItem1);
 		
+		
+		RecordItem recordItem5 = new RecordItem();
+		recordItem5.mode = "manual";
+		recordItem5.sectionname = "Introduction";
+		recordItem5.order = "sequential";
+		recordItem5.promptphase = "idle";
+		recordItem5.speakerdisplay = "false";
+		recordItem5.itemcode = "demo_005";
+		recordItem5.prerecdelay = "2000";
+		recordItem5.postrecdelay = "500";
+		recordItem5.recduration = "20000";
+		recordItem5.recinstructions = "Answer the question";
+		recordItem5.recprompt = "How is the weather today?";
+		recordItem5.reccomment = "Expect an answer about weather";
+		recItemsList.add(recordItem5);
+		
 		RecordItem recordItem2 = new RecordItem();
 		recordItem2.mode = "manual";
 		recordItem2.sectionname = "Introduction";
@@ -521,6 +537,8 @@ public class Utils
 		recordItem4.recprompt = "Qu'est-ce que vous avez fait hier soir?";
 		recordItem4.reccomment = "Answer expected in French; one minute recording time";
 		recItemsList.add(recordItem4);
+		
+		
 		
 		Utils.ConstantVars.recordItemListForNewSession = recItemsList;
 		Log.w(Utils.class.getName(), "prepareItemsForNewSessions()" 
