@@ -433,7 +433,7 @@ public class ActivityRecording extends Activity
 				
 				try
 		        {
-		        	fillControlArea(areaView);
+		        	fillTextArea(areaView);
 		        }
 		        catch (Exception e) 
 		        {
