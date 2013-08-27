@@ -468,7 +468,7 @@ public class Utils
 		recordItem1.order = "sequential";
 		recordItem1.promptphase = "idle";
 		recordItem1.speakerdisplay = "false";
-		recordItem1.itemcode = "demo_001";
+		recordItem1.itemcode = "demo_000";
 		recordItem1.prerecdelay = "2000";
 		recordItem1.postrecdelay = "500";
 		recordItem1.recduration = "20000";
@@ -477,14 +477,13 @@ public class Utils
 		recordItem1.reccomment = "This is a comment";
 		recItemsList.add(recordItem1);
 		
-		
 		RecordItem recordItem5 = new RecordItem();
 		recordItem5.mode = "manual";
 		recordItem5.sectionname = "Introduction";
 		recordItem5.order = "sequential";
 		recordItem5.promptphase = "idle";
 		recordItem5.speakerdisplay = "false";
-		recordItem5.itemcode = "demo_005";
+		recordItem5.itemcode = "demo_001";
 		recordItem5.prerecdelay = "2000";
 		recordItem5.postrecdelay = "500";
 		recordItem5.recduration = "20000";
