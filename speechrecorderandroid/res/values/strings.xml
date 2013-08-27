@@ -291,7 +291,7 @@
         <string name="act_recording_button_play_text">PLAY</string>
         <string name="act_recording_button_next_text">&gt;&gt;</string>
         <string name="act_recording_button_previous_text">&lt;&lt;</string>
-        <string name="act_recording_instru_text">Welcome to the SpeechRecorder Demo Script.\nHere you\'ll find the instructions and...</string>
+        <string name="act_recording_instru_text">TEST:\nWelcome to the SpeechRecorder Demo Script.\nHere you\'ll find the instructions and...</string>
         <string name="act_recording_promptarea_text">and here is the prompt: a text to read, a question to answer, a picture to describe, or something completely different.</string>
             
         
