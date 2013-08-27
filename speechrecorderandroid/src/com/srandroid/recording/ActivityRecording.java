@@ -358,10 +358,10 @@ public class ActivityRecording extends Activity
 	{
 		if((sIntro.length() != 0) && (sContent.length() != 0))
     	{
-			TextView tView1 = (TextView) parentView.findViewById(R.id.act_recording_text_intro_textvalue);
-			tView1.setText(sIntro);
-			TextView tView2 = (TextView) parentView.findViewById(R.id.act_recording_text_prompt_textvalue);
-			tView2.setText(sContent);
+			instrText = (TextView) parentView.findViewById(R.id.act_recording_text_intro_textvalue);
+			instrText.setText(sIntro);
+			promptText = (TextView) parentView.findViewById(R.id.act_recording_text_prompt_textvalue);
+			promptText.setText(sContent);
     	}
 	}
 	
