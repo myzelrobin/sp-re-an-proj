@@ -584,19 +584,21 @@ public class ActivityRecording extends Activity
 					    	// recording 
 					    	
 					    	Log.w(ActivityRecording.class.getName(), "recording: click stop");
-					    	
+					    						    	
 					    	handler = new Handler(); 
 						    handler.postDelayed(new Runnable() 
 						    { 
 						         public void run() 
 						         { 
 						        	 
-									srmRecorder.stopRecording();
+
+							    	srmRecorder.stopRecording();
 									
 
 							    	// insert record
 							    	Uri uriNewRecordItem = insertRecord(recItemsList.get(recItemIndex), 
 								    		srmRecorder.getAudioFile());
+
 							    	
 							    	Log.w(ActivityRecording.class.getName(), "recording click stop, inserted record id="
 							    			+ uriNewRecordItem.getLastPathSegment());
@@ -618,16 +620,18 @@ public class ActivityRecording extends Activity
 									bPlay.setEnabled(true);
 									bPrev.setEnabled(true);
 									bNext.setEnabled(true);
+									
+									if(recItemIndex == recItemsList.size() -1)
+								    {
+								    	Utils.toastTextToUser(thisAct, "finished recording!");
+								    	
+								    	Intent newI = new Intent(thisAct, ActivityFinishRecording.class);
+							        	thisAct.startActivity(newI);
+								    }
 						         } 
 						    }, Integer.parseInt(recItemsList.get(recItemIndex).postrecdelay));
 					    	
-						    if(recItemIndex == recItemsList.size() -1)
-						    {
-						    	Utils.toastTextToUser(thisAct, "finished recording!");
-						    	
-						    	Intent newI = new Intent(thisAct, ActivityFinishRecording.class);
-					        	thisAct.startActivity(newI);
-						    }
+						    
 					    }
 					    
 					}
