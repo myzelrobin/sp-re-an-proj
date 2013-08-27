@@ -52,6 +52,7 @@ import android.widget.TextView;
  *
  */
 public class ActivityRecording extends Activity 
+	implements OnClickListener
 {
 
 	private boolean isTestRecroding;
@@ -155,27 +156,22 @@ public class ActivityRecording extends Activity
         	// Recording
         	Log.w(this.getClass().getName(), "from StartRecording, start creating Recording");
         	
-        	setContentView(R.layout.gridviewlayout_act_recording);
+        	setContentView(R.layout.linearlayout_act_recording_one_area);
         	
         	setTitle(getResources().getString(R.string.act_recording_title));
         	
         	recItemIndex = 1;
         	
-        	gridView = (GridView) findViewById(R.id.id_gridview_act_recoding);
-            
-            String[] arealist = {"TEXT_AREA", "CONTROL_AREA_FOR_SPEAKER"};
-            
-            adapter = new LocalAdapterForActRecording(this, arealist);
-            
-            gridView.setAdapter(adapter);
-            
-            gridView.setClickable(false);
+        	fillOneArea();
+        	
             
     	}
         
         
 	}
 	
+
+
 	@Override
     protected void onStart()
 	{
@@ -305,6 +301,146 @@ public class ActivityRecording extends Activity
 	    getActionBar().setTitle(title);
 	}
 	
+	
+
+	@Override
+	public void onClick(View v) 
+	{
+		if(!isTestRecroding)
+		{
+			// Recording
+			int id = v.getId();
+			if(id == R.id.act_recording_control_button_record)
+			{
+				if(isBRecordClicked == 0)
+				{
+					
+					Log.w(ActivityRecording.class.getName(), "recording click record");
+					
+					// start recording
+					
+					// new recorder
+					srmRecorder = new SrmRecorder(Utils.ConstantVars.REC_FILES_DIR_EXT_PATH 
+								+ File.separator + "sessionID-" + Utils.ConstantVars.sessionItemIdForNewSession + "_"
+								+ scriptItem.scriptName, 
+								recItemsList.get(recItemIndex).itemcode);
+					
+					srmRecorder.startRecording();
+					
+					recordFilepath = srmRecorder.getAudioFile();
+					Log.w(ActivityRecording.class.getName(), "created new Recorder, start recording");
+					Log.w(ActivityRecording.class.getName(), "created new Recorder:" + recordFilepath);
+					
+
+					// update ui
+					isBRecordClicked = 1;						
+					
+					// buttons
+					bRecord.setText(getResources().getString(R.string.stop));
+					bRecord.setEnabled(false);
+					
+					// change images
+		        	imageCircle1.setImageResource(R.drawable.icon_circle_red);
+					imageCircle2.setImageResource(R.drawable.icon_circle_red);
+					imageCircle3.setImageResource(R.drawable.icon_circle_red);
+					
+					//update images
+					handler = new Handler(); 
+					    handler.postDelayed(new Runnable() 
+					    { 
+					         public void run() 
+					         { 
+					        	imageCircle1.setImageResource(R.drawable.icon_circle_yellow);
+								imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
+								imageCircle3.setImageResource(R.drawable.icon_circle_yellow);
+								
+								Handler handler2 = new Handler(); 
+							    handler2.postDelayed(new Runnable() 
+							    { 
+							         public void run() 
+							         { 
+							        	imageCircle1.setImageResource(R.drawable.icon_circle_green);
+										imageCircle2.setImageResource(R.drawable.icon_circle_green);
+										imageCircle3.setImageResource(R.drawable.icon_circle_green);
+										bRecord.setEnabled(true);
+										
+										Handler handler3 = new Handler(); 
+									    handler3.postDelayed(new Runnable() 
+									    { 
+									         public void run() 
+									         { 
+									        	imageCircle1.setVisibility(View.INVISIBLE);
+												imageCircle2.setVisibility(View.INVISIBLE);
+												imageCircle3.setVisibility(View.INVISIBLE);
+									         } 
+									    }, (Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay)) / 2);
+							         } 
+							    }, (Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay)) / 2);
+					         } 
+					    }, (Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay)) / 2); 
+				}
+				else if (isBRecordClicked == 1)
+				{
+					// stop recording
+					isBRecordClicked = 0;
+					bRecord.setEnabled(false);
+					
+				    	Log.w(ActivityRecording.class.getName(), "recording: click stop");
+				    	
+				    	handler = new Handler(); 
+					    handler.postDelayed(new Runnable() 
+					    { 
+					         public void run() 
+					         { 
+					        	 
+
+						    	srmRecorder.stopRecording();
+								
+						    	// insert record
+						    	Uri uriNewRecordItem = insertRecord(recItemsList.get(recItemIndex), 
+							    		srmRecorder.getAudioFile());
+						    	
+						    	Log.w(ActivityRecording.class.getName(), "recording click stop, inserted record id="
+						    			+ uriNewRecordItem.getLastPathSegment());
+						    	
+						    	
+						    	recItemIndex++;
+								if(recItemIndex > recItemsList.size() -1)
+							    {
+							    	Utils.toastTextToUser(thisAct, "finished recording!");
+							    	
+							    	Intent newI = new Intent(thisAct, ActivityFinishRecording.class);
+						        	thisAct.startActivity(newI);
+							    }
+								else 
+								{
+
+							    	// update GUI
+							    	imageCircle1.setImageResource(R.drawable.icon_circle_red);
+							    	imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
+							    	imageCircle3.setImageResource(R.drawable.icon_circle_green);
+							    	
+							    	imageCircle1.setVisibility(View.VISIBLE);
+									imageCircle2.setVisibility(View.VISIBLE);
+									imageCircle3.setVisibility(View.VISIBLE);
+							    	
+							    	
+							    	instrText.setText(recItemsList.get(recItemIndex).recinstructions);
+									promptText.setText(recItemsList.get(recItemIndex).recprompt);
+
+									bRecord.setText(getResources().getString(R.string.record));
+									bRecord.setEnabled(true);
+								}
+						    } 
+					    }, Integer.parseInt(recItemsList.get(recItemIndex).postrecdelay));
+				    	
+					}
+			}
+		}
+		
+	}
+
+	
 	private void fillTextArea()
 	{
 		instrText = (TextView) gridView.findViewById(R.id.act_recording_text_intro_textvalue);
@@ -351,16 +487,37 @@ public class ActivityRecording extends Activity
 	
 	private void updateTextArea(View parentView, String sIntro, String sContent)
 	{
-		if((sIntro.length() != 0) && (sContent.length() != 0))
-    	{
-			instrText = (TextView) parentView.findViewById(R.id.act_recording_text_intro_textvalue);
-			instrText.setText(sIntro);
-			promptText = (TextView) parentView.findViewById(R.id.act_recording_text_prompt_textvalue);
-			promptText.setText(sContent);
-    	}
+			// test recording
+			if((sIntro.length() != 0) && (sContent.length() != 0))
+	    	{
+				instrText = (TextView) parentView.findViewById(R.id.act_recording_text_intro_textvalue);
+				instrText.setText(sIntro);
+				promptText = (TextView) parentView.findViewById(R.id.act_recording_text_prompt_textvalue);
+				promptText.setText(sContent);
+	    	}
 	}
 	
-	
+
+	private void fillOneArea() 
+	{
+		instrText = (TextView) findViewById(R.id.act_recording_text_intro_textvalue);
+		promptText = (TextView) findViewById(R.id.act_recording_text_prompt_textvalue);
+		instrText.setText(recItemsList.get(recItemIndex).recinstructions);
+		promptText.setText(recItemsList.get(recItemIndex).recprompt);
+		
+		
+		bRecord = (Button) findViewById(R.id.act_recording_control_button_record);
+		bRecord.setEnabled(true);
+		bRecord.setOnClickListener(this);
+		
+		imageCircle1 = (ImageView) findViewById(R.id.act_recording_control_circle1);
+    	imageCircle2 = (ImageView) findViewById(R.id.act_recording_control_circle2);
+    	imageCircle3 = (ImageView) findViewById(R.id.act_recording_control_circle3);
+    	imageCircle1.setImageResource(R.drawable.icon_circle_red);
+    	imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
+    	imageCircle3.setImageResource(R.drawable.icon_circle_green);
+    	
+	}
 
 	private Uri insertRecord(RecordItem recItem, String recFilepath) 
 	{
@@ -384,6 +541,8 @@ public class ActivityRecording extends Activity
 		
 		return uriNewRecItem;
 	}
+	
+	
 	
 	protected class LocalAdapterForActRecording extends BaseAdapter
 	{
@@ -504,162 +663,93 @@ public class ActivityRecording extends Activity
 			{
 				case R.id.act_recording_control_button_record:
 					
-					if(isBRecordClicked == 0)
+					
+					if(isTestRecroding)
 					{
-						
-						
-						
-						if(isTestRecroding) // test recoding
+						if(isBRecordClicked == 0)
+						{
 							Log.w(ActivityRecording.class.getName(), "test recording click record");
-						else
-							Log.w(ActivityRecording.class.getName(), "recording click record");
-						
-						// start recording
-						
-						// new recorder
-						if(isTestRecroding)
-							srmRecorder = new SrmRecorder(Utils.ConstantVars.REC_FILES_DIR_EXT_PATH 
-								+ File.separator + "sessionID-" + Utils.ConstantVars.sessionItemIdForNewSession + "_"
-								+ scriptItem.scriptName + File.separator + "test", 
-								recItemsList.get(recItemIndex).itemcode);
-						else 
+							
+							// start recording
+							
+							// new recorder
 							srmRecorder = new SrmRecorder(Utils.ConstantVars.REC_FILES_DIR_EXT_PATH 
 									+ File.separator + "sessionID-" + Utils.ConstantVars.sessionItemIdForNewSession + "_"
-									+ scriptItem.scriptName, 
+									+ scriptItem.scriptName + File.separator + "test", 
 									recItemsList.get(recItemIndex).itemcode);
-						
-						
-						
-						
-						
-						srmRecorder.startRecording();
-						
-						recordFilepath = srmRecorder.getAudioFile();
-						Log.w(ActivityRecording.class.getName(), "created new Recorder, start recording");
-						Log.w(ActivityRecording.class.getName(), "created new Recorder:" + recordFilepath);
-						
+							
+							
+							srmRecorder.startRecording();
+							
+							recordFilepath = srmRecorder.getAudioFile();
+							Log.w(ActivityRecording.class.getName(), "created new Recorder, start recording");
+							Log.w(ActivityRecording.class.getName(), "created new Recorder:" + recordFilepath);
+							
 
-						// update ui
-						isBRecordClicked = 1;						
-						
-						// buttons
-						bRecord.setText(getResources().getString(R.string.stop));
-						bRecord.setEnabled(false);
-						bPlay.setEnabled(false);
-						bPrev.setEnabled(false);
-						bNext.setEnabled(false);
-						
-						// change images
-			        	imageCircle1.setImageResource(R.drawable.icon_circle_red);
-						imageCircle2.setImageResource(R.drawable.icon_circle_red);
-						imageCircle3.setImageResource(R.drawable.icon_circle_red);
-						
-						//update images
-						handler = new Handler(); 
-						    handler.postDelayed(new Runnable() 
-						    { 
-						         public void run() 
-						         { 
-						        	imageCircle1.setImageResource(R.drawable.icon_circle_yellow);
-									imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
-									imageCircle3.setImageResource(R.drawable.icon_circle_yellow);
-									
-									Handler handler2 = new Handler(); 
-								    handler2.postDelayed(new Runnable() 
-								    { 
-								         public void run() 
-								         { 
-								        	imageCircle1.setImageResource(R.drawable.icon_circle_green);
-											imageCircle2.setImageResource(R.drawable.icon_circle_green);
-											imageCircle3.setImageResource(R.drawable.icon_circle_green);
-											bRecord.setEnabled(true);
-								         } 
-								    }, (Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay)) / 2);
-						         } 
-						    }, (Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay)) / 2); 
-					}
-					else if (isBRecordClicked == 1)
-					{
-						// stop recording
-						isBRecordClicked = 0;
-						bRecord.setEnabled(false);
-						
-					    if(isTestRecroding)
-					    {
-					    	// test recording
-					    	
-					    	Log.w(ActivityRecording.class.getName(), "test recording: click stop");
-					    	
-					    	
-						    handler = new Handler(); 
-						    handler.postDelayed(new Runnable() 
-						    { 
-						         public void run() 
-						         {
-						        	 srmRecorder.stopRecording();
-								    
-						        	 // update GUI
-						        	recItemIndex++;
-								    if(recItemIndex > (recItemsList.size() -1)) recItemIndex = recItemsList.size() -1;
-								    
-							    	imageCircle1.setImageResource(R.drawable.icon_circle_red);
-							    	imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
-							    	imageCircle3.setImageResource(R.drawable.icon_circle_green); 
-							    	
-						        	 updateTextArea(gridView, 
-												recItemsList.get(recItemIndex).recinstructions, 
-												recItemsList.get(recItemIndex).recprompt);
-
-									bRecord.setText(getResources().getString(R.string.record));
-									bRecord.setEnabled(true);
-									bPlay.setEnabled(true);
-									bPrev.setEnabled(true);
-									bNext.setEnabled(true);
-						         } 
-						    }, Integer.parseInt(recItemsList.get(recItemIndex).postrecdelay));
+							// update ui
+							isBRecordClicked = 1;						
+							
+							// buttons
+							bRecord.setText(getResources().getString(R.string.stop));
+							bRecord.setEnabled(false);
+							bPlay.setEnabled(false);
+							bPrev.setEnabled(false);
+							bNext.setEnabled(false);
+							
+							// change images
+				        	imageCircle1.setImageResource(R.drawable.icon_circle_red);
+							imageCircle2.setImageResource(R.drawable.icon_circle_red);
+							imageCircle3.setImageResource(R.drawable.icon_circle_red);
+							
+							//update images
+							handler = new Handler(); 
+							    handler.postDelayed(new Runnable() 
+							    { 
+							         public void run() 
+							         { 
+							        	imageCircle1.setImageResource(R.drawable.icon_circle_yellow);
+										imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
+										imageCircle3.setImageResource(R.drawable.icon_circle_yellow);
+										
+										Handler handler2 = new Handler(); 
+									    handler2.postDelayed(new Runnable() 
+									    { 
+									         public void run() 
+									         { 
+									        	imageCircle1.setImageResource(R.drawable.icon_circle_green);
+												imageCircle2.setImageResource(R.drawable.icon_circle_green);
+												imageCircle3.setImageResource(R.drawable.icon_circle_green);
+												bRecord.setEnabled(true);
+									         } 
+									    }, (Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay)) / 2);
+							         } 
+							    }, (Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay)) / 2); 
 						}
-					    else 
-					    {
-					    	// recording 
-					    	
-					    	Log.w(ActivityRecording.class.getName(), "recording: click stop");
-					    	
-					    	bRecord.setEnabled(false);
-					    	
-					    	handler = new Handler(); 
-						    handler.postDelayed(new Runnable() 
-						    { 
-						         public void run() 
-						         { 
-						        	 
-
-							    	srmRecorder.stopRecording();
-									
-							    	// insert record
-							    	Uri uriNewRecordItem = insertRecord(recItemsList.get(recItemIndex), 
-								    		srmRecorder.getAudioFile());
-							    	
-							    	Log.w(ActivityRecording.class.getName(), "recording click stop, inserted record id="
-							    			+ uriNewRecordItem.getLastPathSegment());
-							    	
-							    	
-							    	recItemIndex++;
-									if(recItemIndex > recItemsList.size() -1)
-								    {
-								    	Utils.toastTextToUser(thisAct, "finished recording!");
-								    	
-								    	Intent newI = new Intent(thisAct, ActivityFinishRecording.class);
-							        	thisAct.startActivity(newI);
-								    }
-									else 
-									{
-
-								    	// update GUI
+						else if (isBRecordClicked == 1)
+						{
+							// stop recording
+							isBRecordClicked = 0;
+							bRecord.setEnabled(false);
+							
+						    	Log.w(ActivityRecording.class.getName(), "test recording: click stop");
+						    	
+						    	
+							    handler = new Handler(); 
+							    handler.postDelayed(new Runnable() 
+							    { 
+							         public void run() 
+							         {
+							        	 srmRecorder.stopRecording();
+									    
+							        	 // update GUI
+							        	recItemIndex++;
+									    if(recItemIndex > (recItemsList.size() -1)) recItemIndex = recItemsList.size() -1;
+									    
 								    	imageCircle1.setImageResource(R.drawable.icon_circle_red);
 								    	imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
-								    	imageCircle3.setImageResource(R.drawable.icon_circle_green);
+								    	imageCircle3.setImageResource(R.drawable.icon_circle_green); 
 								    	
-								    	 updateTextArea(gridView, 
+							        	 updateTextArea(gridView, 
 													recItemsList.get(recItemIndex).recinstructions, 
 													recItemsList.get(recItemIndex).recprompt);
 
@@ -668,15 +758,13 @@ public class ActivityRecording extends Activity
 										bPlay.setEnabled(true);
 										bPrev.setEnabled(true);
 										bNext.setEnabled(true);
-									}
-							    	
-									
-						         } 
-						    }, Integer.parseInt(recItemsList.get(recItemIndex).postrecdelay));
-					    	
-					    }
-					    
+							         } 
+							    }, Integer.parseInt(recItemsList.get(recItemIndex).postrecdelay));
+							
+						}
 					}
+					
+					
 					
 					break;
 				
@@ -733,6 +821,7 @@ public class ActivityRecording extends Activity
 		}
 		
 	}
+
 
 
 }
