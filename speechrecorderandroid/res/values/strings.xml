@@ -20,9 +20,7 @@
     <string name="open">OPEN</string>
     <string name="record">RECORD</string>
     <string name="testviewtext">
-        The quick brown fox jumps over the lazy dog.
-        \nThe quick brown fox jumps over the lazy dog.
-        \nThe quick brown fox jumps over the lazy dog.</string>
+        The quick brown fox jumps over the lazy dog.</string>
     
     
     <!-- ActivityMain -->

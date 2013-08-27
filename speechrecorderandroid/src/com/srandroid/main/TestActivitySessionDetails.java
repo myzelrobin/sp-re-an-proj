@@ -650,7 +650,11 @@ public class TestActivitySessionDetails extends Activity
 									: convertView);
 					if(cursor != null)
 					{
-						cursor.moveToPosition(position - 1);
+						cursor.moveToPosition(position);
+						
+						Log.w(LocalAdapterForSessionDetails.class.getName(), 
+									"getView() will create record item, item position=" + position 
+									+ " cursor position = " + cursor.getPosition());
 						
 						try
 				        {

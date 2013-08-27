@@ -66,6 +66,10 @@ public class ActivityRecording extends Activity
 	private Button bNext;
 	private Button bPrev;
 	
+	private TextView instrText;
+	private TextView promptText;
+	
+	
 	private ImageView imageCircle1;
 	private ImageView imageCircle2;
 	private ImageView imageCircle3;
@@ -297,6 +301,25 @@ public class ActivityRecording extends Activity
 	    getActionBar().setTitle(title);
 	}
 	
+	private void fillTextArea(View areaView)
+	{
+		if(isTestRecroding)
+		{
+			recItemIndex = 0;
+		}
+		else
+		{
+			recItemIndex = 1;
+		}
+		
+		instrText = (TextView) areaView.findViewById(R.id.act_recording_text_intro_textvalue);
+		instrText.setText(recItemsList.get(recItemIndex).recinstructions);
+		
+		promptText = (TextView) areaView.findViewById(R.id.act_recording_text_prompt_textvalue);
+		promptText.setText(recItemsList.get(recItemIndex).recprompt);
+		
+	}
+	
 	private void fillControlArea(View areaView)
 	{
 		bRecord = (Button) areaView.findViewById(R.id.act_recording_control_button_record);
@@ -408,6 +431,14 @@ public class ActivityRecording extends Activity
 								inflate(R.layout.linearlayout_act_recording_text_area, parent, false)
 						: convertView);
 				
+				try
+		        {
+		        	fillControlArea(areaView);
+		        }
+		        catch (Exception e) 
+		        {
+		            e.printStackTrace();
+		        }
 
 			}
 			else if(arealist[position].equals("CONTROL_AREA_FOR_USER"))
@@ -559,13 +590,14 @@ public class ActivityRecording extends Activity
 						         public void run() 
 						         { 
 						        	
-						        	// update GUI
-						        	imageCircle1.setImageResource(R.drawable.icon_circle_red);
-									imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
-									imageCircle3.setImageResource(R.drawable.icon_circle_green); 
 						        	
 									recItemIndex++;
 							    	if(recItemIndex > (recItemsList.size() -1)) recItemIndex = recItemsList.size() -1;
+							    	
+							    	// update GUI
+							    	imageCircle1.setImageResource(R.drawable.icon_circle_red);
+							    	imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
+							    	imageCircle3.setImageResource(R.drawable.icon_circle_green); 
 							    	
 						        	 updateTextArea(gridView, 
 												recItemsList.get(recItemIndex).recinstructions, 
@@ -631,7 +663,6 @@ public class ActivityRecording extends Activity
 						         } 
 						    }, Integer.parseInt(recItemsList.get(recItemIndex).postrecdelay));
 					    	
-						    
 					    }
 					    
 					}
