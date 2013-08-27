@@ -15,7 +15,7 @@ import android.util.Log;
 public class DBAccessor extends SQLiteOpenHelper
 {
 	private static final String DATABASE_NAME = "srandroid_database.db";
-	private static final int DATABASE_VERSION = 12;
+	private static final int DATABASE_VERSION = 13; // last 12
 	
 
 	public DBAccessor(Context context) 
@@ -72,6 +72,8 @@ public class DBAccessor extends SQLiteOpenHelper
 			TableRecords.COLUMN_ID, 
 			TableRecords.COLUMN_FILEPATH,
 			TableRecords.COLUMN_SCRIPT_ID,
+			TableRecords.COLUMN_SESSION_ID,
+			TableRecords.COLUMN_SPEAKER_ID,
 			TableRecords.COLUMN_ISUPLOADED,
 			TableRecords.COLUMN_INSTRUCTION,
 			TableRecords.COLUMN_PROMPT,

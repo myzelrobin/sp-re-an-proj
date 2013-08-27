@@ -367,16 +367,17 @@ public class TestActivitySessionDetails extends Activity
 		{
 			Log.w(TestActivitySessionDetails.class.getName(), 
 					"getRecordsCountForScript() will query item count from table records "
-					+ "with scriptIdForSession=" + scriptIdTemp);
+					+ "with scriptIdForSession=" + scriptIdTemp + " and  sessionId=" + sessionItemId);
 			
 			int count = 0;
 			
 			// query from db
 	        String[] selectColumns = {
 	        		TableRecords.COLUMN_ID,
-	        		TableRecords.COLUMN_SCRIPT_ID};
+	        		TableRecords.COLUMN_SCRIPT_ID,
+	        		TableRecords.COLUMN_SESSION_ID};
 			
-	        String wherePart = "script_id=" + scriptIdTemp;
+	        String wherePart = "script_id=" + scriptIdTemp + " AND " + "session_id=" + sessionItemId;
 			
 			Cursor cursor = getApplicationContext().getContentResolver().query(
 					SrmUriMatcher.CONTENT_URI_TABLE_RECORDS, 
@@ -425,11 +426,14 @@ public class TestActivitySessionDetails extends Activity
 		private Cursor queryAllRecordsForScript(String scriptId)
 		{
 			Log.w(TestActivitySessionDetails.class.getName(), 
-					"queryAllRecordsForScript() will query record items with scriptIdForSession=" + scriptId);
+					"queryAllRecordsForScript() will query record items with scriptIdForSession=" + scriptId
+					+ " and sessionId=" + sessionItemId);
 			
 			// query from db
 	        String[] selectColumns = {
 					TableRecords.COLUMN_ID,
+					TableRecords.COLUMN_SESSION_ID,
+					TableRecords.COLUMN_SPEAKER_ID,
 					TableRecords.COLUMN_SCRIPT_ID,
 					TableRecords.COLUMN_FILEPATH,
 					TableRecords.COLUMN_INSTRUCTION,
@@ -438,7 +442,7 @@ public class TestActivitySessionDetails extends Activity
 					TableRecords.COLUMN_ITEMCODE,
 					TableRecords.COLUMN_ISUPLOADED};
 			
-			String wherePart = "script_id=" + scriptId;
+			String wherePart = "script_id=" + scriptId + " AND " + "session_id=" + sessionItemId;
 			
 			Cursor cursor = getApplicationContext().getContentResolver().query(
 					SrmUriMatcher.CONTENT_URI_TABLE_RECORDS, 
@@ -525,6 +529,12 @@ public class TestActivitySessionDetails extends Activity
 			
 			if (cursor != null && cursor.getCount()!=0) 
 			{
+				
+				cursor.moveToPosition(position - 1);
+				
+				Log.w(LocalAdapterForSessionDetails.class.getName(), 
+							"getView() will create record item, item position=" + position 
+							+ " cursor position = " + cursor.getPosition());
 				
 				int id = cursor.getInt(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ID));
 				Log.w(TestActivitySessionDetails.class.getName(), 
@@ -650,12 +660,6 @@ public class TestActivitySessionDetails extends Activity
 									: convertView);
 					if(cursor != null)
 					{
-						cursor.moveToPosition(position);
-						
-						Log.w(LocalAdapterForSessionDetails.class.getName(), 
-									"getView() will create record item, item position=" + position 
-									+ " cursor position = " + cursor.getPosition());
-						
 						try
 				        {
 							fillRecordItem(itemView, cursor, position);

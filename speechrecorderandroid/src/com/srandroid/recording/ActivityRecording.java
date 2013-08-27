@@ -373,7 +373,9 @@ public class ActivityRecording extends Activity
 		
 		ContentValues values = new ContentValues();
 		
-		TableRecords.setValuesForInsertRecordItem(values, 
+		TableRecords.setValuesForInsertRecordItem(values,
+				Utils.ConstantVars.sessionItemIdForNewSession,
+				Utils.ConstantVars.speakerItemIdForNewSession,
 				Utils.ConstantVars.scriptItemIdForNewSession, 
 				recFilepath, 
 				recItem.recinstructions, 
@@ -510,9 +512,9 @@ public class ActivityRecording extends Activity
 					if(isBRecordClicked == 0)
 					{
 						
-						// test recoding
 						
-						if(isTestRecroding)
+						
+						if(isTestRecroding) // test recoding
 							Log.w(ActivityRecording.class.getName(), "test recording click record");
 						else
 							Log.w(ActivityRecording.class.getName(), "recording click record");
@@ -577,23 +579,24 @@ public class ActivityRecording extends Activity
 						// stop recording
 						isBRecordClicked = 0;
 						bRecord.setEnabled(false);
+						
 					    if(isTestRecroding)
 					    {
 					    	// test recording
 					    	
 					    	Log.w(ActivityRecording.class.getName(), "test recording: click stop");
-					    	srmRecorder.stopRecording();
+					    	
+					    	recItemIndex++;
+					    	if(recItemIndex > (recItemsList.size() -1)) recItemIndex = recItemsList.size() -1;
 					    	
 						    handler = new Handler(); 
 						    handler.postDelayed(new Runnable() 
 						    { 
 						         public void run() 
-						         { 
-						        	
-						        	
-									recItemIndex++;
-							    	if(recItemIndex > (recItemsList.size() -1)) recItemIndex = recItemsList.size() -1;
-							    	
+						         {
+						        	 srmRecorder.stopRecording();
+								    	
+						        	 
 							    	// update GUI
 							    	imageCircle1.setImageResource(R.drawable.icon_circle_red);
 							    	imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
@@ -616,7 +619,11 @@ public class ActivityRecording extends Activity
 					    	// recording 
 					    	
 					    	Log.w(ActivityRecording.class.getName(), "recording: click stop");
-					    						    	
+					    	
+					    	recItemIndex++;
+					    	
+					    	
+					    	
 					    	handler = new Handler(); 
 						    handler.postDelayed(new Runnable() 
 						    { 
@@ -634,21 +641,18 @@ public class ActivityRecording extends Activity
 							    			+ uriNewRecordItem.getLastPathSegment());
 							    	
 
-									if(recItemIndex == recItemsList.size() -1)
+									if(recItemIndex > recItemsList.size() -1)
 								    {
 								    	Utils.toastTextToUser(thisAct, "finished recording!");
 								    	
 								    	Intent newI = new Intent(thisAct, ActivityFinishRecording.class);
 							        	thisAct.startActivity(newI);
 								    }
-
+							    	
 							    	// update GUI
 							    	imageCircle1.setImageResource(R.drawable.icon_circle_red);
-									imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
-									imageCircle3.setImageResource(R.drawable.icon_circle_green);
-							    	
-							    	recItemIndex++;
-							    	if(recItemIndex > (recItemsList.size() -1)) recItemIndex = recItemsList.size() -1;
+							    	imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
+							    	imageCircle3.setImageResource(R.drawable.icon_circle_green);
 							    	
 							    	 updateTextArea(gridView, 
 												recItemsList.get(recItemIndex).recinstructions, 

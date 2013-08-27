@@ -29,6 +29,8 @@ public class TableRecords
 	public static final String COLUMN_ITEMCODE = "itemcode"; // text not null
 	public static final String COLUMN_ISUPLOADED = "is_uploaded"; //  text default: uploaded/unuploaded
 	public static final String COLUMN_SCRIPT_ID = "script_id"; // foreign key reference scripts(_id)
+	public static final String COLUMN_SPEAKER_ID = "speaker_id"; // foreign key reference speakers(_id)
+	public static final String COLUMN_SESSION_ID = "session_id"; // foreign key reference sessions(_id)
 	
 	
 	
@@ -45,8 +47,12 @@ public class TableRecords
 		+ COLUMN_ITEMCODE + " text not null, "
 		+ COLUMN_ISUPLOADED + " text, "
 		+ COLUMN_SCRIPT_ID + " integer, "
-		+ " FOREIGN KEY (" + COLUMN_SCRIPT_ID + ") REFERENCES scripts(_id)"
-		+ " );";
+		+ COLUMN_SPEAKER_ID + " integer, "
+		+ COLUMN_SESSION_ID + " integer, "
+		+ "FOREIGN KEY (" + COLUMN_SCRIPT_ID + ") REFERENCES scripts(_id), "
+		+ "FOREIGN KEY (" + COLUMN_SPEAKER_ID + ") REFERENCES speakers(_id), "
+		+ "FOREIGN KEY (" + COLUMN_SESSION_ID + ") REFERENCES sessions(_id) "
+		+ ");";
 	
 	// create table records
 	public static void onCreate(SQLiteDatabase db)
@@ -64,6 +70,8 @@ public class TableRecords
 	}
 	
 	public static void setValuesForInsertRecordItem(ContentValues values, 
+			String sessionId,
+			String speakerId,
 			String scriptId,
 			String recFilepath,
 			String instruction,
@@ -71,7 +79,13 @@ public class TableRecords
 			String comment,
 			String itemcode)
 	{
-		// section_id
+		// session id
+		values.put(COLUMN_SESSION_ID, Integer.parseInt(sessionId));
+		
+		// speaker id
+		values.put(COLUMN_SPEAKER_ID, Integer.parseInt(speakerId));
+		
+		//script_id
 		values.put(COLUMN_SCRIPT_ID, Integer.parseInt(scriptId));
 
 		// is_uploaded
@@ -89,7 +103,9 @@ public class TableRecords
 		values.put(COLUMN_ITEMCODE, itemcode);
 		
 	}
-
+	
+	
+	// as a record text item in script
 	public static class RecordItem {
 
 		public String idInTable;
