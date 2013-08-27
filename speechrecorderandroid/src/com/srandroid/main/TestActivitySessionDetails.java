@@ -24,6 +24,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -81,6 +83,9 @@ public class TestActivitySessionDetails extends Activity
 	    private Activity thisAct;
 	
 	    private int recItemsCount;
+	    
+	    private LocalAdapterForSessionDetails localAdapter;
+	    
 	/**
 	 * 
 	 */
@@ -119,9 +124,6 @@ public class TestActivitySessionDetails extends Activity
 	        setContentView(R.layout.gridviewlayout_test_act_sessiondetails);
 	        
 	        
-	        gridView = (GridView) findViewById(R.id.id_gridview_testact_sessiondetails);
-	        
-	        
 	        // create itemlist
 	        try 
 	        {
@@ -145,9 +147,42 @@ public class TestActivitySessionDetails extends Activity
 	        	itemlist.add(i, "RECORD_ITEM");
 	        }
 	        
+
+	        gridView = (GridView) findViewById(R.id.id_gridview_testact_sessiondetails);
 	        
+	        localAdapter = new  LocalAdapterForSessionDetails(this, itemlist);
 	        
-	        gridView.setAdapter(new LocalAdapterForSessionDetails(this, itemlist));
+	        gridView.setAdapter(localAdapter);
+	        
+	        gridView.setOnScrollListener(new OnScrollListener() { 
+
+
+	        	@Override
+	            public void onScroll(AbsListView view, int firstVisibleItem,
+	                    int visibleItemCount, int totalItemCount) {
+
+	            }
+	        	@Override
+	            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+/*	                if(scrollState != SCROLL_STATE_IDLE) {
+	                  mAdapter.setFlinging(true);
+	                } else {
+	                  mAdapter.setFlinging(false);   
+	                }
+*/
+	                int first = view.getFirstVisiblePosition(); 
+	                int count = view.getChildCount(); 
+
+	                if ((first + count > localAdapter.getCount())) 
+	                { 
+	                	localAdapter.setCanCreateNew(false);
+	                }
+	        
+
+	            }
+	        }); 
+	        
 	        
 	        gridView.setClickable(true);
 	        
@@ -548,7 +583,7 @@ public class TestActivitySessionDetails extends Activity
 
 			private Context context;
 			private ArrayList<String> itemlist;
-			
+			private boolean canCreateNew;
 			
 			private Cursor cursor;
 
@@ -558,6 +593,7 @@ public class TestActivitySessionDetails extends Activity
 				super();
 				this.context = context;
 				this.itemlist = itemlist;
+				this.canCreateNew = true;
 				
 				if(recItemsCount != 0)
 				{
@@ -585,57 +621,63 @@ public class TestActivitySessionDetails extends Activity
 				return 0;
 			}
 
+			
+			private void setCanCreateNew(boolean canCreateNew)
+			{
+				this.canCreateNew = canCreateNew;
+			}
+			
 			@Override
 			public View getView(int position, View convertView, ViewGroup parent) 
 			{
 				
 				LinearLayout itemView = null;
 				
-				if(itemlist.get(position).equals("SESSION_ITEM"))
+				
+				if(canCreateNew)
 				{
-					Log.w(LocalAdapterForSessionDetails.class.getName(), 
-							"getView() will create sessionitem at position=" + position);
-					
-					itemView = 
-							(LinearLayout) (convertView == null
-							? LayoutInflater.from(context).inflate(R.layout.linearlayout_activity_sessiondetails, parent, false)
-									: convertView);
-
-			        try
-			        {
-			        	fillSessionItem(itemView);
-			        	itemView.setClickable(false);
-			        	if(position == (itemlist.size() -1)) this.notifyDataSetInvalidated();
-			        }
-			        catch (Exception e) 
-			        {
-			            e.printStackTrace();
-			        }
-
-				}
-				else if(itemlist.get(position).equals("RECORD_ITEM"))
-				{
-					Log.w(LocalAdapterForSessionDetails.class.getName(), 
-							"getView() will create recorditem at position=" + position);
-					
-					itemView = 
-							(LinearLayout) (convertView == null
-							? LayoutInflater.from(context).inflate(R.layout.linearlayout_act_sessiondetails_recorditem, parent, false)
-									: convertView);
-					if(cursor != null)
+					if(itemlist.get(position).equals("SESSION_ITEM"))
 					{
-						fillRecordItem(itemView, cursor, position);
+						Log.w(LocalAdapterForSessionDetails.class.getName(), 
+								"getView() will create sessionitem at position=" + position);
 						
-						if(position == (itemlist.size() -1)) 
-						{
-							cursor.close();
-							this.notifyDataSetInvalidated();
-						}
+						itemView = 
+								(LinearLayout) (convertView == null
+								? LayoutInflater.from(context).inflate(R.layout.linearlayout_activity_sessiondetails, parent, false)
+										: convertView);
+
+				        try
+				        {
+				        	fillSessionItem(itemView);
+				        	itemView.setClickable(false);
+				        }
+				        catch (Exception e) 
+				        {
+				            e.printStackTrace();
+				        }
+
 					}
-					
+					else if(itemlist.get(position).equals("RECORD_ITEM"))
+					{
+						Log.w(LocalAdapterForSessionDetails.class.getName(), 
+								"getView() will create recorditem at position=" + position);
+						
+						itemView = 
+								(LinearLayout) (convertView == null
+								? LayoutInflater.from(context).inflate(R.layout.linearlayout_act_sessiondetails_recorditem, parent, false)
+										: convertView);
+						if(cursor != null)
+						{
+							fillRecordItem(itemView, cursor, position);
+							
+							if(position == (itemlist.size() -1)) 
+							{
+								cursor.close();
+							}
+						}
+						
+					}
 				}
-				
-				
 				
 				return itemView;
 			}
