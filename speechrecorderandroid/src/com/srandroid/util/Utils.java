@@ -513,7 +513,7 @@ public class Utils
 		recordItem4.order = "sequential";
 		recordItem4.promptphase = "idle";
 		recordItem4.speakerdisplay = "false";
-		recordItem4.itemcode = "demo_003";
+		recordItem4.itemcode = "demo_004";
 		recordItem4.prerecdelay = "2000";
 		recordItem4.postrecdelay = "500";
 		recordItem4.recduration = "20000";
@@ -528,7 +528,7 @@ public class Utils
 		recordItem5.order = "sequential";
 		recordItem5.promptphase = "idle";
 		recordItem5.speakerdisplay = "false";
-		recordItem5.itemcode = "demo_003";
+		recordItem5.itemcode = "demo_005";
 		recordItem5.prerecdelay = "2000";
 		recordItem5.postrecdelay = "500";
 		recordItem5.recduration = "20000";

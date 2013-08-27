@@ -497,11 +497,13 @@ public class ActivityRecording extends Activity
 						
 						if(isTestRecroding)
 							srmRecorder = new SrmRecorder(Utils.ConstantVars.REC_FILES_DIR_EXT_PATH 
-								+ File.separator + scriptItem.scriptName + File.separator + "test", 
+								+ File.separator + "sessionID-" + Utils.ConstantVars.sessionItemIdForNewSession + "_"
+								+ scriptItem.scriptName + File.separator + "test", 
 								recItemsList.get(recItemIndex).itemcode);
 						else 
 							srmRecorder = new SrmRecorder(Utils.ConstantVars.REC_FILES_DIR_EXT_PATH 
-									+ File.separator + scriptItem.scriptName, 
+									+ File.separator + "sessionID-" + Utils.ConstantVars.sessionItemIdForNewSession + "_"
+									+ scriptItem.scriptName, 
 									recItemsList.get(recItemIndex).itemcode);
 						
 						srmRecorder.startRecording();

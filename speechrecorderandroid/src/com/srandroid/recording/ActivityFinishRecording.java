@@ -4,6 +4,7 @@
 package com.srandroid.recording;
 
 import com.srandroid.main.ActivitySessionDetails;
+import com.srandroid.main.TestActivitySessionDetails;
 import com.srandroid.speechrecorder.R;
 import com.srandroid.util.Utils;
 
@@ -13,6 +14,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.test.ActivityTestCase;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -72,7 +74,7 @@ public class ActivityFinishRecording extends Activity
 			{
 				Utils.toastTextToUser(getApplicationContext(), "check finished session");
 	    		
-	    		Intent newI = new Intent(thisAct, ActivitySessionDetails.class);
+	    		Intent newI = new Intent(thisAct, TestActivitySessionDetails.class);
 	    		newI.putExtra("itemId", Utils.ConstantVars.sessionItemIdForNewSession);
 	    		
 	        	thisAct.startActivity(newI);
