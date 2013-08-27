@@ -17,6 +17,7 @@ import com.srandroid.database.SrmContentProvider.SrmUriMatcher;
 import com.srandroid.overflow.PrefActivitySettings;
 import com.srandroid.util.Utils;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.preference.PreferenceFragment;
@@ -25,6 +26,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.LoaderManager;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -308,7 +310,28 @@ public class ActivityMain extends Activity {
         		Utils.toastText(getApplicationContext(), "clicked search sessions");
         		break;
         	case R.id.button_download_script:
-        		Utils.toastText(getApplicationContext(), "clicked download script");
+        		// Utils.toastText(getApplicationContext(), "clicked download script");
+        		ContentValues valuesTemp1 = new ContentValues();
+        		TableScripts.setValuesForInsertScriptItem(valuesTemp1, 
+        				"1", 
+        				"/APP_FOLDER/Sscripts/servers/server_1/script_1.xml", 
+        				"An example script from server #1",
+        				"0");
+        		
+        		ContentValues valuesTemp2 = new ContentValues();
+        		TableScripts.setValuesForInsertScriptItem(valuesTemp2, 
+        				"2", 
+        				"/APP_FOLDER/Sscripts/servers/server_2/script_1.xml", 
+        				"An example script from server #2",
+        				"0");
+        		
+        		Log.w(this.getClass().getName(), " click 'download script' will insert example scripts");
+        		Uri uri_1 = getContentResolver().insert(SrmUriMatcher.CONTENT_URI_TABLE_SCRIPTS, valuesTemp1);
+        		Log.w(this.getClass().getName(), " inserted example script id=" + uri_1);
+        		Uri uri_2 = getContentResolver().insert(SrmUriMatcher.CONTENT_URI_TABLE_SCRIPTS, valuesTemp2);
+        		Log.w(this.getClass().getName(), " inserted example script id=" + uri_2);
+        		
+        		
         		break;
         	case R.id.button_search_scripts:
         		Utils.toastText(getApplicationContext(), "clicked search scripts");
