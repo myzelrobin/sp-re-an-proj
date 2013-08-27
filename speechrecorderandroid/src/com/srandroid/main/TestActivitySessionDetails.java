@@ -69,6 +69,7 @@ public class TestActivitySessionDetails extends Activity
 	    private TextView speakers;
 	    private TextView scripts;
 	    
+	    private Cursor recordItemsCursor;
 	    private TextView recordItemItemcode;
 	    private TextView recordItemIntro;
 	    private TextView recordItemPrompt;
@@ -192,6 +193,7 @@ public class TestActivitySessionDetails extends Activity
 		@Override
 	    protected void onStop()
 	    {
+			recordItemsCursor.close();
 			super.onStop();
 		}
 		
@@ -452,16 +454,16 @@ public class TestActivitySessionDetails extends Activity
 			
 			String wherePart = "script_id=" + scriptId + " AND " + "session_id=" + sessionItemId;
 			
-			Cursor cursor = getApplicationContext().getContentResolver().query(
+			recordItemsCursor = getApplicationContext().getContentResolver().query(
 					SrmUriMatcher.CONTENT_URI_TABLE_RECORDS, 
 					selectColumns, wherePart, null, null);
-			cursor.moveToFirst();
-			if (cursor != null && cursor.getCount() !=0)
+			recordItemsCursor.moveToFirst();
+			if (recordItemsCursor != null && recordItemsCursor.getCount() !=0)
 			{
 				Log.w(TestActivitySessionDetails.class.getName(), 
-						"queryAllRecordsForScript() queried record items count=" + cursor.getCount());
+						"queryAllRecordsForScript() queried record items count=" + recordItemsCursor.getCount());
 				
-				return cursor;
+				return recordItemsCursor;
 			}
 			else return null;
 		}
@@ -595,8 +597,6 @@ public class TestActivitySessionDetails extends Activity
 			private Context context;
 			private ArrayList<String> itemlist;
 			
-			
-			private Cursor cursor;
 
 			public LocalAdapterForSessionDetails(Context context,
 					ArrayList itemlist) 
@@ -608,7 +608,7 @@ public class TestActivitySessionDetails extends Activity
 				if(recItemsCount != 0)
 				{
 					
-					cursor = queryAllRecordsForScript(scriptIdForSession);
+					queryAllRecordsForScript(scriptIdForSession);
 				}
 				
 			}
@@ -670,11 +670,11 @@ public class TestActivitySessionDetails extends Activity
 							(LinearLayout) (convertView == null
 							? LayoutInflater.from(context).inflate(R.layout.linearlayout_act_sessiondetails_recorditem, parent, false)
 									: convertView);
-					if(cursor != null)
+					if(recordItemsCursor != null)
 					{
 						try
 				        {
-							fillRecordItem(itemView, cursor, position);
+							fillRecordItem(itemView, recordItemsCursor, position);
 				        }
 				        catch (Exception e) 
 				        {
