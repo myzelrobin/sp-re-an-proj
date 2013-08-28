@@ -128,7 +128,7 @@ public class TestActivitySessionDetails extends Activity
 	        try 
 	        {
 				getIDsForSessionItem(sessionItemId);
-				recItemsCount = getRecordsCountForScript(scriptIdForSession);
+				recItemsCount = getRecordsCountForSession(sessionItemId);
 			} 
 	        catch (Exception e) 
 	        {
@@ -376,21 +376,20 @@ public class TestActivitySessionDetails extends Activity
 			cursor.close();
 		}
 		
-		private int getRecordsCountForScript(String scriptIdTemp)
+		private int getRecordsCountForSession(String sessionId)
 		{
 			Log.w(TestActivitySessionDetails.class.getName(), 
 					"getRecordsCountForScript() will query item count from table records "
-					+ "with scriptIdForSession=" + scriptIdTemp + " and  sessionId=" + sessionItemId);
+					+ " sessionId=" + sessionId);
 			
 			int count = 0;
 			
 			// query from db
 	        String[] selectColumns = {
 	        		TableRecords.COLUMN_ID,
-	        		TableRecords.COLUMN_SCRIPT_ID,
 	        		TableRecords.COLUMN_SESSION_ID};
 			
-	        String wherePart = "script_id=" + scriptIdTemp + " AND " + "session_id=" + sessionItemId;
+	        String wherePart = "session_id=" + sessionId;
 			
 			Cursor cursor = getApplicationContext().getContentResolver().query(
 					SrmUriMatcher.CONTENT_URI_TABLE_RECORDS, 
@@ -495,7 +494,6 @@ public class TestActivitySessionDetails extends Activity
 					selectColumns, wherePart, null, null);
 			cursor.moveToFirst();
 			
-			
 	        if (cursor != null && cursor.getCount()!=0) 
 			{
 		        sessionid = (TextView) view.findViewById(R.id.act_sessiondetails_sessionid_textvalue);
@@ -505,9 +503,6 @@ public class TestActivitySessionDetails extends Activity
 		        speakers = (TextView) view.findViewById(R.id.act_sessiondetails_speakers_textvalue);
 		        scripts = (TextView) view.findViewById(R.id.act_sessiondetails_scripts_textvalue);
 		        
-				
-				
-				
 					String idText = cursor.getString(cursor.getColumnIndexOrThrow("session_key_id"));
 					sessionid.setText("Session #" + idText);
 					setTitle("Session #" + idText);
