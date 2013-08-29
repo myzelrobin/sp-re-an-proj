@@ -782,7 +782,7 @@ public class ActivityRecording extends Activity
 					if(recItemIndex<0) recItemIndex = 0;
 					Log.w(ActivityRecording.class.getName(), "<<, recItemIndex=" + recItemIndex);
 					
-					Log.w(ActivityRecording.class.getName(), "the first record item");
+					Utils.toastTextToUser(thisAct, "the first record item");
 					
 					bPlay.setEnabled(false);
 					
@@ -800,7 +800,7 @@ public class ActivityRecording extends Activity
 					if(recItemIndex>(recItemsList.size() -1)) recItemIndex = recItemsList.size() -1;
 					Log.w(ActivityRecording.class.getName(), ">>, recItemIndex=" + recItemIndex);
 					
-					Log.w(ActivityRecording.class.getName(), "the last record item");
+					Utils.toastTextToUser(thisAct, "the last record item");
 					
 					bPlay.setEnabled(false);
 					
