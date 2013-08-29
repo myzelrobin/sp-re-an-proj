@@ -59,16 +59,19 @@ public class ActivityMain extends Activity {
 	
 	// fields for Drawer
 	private CharSequence activity_title;
+	
 	private CharSequence title_drawer_items;
 	private String[] array_drawer_items;
     private DrawerLayout drawerlayout_in_activitymain;
     private ListView listview_drawer_items;
     private ActionBarDrawerToggle toggle_drawer_items;
+    
     private int selectedItemIndex = 0; // app starts, select the first item 0
     
-    // STATE for savedInstance
-    public static final String SELECTED_ITEM_INDEX = "selectedItemIndex";
     
+    
+    // STATE for savedInstance, should be in Utils.ConstantVars
+    public static final String SELECTED_ITEM_INDEX = "selectedItemIndex";
     
     // 
     private Thread initAppThread = null;
@@ -97,9 +100,6 @@ public class ActivityMain extends Activity {
 	{
 		super.onCreate(savedInstanceState);
 		
-		
-		
-		
 		// initialize block
 		Utils.ConstantVars.initializeApp(getApplicationContext());
 		
@@ -123,6 +123,15 @@ public class ActivityMain extends Activity {
 	    }.start();
 		
 		
+	    
+	    
+	    // read extras
+	    Bundle extras = getIntent().getExtras(); 
+
+		if (extras != null) 
+		{
+		    //itemId = extras.getString("itemId");
+		}
 		
 
 		

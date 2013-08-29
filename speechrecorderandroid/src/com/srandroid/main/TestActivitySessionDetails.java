@@ -55,6 +55,8 @@ public class TestActivitySessionDetails extends Activity
 		public static final String ITEM_URI = "ITEM_URI";
 		private String sessionItemId = null;
 		
+		private boolean isShowUploadButton = false;
+		
 		private String speakerIdForSession;
 		private String scriptIdForSession;
 		
@@ -275,8 +277,12 @@ public class TestActivitySessionDetails extends Activity
 		        		
 		        		Intent newI = new Intent(this, ActivityPreRecording.class);
 		        		this.startActivity(newI);
-		        		
 	        		break;
+	        	
+	        	case R.id.act_sessiondetails_button_upload:
+	        		Utils.toastTextToUser(this, "start uploading");
+	        		break;
+	        		
 	        	default:
 	        		break;
 	    	}
