@@ -779,10 +779,13 @@ public class ActivityRecording extends Activity
 					Log.w(ActivityRecording.class.getName(), "click <<");
 					recItemIndex--;
 					Log.w(ActivityRecording.class.getName(), "<<, recItemIndex=" + recItemIndex);
-					if(recItemIndex<0) recItemIndex = 0;
+					if(recItemIndex<0)
+					{
+						recItemIndex = 0;
+						Utils.toastTextToUser(thisAct, "the first record item");
+					}
 					Log.w(ActivityRecording.class.getName(), "<<, recItemIndex=" + recItemIndex);
 					
-					Utils.toastTextToUser(thisAct, "the first record item");
 					
 					bPlay.setEnabled(false);
 					
@@ -797,10 +800,13 @@ public class ActivityRecording extends Activity
 					Log.w(ActivityRecording.class.getName(), "click >>");
 					recItemIndex++;
 					Log.w(ActivityRecording.class.getName(), ">>, recItemIndex=" + recItemIndex);
-					if(recItemIndex>(recItemsList.size() -1)) recItemIndex = recItemsList.size() -1;
+					if(recItemIndex>(recItemsList.size() -1))
+					{
+						recItemIndex = recItemsList.size() -1;
+						Utils.toastTextToUser(thisAct, "the last record item");
+					}
 					Log.w(ActivityRecording.class.getName(), ">>, recItemIndex=" + recItemIndex);
 					
-					Utils.toastTextToUser(thisAct, "the last record item");
 					
 					bPlay.setEnabled(false);
 					
