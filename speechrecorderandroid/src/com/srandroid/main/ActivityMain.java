@@ -331,6 +331,7 @@ public class ActivityMain extends Activity {
         		Uri uri_2 = getContentResolver().insert(SrmUriMatcher.CONTENT_URI_TABLE_SCRIPTS, valuesTemp2);
         		Log.w(this.getClass().getName(), " inserted example script id=" + uri_2);
         		
+        		Utils.toastText(getApplicationContext(), "downloaded two new scripts");
         		
         		break;
         	case R.id.button_search_scripts:

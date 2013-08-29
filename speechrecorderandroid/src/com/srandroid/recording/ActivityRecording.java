@@ -732,6 +732,7 @@ public class ActivityRecording extends Activity
 							        	 // update GUI
 							        	recItemIndex++;
 									    if(recItemIndex > (recItemsList.size() -1)) recItemIndex = recItemsList.size() -1;
+									    	
 									    
 								    	imageCircle1.setImageResource(R.drawable.icon_circle_red);
 								    	imageCircle2.setImageResource(R.drawable.icon_circle_yellow);
@@ -780,6 +781,9 @@ public class ActivityRecording extends Activity
 					Log.w(ActivityRecording.class.getName(), "<<, recItemIndex=" + recItemIndex);
 					if(recItemIndex<0) recItemIndex = 0;
 					Log.w(ActivityRecording.class.getName(), "<<, recItemIndex=" + recItemIndex);
+					
+					Log.w(ActivityRecording.class.getName(), "the first record item");
+					
 					bPlay.setEnabled(false);
 					
 					updateTextArea(gridView, 
@@ -795,6 +799,9 @@ public class ActivityRecording extends Activity
 					Log.w(ActivityRecording.class.getName(), ">>, recItemIndex=" + recItemIndex);
 					if(recItemIndex>(recItemsList.size() -1)) recItemIndex = recItemsList.size() -1;
 					Log.w(ActivityRecording.class.getName(), ">>, recItemIndex=" + recItemIndex);
+					
+					Log.w(ActivityRecording.class.getName(), "the last record item");
+					
 					bPlay.setEnabled(false);
 					
 					updateTextArea(gridView, 
@@ -802,6 +809,7 @@ public class ActivityRecording extends Activity
 							recItemsList.get(recItemIndex).recprompt);
 					
 					break;
+					
 				default:
 					break;
 			}
