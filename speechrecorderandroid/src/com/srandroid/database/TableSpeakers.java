@@ -3,6 +3,8 @@
  */
 package com.srandroid.database;
 
+import java.util.ArrayList;
+
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -37,10 +39,23 @@ public class TableSpeakers
 		+ COLUMN_BIRTHDAY + " text "
 		+ " );";
 	
+	public static ArrayList<String> ALL_COLUMNS = new ArrayList<String>();
+	
+	
+	
+	/**
+	 * 
+	 */
+	public TableSpeakers() 
+	{
+		
+	}
+
 	// create table speakers
 	public static void onCreate(SQLiteDatabase db)
 	{
 		Log.w(TableSpeakers.class.getName(), "onCreate(): will create table: " + TABLE_SPEAKERS);
+		setALL_COLUMNS();
 		db.execSQL(CREATE_TABLE_SPEAKERS);
 		insertSpeakerExamples(db);
 	}
@@ -223,6 +238,26 @@ public class TableSpeakers
 			this.birthday = birthday;
 		}
 
+	}
+
+	/**
+	 * @return the aLL_COLUMNS
+	 */
+	public static ArrayList<String> getALL_COLUMNS() {
+		return ALL_COLUMNS;
+	}
+
+	/**
+	 * @param aLL_COLUMNS the aLL_COLUMNS to set
+	 */
+	public static void setALL_COLUMNS() 
+	{
+		ALL_COLUMNS.add(COLUMN_ID);
+		ALL_COLUMNS.add(COLUMN_FIRSTNAME);
+		ALL_COLUMNS.add(COLUMN_SURNAME);
+		ALL_COLUMNS.add(COLUMN_ACCENT);
+		ALL_COLUMNS.add(COLUMN_SEX);
+		ALL_COLUMNS.add(COLUMN_BIRTHDAY);
 	}
 
 	

@@ -3,6 +3,8 @@
  */
 package com.srandroid.database;
 
+import java.util.ArrayList;
+
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -36,10 +38,21 @@ public class TableScripts
 		+ " FOREIGN KEY (" + COLUMN_SERVER_ID + ") REFERENCES servers(_id)"
 		+ " );";
 	
+	
+	public static ArrayList<String> ALL_COLUMNS = new ArrayList<String>();
+	/**
+	 * 
+	 */
+	public TableScripts() 
+	{
+		
+	}
+
 	// create table scripts
 	public static void onCreate(SQLiteDatabase db)
 	{
 		Log.w(TableScripts.class.getName(), "onCreate(): will create table: " + TABLE_SCRIPTS);
+		setALL_COLUMNS();
 		db.execSQL(CREATE_TABLE_SCRIPTS);
 		insertScriptExamples(db);
 	}
@@ -270,6 +283,26 @@ public class TableScripts
 
 
 
+	}
+
+
+	/**
+	 * @return the aLL_COLUMNS
+	 */
+	public static ArrayList<String> getALL_COLUMNS() {
+		return ALL_COLUMNS;
+	}
+
+	/**
+	 * @param aLL_COLUMNS the aLL_COLUMNS to set
+	 */
+	public static void setALL_COLUMNS() 
+	{
+		ALL_COLUMNS.add(COLUMN_ID);
+		ALL_COLUMNS.add(COLUMN_FILEPATH);
+		ALL_COLUMNS.add(COLUMN_DESCRIPTION);
+		ALL_COLUMNS.add(COLUMN_COUNT);
+		ALL_COLUMNS.add(COLUMN_SERVER_ID);
 	}
 
 }

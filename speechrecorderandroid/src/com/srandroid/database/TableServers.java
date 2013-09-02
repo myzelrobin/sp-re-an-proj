@@ -3,6 +3,8 @@
  */
 package com.srandroid.database;
 
+import java.util.ArrayList;
+
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -36,10 +38,22 @@ public class TableServers
 		+ COLUMN_DESCRIPTION + " text "
 		+ " );";
 	
+	public static ArrayList<String> ALL_COLUMNS = new ArrayList<String>();
+	
+	
+	/**
+	 * 
+	 */
+	public TableServers() 
+	{
+		
+	}
+
 	// create table servers
 	public static void onCreate(SQLiteDatabase db)
 	{
 		Log.w(TableServers.class.getName(), "onCreate(): will create table: " + TABLE_SERVERS);
+		setALL_COLUMNS();
 		db.execSQL(CREATE_TABLE_SERVERS);
 		insertServerExamples(db);
 	}
@@ -94,7 +108,10 @@ public class TableServers
 		private String username = null;
 		private String password = null; 
 		private String description= null;
-		public ServerItem() {
+		
+		
+		public ServerItem() 
+		{
 			// TODO Auto-generated constructor stub
 		}
 		/**
@@ -172,6 +189,25 @@ public class TableServers
 		
 		
 
+	}
+
+	/**
+	 * @return the aLL_COLUMNS
+	 */
+	public static ArrayList<String> getALL_COLUMNS() {
+		return ALL_COLUMNS;
+	}
+
+	/**
+	 * @param aLL_COLUMNS the aLL_COLUMNS to set
+	 */
+	public static void setALL_COLUMNS() 
+	{
+		ALL_COLUMNS.add(COLUMN_ID);
+		ALL_COLUMNS.add(COLUMN_ADDRESS);
+		ALL_COLUMNS.add(COLUMN_USERNAME);
+		ALL_COLUMNS.add(COLUMN_PASSWORD);
+		ALL_COLUMNS.add(COLUMN_DESCRIPTION);
 	}
 
 }

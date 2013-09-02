@@ -3,6 +3,7 @@
  */
 package com.srandroid.database;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import com.srandroid.util.Utils;
@@ -19,6 +20,8 @@ import android.util.Log;
 public class TableRecords 
 {
 
+	
+
 	// Table Attributes
 	public static final String TABLE_RECORDS = "records";
 	public static final String COLUMN_ID = "_id"; // key
@@ -31,8 +34,6 @@ public class TableRecords
 	public static final String COLUMN_SCRIPT_ID = "script_id"; // foreign key reference scripts(_id)
 	public static final String COLUMN_SPEAKER_ID = "speaker_id"; // foreign key reference speakers(_id)
 	public static final String COLUMN_SESSION_ID = "session_id"; // foreign key reference sessions(_id)
-	
-	
 	
 	// SQL statement CREATE TABLE records
 	private static final String CREATE_TABLE_RECORDS = 
@@ -54,10 +55,25 @@ public class TableRecords
 		+ "FOREIGN KEY (" + COLUMN_SESSION_ID + ") REFERENCES sessions(_id) "
 		+ ");";
 	
+
+	
+	public static ArrayList<String> ALL_COLUMNS = new ArrayList<String>();
+
+	/**
+	 * 
+	 */
+	public TableRecords() 
+	{
+		
+	}
+	
+	
+	
 	// create table records
 	public static void onCreate(SQLiteDatabase db)
 	{
 		Log.w(TableRecords.class.getName(), "onCreate(): will create table: " + TABLE_RECORDS);
+		setALL_COLUMNS();
 		db.execSQL(CREATE_TABLE_RECORDS);
 	}
 	
@@ -360,6 +376,44 @@ public class TableRecords
 		public void setReccomment(String reccomment) {
 			this.reccomment = reccomment;
 		}
+	}
+
+
+	/**
+	 * @return the aLL_COLUMNS
+	 */
+	public static ArrayList<String> getALL_COLUMNS() 
+	{
+		return ALL_COLUMNS;
+	}
+
+	/**
+	 * @param aLL_COLUMNS the aLL_COLUMNS to set
+	 */
+	public static void setALL_COLUMNS() 
+	{
+		/*
+		 + COLUMN_FILEPATH + " text not null, "
+			+ COLUMN_INSTRUCTION + " text, "
+			+ COLUMN_PROMPT + " text, "
+			+ COLUMN_COMMENT + " text, "
+			+ COLUMN_ITEMCODE + " text not null, "
+			+ COLUMN_ISUPLOADED + " text, "
+			+ COLUMN_SCRIPT_ID + " integer, "
+			+ COLUMN_SPEAKER_ID + " integer, "
+			+ COLUMN_SESSION_ID + " integer, "
+		 */
+		
+		ALL_COLUMNS.add(COLUMN_ID);
+		ALL_COLUMNS.add(COLUMN_FILEPATH);
+		ALL_COLUMNS.add(COLUMN_INSTRUCTION);
+		ALL_COLUMNS.add(COLUMN_PROMPT);
+		ALL_COLUMNS.add(COLUMN_COMMENT);
+		ALL_COLUMNS.add(COLUMN_ITEMCODE);
+		ALL_COLUMNS.add(COLUMN_ISUPLOADED);
+		ALL_COLUMNS.add(COLUMN_SCRIPT_ID);
+		ALL_COLUMNS.add(COLUMN_SPEAKER_ID);
+		ALL_COLUMNS.add(COLUMN_SESSION_ID);
 	}
 
 }

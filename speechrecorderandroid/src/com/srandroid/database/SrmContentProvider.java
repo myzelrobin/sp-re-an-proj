@@ -3,6 +3,7 @@
  */
 package com.srandroid.database;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -135,7 +136,7 @@ public class SrmContentProvider extends ContentProvider
 		// Set the tables
 		setTablesForQuerybuilder(uri, queryBuilder);
 		
-		checkColumns(DBAccessor.AVAILABLE_COLUMNS);
+		checkColumns(selectColumns);
 		
 		
 		// append itemid to where part, only for select from single table
@@ -203,6 +204,8 @@ public class SrmContentProvider extends ContentProvider
 							+ ", sessions._id, sessions._id as session_key_id, speakers._id as speaker_key_id"
 							+ " FROM sessions LEFT OUTER JOIN speakers ON sessions.speaker_id=speakers._id;";
 					
+					Log.w(SrmContentProvider.class.getName(), "query(): will query: " + sqlQuery);
+					
 					cursor = srmDB.rawQuery(sqlQuery, null);
 				}
 				else
@@ -211,6 +214,8 @@ public class SrmContentProvider extends ContentProvider
 							+ ", sessions._id, sessions._id as session_key_id, speakers._id as speaker_key_id"
 							+ " FROM sessions LEFT OUTER JOIN speakers ON sessions.speaker_id=speakers._id"
 							+ " WHERE " + wherePart;
+					
+					Log.w(SrmContentProvider.class.getName(), "query(): will query: " + sqlQuery);
 					
 					cursor = srmDB.rawQuery(sqlQuery, null);
 				}
@@ -235,6 +240,9 @@ public class SrmContentProvider extends ContentProvider
 					String sqlQuery2 = "select " + result2 
 							+ ", speakers._id, speakers._id as speaker_key_id, sessions._id as session_key_id "
 							+ " from speakers left outer join sessions on sessions.speaker_id=speakers._id;";
+					
+					Log.w(SrmContentProvider.class.getName(), "query(): will query: " + sqlQuery2);
+					
 					cursor = srmDB.rawQuery(sqlQuery2, null);
 				}
 				else
@@ -243,6 +251,9 @@ public class SrmContentProvider extends ContentProvider
 							+ ", speakers._id, speakers._id as speaker_key_id, sessions._id AS session_key_id "
 							+ " FROM speakers LEFT OUTER JOIN sessions ON sessions.speaker_id=speakers._id"
 							+ " WHERE " + wherePart + ";";
+					
+					Log.w(SrmContentProvider.class.getName(), "query(): will query: " + sqlQuery2);
+					
 					cursor = srmDB.rawQuery(sqlQuery2, null);
 				}
 				
@@ -267,6 +278,8 @@ public class SrmContentProvider extends ContentProvider
 							+ ", scripts._id, scripts._id as script_key_id, sessions._id as session_key_id "
 							+ " FROM scripts LEFT OUT JOIN sessions ON sessions.script_id=scripts._id;";
 					
+					Log.w(SrmContentProvider.class.getName(), "query(): will query: " + sqlQuery3);
+					
 					cursor = srmDB.rawQuery(sqlQuery3, null);
 				}
 				else
@@ -275,6 +288,8 @@ public class SrmContentProvider extends ContentProvider
 							+ ", scripts._id, scripts._id as script_key_id, sessions._id as session_key_id "
 							+ " FROM scripts LEFT OUTER JOIN sessions ON sessions.script_id=scripts._id"
 							+ " WHERE " + wherePart + ";";
+					
+					Log.w(SrmContentProvider.class.getName(), "query(): will query: " + sqlQuery3);
 					
 					cursor = srmDB.rawQuery(sqlQuery3, null);
 				}
@@ -287,7 +302,8 @@ public class SrmContentProvider extends ContentProvider
 		
 		srmDB = dbAccesor.getReadableDatabase();
 		
-		
+		// buildQueryString(boolean distinct, String tables, String[] columns, String where, 
+		// 					String groupBy, String having, String orderBy, String limit)
 		Log.w(SrmContentProvider.class.getName(), "query(): will query: " 
 					+ queryBuilder.buildQueryString(
 							false, 
@@ -786,17 +802,18 @@ public class SrmContentProvider extends ContentProvider
 	
 	private void checkColumns(String[] inputColumns)
 	{
-		String[] availableCols = DBAccessor.AVAILABLE_COLUMNS; // add tableColumns
+		ArrayList<String> availableCols = DBAccessor.getAllTableColumns(); // add tableColumns
 		if (inputColumns != null)
 		{
 			HashSet<String> requestedColsTemp = 
 					new HashSet<String> (Arrays.asList(inputColumns));
 			HashSet<String> availableColsTemp = 
-					new HashSet<String> (Arrays.asList(availableCols));
+					new HashSet<String> (availableCols);
 			
 			if(!availableColsTemp.containsAll(requestedColsTemp))
 			{
-				throw new IllegalArgumentException(SrmContentProvider.class.getName() 
+				throw new IllegalArgumentException(
+						SrmContentProvider.class.getName() 
 						+ " checkColumns(): "
 						+ "Unknown requested column in selectColumns!");
 			}
