@@ -5,11 +5,8 @@ package com.srandroid.database;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 
-import com.srandroid.util.Utils;
 import com.srandroid.database.DBAccessor;
 
 import android.content.ContentProvider;
@@ -305,7 +302,7 @@ public class SrmContentProvider extends ContentProvider
 		// buildQueryString(boolean distinct, String tables, String[] columns, String where, 
 		// 					String groupBy, String having, String orderBy, String limit)
 		Log.w(SrmContentProvider.class.getName(), "query(): will query: " 
-					+ queryBuilder.buildQueryString(
+					+ SQLiteQueryBuilder.buildQueryString(
 							false, 
 							queryBuilder.getTables(), 
 							selectColumns, 
@@ -988,11 +985,11 @@ public class SrmContentProvider extends ContentProvider
 			
 			// other tables
 			
-			// sessions left join speakers
+			// sessions left outer join speakers
 			uriMatcher.addURI(AUTHORITY, PATH_TABLE_SESSIONS_LEFTJOIN_SPEAKERS, 
 					TABLE_SESSIONS_LEFTJOIN_SPEAKERS);
 			
-			// speakers left join sessions
+			// speakers left outer join sessions
 			uriMatcher.addURI(AUTHORITY, PATH_TABLE_SPEAKERS_LEFTJOIN_SESSIONS, 
 					TABLE_SPEAKERS_LEFTJOIN_SESSIONS);
 			

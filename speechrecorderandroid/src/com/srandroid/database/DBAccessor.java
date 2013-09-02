@@ -5,7 +5,7 @@ package com.srandroid.database;
 
 import java.util.ArrayList;
 
-import android.content.ContentValues;
+
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -52,18 +52,6 @@ public class DBAccessor extends SQLiteOpenHelper
 			TableSessions.onUpgrade(db, oldVersion, newVersion);
 			TableSections.onUpgrade(db, oldVersion, newVersion);
 			TableRecords.onUpgrade(db, oldVersion, newVersion);
-	}
-	
-	private void insertExamples(SQLiteDatabase db)
-	{
-		Log.w(DBAccessor.class.getName(), "insertExamples() will insert examples");
-		TableSpeakers.insertSpeakerExamples(db);
-		TableServers.insertServerExamples(db);
-		TableScripts.insertScriptExamples(db);
-		TableSessions.insertSessionExamples(db);
-		// TableSections.insertScriptExamples(db);
-		// TableRecords.insertScriptExamples(db);
-		
 	}
 	
 	
