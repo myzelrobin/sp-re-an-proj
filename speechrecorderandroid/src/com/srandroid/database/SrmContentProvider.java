@@ -54,70 +54,15 @@ public class SrmContentProvider extends ContentProvider
 		return null;
 	}
 
-	
-	/**
-	 *  FROM
-	 * 
-	 * @param uri
-	 * @param queryBuilder
-	 */
-	private void setTablesForQuerybuilder(Uri uri, SQLiteQueryBuilder queryBuilder) 
-	{
-		int uriType = SrmUriMatcher.uriMatcher.match(uri);
-		switch(uriType)
-		{
-			default:
-				throw new IllegalArgumentException(
-						SrmContentProvider.class.getName() 
-						+ "setTablesForQuerybuilder(): Unknown URI: " + uri);
-			case SrmUriMatcher.TABLE_SPEAKERS:
-				queryBuilder.setTables(TableSpeakers.TABLE_SPEAKERS);
-				break;
-			case SrmUriMatcher.SPEAKER_ITEM_ID:
-				queryBuilder.setTables(TableSpeakers.TABLE_SPEAKERS);
-				break;
-			case SrmUriMatcher.TABLE_SCRIPTS:
-				queryBuilder.setTables(TableScripts.TABLE_SCRIPTS);
-				break;
-			case SrmUriMatcher.SCRIPT_ITEM_ID:
-				queryBuilder.setTables(TableScripts.TABLE_SCRIPTS);
-				break;
-			case SrmUriMatcher.TABLE_SERVERS:
-				queryBuilder.setTables(TableServers.TABLE_SERVERS);
-				break;
-			case SrmUriMatcher.SERVER_ITEM_ID:
-				queryBuilder.setTables(TableServers.TABLE_SERVERS);
-				break;
-			case SrmUriMatcher.TABLE_SESSIONS:
-				queryBuilder.setTables(TableSessions.TABLE_SESSIONS);
-				break;
-			case SrmUriMatcher.SESSION_ITEM_ID:
-				queryBuilder.setTables(TableSessions.TABLE_SESSIONS);
-				break;
-			case SrmUriMatcher.TABLE_SECTIONS:
-				queryBuilder.setTables(TableSections.TABLE_SECTIONS);
-				break;
-			case SrmUriMatcher.SECTION_ITEM_ID:
-				queryBuilder.setTables(TableSections.TABLE_SECTIONS);
-				break;
-			case SrmUriMatcher.TABLE_RECORDS:
-				queryBuilder.setTables(TableRecords.TABLE_RECORDS);
-				break;
-			case SrmUriMatcher.RECORD_ITEM_ID:
-				queryBuilder.setTables(TableRecords.TABLE_RECORDS);
-				break;
-			case SrmUriMatcher.TABLE_SESSIONS_LEFTJOIN_SPEAKERS:
-				break;
-			case SrmUriMatcher.TABLE_SPEAKERS_LEFTJOIN_SESSIONS:
-				break;
-			case SrmUriMatcher.TABLE_SCRIPTS_LOJ_SESSIONS:
-				break;
-		}
-		
-	}
-	
-	
-	
+/*
+	// an example of ITEM_ID
+	// append itemid to where part, only for select from single table
+	case SrmUriMatcher.SPEAKER_ITEM_ID:
+		// Adding the wherePart = wherePartValues to the query
+		queryBuilder.appendWhere(TableSpeakers.COLUMN_ID 
+				+ "=" + uri.getLastPathSegment());
+		break;
+*/
 	@Override
 	public Cursor query(Uri uri,       // FROM
 			String[] selectColumns,    // SELECT
@@ -127,16 +72,18 @@ public class SrmContentProvider extends ContentProvider
 	{
 		Cursor cursor = null;
 		
-		// SQLiteQueryBuilder to build SQL query
-		SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
-		
-		// Set the tables
-		setTablesForQuerybuilder(uri, queryBuilder);
+		String table = null;
 		
 		checkColumns(selectColumns);
 		
+		// switcher for query actions
+		// for LOJ must include _id column
+		// 1: query from an existing table
+		// 2: query from sessions LOJ speakers
+		// 3: query from speakers LOJ sessions
+		// 4: query from scripts LOJ sessions
+		int switcher = 0;
 		
-		// append itemid to where part, only for select from single table
 		int uriType = SrmUriMatcher.uriMatcher.match(uri);
 		switch(uriType)
 		{
@@ -144,186 +91,155 @@ public class SrmContentProvider extends ContentProvider
 				throw new IllegalArgumentException(
 						SrmContentProvider.class.getName() 
 						+ "query(): Unknown URI: " + uri);
-			case SrmUriMatcher.TABLE_SPEAKERS:
-				break;
-			case SrmUriMatcher.SPEAKER_ITEM_ID:
-				// Adding the wherePart = wherePartValues to the query
-				queryBuilder.appendWhere(TableSpeakers.COLUMN_ID 
-						+ "=" + uri.getLastPathSegment());
-				break;
-			case SrmUriMatcher.TABLE_SCRIPTS:
-				break;
-			case SrmUriMatcher.SCRIPT_ITEM_ID:
-				queryBuilder.appendWhere(TableScripts.COLUMN_ID 
-						+ "=" + uri.getLastPathSegment());
-				break;
-			case SrmUriMatcher.TABLE_SERVERS:
-				break;
-			case SrmUriMatcher.SERVER_ITEM_ID:
-				queryBuilder.appendWhere(TableServers.COLUMN_ID 
-						+ "=" + uri.getLastPathSegment());
-				break;
-			case SrmUriMatcher.TABLE_SESSIONS:
-				break;
-			case SrmUriMatcher.SESSION_ITEM_ID:
-				queryBuilder.appendWhere(TableSessions.COLUMN_ID 
-						+ "=" + uri.getLastPathSegment());
-				break;
-			case SrmUriMatcher.TABLE_SECTIONS:
-				break;
-			case SrmUriMatcher.SECTION_ITEM_ID:
-				queryBuilder.appendWhere(TableSections.COLUMN_ID 
-						+ "=" + uri.getLastPathSegment());
-				break;
-			case SrmUriMatcher.TABLE_RECORDS:
-				break;
-			case SrmUriMatcher.RECORD_ITEM_ID:
-				queryBuilder.appendWhere(TableRecords.COLUMN_ID 
-						+ "=" + uri.getLastPathSegment());
-				break;
-			case SrmUriMatcher.TABLE_SESSIONS_LEFTJOIN_SPEAKERS:
 
-				StringBuilder builder = new StringBuilder();
-				builder.append(selectColumns[0]);
-				for (int i = 1; i < selectColumns.length; i++) {
-				   builder.append("," + selectColumns[i]);
-				}
-				String result = builder.toString();
-				
-				srmDB = dbAccesor.getReadableDatabase();
-				
-				
-				if(wherePart == null)
-				{
-					// must include _id column
-					// sessions _id use sessions._id
-					String sqlQuery = "SELECT " + result 
-							+ ", sessions._id, sessions._id as session_key_id, speakers._id as speaker_key_id"
-							+ " FROM sessions LEFT OUTER JOIN speakers ON sessions.speaker_id=speakers._id;";
-					
-					Log.w(SrmContentProvider.class.getName(), "query(): will query: " + sqlQuery);
-					
-					cursor = srmDB.rawQuery(sqlQuery, null);
-				}
-				else
-				{
-					String sqlQuery = "SELECT " + result 
-							+ ", sessions._id, sessions._id as session_key_id, speakers._id as speaker_key_id"
-							+ " FROM sessions LEFT OUTER JOIN speakers ON sessions.speaker_id=speakers._id"
-							+ " WHERE " + wherePart;
-					
-					Log.w(SrmContentProvider.class.getName(), "query(): will query: " + sqlQuery);
-					
-					cursor = srmDB.rawQuery(sqlQuery, null);
-				}
-				
-				cursor.setNotificationUri(getContext().getContentResolver(), uri); 
-				
+			case SrmUriMatcher.TABLE_SPEAKERS:
+				table = TableSpeakers.TABLE_SPEAKERS;
+				switcher = 1;
+				break;
+
+			case SrmUriMatcher.TABLE_SCRIPTS:
+				table = TableScripts.TABLE_SCRIPTS;
+				switcher = 1;
+				break;
+			
+			case SrmUriMatcher.TABLE_SERVERS:
+				table = TableServers.TABLE_SERVERS;
+				switcher = 1;
+				break;
+			
+			case SrmUriMatcher.TABLE_SESSIONS:
+				table = TableSessions.TABLE_SESSIONS;
+				switcher = 1;
+				break;
+			
+			case SrmUriMatcher.TABLE_SECTIONS:
+				table = TableSections.TABLE_SECTIONS;
+				switcher = 1;
+				break;
+			
+			case SrmUriMatcher.TABLE_RECORDS:
+				table = TableRecords.TABLE_RECORDS;
+				switcher = 1;
+				break;
+			
+			case SrmUriMatcher.TABLE_SESSIONS_LEFTJOIN_SPEAKERS:
+				switcher = 2;
 				return cursor;
 			
 			case SrmUriMatcher.TABLE_SPEAKERS_LEFTJOIN_SESSIONS:
-				
-				StringBuilder builder2 = new StringBuilder();
-				builder2.append(selectColumns[0]);
-				for (int i = 1; i < selectColumns.length; i++) {
-				   builder2.append("," + selectColumns[i]);
-				}
-				String result2 = builder2.toString();
-				
-				srmDB = dbAccesor.getReadableDatabase();
-				
-				if(wherePart == null)
-				{
-					String sqlQuery2 = "select " + result2 
-							+ ", speakers._id, speakers._id as speaker_key_id, sessions._id as session_key_id "
-							+ " from speakers left outer join sessions on sessions.speaker_id=speakers._id;";
-					
-					Log.w(SrmContentProvider.class.getName(), "query(): will query: " + sqlQuery2);
-					
-					cursor = srmDB.rawQuery(sqlQuery2, null);
-				}
-				else
-				{
-					String sqlQuery2 = "SELECT " + result2 
-							+ ", speakers._id, speakers._id as speaker_key_id, sessions._id AS session_key_id "
-							+ " FROM speakers LEFT OUTER JOIN sessions ON sessions.speaker_id=speakers._id"
-							+ " WHERE " + wherePart + ";";
-					
-					Log.w(SrmContentProvider.class.getName(), "query(): will query: " + sqlQuery2);
-					
-					cursor = srmDB.rawQuery(sqlQuery2, null);
-				}
-				
-				cursor.setNotificationUri(getContext().getContentResolver(), uri); 
-				
-				return cursor;
+				switcher = 3;
+				break;
 				
 			case SrmUriMatcher.TABLE_SCRIPTS_LOJ_SESSIONS:
-				
-				StringBuilder builder3 = new StringBuilder();
-				builder3.append(selectColumns[0]);
-				for (int i = 1; i < selectColumns.length; i++) {
-				   builder3.append("," + selectColumns[i]);
-				}
-				String result3 = builder3.toString();
-				
-				srmDB = dbAccesor.getReadableDatabase();
-				
-				if(wherePart == null)
-				{
-					String sqlQuery3 = "SELECT " + result3 
-							+ ", scripts._id, scripts._id as script_key_id, sessions._id as session_key_id "
-							+ " FROM scripts LEFT OUT JOIN sessions ON sessions.script_id=scripts._id;";
-					
-					Log.w(SrmContentProvider.class.getName(), "query(): will query: " + sqlQuery3);
-					
-					cursor = srmDB.rawQuery(sqlQuery3, null);
-				}
-				else
-				{
-					String sqlQuery3 = "SELECT " + result3 
-							+ ", scripts._id, scripts._id as script_key_id, sessions._id as session_key_id "
-							+ " FROM scripts LEFT OUTER JOIN sessions ON sessions.script_id=scripts._id"
-							+ " WHERE " + wherePart + ";";
-					
-					Log.w(SrmContentProvider.class.getName(), "query(): will query: " + sqlQuery3);
-					
-					cursor = srmDB.rawQuery(sqlQuery3, null);
-				}
-					
-				cursor.setNotificationUri(getContext().getContentResolver(), uri); 
-				
-				return cursor;
-
+				switcher = 4;
+				break;
 		}
 		
 		srmDB = dbAccesor.getReadableDatabase();
 		
-		// buildQueryString(boolean distinct, String tables, String[] columns, String where, 
-		// 					String groupBy, String having, String orderBy, String limit)
-		Log.w(SrmContentProvider.class.getName(), "query(): will query: " 
-					+ SQLiteQueryBuilder.buildQueryString(
-							false, 
-							queryBuilder.getTables(), 
-							selectColumns, 
-							"(" + wherePart + ") = (" + wherePartValues + ")", 
-							null, 
-							null, 
-							null, 
-							null));
+		StringBuilder sBuiderTemp = new StringBuilder();
+		String sSelectColumns = null;
+		String sRawQuery = null;
 		
-		cursor = queryBuilder.query(srmDB, 
-									selectColumns,  // select
-									wherePart, // where
-									wherePartValues,  // where =
-									null,  // group by
-									null,  // having
-									sortOrder);  // sort by
-		
+		switch (switcher) 
+		{
+			default:
+				Log.w(SrmContentProvider.class.getName(), "query() switcher has a wrong value!");
+				break;
+			
+			case 1: // from existing tables
+				// buildQueryString(boolean distinct, String tables, String[] columns, String where, 
+				// 					String groupBy, String having, String orderBy, String limit)
+				sRawQuery = SQLiteQueryBuilder.buildQueryString(
+						false, table, selectColumns, wherePart, 
+						null, null, sortOrder, null);
+				Log.w(SrmContentProvider.class.getName(), 
+						"query(): will query: " + sRawQuery);
+				cursor = srmDB.rawQuery(sRawQuery, null);
+//				cursor = queryBuilder.query(srmDB, 
+//											selectColumns,  // select
+//											wherePart, // where
+//											null,  // where =
+//											null,  // group by
+//											null,  // having
+//											sortOrder);  // sort by
+				break;
+			
+			case 2: // sessions left outer join speakers
+				sBuiderTemp.append(selectColumns[0]);
+				for (int i = 1; i < selectColumns.length; i++) {
+					sBuiderTemp.append("," + selectColumns[i]);
+				}
+				sSelectColumns = sBuiderTemp.toString();
+				if(wherePart == null)
+				{
+					sRawQuery = "SELECT " + sSelectColumns 
+							+ ", sessions._id, sessions._id as session_key_id, speakers._id as speaker_key_id"
+							+ " FROM sessions LEFT OUTER JOIN speakers ON sessions.speaker_id=speakers._id;";
+				}
+				else
+				{
+					sRawQuery = "SELECT " + sSelectColumns 
+							+ ", sessions._id, sessions._id as session_key_id, speakers._id as speaker_key_id"
+							+ " FROM sessions LEFT OUTER JOIN speakers ON sessions.speaker_id=speakers._id"
+							+ " WHERE " + wherePart;
+				}
+				
+				Log.w(SrmContentProvider.class.getName(), "query(): will query: " + sRawQuery);
+				cursor = srmDB.rawQuery(sRawQuery, null);
+				break;
+			
+			case 3: // speakers left outer join sessions
+				sBuiderTemp.append(selectColumns[0]);
+				for (int i = 1; i < selectColumns.length; i++) {
+					sBuiderTemp.append("," + selectColumns[i]);
+				}
+				sSelectColumns = sBuiderTemp.toString();
+				if(wherePart == null)
+				{
+					sRawQuery = "SELECT " + sSelectColumns 
+							+ ", speakers._id, speakers._id AS speaker_key_id, sessions._id AS session_key_id "
+							+ " FROM speakers LEFT OUTER JOIN sessions ON sessions.speaker_id=speakers._id;";
+				}
+				else
+				{
+					sRawQuery = "SELECT " + sSelectColumns 
+							+ ", speakers._id, speakers._id AS speaker_key_id, sessions._id AS session_key_id "
+							+ " FROM speakers LEFT OUTER JOIN sessions ON sessions.speaker_id=speakers._id"
+							+ " WHERE " + wherePart + ";";
+				}
+				
+				Log.w(SrmContentProvider.class.getName(), "query(): will query: " + sRawQuery);
+				cursor = srmDB.rawQuery(sRawQuery, null);
+				break;
+			
+			case 4: // scripts left outer join sessions
+				sBuiderTemp.append(selectColumns[0]);
+				for (int i = 1; i < selectColumns.length; i++) {
+					sBuiderTemp.append("," + selectColumns[i]);
+				}
+				sSelectColumns = sBuiderTemp.toString();
+				if(wherePart == null)
+				{
+					sRawQuery = "SELECT " + sSelectColumns 
+							+ ", scripts._id, scripts._id AS script_key_id, sessions._id AS session_key_id "
+							+ " FROM scripts LEFT OUTER JOIN sessions ON sessions.script_id=scripts._id;";
+				}
+				else
+				{
+					sRawQuery = "SELECT " + sSelectColumns 
+							+ ", scripts._id, scripts._id AS script_key_id, sessions._id AS session_key_id "
+							+ " FROM scripts LEFT OUTER JOIN sessions ON sessions.script_id=scripts._id"
+							+ " WHERE " + wherePart + ";";
+				}
+				
+				Log.w(SrmContentProvider.class.getName(), "query(): will query: " + sRawQuery);
+				cursor = srmDB.rawQuery(sRawQuery, null);
+				break;
+		}
 		
 		// By default, CursorAdapter objects will get this notification.
 		cursor.setNotificationUri(getContext().getContentResolver(), uri);
-		
 		return cursor;
 	}
 	
@@ -333,19 +249,8 @@ public class SrmContentProvider extends ContentProvider
 			String[] wherePartValues) 
 	{
 		
-		// switcher with three values for three delete actions
-		// 1: delete items with conditions
-		// 2: delete item with id
-		// 3: delete item with id and conditions
-		int switcher = 0;
-		
 		// table
 		String table = null;
-		
-		// column id
-		String _id = null;
-		
-		String requestedID = null;
 		
 		int uriType = SrmUriMatcher.uriMatcher.match(uri);
 		switch(uriType)
@@ -356,177 +261,41 @@ public class SrmContentProvider extends ContentProvider
 						+ "delete(): Unknown URI: " + uri);
 				
 			case SrmUriMatcher.TABLE_SPEAKERS: 
-				// delete items with conditions
 				table = TableSpeakers.TABLE_SPEAKERS;
-				switcher = 1;
-				break;
-				
-			case SrmUriMatcher.SPEAKER_ITEM_ID:
-				requestedID = uri.getLastPathSegment();
-				table = TableSpeakers.TABLE_SPEAKERS;
-				_id = TableSpeakers.COLUMN_ID; 
-				if (TextUtils.isEmpty(wherePart))
-				{   // delete item with id
-					switcher = 2;
-				}
-				else
-				{   // delete item with id and condition
-					switcher = 3;
-				}
 				break;
 				
 			case SrmUriMatcher.TABLE_SCRIPTS:
-				// delete items with conditions
 				table = TableScripts.TABLE_SCRIPTS;
-				switcher = 1;
 				break;
 				
-			case SrmUriMatcher.SCRIPT_ITEM_ID:
-				requestedID = uri.getLastPathSegment();
-				table = TableScripts.TABLE_SCRIPTS;
-				_id = TableScripts.COLUMN_ID; 
-				if (TextUtils.isEmpty(wherePart))
-				{
-					// delete item with id
-					switcher = 2;
-				}
-				else
-				{
-					// delete item with id and condition
-					switcher = 3;
-				}
-				break;
 				
 			case SrmUriMatcher.TABLE_SERVERS:
-				// delete items with conditions
 				table = TableServers.TABLE_SERVERS;
-				switcher = 1;
 				break;
 				
-			case SrmUriMatcher.SERVER_ITEM_ID:
-				requestedID = uri.getLastPathSegment();
-				table = TableServers.TABLE_SERVERS;
-				_id = TableServers.COLUMN_ID; 
-				if (TextUtils.isEmpty(wherePart))
-				{
-					// delete item with id
-					switcher = 2;
-				}
-				else
-				{
-					// delete item with id and condition
-					switcher = 3;
-				}
-				break;
 				
 			case SrmUriMatcher.TABLE_SESSIONS:
-				// delete items with conditions
 				table = TableSessions.TABLE_SESSIONS;
-				switcher = 1;
-				break;
-				
-			case SrmUriMatcher.SESSION_ITEM_ID:
-				requestedID = uri.getLastPathSegment();
-				table = TableSessions.TABLE_SESSIONS;
-				_id = TableSessions.COLUMN_ID; 
-				if (TextUtils.isEmpty(wherePart))
-				{
-					// delete item with id
-					switcher = 2;
-				}
-				else
-				{
-					// delete item with id and condition
-					switcher = 3;
-				}
 				break;
 				
 			case SrmUriMatcher.TABLE_SECTIONS:
-				// delete items with conditions
 				table = TableSections.TABLE_SECTIONS;
-				switcher = 1;
-				break;
-				
-			case SrmUriMatcher.SECTION_ITEM_ID:
-				requestedID = uri.getLastPathSegment();
-				table = TableSections.TABLE_SECTIONS;
-				_id = TableSections.COLUMN_ID; 
-				if (TextUtils.isEmpty(wherePart))
-				{
-					// delete item with id
-					switcher = 2;
-				}
-				else
-				{
-					// delete item with id and condition
-					switcher = 3;
-				}
 				break;
 				
 			case SrmUriMatcher.TABLE_RECORDS:
-				// delete items with conditions
 				table = TableRecords.TABLE_RECORDS;
-				switcher = 1;
 				break;
 				
-			case SrmUriMatcher.RECORD_ITEM_ID:
-				requestedID = uri.getLastPathSegment();
-				table = TableRecords.TABLE_RECORDS;
-				_id = TableRecords.COLUMN_ID; 
-				if (TextUtils.isEmpty(wherePart))
-				{
-					// delete item with id
-					switcher = 2;
-				}
-				else
-				{
-					// delete item with id and condition
-					switcher = 3;
-				}
-				break;
 		}
 		
 		srmDB = dbAccesor.getWritableDatabase();
 		
 		int rowDeleted = 0;
 		
-		// switch to a delete action
-		switch (switcher) 
-		{
-			default:
-				break;
-			case 1: 
-				// delete items with conditions
-				Log.w(SrmContentProvider.class.getName(), 
-						"delete(): will delete items with WHERE(" + wherePart 
-                        + "=" + Arrays.toString(wherePartValues) 
-                        + ") from table " + table);
-				rowDeleted = srmDB.delete(table, 
-						wherePart, wherePartValues);
-				break;
-			case 2:
-				// delete item with id
-				Log.w(SrmContentProvider.class.getName(), 
-						"delete(): will delete item id=" + requestedID 
-                        + " from table " + table);
-				rowDeleted = srmDB.delete(table, 
-						_id + "=" + requestedID, null);
-				break;
-			case 3:
-				// delete item with id and condition
-				Log.w(SrmContentProvider.class.getName(), 
-						"delete(): will delete item id=" + requestedID 
-                        + " and selecitons(" + wherePart 
-                        + "=" + Arrays.toString(wherePartValues) 
-                        + ") from table " + table);
-				rowDeleted = srmDB.delete(table, 
-						_id + "=" + requestedID + " and " 
-						+ wherePart, wherePartValues);
-				break;
-	
-		}
-		
-		//
+		Log.w(SrmContentProvider.class.getName(), 
+						"delete(): will delete items from table {" + table 
+						+ "} with WHERE {" + wherePart + "}");
+		rowDeleted = srmDB.delete(table, wherePart, wherePartValues);
 		
 		getContext().getContentResolver().notifyChange(uri, null);
 		
@@ -537,7 +306,9 @@ public class SrmContentProvider extends ContentProvider
 	@Override
 	public Uri insert(Uri uri, ContentValues values) 
 	{
-		
+		// table
+		// String table = null;
+				
 		Uri uriTemp = null;
 		
 		srmDB = dbAccesor.getWritableDatabase();
@@ -601,8 +372,6 @@ public class SrmContentProvider extends ContentProvider
 				break;
 		}
 		
-		
-		// By default, CursorAdapter objects will get this notification.
 		getContext().getContentResolver().notifyChange(uri, null);
 		return uriTemp;
 	}
@@ -615,19 +384,8 @@ public class SrmContentProvider extends ContentProvider
 			String wherePart, 
 			String[] wherePartValues) 
 	{
-		// switcher with three values for three update actions
-		// 1: update items with conditions
-		// 2: update item with id
-		// 3: update item with id and conditions
-		int switcher = 0;
-		
 		// table
 		String table = null;
-		
-		// column id
-		String _id = null;
-		
-		String requestedID = null;
 		
 		int uriType = SrmUriMatcher.uriMatcher.match(uri);
 		switch(uriType)
@@ -636,161 +394,40 @@ public class SrmContentProvider extends ContentProvider
 				throw new IllegalArgumentException(
 						SrmContentProvider.class.getName() 
 						+ "update(): Unknown URI: " + uri);
+			
 			case SrmUriMatcher.TABLE_SPEAKERS:
 				table = TableSpeakers.TABLE_SPEAKERS;
-				switcher = 1;
-				break;
-				
-			case SrmUriMatcher.SPEAKER_ITEM_ID:
-				requestedID = uri.getLastPathSegment();
-				table = TableSpeakers.TABLE_SPEAKERS;
-				_id = TableSpeakers.COLUMN_ID;
-				if (TextUtils.isEmpty(wherePart))
-				{
-					switcher = 2;
-				}
-				else
-				{
-					switcher = 3;
-				}
 				break;
 				
 			case SrmUriMatcher.TABLE_SCRIPTS:
 				table = TableScripts.TABLE_SCRIPTS;
-				switcher = 1;
-				break;
-				
-			case SrmUriMatcher.SCRIPT_ITEM_ID:
-				requestedID = uri.getLastPathSegment();
-				table = TableScripts.TABLE_SCRIPTS;
-				_id = TableScripts.COLUMN_ID;
-				if (TextUtils.isEmpty(wherePart))
-				{
-					switcher = 2;
-				}
-				else
-				{
-					switcher = 3;
-				}
 				break;
 				
 			case SrmUriMatcher.TABLE_SERVERS:
 				table = TableServers.TABLE_SERVERS;
-				switcher = 1;
-				break;
-				
-			case SrmUriMatcher.SERVER_ITEM_ID:
-				requestedID = uri.getLastPathSegment();
-				table = TableServers.TABLE_SERVERS;
-				_id = TableServers.COLUMN_ID;
-				if (TextUtils.isEmpty(wherePart))
-				{
-					switcher = 2;
-				}
-				else
-				{
-					switcher = 3;
-				}
 				break;
 				
 			case SrmUriMatcher.TABLE_SESSIONS:
 				table = TableSessions.TABLE_SESSIONS;
-				switcher = 1;
-				break;
-				
-			case SrmUriMatcher.SESSION_ITEM_ID:
-				requestedID = uri.getLastPathSegment();
-				table = TableSessions.TABLE_SESSIONS;
-				_id = TableSessions.COLUMN_ID;
-				if (TextUtils.isEmpty(wherePart))
-				{
-					switcher = 2;
-				}
-				else
-				{
-					switcher = 3;
-				}
 				break;
 				
 			case SrmUriMatcher.TABLE_SECTIONS:
 				table = TableSections.TABLE_SECTIONS;
-				switcher = 1;
-				break;
-				
-			case SrmUriMatcher.SECTION_ITEM_ID:
-				requestedID = uri.getLastPathSegment();
-				table = TableSections.TABLE_SECTIONS;
-				_id = TableSections.COLUMN_ID;
-				if (TextUtils.isEmpty(wherePart))
-				{
-					switcher = 2;
-				}
-				else
-				{
-					switcher = 3;
-				}
 				break;
 				
 			case SrmUriMatcher.TABLE_RECORDS:
 				table = TableRecords.TABLE_RECORDS;
-				switcher = 1;
 				break;
-				
-			case SrmUriMatcher.RECORD_ITEM_ID:
-				requestedID = uri.getLastPathSegment();
-				table = TableRecords.TABLE_RECORDS;
-				_id = TableRecords.COLUMN_ID;
-				if (TextUtils.isEmpty(wherePart))
-				{
-					switcher = 2;
-				}
-				else
-				{
-					switcher = 3;
-				}
-				break;
-				
 		}
 		
 		srmDB = dbAccesor.getWritableDatabase();
 		
 		int rowUpdated = 0;
 		
-		switch (switcher) 
-		{
-			default:
-				
-				break;
-			case 1:
-				// 1: update items with conditions
-				Log.w(SrmContentProvider.class.getName(), 
-						"will update item with selections(" 
-						+ wherePart + "=" + Arrays.toString(wherePartValues) 
-						+ ") from table " + table);
-				rowUpdated = srmDB.update(table, values, wherePart, wherePartValues);
-				break;
-			
-			case 2:
-				// 2: update item with id
-				Log.w(SrmContentProvider.class.getName(), 
-						"update(): will update item id=" + requestedID 
-						+ " from table " + table);
-				rowUpdated = srmDB.update(table, values, _id + "=" + requestedID, null);
-				break;
-			
-			case 3:
-				// 3: update item with id and conditions
-				Log.w(SrmContentProvider.class.getName(), 
-						"update(): will update item id=" + requestedID 
-                        + " and selecitons(" + wherePart + "=" 
-						+ Arrays.toString(wherePartValues) 
-                        + ") from table " + table);
-				rowUpdated = srmDB.update(table, values, 
-                                        _id + "=" + requestedID 
-                                        + " and " + wherePart, wherePartValues);
-				break;
-	
-		}
+		Log.w(SrmContentProvider.class.getName(), 
+				"update() will update item in table " + table 
+				+ " WHERE{" + wherePart + "}");
+		rowUpdated = srmDB.update(table, values, wherePart, wherePartValues);
 		
 		//
 		getContext().getContentResolver().notifyChange(uri, null);
@@ -817,6 +454,7 @@ public class SrmContentProvider extends ContentProvider
 			
 		}
 	}
+	
 	
 	/**
 	 * UriMatch class
