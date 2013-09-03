@@ -53,7 +53,7 @@ public class Utils
 	// class contains constant variables 
 	public static class ConstantVars
 	{
-		public static final String TESTTEXT = "TEST";
+		public static final String TESTTEXT = "TESTTEXT TEXTTEXT";
 		public static final boolean canToastDebugText = true;
 		public static final boolean canToastTextToUser = true;
 		
