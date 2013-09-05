@@ -74,7 +74,7 @@ public class SrmContentProvider extends ContentProvider
 		
 		String table = null;
 		
-		//checkColumns(selectColumns);
+		checkColumns(selectColumns);
 		
 		// switcher for query actions
 		// for LOJ must include _id column
@@ -436,10 +436,10 @@ public class SrmContentProvider extends ContentProvider
 	
 	private void checkColumns(String[] inputColumns)
 	{
-		ArrayList<String> availableCols = DBAccessor.getAllTableColumns(); // add tableColumns
+		ArrayList<String> availableCols = (ArrayList<String>) Arrays.asList(DBAccessor.ALLTABLECOLS); // add tableColumns
 		Log.w(SrmContentProvider.class.getName(), "checkColumns() "
-				+ "\navailableCols=" + availableCols.toString() 
-				+ "\ninputColumns=" + Arrays.asList(inputColumns).toString());
+				+ "\n availableCols=" + availableCols.toString() 
+				+ "\n inputColumns=" + Arrays.asList(inputColumns).toString());
 		
 		if (inputColumns != null)
 		{

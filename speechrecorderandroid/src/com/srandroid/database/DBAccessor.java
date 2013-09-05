@@ -55,19 +55,48 @@ public class DBAccessor extends SQLiteOpenHelper
 	}
 	
 	
-	public static ArrayList<String> getAllTableColumns()
-	{
-		ArrayList<String> listTemp = new ArrayList<String>();
-		
-		listTemp.addAll(TableRecords.ALL_COLUMNS);
-		listTemp.addAll(TableScripts.ALL_COLUMNS);
-		listTemp.addAll(TableSections.ALL_COLUMNS);
-		listTemp.addAll(TableServers.ALL_COLUMNS);
-		listTemp.addAll(TableSessions.ALL_COLUMNS);
-		listTemp.addAll(TableSpeakers.ALL_COLUMNS);
-		
-		// not include columns for cross join
-		return listTemp;
-	}
+	public static String[] ALLTABLECOLS = 
+		{
+			TableRecords.COLUMN_COMMENT, // table records
+			TableRecords.COLUMN_FILEPATH,
+			TableRecords.COLUMN_ID,
+			TableRecords.COLUMN_INSTRUCTION,
+			TableRecords.COLUMN_ISUPLOADED,
+			TableRecords.COLUMN_ITEMCODE,
+			TableRecords.COLUMN_PROMPT,
+			TableRecords.COLUMN_SCRIPT_ID,
+			TableRecords.COLUMN_SESSION_ID,
+			TableRecords.COLUMN_SPEAKER_ID,
+			TableScripts.COLUMN_COUNT, // table scripts
+			TableScripts.COLUMN_DESCRIPTION,
+			TableScripts.COLUMN_FILEPATH,
+			TableScripts.COLUMN_ID,
+			TableScripts.COLUMN_SERVER_ID,
+			TableSections.COLUMN_ID, // table sections
+			TableSections.COLUMN_ITEMCODE,
+			TableSections.COLUMN_SCRIPT_ID,
+			TableServers.COLUMN_ADDRESS, // table servers
+			TableServers.COLUMN_DESCRIPTION,
+			TableServers.COLUMN_ID,
+			TableServers.COLUMN_PASSWORD,
+			TableServers.COLUMN_USERNAME,
+			TableSessions.COLUMN_DATE, // table sessions
+			TableSessions.COLUMN_DEVICE_DATA,
+			TableSessions.COLUMN_GPS_DATA,
+			TableSessions.COLUMN_ID,
+			TableSessions.COLUMN_IS_FINISHED,
+			TableSessions.COLUMN_IS_UPLOADED,
+			TableSessions.COLUMN_LAST_SECTION,
+			TableSessions.COLUMN_PLACE,
+			TableSessions.COLUMN_SCRIPT_ID,
+			TableSessions.COLUMN_SPEAKER_ID,
+			TableSessions.COLUMN_TIME,
+			TableSpeakers.COLUMN_ACCENT, // table speakers
+			TableSpeakers.COLUMN_BIRTHDAY,
+			TableSpeakers.COLUMN_FIRSTNAME,
+			TableSpeakers.COLUMN_ID,
+			TableSpeakers.COLUMN_SEX,
+			TableSpeakers.COLUMN_SURNAME
+		};
 	
 }
