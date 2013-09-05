@@ -38,15 +38,31 @@
             android:orientation="vertical"
             android:gravity="left" >
                     
-                    <TextView
-                    android:id="@+id/recorditem_itemcode_textvalue"
-                    android:layout_width="match_parent"
-                    android:layout_margin="10dp"
-                    android:layout_height="70dp"
-                    android:gravity="center_vertical"
-                    android:text="@string/record1_id" 
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
+                
+                   <LinearLayout
+		           android:layout_width="250dp"
+		           android:layout_height="90dp"
+		           android:orientation="horizontal"
+		           android:gravity="center_vertical" >
+		           
+	                    <TextView
+	                    android:id="@+id/recorditem_itemcode_textvalue"
+	                    android:layout_width="150dp"
+	                    android:layout_height="70dp"
+	                    android:paddingLeft="10dp"
+	                    android:gravity="center_vertical"
+	                    android:text="@string/record1_id" 
+	                    android:textSize="24sp"
+	                    android:textStyle="bold" />
+	                    
+	                    <Button
+	                    android:id="@+id/recorditem_button_play_record"
+	                    android:layout_width="100dp"
+	                    android:layout_height="50dp"
+	                    android:text="@string/play" 
+	                    android:textSize="18sp" />
+	                
+                    </LinearLayout>
                     
                     <TextView
                     android:id="@+id/recorditem_script_id_textvalue"

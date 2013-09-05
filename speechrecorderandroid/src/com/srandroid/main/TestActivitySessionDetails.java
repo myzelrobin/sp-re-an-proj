@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -82,6 +83,7 @@ public class TestActivitySessionDetails extends Activity
 	    private TextView recordItemScriptid;
 	    private TextView recordItemIsuploaded;
 	    private TextView recordItemFilepath;
+	    private Button bPlayrecord;
 	    
 	    private ArrayList<String> itemlist; // for adapter
 	    private ArrayList<String> filepathList; // list of record filepathes
@@ -588,6 +590,22 @@ public class TestActivitySessionDetails extends Activity
 			    
 			    String filepath = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_FILEPATH));;
 			    recordItemFilepath.setText(filepath);
+			    
+			    bPlayrecord = (Button) view.findViewById(R.id.recorditem_button_play_record);
+			    bPlayrecord.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) 
+					{
+						// play the record
+						try {
+							Utils.playRecord(thisAct, recordItemFilepath.getText().toString());
+						} catch (ActivityNotFoundException e) {
+							Log.w(LOGTAG, 
+									"Utils.playRecord() throws Exceptions " + e.getMessage());
+						}
+					}
+				});
 			    
 //			    // records file to play
 //			    filepathList.add(position,
