@@ -436,9 +436,8 @@ public class SrmContentProvider extends ContentProvider
 	
 	private void checkColumns(String[] inputColumns)
 	{
-		ArrayList<String> availableCols = (ArrayList<String>) Arrays.asList(DBAccessor.ALLTABLECOLS); // add tableColumns
 		Log.w(SrmContentProvider.class.getName(), "checkColumns() "
-				+ "\n availableCols=" + availableCols.toString() 
+				+ "\n availableCols=" + Arrays.asList(DBAccessor.ALLTABLECOLS).toString()
 				+ "\n inputColumns=" + Arrays.asList(inputColumns).toString());
 		
 		if (inputColumns != null)
@@ -446,14 +445,14 @@ public class SrmContentProvider extends ContentProvider
 			HashSet<String> requestedColsTemp = 
 					new HashSet<String> (Arrays.asList(inputColumns));
 			HashSet<String> availableColsTemp = 
-					new HashSet<String> (availableCols);
+					new HashSet<String> (Arrays.asList(DBAccessor.ALLTABLECOLS));
 			
 			if(!availableColsTemp.containsAll(requestedColsTemp))
 			{
 				throw new IllegalArgumentException(
 						SrmContentProvider.class.getName() 
-						+ " checkColumns(): "
-						+ "Unknown requested column in selectColumns:" 
+						+ " checkColumns():"
+						+ "\n Unknown requested column in selectColumns:" 
 						+ requestedColsTemp.toString());
 			}
 			
