@@ -4,6 +4,8 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+<!-- This is in branch version_2  -->
+
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="18" />
