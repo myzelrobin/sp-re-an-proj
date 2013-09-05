@@ -74,7 +74,7 @@ public class SrmContentProvider extends ContentProvider
 		
 		String table = null;
 		
-		checkColumns(selectColumns);
+		//checkColumns(selectColumns);
 		
 		// switcher for query actions
 		// for LOJ must include _id column
