@@ -569,7 +569,7 @@ public class Utils
 		recordItem7.recprompt = Utils.ConstantVars.SCRIPTS_DIR_EXT_PATH 
 				+ File.separator + "example_food.jpg";
 		recordItem7.reccomment = "Expect some descriptions";
-		recordItem6.itemType = RecordItem.TYPE_IMAGE;
+		recordItem7.itemType = RecordItem.TYPE_IMAGE;
 		recItemsList.add(recordItem7);
 		
 		Utils.ConstantVars.recordItemListForNewSession = recItemsList;
