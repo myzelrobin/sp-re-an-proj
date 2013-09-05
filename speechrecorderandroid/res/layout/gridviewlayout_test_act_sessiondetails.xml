@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridView xmlns:android="http://schemas.android.com/apk/res/android"
-android:id="@+id/id_gridview_testact_sessiondetails"
+<android.support.v4.widget.StaggeredGridView xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/id_testact_sessiondetails_gridview"
 android:background="#EEEEEE"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
@@ -13,5 +13,22 @@ android:paddingTop="20dp"
 android:verticalSpacing="20dp"
 android:clickable="true" >
 
-</GridView>
+</android.support.v4.widget.StaggeredGridView>
+
+
+<!-- <GridView xmlns:android="http://schemas.android.com/apk/res/android" -->
+<!-- android:id="@+id/id_gridview_testact_sessiondetails" -->
+<!-- android:background="#EEEEEE" -->
+<!-- android:layout_width="match_parent" -->
+<!-- android:layout_height="match_parent" -->
+<!-- android:gravity="center" -->
+<!-- android:orientation="vertical" -->
+<!-- android:numColumns="auto_fit" -->
+<!-- android:columnWidth="400dp" -->
+<!-- android:horizontalSpacing="0dp" -->
+<!-- android:paddingTop="20dp" -->
+<!-- android:verticalSpacing="20dp" -->
+<!-- android:clickable="true" > -->
+
+<!-- </GridView> -->
 

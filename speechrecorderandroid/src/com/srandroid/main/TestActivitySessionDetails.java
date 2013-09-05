@@ -10,7 +10,6 @@ import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ClipData.Item;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
@@ -24,8 +23,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -33,7 +30,6 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Spinner;
 
 import com.srandroid.speechrecorder.R;
 import com.srandroid.database.SrmContentProvider;
@@ -45,6 +41,10 @@ import com.srandroid.database.TableSpeakers;
 import com.srandroid.recording.ActivityPreRecording;
 import com.srandroid.util.Utils;
 
+import android.support.v4.widget.StaggeredGridView;
+import android.support.v4.widget.StaggeredGridView.LayoutParams;
+
+
 /**
  *
  */
@@ -55,6 +55,10 @@ public class TestActivitySessionDetails extends Activity
 		public static final String ITEM_URI = "ITEM_URI";
 		private String sessionItemId = null;
 		
+		
+		// log
+		private final static String LOGTAG = TestActivitySessionDetails.class.getSimpleName();
+		
 		private boolean isShowUploadButton = false;
 		
 		private String speakerIdForSession;
@@ -62,7 +66,7 @@ public class TestActivitySessionDetails extends Activity
 		
 		private CharSequence activity_title;
 		
-		GridView gridView;
+		protected StaggeredGridView stGridView;
 		
 		private TextView sessionid;
 		private TextView datetime;
@@ -121,7 +125,7 @@ public class TestActivitySessionDetails extends Activity
 	        
 	        
 	        
-	        Log.w(this.getClass().getName(), "start creating, get sessionItemId=" + sessionItemId);
+	        Log.w(LOGTAG, "start creating, get sessionItemId=" + sessionItemId);
 	        
 	        setContentView(R.layout.gridviewlayout_test_act_sessiondetails);
 	        
@@ -135,7 +139,7 @@ public class TestActivitySessionDetails extends Activity
 	        catch (Exception e) 
 	        {
 				// TODO Auto-generated catch block
-				Log.w(this.getClass().getName(), " getIDsForSessionItem() throws " 
+				Log.w(LOGTAG, " getIDsForSessionItem() throws " 
 				+ e.getLocalizedMessage());
 			}
 	        
@@ -150,13 +154,13 @@ public class TestActivitySessionDetails extends Activity
 	        }
 	        
 
-	        gridView = (GridView) findViewById(R.id.id_gridview_testact_sessiondetails);
+	        stGridView = (StaggeredGridView) findViewById(R.id.id_testact_sessiondetails_gridview);
 	        
 	        localAdapter = new  LocalAdapterForSessionDetails(this, itemlist);
 	        
-	        gridView.setAdapter(localAdapter);
+	        stGridView.setAdapter(localAdapter);
 	        
-	        gridView.setOnItemClickListener(this);
+//	        stGridView.setOnItemClickListener(this);
 	        
 	        
 	        Utils.toastTextToUser(getApplicationContext(), "click record item to play");
@@ -270,7 +274,7 @@ public class TestActivitySessionDetails extends Activity
 		        		Utils.ConstantVars.speakerItemIdForNewSession = speakerIdForSession;
 		        		Utils.ConstantVars.scriptItemIdForNewSession = scriptIdForSession;
 		        		
-		        		Log.w(this.getClass().getName(), " set Utils.speakerID=" 
+		        		Log.w(LOGTAG, " set Utils.speakerID=" 
 		        				+ Utils.ConstantVars.speakerItemIdForNewSession 
 		        				+ " and Utils.scriptID=" 
 		        				+ Utils.ConstantVars.scriptItemIdForNewSession);
@@ -333,7 +337,7 @@ public class TestActivitySessionDetails extends Activity
 				try {
 					Utils.playRecord(this, filepathTemp);
 				} catch (ActivityNotFoundException e) {
-					Log.w(TestActivitySessionDetails.class.getName(), 
+					Log.w(LOGTAG, 
 							"Utils.playRecord() throws Exceptions " + e.getMessage());
 				}
 			}
@@ -343,7 +347,7 @@ public class TestActivitySessionDetails extends Activity
 		
 		private void getIDsForSessionItem(String sessionItemId)
 		{
-			Log.w(TestActivitySessionDetails.class.getName(), 
+			Log.w(LOGTAG, 
 					"getIDsForSessionItem() will query scriptIdForSession and"
 					+ " speakerIdForSession from table sessions"
 					+ " with sessionItemId=" + sessionItemId);
@@ -374,10 +378,10 @@ public class TestActivitySessionDetails extends Activity
 				speakerIdForSession = Integer.toString(speakerIdTemp);
 				
 				
-				Log.w(TestActivitySessionDetails.class.getName(), 
+				Log.w(LOGTAG, 
 						"getIDsForSessionItem() find scriptIdForSession=" + scriptIdForSession);
 				
-				Log.w(TestActivitySessionDetails.class.getName(), 
+				Log.w(LOGTAG, 
 						"getIDsForSessionItem() find speakerIdForSession=" + speakerIdForSession);
 			}
 			
@@ -387,7 +391,7 @@ public class TestActivitySessionDetails extends Activity
 		
 		private int getRecordsCountForSession(String sessionId)
 		{
-			Log.w(TestActivitySessionDetails.class.getName(), 
+			Log.w(LOGTAG, 
 					"getRecordsCountForScript() will query item count from table records "
 					+ " sessionId=" + sessionId);
 			
@@ -405,14 +409,14 @@ public class TestActivitySessionDetails extends Activity
 					selectColumns, wherePart, null, null);
 			cursor.moveToFirst();
 			
-			Log.w(TestActivitySessionDetails.class.getName(), 
+			Log.w(LOGTAG, 
 					"getRecordsCountForScript() gets count=" + cursor.getCount());
 			
 			if (cursor != null && cursor.getCount()!=0) 
 			{
 				count = cursor.getCount();
 				
-				Log.w(TestActivitySessionDetails.class.getName(), 
+				Log.w(LOGTAG, 
 						"getRecordsCountForScript() gets count=" + count);
 				
 				/*				
@@ -446,7 +450,7 @@ public class TestActivitySessionDetails extends Activity
 
 		private Cursor queryAllRecordsForScript(String scriptId)
 		{
-			Log.w(TestActivitySessionDetails.class.getName(), 
+			Log.w(LOGTAG, 
 					"queryAllRecordsForScript() will query record items with scriptIdForSession=" + scriptId
 					+ " and sessionId=" + sessionItemId);
 			
@@ -471,7 +475,7 @@ public class TestActivitySessionDetails extends Activity
 			cursor.moveToFirst();
 			if (cursor != null && cursor.getCount() !=0)
 			{
-				Log.w(TestActivitySessionDetails.class.getName(), 
+				Log.w(LOGTAG, 
 						"queryAllRecordsForScript() queried record items count=" + cursor.getCount());
 				
 				return cursor;
@@ -483,7 +487,7 @@ public class TestActivitySessionDetails extends Activity
 		private void fillSessionItem(View view)
 		{
 
-			Log.w(TestActivitySessionDetails.class.getName(), 
+			Log.w(LOGTAG, 
 					"fillSessionItem() will fill session item id=" + sessionItemId);
 	        // query from db
 	        String[] selectColumns = {
@@ -541,7 +545,7 @@ public class TestActivitySessionDetails extends Activity
 		
 		private void fillRecordItem(View view, Cursor cursor, int position)
 		{
-			Log.w(TestActivitySessionDetails.class.getName(), 
+			Log.w(LOGTAG, 
 					"fillRecordItem() will fill record item");
 			
 			if (cursor != null && cursor.getCount()!=0) 
@@ -549,13 +553,12 @@ public class TestActivitySessionDetails extends Activity
 				
 				cursor.moveToPosition(position - 1);
 				
-				Log.w(LocalAdapterForSessionDetails.class.getName(), 
-							"getView() will create record item, item position=" + position 
-							+ " cursor position = " + cursor.getPosition());
+				Log.w(LOGTAG, 
+						"fillRecordItem() will create record item, item position=" + position 
+						+ " cursor position = " + cursor.getPosition());
 				
 				int id = cursor.getInt(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ID));
-				Log.w(TestActivitySessionDetails.class.getName(), 
-								"fillRecordItem() will fill record item idInTable=" + id);
+				Log.w(LOGTAG, "fillRecordItem() will fill record item idInTable=" + id);
 				
 				recordItemItemcode = (TextView) view.findViewById(R.id.recorditem_itemcode_textvalue);
 				recordItemScriptid = (TextView) view.findViewById(R.id.recorditem_script_id_textvalue);
@@ -595,9 +598,38 @@ public class TestActivitySessionDetails extends Activity
 			
 		}
 		
+//		private OnScrollListener	mScrollListener = new OnScrollListener() {
+//	    	
+//			@Override
+//			public void onScrollStateChanged(ViewGroup view, int scrollState) {
+//				Log.d(TAG, "[onScrollStateChanged] scrollState:" + scrollState);
+//				switch (scrollState) {
+//				case SCROLL_STATE_IDLE:
+//					setTitle("SCROLL_STATE_IDLE");
+//					break;
+//					
+//				case SCROLL_STATE_FLING:
+//					setTitle("SCROLL_STATE_FLING");
+//					break;
+//					
+//				case SCROLL_STATE_TOUCH_SCROLL:
+//					setTitle("SCROLL_STATE_TOUCH_SCROLL");
+//					break;
+//
+//				default:
+//					break;
+//				}
+//				
+//			}
+//
+//			@Override
+//			public void onScroll(ViewGroup view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+//				Log.d(TAG, "[onScroll] firstVisibleItem:" + firstVisibleItem + " visibleItemCount:"+visibleItemCount + " totalItemCount:" + totalItemCount);
+//				
+//			}
+//		};
 		
-		
-		protected class LocalAdapterForSessionDetails extends BaseAdapter
+		private final class LocalAdapterForSessionDetails extends BaseAdapter
 		{
 			
 
@@ -644,27 +676,32 @@ public class TestActivitySessionDetails extends Activity
 			@Override
 			public View getView(int position, View convertView, ViewGroup parent) 
 			{
+				LayoutParams lp;
 				
 				LinearLayout itemView = null;
 				
 				if(itemlist.get(position).equals("SESSION_ITEM"))
 				{
-					Log.w(LocalAdapterForSessionDetails.class.getName(), 
+					Log.w(LOGTAG + ".Adapter", 
 							"getView() will create sessionitem at position=" + position);
 					
 					itemView = 
 							(LinearLayout) (convertView == null
 							? LayoutInflater.from(context).inflate(R.layout.linearlayout_activity_sessiondetails, parent, false)
 									: convertView);
-
+					
 			        try
 			        {
+			        	lp = new LayoutParams(itemView.getLayoutParams());
+	                    lp.span = stGridView.getColumnCount();
+	                    itemView.setLayoutParams(lp);
+	                    
 			        	fillSessionItem(itemView);
 			        	itemView.setClickable(false);
 			        }
 			        catch (Exception e) 
 			        {
-			        	Log.w(LocalAdapterForSessionDetails.class.getName(), 
+			        	Log.w(LOGTAG + ".Adapter", 
 								"getView() created sessionitem at position=" + position 
 								+ " throws error:" + e.getLocalizedMessage());
 			        }
@@ -672,7 +709,7 @@ public class TestActivitySessionDetails extends Activity
 				}
 				else if(itemlist.get(position).equals("RECORD_ITEM"))
 				{
-					Log.w(LocalAdapterForSessionDetails.class.getName(), 
+					Log.w(LOGTAG + ".Adapter", 
 							"getView() will create recorditem at position=" + position);
 					
 					itemView = 
@@ -683,11 +720,15 @@ public class TestActivitySessionDetails extends Activity
 					{
 						try
 				        {
+							lp = new LayoutParams(itemView.getLayoutParams());
+		                    lp.span = 1;
+		                    itemView.setLayoutParams(lp);
+							
 							fillRecordItem(itemView, cursor, position);
 				        }
 				        catch (Exception e) 
 				        {
-				            Log.w(LocalAdapterForSessionDetails.class.getName(), 
+				            Log.w(LOGTAG + ".Adapter", 
 									"getView() created recorditem at position=" + position 
 									+ " throws error:" + e.getMessage());
 				        }
@@ -695,8 +736,6 @@ public class TestActivitySessionDetails extends Activity
 					
 					
 				}
-				
-				
 				
 				return itemView;
 			}
