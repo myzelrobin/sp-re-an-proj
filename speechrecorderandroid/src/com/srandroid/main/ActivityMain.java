@@ -79,7 +79,8 @@ public class ActivityMain extends Activity {
 	/**
 	 * 
 	 */
-	public ActivityMain() {
+	public ActivityMain() 
+	{
 		super();
 	}
     

@@ -14,20 +14,20 @@
         android:orientation="horizontal" >
             
             <LinearLayout
-            android:layout_width="200dp"
+            android:layout_width="150dp"
             android:layout_height="200dp"
             android:orientation="horizontal"
             android:gravity="center" >
 		            <ImageView 
-		                android:layout_width="180dp"
-		                android:layout_height="180dp"
-		                android:scaleType="fitXY"
+		                android:layout_width="150dp"
+		                android:layout_height="150dp"
+		                android:scaleType="centerInside"
 		                android:id="@+id/sessiondetails_icon_session"
 		                android:src="@drawable/icon_session_256"  />
 		    </LinearLayout>
 		    
             <LinearLayout
-            android:layout_width="200dp"
+            android:layout_width="250dp"
             android:layout_height="200dp"
             android:orientation="vertical"
             android:gravity="left" >
@@ -39,7 +39,7 @@
                     android:layout_height="70dp"
                     android:gravity="center_vertical"
                     android:text="@string/act_sessiondetails_sessionid_text" 
-                    android:textSize="20sp"
+                    android:textSize="24sp"
                     android:textStyle="bold" />
                     
                     <TextView
@@ -98,7 +98,7 @@
 	                    android:layout_height="match_parent"
 	                    android:gravity="center"
 	                    android:text="@string/act_sessiondetails_speakers_text" 
-	                    android:textSize="30sp"
+	                    android:textSize="24sp"
 	                    android:textStyle="bold" />
 		               <TextView
                         android:id="@+id/act_sessiondetails_speakers_textvalue"
@@ -120,7 +120,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:text="@string/act_sessiondetails_scripts_text" 
-                        android:textSize="30sp"
+                        android:textSize="24sp"
                         android:textStyle="bold" />
                        <TextView
                         android:id="@+id/act_sessiondetails_scripts_textvalue"
