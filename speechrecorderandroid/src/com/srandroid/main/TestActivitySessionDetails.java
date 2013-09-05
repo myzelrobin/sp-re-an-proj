@@ -733,7 +733,7 @@ public class TestActivitySessionDetails extends Activity
 				if(recItemsCount != 0)
 				{
 					
-					//cursor = queryAllRecordsForScript(scriptIdForSession);
+					cursor = queryAllRecordsForScript();
 				}
 				
 			}
@@ -810,8 +810,8 @@ public class TestActivitySessionDetails extends Activity
 		                    itemView.setLayoutParams(lp);
 		                    itemView.setPadding(10, 10, 10, 10);
 							
-							//fillRecordItem(itemView, cursor, position);
-		                    fillRecordItem2(itemView, getRecItemIdFromList(position));
+							fillRecordItem(itemView, cursor, position);
+		                    //fillRecordItem2(itemView, getRecItemIdFromList(position));
 				        }
 				        catch (Exception e) 
 				        {
