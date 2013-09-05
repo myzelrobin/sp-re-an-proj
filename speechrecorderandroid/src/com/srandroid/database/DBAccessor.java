@@ -66,7 +66,6 @@ public class DBAccessor extends SQLiteOpenHelper
 		listTemp.addAll(TableSessions.ALL_COLUMNS);
 		listTemp.addAll(TableSpeakers.ALL_COLUMNS);
 		
-		
 		// not include columns for cross join
 		return listTemp;
 	}
