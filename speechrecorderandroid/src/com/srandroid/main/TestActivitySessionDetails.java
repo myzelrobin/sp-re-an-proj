@@ -84,7 +84,6 @@ public class TestActivitySessionDetails extends Activity
 	    private Button bPlayrecord;
 	    
 	    private ArrayList<String> itemlist; // for adapter
-	    private ArrayList<String> filepathList; // list of record filepathes
 	    
 	    private Activity thisAct;
 	
@@ -144,16 +143,13 @@ public class TestActivitySessionDetails extends Activity
 			}
 	        
 	        itemlist = new ArrayList<String>();
-	        filepathList = new ArrayList<String>();
 
 	        itemlist.add(0, "SESSION_ITEM");
-	        filepathList.add(0, null);
 	        for(int i=1; i<recItemsCount+1; i++)
 	        {
 	        	itemlist.add(i, "RECORD_ITEM");
 	        }
 	        
-
 	        stGridView = (StaggeredGridView) findViewById(R.id.id_testact_sessiondetails_gridview);
 	        
 	        localAdapter = new  LocalAdapterForSessionDetails(this, itemlist);
@@ -166,7 +162,8 @@ public class TestActivitySessionDetails extends Activity
 	        getActionBar().setDisplayHomeAsUpEnabled(true);
 	        getActionBar().setHomeButtonEnabled(true);
 	        
-	        toastSwipeHint();
+	        // if there are records, toast hint to user
+	        if(recItemsCount > 0) toastSwipeHint();
 	    }
 		
 

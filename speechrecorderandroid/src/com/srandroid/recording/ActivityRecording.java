@@ -509,12 +509,11 @@ public class ActivityRecording extends Activity
 	    { 
 	         public void run() 
 	         {
-	        	 srmRecorder.stopRecording();
+	        	srmRecorder.stopRecording();
 			    
 	        	// update GUI
 	        	recItemIndex++;
 			    if(recItemIndex > (recItemsList.size() -1)) recItemIndex = recItemsList.size() -1;
-			    	
 			    
 		    	imageCircle1.setImageResource(R.drawable.icon_circle_red);
 		    	
@@ -616,7 +615,7 @@ public class ActivityRecording extends Activity
 		    	recItemIndex++;
 				if(recItemIndex > recItemsList.size() -1)
 			    {
-			    	Utils.toastTextToUser(thisAct, "finished all recordings, start act finish recording!");
+			    	//Utils.toastTextToUser(thisAct, "finished all recordings, start act finish recording!");
 			    	
 			    	Intent newI = new Intent(thisAct, ActivityFinishRecording.class);
 		        	thisAct.startActivity(newI);
