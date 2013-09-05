@@ -23,13 +23,15 @@
     <string name="record">RECORD</string>
     <string name="testviewtext">
         The quick brown fox jumps over the lazy dog.</string>
+    <string name="swipeHintText">SWIPE FROM HERE TO RIGHT</string>
+    <string name="swipeHintText2">SCROLL DOWN FOR MORE</string>
     
     
     <!-- ActivityMain -->
 	    <!-- Drawer in ActivityMain -->
 	    <string name="drawer_items_open">Open navigation drawer</string>
 	    <string name="drawer_items_close">Close navigation drawer</string>
-	    <string name="swipeHintText">Swipe from here to right</string>
+	    
 	    
 	    <string-array name="array_drawer_items">
 	        <item>Sessions</item>

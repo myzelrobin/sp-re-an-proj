@@ -403,14 +403,11 @@ public class ActivityMain extends Activity {
 	/**
 	 *  Shows a toast with "swipe from here to right" at the left center of the screen
 	 */
-	public void toastSwipeHint()
+	private void toastSwipeHint()
 	{
 		LayoutInflater inflater = getLayoutInflater();
-		View layout = inflater.inflate(R.layout.layout_toasthint_in_activitymain,
+		View layout = inflater.inflate(R.layout.hintlayout_in_activitymain,
 		                               (ViewGroup) findViewById(R.id.linearlayout_toasthint));
-
-		TextView text = (TextView) layout.findViewById(R.id.text_toasthint);
-		text.setText(R.string.swipeHintText);
 
 		Toast toast = new Toast(getApplicationContext());
 		toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT, 0, 0);

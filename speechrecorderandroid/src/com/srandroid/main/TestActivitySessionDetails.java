@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,6 +32,7 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.srandroid.speechrecorder.R;
 import com.srandroid.database.SrmContentProvider;
@@ -559,7 +561,8 @@ public class TestActivitySessionDetails extends Activity
 			    final String recFilepath = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_FILEPATH));
 
 			    bPlayrecord = (Button) view.findViewById(R.id.recorditem_button_play_record);
-			    bPlayrecord.setOnClickListener(new OnClickListener() {
+			    bPlayrecord.setOnClickListener(new OnClickListener() 
+			    {
 					
 					@Override
 					public void onClick(View v) 
@@ -573,11 +576,21 @@ public class TestActivitySessionDetails extends Activity
 						}
 					}
 				});
-			    
 			}
 			
-			
-			
+		}
+		
+		private void toastSwipeHint()
+		{
+			LayoutInflater inflater = getLayoutInflater();
+			View layout = inflater.inflate(R.layout.hintlayout_in_act_sessiondetails,
+			                               (ViewGroup) findViewById(R.id.linearlayout_act_sessiondetails_toasthint));
+
+			Toast toast = new Toast(getApplicationContext());
+			toast.setGravity(Gravity.BOTTOM | Gravity.LEFT, 0, 0);
+			toast.setDuration(Toast.LENGTH_LONG * 3);
+			toast.setView(layout);
+			toast.show();
 		}
 		
 //		private OnScrollListener	mScrollListener = new OnScrollListener() {
