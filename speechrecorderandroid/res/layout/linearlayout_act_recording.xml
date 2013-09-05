@@ -44,18 +44,51 @@
          android:layout_height="75dp"
          android:orientation="horizontal"
          android:gravity="center" >
-                <ImageView 
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:scaleType="fitXY"
-                android:id="@+id/act_recording_control_circle1"
-                android:src="@drawable/icon_circle_red"  />
                 
                 <Button
-                android:id="@+id/act_recording_control_button_record"
-                android:layout_width="100sp"
+                android:layout_width="100dp"
                 android:layout_height="50dp"
-                android:text="@string/record"/>
+                android:visibility="invisible" />
+                
+                <Button
+                android:id="@+id/act_recording_button_previous"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:text="@string/act_recording_button_previous_text" />
+                
+                <LinearLayout
+		         android:layout_width="300dp"
+		         android:layout_height="75dp"
+		         android:orientation="horizontal"
+		         android:gravity="center" >
+                
+		                <ImageView 
+		                android:layout_width="50dp"
+		                android:layout_height="50dp"
+		                android:scaleType="fitXY"
+		                android:id="@+id/act_recording_signal_circle"
+		                android:src="@drawable/icon_circle_red"  />
+		                
+		                <Button
+		                android:id="@+id/act_recording_button_record"
+		                android:layout_width="100dp"
+		                android:layout_height="50dp"
+		                android:text="@string/record"/>
+		                
+                </LinearLayout>
+                
+                <Button
+                android:id="@+id/act_recording_button_next"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:text="@string/act_recording_button_next_text" />
+                
+                <Button
+                android:id="@+id/act_recording_button_play"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:text="@string/play" />
+                
          </LinearLayout>
         
     </LinearLayout>
