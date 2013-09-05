@@ -158,7 +158,14 @@ public class TableRecords
 	}
 
 	// as a record text item in script
-	public static class RecordItem {
+	public static class RecordItem 
+	{
+		
+		public static final String TYPE_TEXT = "text";
+		public static final String TYPE_IMAGE = "image";
+		public static final String TYPE_SOUND = "sound";
+		
+		
 
 		public String idInTable;
 		public String filepath; 
@@ -183,6 +190,8 @@ public class TableRecords
 		public String recinstructions;
 		public String recprompt;
 		public String reccomment;
+		
+		public String itemType = RecordItem.TYPE_TEXT; // default text
 		
 		public RecordItem() 
 		{

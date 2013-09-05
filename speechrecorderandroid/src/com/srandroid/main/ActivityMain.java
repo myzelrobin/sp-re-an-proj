@@ -120,6 +120,12 @@ public class ActivityMain extends Activity {
 	        {
 	            Utils.copyScriptFilesToAppExtFolder("example_script.xml", 
 	            		getApplication().getAssets());
+	            Utils.copyScriptFilesToAppExtFolder("example_boy.jpg", 
+	            		getApplication().getAssets());
+	            Utils.copyScriptFilesToAppExtFolder("example_pig.jpg", 
+	            		getApplication().getAssets());
+	            Utils.copyScriptFilesToAppExtFolder("example_food.jpg", 
+	            		getApplication().getAssets());
 	        }
 	    }.start();
 		

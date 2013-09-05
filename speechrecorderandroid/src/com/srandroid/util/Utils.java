@@ -305,7 +305,7 @@ public class Utils
 			getDeviceId(context);
 			
 			// gps info
-			getGPSInfo(context);
+			// getGPSInfo(context);
 			
 			isPreStartInitialized = true;
 			
@@ -435,8 +435,6 @@ public class Utils
 	        Log.w(LOGTAG, "copyScriptFilesToAppExtFolder()" 
 					+ " file exists " + destFile.getAbsolutePath()) ;
 	        
-	        
-	        
 	    } catch (FileNotFoundException ex) {
 	    	Log.w(LOGTAG, "copyScriptFilesToAppExtFolder() error: " 
 	    			+ ex.getMessage() + " in " 
@@ -480,28 +478,13 @@ public class Utils
 		recordItem1.reccomment = "This is a comment";
 		recItemsList.add(recordItem1);
 		
-		RecordItem recordItem5 = new RecordItem();
-		recordItem5.mode = "manual";
-		recordItem5.sectionname = "Introduction";
-		recordItem5.order = "sequential";
-		recordItem5.promptphase = "idle";
-		recordItem5.speakerdisplay = "false";
-		recordItem5.itemcode = "demo_001";
-		recordItem5.prerecdelay = "2000";
-		recordItem5.postrecdelay = "500";
-		recordItem5.recduration = "20000";
-		recordItem5.recinstructions = "Answer the question";
-		recordItem5.recprompt = "How is the weather today?";
-		recordItem5.reccomment = "Expect an answer about weather";
-		recItemsList.add(recordItem5);
-		
 		RecordItem recordItem2 = new RecordItem();
 		recordItem2.mode = "manual";
 		recordItem2.sectionname = "Introduction";
 		recordItem2.order = "sequential";
 		recordItem2.promptphase = "idle";
 		recordItem2.speakerdisplay = "false";
-		recordItem2.itemcode = "demo_002";
+		recordItem2.itemcode = "demo_001";
 		recordItem2.prerecdelay = "2000";
 		recordItem2.postrecdelay = "500";
 		recordItem2.recduration = "20000";
@@ -516,7 +499,7 @@ public class Utils
 		recordItem3.order = "sequential";
 		recordItem3.promptphase = "idle";
 		recordItem3.speakerdisplay = "false";
-		recordItem3.itemcode = "demo_003";
+		recordItem3.itemcode = "demo_002";
 		recordItem3.prerecdelay = "2000";
 		recordItem3.postrecdelay = "500";
 		recordItem3.recduration = "20000";
@@ -531,7 +514,7 @@ public class Utils
 		recordItem4.order = "sequential";
 		recordItem4.promptphase = "idle";
 		recordItem4.speakerdisplay = "false";
-		recordItem4.itemcode = "demo_004";
+		recordItem4.itemcode = "demo_003";
 		recordItem4.prerecdelay = "2000";
 		recordItem4.postrecdelay = "500";
 		recordItem4.recduration = "20000";
@@ -539,8 +522,55 @@ public class Utils
 		recordItem4.recprompt = "Qu'est-ce que vous avez fait hier soir?";
 		recordItem4.reccomment = "Answer expected in French; one minute recording time";
 		recItemsList.add(recordItem4);
+
+		RecordItem recordItem5 = new RecordItem();
+		recordItem5.mode = "manual";
+		recordItem5.sectionname = "Introduction";
+		recordItem5.order = "sequential";
+		recordItem5.promptphase = "idle";
+		recordItem5.speakerdisplay = "false";
+		recordItem5.itemcode = "demo_004";
+		recordItem5.prerecdelay = "2000";
+		recordItem5.postrecdelay = "500";
+		recordItem5.recduration = "20000";
+		recordItem5.recinstructions = "Answer the question";
+		recordItem5.recprompt = "How is the weather today?";
+		recordItem5.reccomment = "Expect an answer about weather";
+		recItemsList.add(recordItem5);
 		
+		RecordItem recordItem6 = new RecordItem();
+		recordItem6.mode = "manual";
+		recordItem6.sectionname = "Introduction";
+		recordItem6.order = "sequential";
+		recordItem6.promptphase = "idle";
+		recordItem6.speakerdisplay = "false";
+		recordItem6.itemcode = "demo_005";
+		recordItem6.prerecdelay = "2000";
+		recordItem6.postrecdelay = "500";
+		recordItem6.recduration = "20000";
+		recordItem6.recinstructions = "Describe the picture";
+		recordItem6.recprompt = Utils.ConstantVars.SCRIPTS_DIR_EXT_PATH 
+				+ File.separator + "example_boy.jpg";
+		recordItem6.reccomment = "Expect some descriptions";
+		recordItem6.itemType = RecordItem.TYPE_IMAGE;
+		recItemsList.add(recordItem6);
 		
+		RecordItem recordItem7 = new RecordItem();
+		recordItem7.mode = "manual";
+		recordItem7.sectionname = "Introduction";
+		recordItem7.order = "sequential";
+		recordItem7.promptphase = "idle";
+		recordItem7.speakerdisplay = "false";
+		recordItem7.itemcode = "demo_006";
+		recordItem7.prerecdelay = "2000";
+		recordItem7.postrecdelay = "500";
+		recordItem7.recduration = "20000";
+		recordItem7.recinstructions = "Describe the picture";
+		recordItem7.recprompt = Utils.ConstantVars.SCRIPTS_DIR_EXT_PATH 
+				+ File.separator + "example_food.jpg";
+		recordItem7.reccomment = "Expect some descriptions";
+		recordItem6.itemType = RecordItem.TYPE_IMAGE;
+		recItemsList.add(recordItem7);
 		
 		Utils.ConstantVars.recordItemListForNewSession = recItemsList;
 		Log.w(LOGTAG, "prepareItemsForNewSessions()" 
@@ -600,15 +630,6 @@ public class Utils
                 Secure.ANDROID_ID);
 	}
 	
-	public static void getGPSInfo(Context context) 
-	{
-		//Utils.ConstantVars.GPS_INFO = 
-		Log.w(LOGTAG, "getGPSInfo() will get GPS info");
-		
-		LocationManager locationManager = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);
-		LocationListener locationListener = new SrmLocationListener(context);  
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-	}
 
 	// Toast some text for debugging
 	public static void toastDebuggingText(Context context, String s)
@@ -760,74 +781,7 @@ public class Utils
 		
 	}
 	
-	
-	
-	/**
-	 * 
-	 * Listener class to get coordinates 
-	 * 
-	 */
-	private static class SrmLocationListener implements LocationListener 
-	{
-		private Context context = null;
-		
-		public SrmLocationListener(Context context)
-		{
-			this.context = context;
-		}
 
-	    @Override
-	    public void onLocationChanged(Location loc) 
-	    {
-	    	Log.w(SrmLocationListener.class.getName(), 
-	    			"Location changed: latitude: " + loc.getLatitude() 
-	    			+ " longitude: " + loc.getLongitude());
-	    	
-	        String longitude = "Longitude: " + loc.getLongitude();
-	        Log.w(SrmLocationListener.class.getName(), "get new longitude=" + longitude);
-	        
-	        String latitude = "Latitude: " + loc.getLatitude();
-	        Log.w(SrmLocationListener.class.getName(), "get new latitude=" + latitude);
-	        /*-------to get City-Name from coordinates -------- */
-	        String cityName = null;
-	        Geocoder gcd = new Geocoder(context, Locale.getDefault());
-	        try {
-	        	cityName = gcd.getFromLocation(loc.getLatitude(),
-	                    loc.getLongitude(), 1).get(0).getLocality();
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-	        String s = "longitude=" + longitude 
-	        		+ "\nlatitude=" + latitude 
-	        		+ "\n\nCurrent City is: " + cityName;
-	        
-	        Utils.ConstantVars.GPS_INFO = s;
-	        
-	        Log.w(SrmLocationListener.class.getName(), 
-	    			"new location is:" + s);
-	    }
-
-	    @Override
-	    public void onProviderDisabled(String provider) 
-	    {
-	    	Utils.toastTextToUser(context, "GPS " + provider + " is disabled, check system settings!");
-	    	Utils.ConstantVars.GPS_INFO = "device is disabled";
-	    	// need an Intent to open location settings
-	    }
-
-	    @Override
-	    public void onProviderEnabled(String provider) 
-	    {
-	    	
-	    }
-
-	    @Override
-	    public void onStatusChanged(String provider, int status, Bundle extras) 
-	    {
-	    	
-	    }
-
-	}
 }
 
 

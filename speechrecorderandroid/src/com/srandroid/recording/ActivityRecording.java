@@ -30,6 +30,8 @@ import android.content.ClipData.Item;
 import android.content.UriMatcher;
 import android.content.res.Configuration;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -54,10 +56,10 @@ import android.widget.TextView;
 public class ActivityRecording extends Activity 
 	implements OnClickListener
 {
+	
+	private static final String LOGTAG = ActivityRecording.class.getSimpleName();
 
 	private boolean isTestRecroding;
-	
-	private GridView gridView;
 	
 	private Button bRecord;
 	private int isBRecordClicked = 0;
@@ -67,8 +69,11 @@ public class ActivityRecording extends Activity
 	
 	private TextView instrText;
 	private TextView promptText;
-	
+	private ImageView promptImage;
 	private ImageView imageCircle1;
+	
+	private static int widthPromptArea;
+	private static int heightPromptArea;
 	
 	private SrmRecorder srmRecorder;
 	
@@ -344,8 +349,10 @@ public class ActivityRecording extends Activity
 				
 				bPlay.setEnabled(false);
 				
-				instrText.setText(recItemsList.get(recItemIndex).recinstructions);
-				promptText.setText(recItemsList.get(recItemIndex).recprompt);
+				updateInstrAndPrompt(recItemsList.get(recItemIndex));
+				
+				//instrText.setText(recItemsList.get(recItemIndex).recinstructions);
+				//promptText.setText(recItemsList.get(recItemIndex).recprompt);
 				
 				break;
 				
@@ -362,8 +369,10 @@ public class ActivityRecording extends Activity
 				
 				bPlay.setEnabled(false);
 				
-				instrText.setText(recItemsList.get(recItemIndex).recinstructions);
-				promptText.setText(recItemsList.get(recItemIndex).recprompt);
+				updateInstrAndPrompt(recItemsList.get(recItemIndex));
+				
+				//instrText.setText(recItemsList.get(recItemIndex).recinstructions);
+				//promptText.setText(recItemsList.get(recItemIndex).recprompt);
 				
 				break;
 		
@@ -411,10 +420,14 @@ public class ActivityRecording extends Activity
 		instrText.setText(recItemsList.get(recItemIndex).recinstructions);
 		promptText.setText(recItemsList.get(recItemIndex).recprompt);
 		
+		widthPromptArea = promptText.getWidth();
+		heightPromptArea = promptText.getHeight();
 		
 		bRecord = (Button) findViewById(R.id.act_recording_button_record);
 		bRecord.setEnabled(true);
 		bRecord.setOnClickListener(this);
+		
+		promptImage = (ImageView) findViewById(R.id.act_recording_prompt_image);
 		
 		imageCircle1 = (ImageView) findViewById(R.id.act_recording_signal_circle);
     	imageCircle1.setImageResource(R.drawable.icon_circle_red);
@@ -444,6 +457,44 @@ public class ActivityRecording extends Activity
 		return uriNewRecItem;
 	}
 	
+	private void updateInstrAndPrompt(RecordItem recItem)
+	{
+		LinearLayout.LayoutParams whFull = new LinearLayout.LayoutParams(widthPromptArea, heightPromptArea);
+		LinearLayout.LayoutParams whZero = new LinearLayout.LayoutParams(0, 0);
+		
+		
+		if(recItem.itemType == RecordItem.TYPE_TEXT)
+		{
+			promptImage.setLayoutParams(whZero);
+			promptText.setLayoutParams(whFull);
+			
+			instrText.setText(recItem.recinstructions);
+			promptText.setText(recItem.recprompt);
+		}
+		else if(recItem.itemType == RecordItem.TYPE_IMAGE)
+		{
+			promptText.setLayoutParams(whZero);
+			promptImage.setLayoutParams(whFull);
+			
+			File imgFile = new  File(recItem.recprompt);
+			if(imgFile.exists())
+			{
+			    Bitmap myBitmap = BitmapFactory.decodeFile(recItem.recprompt);
+
+			    promptImage.setImageBitmap(myBitmap);
+			}
+			else 
+			{
+				Log.w(LOGTAG, "updateInstrAndPrompt() image file does not exist, filepath:" + recItem.recprompt); 
+			}
+			
+		}
+		else if(recItem.itemType == RecordItem.TYPE_SOUND)
+		{
+			
+		}
+		
+	}
 	
 	private void startTestRecording()
 	{
@@ -517,8 +568,10 @@ public class ActivityRecording extends Activity
 			    
 		    	imageCircle1.setImageResource(R.drawable.icon_circle_red);
 		    	
-		    	instrText.setText(recItemsList.get(recItemIndex).recinstructions);
-				promptText.setText(recItemsList.get(recItemIndex).recprompt);
+		    	updateInstrAndPrompt(recItemsList.get(recItemIndex));
+		    	
+		    	//instrText.setText(recItemsList.get(recItemIndex).recinstructions);
+				//promptText.setText(recItemsList.get(recItemIndex).recprompt);
 
 				bRecord.setText(getResources().getString(R.string.record));
 				bRecord.setEnabled(true);
@@ -628,8 +681,10 @@ public class ActivityRecording extends Activity
 			    	
 			    	instrText.setVisibility(View.VISIBLE);
 			    	
-			    	instrText.setText(recItemsList.get(recItemIndex).recinstructions);
-					promptText.setText(recItemsList.get(recItemIndex).recprompt);
+			    	updateInstrAndPrompt(recItemsList.get(recItemIndex));
+			    	
+			    	//instrText.setText(recItemsList.get(recItemIndex).recinstructions);
+					//promptText.setText(recItemsList.get(recItemIndex).recprompt);
 
 					bRecord.setText(getResources().getString(R.string.record));
 					bRecord.setEnabled(true);

@@ -37,6 +37,13 @@
                 android:text="@string/act_recording_promptarea_text" 
                 android:textSize="44sp"
                 android:textStyle="bold" />
+                
+                <ImageView 
+                android:id="@+id/act_recording_prompt_image"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/icon_record_256"  />
         </LinearLayout>
         
          <LinearLayout
