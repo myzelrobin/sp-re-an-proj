@@ -398,7 +398,7 @@ public class TestActivitySessionDetails extends Activity
 				itemlist.add(0, "SESSION_ITEM");
 				for(int i = 1; i < recItemsCount + 1; i++)
 				{
-					itemlist.add(0, "RECORD_ITEM");
+					itemlist.add(i, "RECORD_ITEM");
 				}
 				
 				recordItemIdList = new ArrayList<String> ();
