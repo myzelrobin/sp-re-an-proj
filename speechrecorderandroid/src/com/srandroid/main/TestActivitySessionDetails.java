@@ -388,8 +388,7 @@ public class TestActivitySessionDetails extends Activity
 			{
 				count = cursor.getCount();
 				
-				Log.w(LOGTAG, 
-						"getRecordsCountForScript() gets count=" + count);
+				Log.w(LOGTAG, "getRecordsCountForScript() gets count=" + count);
 				
 				/*				
 				recItemsCount = cursor.getCount();
@@ -677,11 +676,10 @@ public class TestActivitySessionDetails extends Activity
 			        {
 			        	lp = new LayoutParams(itemView.getLayoutParams());
 	                    lp.span = stGridView.getColumnCount();
-	                    lp.height = 480;
 	                    itemView.setLayoutParams(lp);
+	                    itemView.setPadding(10, 10, 10, 10);
 	                    
 			        	fillSessionItem(itemView);
-			        	itemView.setClickable(false);
 			        }
 			        catch (Exception e) 
 			        {
@@ -706,8 +704,8 @@ public class TestActivitySessionDetails extends Activity
 				        {
 							lp = new LayoutParams(itemView.getLayoutParams());
 		                    lp.span = 1;
-		                    lp.height = 480;
 		                    itemView.setLayoutParams(lp);
+		                    itemView.setPadding(10, 10, 10, 10);
 							
 							fillRecordItem(itemView, cursor, position);
 				        }
