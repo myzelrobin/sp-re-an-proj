@@ -588,7 +588,7 @@ public class TestActivitySessionDetails extends Activity
 			    String prompt = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_PROMPT));
 			    recordItemPrompt.setText(prompt);
 			    
-			    String filepath = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_FILEPATH));;
+			    final String filepath = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_FILEPATH));;
 			    recordItemFilepath.setText(filepath);
 			    
 			    bPlayrecord = (Button) view.findViewById(R.id.recorditem_button_play_record);
@@ -599,7 +599,7 @@ public class TestActivitySessionDetails extends Activity
 					{
 						// play the record
 						try {
-							Utils.playRecord(thisAct, recordItemFilepath.getText().toString());
+							Utils.playRecord(thisAct, filepath);
 						} catch (ActivityNotFoundException e) {
 							Log.w(LOGTAG, 
 									"Utils.playRecord() throws Exceptions " + e.getMessage());
