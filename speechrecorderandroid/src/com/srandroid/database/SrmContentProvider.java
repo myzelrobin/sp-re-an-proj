@@ -436,9 +436,9 @@ public class SrmContentProvider extends ContentProvider
 	
 	private void checkColumns(String[] inputColumns)
 	{
-		Log.w(SrmContentProvider.class.getName(), "checkColumns() "
-				+ "\n availableCols=" + Arrays.asList(DBAccessor.ALLTABLECOLS).toString()
-				+ "\n selectColumns=" + Arrays.asList(inputColumns).toString());
+//		Log.w(SrmContentProvider.class.getName(), "checkColumns() "
+//				+ "\n availableCols=" + Arrays.asList(DBAccessor.ALLTABLECOLS).toString()
+//				+ "\n selectColumns=" + Arrays.asList(inputColumns).toString());
 		
 		if (inputColumns != null)
 		{

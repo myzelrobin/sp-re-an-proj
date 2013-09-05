@@ -38,6 +38,7 @@ import com.srandroid.speechrecorder.R;
 import com.srandroid.database.SrmContentProvider;
 import com.srandroid.database.SrmContentProvider.SrmUriMatcher;
 import com.srandroid.database.TableRecords;
+import com.srandroid.database.TableRecords.RecordItem;
 import com.srandroid.database.TableScripts.ScriptItem;
 import com.srandroid.database.TableSessions;
 import com.srandroid.database.TableSpeakers;
@@ -89,6 +90,7 @@ public class TestActivitySessionDetails extends Activity
 	    private Button bPlayrecord;
 	    
 	    private ArrayList<String> itemlist; // for adapter
+	    private ArrayList<String> recordItemIdList;
 	    
 	    private Activity thisAct;
 	
@@ -138,7 +140,7 @@ public class TestActivitySessionDetails extends Activity
 	        try 
 	        {
 				getIDsForSessionItem(sessionItemId);
-				recItemsCount = getRecordsCountForSession(sessionItemId);
+				getRecordsIDsForSession(sessionItemId);
 			} 
 	        catch (Exception e) 
 	        {
@@ -147,13 +149,13 @@ public class TestActivitySessionDetails extends Activity
 				+ e.getLocalizedMessage());
 			}
 	        
-	        itemlist = new ArrayList<String>();
-
-	        itemlist.add(0, "SESSION_ITEM");
-	        for(int i=1; i<recItemsCount+1; i++)
-	        {
-	        	itemlist.add(i, "RECORD_ITEM");
-	        }
+//	        itemlist = new ArrayList<String>();
+//
+//	        itemlist.add(0, "SESSION_ITEM");
+//	        for(int i=1; i<recItemsCount+1; i++)
+//	        {
+//	        	itemlist.add(i, "RECORD_ITEM");
+//	        }
 	        
 	        stGridView = (StaggeredGridView) findViewById(R.id.id_testact_sessiondetails_gridview);
 	        
@@ -161,7 +163,6 @@ public class TestActivitySessionDetails extends Activity
 	        
 	        stGridView.setAdapter(localAdapter);
 	        
-//	        stGridView.setOnItemClickListener(this);
 	        
 	        // enable home button
 	        getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -193,17 +194,15 @@ public class TestActivitySessionDetails extends Activity
 		@Override
 	    protected void onPause()
 	    {
+			//if(localAdapter.getCursor() != null) localAdapter.getCursor().close();
+			
 			super.onPause();
 		}
 		
 		@Override
 	    protected void onStop()
 	    {
-			if(localAdapter.getCursor() != null)
-			{
-				
-				localAdapter.getCursor().close();
-			}
+			
 			super.onStop();
 		}
 		
@@ -364,7 +363,7 @@ public class TestActivitySessionDetails extends Activity
 			cursor.close();
 		}
 		
-		private int getRecordsCountForSession(String sessionId)
+		private int getRecordsIDsForSession(String sessionId)
 		{
 			Log.w(LOGTAG, 
 					"getRecordsCountForScript() will query item count from table records "
@@ -385,34 +384,31 @@ public class TestActivitySessionDetails extends Activity
 			cursor.moveToFirst();
 			
 			Log.w(LOGTAG, 
-					"getRecordsCountForScript() gets count=" + cursor.getCount());
+					"getRecordsIDsForSession() gets count=" + cursor.getCount());
 			
 			if (cursor != null && cursor.getCount()!=0) 
 			{
 				count = cursor.getCount();
 				
-				Log.w(LOGTAG, "getRecordsCountForScript() gets count=" + count);
+				Log.w(LOGTAG, "getRecordsIDsForSession() gets count=" + count);
 				
-				/*				
 				recItemsCount = cursor.getCount();
 				
 				itemlist = new ArrayList<String> ();
-				filepathList = new ArrayList<String> ();
-				recordItemIndexList = new ArrayList<String> ();
-				
 				itemlist.add(0, "SESSION_ITEM");
 				for(int i = 1; i < recItemsCount + 1; i++)
 				{
 					itemlist.add(0, "RECORD_ITEM");
 				}
 				
-				recordItemIndexList.add(0, Integer.toString(-1));
+				recordItemIdList = new ArrayList<String> ();
+				recordItemIdList.add(0, Integer.toString(-1));
 				for(int i = 1; i < recItemsCount + 1; i++)
 				{
-					recordItemIndexList.add(i, 
+					recordItemIdList.add(i, 
 							cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ID)));
 				}
-				*/
+				
 			}
 			
 			cursor.close();
@@ -420,13 +416,15 @@ public class TestActivitySessionDetails extends Activity
 			return count;
 		}
 
-		
+		private String getRecItemIdFromList(int position)
+		{
+			return recordItemIdList.get(position);
+		}
 
-		private Cursor queryAllRecordsForScript(String scriptId)
+		private Cursor queryAllRecordsForScript()
 		{
 			Log.w(LOGTAG, 
-					"queryAllRecordsForScript() will query record items with scriptIdForSession=" + scriptId
-					+ " and sessionId=" + sessionItemId);
+					"queryAllRecordsForScript() will query record items with sessionId=" + sessionItemId);
 			
 			// query from db
 	        String[] selectColumns = {
@@ -442,7 +440,7 @@ public class TestActivitySessionDetails extends Activity
 					TableRecords.COLUMN_ITEMTYPE,
 					TableRecords.COLUMN_ISUPLOADED};
 			
-			String wherePart = "script_id=" + scriptId + " AND " + "session_id=" + sessionItemId;
+			String wherePart = "session_id=" + sessionItemId;
 			
 			Cursor cursor = getApplicationContext().getContentResolver().query(
 					SrmUriMatcher.CONTENT_URI_TABLE_RECORDS, 
@@ -582,6 +580,95 @@ public class TestActivitySessionDetails extends Activity
 			
 		}
 		
+		private void fillRecordItem2(View view, String recItemId)
+		{
+			Log.w(LOGTAG, 
+				"fillRecordItem2() will query record item with recItemId=" + recItemId);
+			
+			// query from db
+	        String[] selectColumns = {
+					TableRecords.COLUMN_ID,
+					TableRecords.COLUMN_SESSION_ID,
+					TableRecords.COLUMN_SPEAKER_ID,
+					TableRecords.COLUMN_SCRIPT_ID,
+					TableRecords.COLUMN_FILEPATH,
+					TableRecords.COLUMN_INSTRUCTION,
+					TableRecords.COLUMN_PROMPT,
+					TableRecords.COLUMN_COMMENT,
+					TableRecords.COLUMN_ITEMCODE,
+					TableRecords.COLUMN_ITEMTYPE,
+					TableRecords.COLUMN_ISUPLOADED};
+			
+			String wherePart = "records._id=" + recItemId;
+			
+			Cursor cursor = getApplicationContext().getContentResolver().query(
+					SrmUriMatcher.CONTENT_URI_TABLE_RECORDS, 
+					selectColumns, wherePart, null, null);
+			cursor.moveToFirst();
+			
+			
+			Log.w(LOGTAG, 
+					"fillRecordItem2() will fill record item with recItemId=" + recItemId);
+			
+			if (cursor != null && cursor.getCount()!=0) 
+			{
+				int id = cursor.getInt(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ID));
+				Log.w(LOGTAG, "fillRecordItem2() will fill record item idInTable=" + id);
+				
+				recordItemItemcode = (TextView) view.findViewById(R.id.recorditem_itemcode_textvalue);
+				recordItemScriptid = (TextView) view.findViewById(R.id.recorditem_script_id_textvalue);
+				recordItemIsuploaded = (TextView) view.findViewById(R.id.recorditem_isuploaded_textvalue);
+			    recordItemIntro = (TextView) view.findViewById(R.id.recorditem_intro_textvalue);
+			    recordItemComment = (TextView) view.findViewById(R.id.recorditem_comment_textvalue);
+			    recordItemPrompt = (TextView) view.findViewById(R.id.recorditem_prompt_textvalue);
+		        
+			    String itemcode = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ITEMCODE));
+			    recordItemItemcode.setText(itemcode);
+			    
+			    String scriptidTemp = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_SCRIPT_ID));
+			    recordItemScriptid.setText("Script #" + scriptidTemp);
+			    
+			    String isuploaded = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ISUPLOADED));
+			    recordItemIsuploaded.setText(isuploaded);
+			    
+			    
+			    String itemtype = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ITEMTYPE));
+			    
+			    String instruction = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_INSTRUCTION));
+			    recordItemIntro.setText(instruction);
+			    
+			    String comment = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_COMMENT));
+			    recordItemComment.setText(comment);
+			    
+			    String prompt = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_PROMPT));
+			    // recordItemPrompt.setText(prompt);
+			    if (itemtype == RecordItem.TYPE_TEXT) recordItemPrompt.setText(prompt);
+			    else if(itemtype == RecordItem.TYPE_IMAGE) recordItemPrompt.setText("#IMAGE " + prompt);
+			    else if(itemtype == RecordItem.TYPE_SOUND) recordItemPrompt.setText("#SOUND " + prompt);
+			    
+			    final String recFilepath = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_FILEPATH));
+
+			    bPlayrecord = (Button) view.findViewById(R.id.recorditem_button_play_record);
+			    bPlayrecord.setOnClickListener(new OnClickListener() 
+			    {
+					
+					@Override
+					public void onClick(View v) 
+					{
+						// play the record
+						try {
+							Utils.playRecord(thisAct, recFilepath);
+						} catch (ActivityNotFoundException e) {
+							Log.w(LOGTAG, 
+									"Utils.playRecord() throws Exceptions " + e.getMessage());
+						}
+					}
+				});
+			}
+			
+			cursor.close();
+		}
+		
 		private void toastSwipeHint()
 		{
 			LayoutInflater inflater = getLayoutInflater();
@@ -646,7 +733,7 @@ public class TestActivitySessionDetails extends Activity
 				if(recItemsCount != 0)
 				{
 					
-					cursor = queryAllRecordsForScript(scriptIdForSession);
+					//cursor = queryAllRecordsForScript(scriptIdForSession);
 				}
 				
 			}
@@ -707,7 +794,8 @@ public class TestActivitySessionDetails extends Activity
 				else if(itemlist.get(position).equals("RECORD_ITEM"))
 				{
 					Log.w(LOGTAG + ".Adapter", 
-							"getView() will create recorditem at position=" + position);
+							"getView() will create recorditem at position=" + position 
+							+ " recordItemId=" + getRecItemIdFromList(position));
 					
 					itemView = 
 							(LinearLayout) (convertView == null
@@ -722,7 +810,8 @@ public class TestActivitySessionDetails extends Activity
 		                    itemView.setLayoutParams(lp);
 		                    itemView.setPadding(10, 10, 10, 10);
 							
-							fillRecordItem(itemView, cursor, position);
+							//fillRecordItem(itemView, cursor, position);
+		                    fillRecordItem2(itemView, getRecItemIdFromList(position));
 				        }
 				        catch (Exception e) 
 				        {
