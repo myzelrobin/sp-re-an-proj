@@ -50,6 +50,9 @@ import android.provider.Settings.Secure;
  */
 public class Utils
 {
+	// log
+	public static final String LOGTAG = Utils.class.getSimpleName();
+	
 	// class contains constant variables 
 	public static class ConstantVars
 	{
@@ -244,7 +247,7 @@ public class Utils
 		
 		public static void initializeApp(Context context)
 		{
-			Log.w(Utils.class.getName(), "initializeApp(): will initialize data before app starts");
+			Log.w(LOGTAG, "initializeApp(): will initialize data before app starts");
 			
 			if(isPreStartInitialized) return;  // is initialized
 			
@@ -262,7 +265,7 @@ public class Utils
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			Log.w(Utils.class.getName(), "APP_DIR_INT=" + APP_DIR_INT_PATH);
+			Log.w(LOGTAG, "APP_DIR_INT=" + APP_DIR_INT_PATH);
 			
 			// get files folder path (/data/data/APP_PACKAGE/files)
 			try {
@@ -271,7 +274,7 @@ public class Utils
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			Log.w(Utils.class.getName(), "APP_FILES_DIR_INT=" + APP_FILES_DIR_INT_PATH);
+			Log.w(LOGTAG, "APP_FILES_DIR_INT=" + APP_FILES_DIR_INT_PATH);
 			
 			// get app folder path in sdcard(/mnt/sdcard/Android/APP_PACKAGE/)
 			try {
@@ -280,19 +283,19 @@ public class Utils
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			Log.w(Utils.class.getName(), "APP_DIR_EXT=" + APP_DIR_EXT_PATH);
+			Log.w(LOGTAG, "APP_DIR_EXT=" + APP_DIR_EXT_PATH);
 			
 			// make folder path in sdcard(/mnt/sdcard/Android/APP_PACKAGE/records/)
 			REC_FILES_DIR_EXT_PATH = makeDir(APP_DIR_EXT_PATH, "records");
-			Log.w(Utils.class.getName(), "REC_FILES_DIR_EXT=" + REC_FILES_DIR_EXT_PATH);
+			Log.w(LOGTAG, "REC_FILES_DIR_EXT=" + REC_FILES_DIR_EXT_PATH);
 			
 			// make folder path in sdcard(/mnt/sdcard/Android/APP_PACKAGE/records/test)
 			TEST_MIC_DIR_EXT_PATH = makeDir(REC_FILES_DIR_EXT_PATH, "test");
-			Log.w(Utils.class.getName(), "REC_TEST_DIR_EXT=" + TEST_MIC_DIR_EXT_PATH);
+			Log.w(LOGTAG, "REC_TEST_DIR_EXT=" + TEST_MIC_DIR_EXT_PATH);
 			
 			// make folder path in sdcard()
 			SCRIPTS_DIR_EXT_PATH = makeDir(APP_DIR_EXT_PATH, "scripts");
-			Log.w(Utils.class.getName(), "SCRIPTS_DIR_EXT_PATH=" + SCRIPTS_DIR_EXT_PATH);
+			Log.w(LOGTAG, "SCRIPTS_DIR_EXT_PATH=" + SCRIPTS_DIR_EXT_PATH);
 			
 			getScreenSize(context);
 			setLayoutValuesInVerticalMode();
@@ -306,7 +309,7 @@ public class Utils
 			
 			isPreStartInitialized = true;
 			
-			Log.w(Utils.class.getName(), "initializeApp(): finished initializing data before app starts");
+			Log.w(LOGTAG, "initializeApp(): finished initializing data before app starts");
 			
 		}
 		
@@ -398,7 +401,7 @@ public class Utils
 	
 	public static void copyScriptFilesToAppExtFolder(String fileName, AssetManager assetsManager)
 	{
-		Log.w(Utils.class.getName(), "copyScriptFilesToAppExtFolder()" 
+		Log.w(LOGTAG, "copyScriptFilesToAppExtFolder()" 
 				+ "will copy script " + fileName + " to " + Utils.ConstantVars.SCRIPTS_DIR_EXT_PATH);
 		
 		// better  not hard code storage directory . use Environment.getExternalStorageDirectory()
@@ -420,7 +423,7 @@ public class Utils
 		        in.close();
 		        out.close();
 		        
-		        Log.w(Utils.class.getName(), "copyScriptFilesToAppExtFolder()" 
+		        Log.w(LOGTAG, "copyScriptFilesToAppExtFolder()" 
 						+ "finished copying script " + fileName 
 						+ " to " + Utils.ConstantVars.SCRIPTS_DIR_EXT_PATH);
 		       
@@ -429,17 +432,17 @@ public class Utils
 	        
 	        Utils.ConstantVars.exampleScriptFilepath = destFile.getAbsolutePath();
 	        
-	        Log.w(Utils.class.getName(), "copyScriptFilesToAppExtFolder()" 
+	        Log.w(LOGTAG, "copyScriptFilesToAppExtFolder()" 
 					+ " file exists " + destFile.getAbsolutePath()) ;
 	        
 	        
 	        
 	    } catch (FileNotFoundException ex) {
-	    	Log.w(Utils.class.getName(), "copyScriptFilesToAppExtFolder() error: " 
+	    	Log.w(LOGTAG, "copyScriptFilesToAppExtFolder() error: " 
 	    			+ ex.getMessage() + " in " 
 	    			+ Utils.ConstantVars.SCRIPTS_DIR_EXT_PATH);
 	    } catch (IOException e) {
-	    	Log.w(Utils.class.getName(), "copyScriptFilesToAppExtFolder() error:" 
+	    	Log.w(LOGTAG, "copyScriptFilesToAppExtFolder() error:" 
 	    			+ e.getMessage());
 	    }
 	}
@@ -456,7 +459,7 @@ public class Utils
 		scriptItem.filepath = Utils.ConstantVars.exampleScriptFilepath;
 		Utils.ConstantVars.scriptItemForNewSession = scriptItem;
 		
-		Log.w(Utils.class.getName(), "prepareItemsForNewSessions()" 
+		Log.w(LOGTAG, "prepareItemsForNewSessions()" 
 				+ " added new scriptItemForNewSession") ;
 		
 		
@@ -540,7 +543,7 @@ public class Utils
 		
 		
 		Utils.ConstantVars.recordItemListForNewSession = recItemsList;
-		Log.w(Utils.class.getName(), "prepareItemsForNewSessions()" 
+		Log.w(LOGTAG, "prepareItemsForNewSessions()" 
 				+ " added new recordItemListForNewSession") ;
 	}
 	
@@ -550,7 +553,7 @@ public class Utils
 //			ScriptItem scriptItem, 
 //			List<RecordItem> recordItemList)
 //	{
-//		Log.w(Utils.class.getName(), "parseScript() will parse file!");
+//		Log.w(LOGTAG, "parseScript() will parse file!");
 //		
 //		ScriptXMLParser scriptParser = new ScriptXMLParser();
 //		
@@ -569,7 +572,7 @@ public class Utils
 //			
 //			scriptFile.close();
 //			
-//			Log.w(Utils.class.getName(), "parseScript() finished parsing, "
+//			Log.w(LOGTAG, "parseScript() finished parsing, "
 //					+ "\nscriptItem databasename =" + scriptItem.getDatabaseName()
 //					+ "\nscriptItem AuthorEmail =" + scriptItem.getEmailAuthor()
 //					+ "\nList RecordItems count=" + recordItemList.size()
@@ -578,13 +581,13 @@ public class Utils
 //			
 //			
 //		} catch (FileNotFoundException e) {
-//			Log.w(Utils.class.getName(), "parseScript() error:" 
+//			Log.w(LOGTAG, "parseScript() error:" 
 //					+ e.getMessage());
 //		} catch (XmlPullParserException e) {
-//			Log.w(Utils.class.getName(), "parseScript() error:" 
+//			Log.w(LOGTAG, "parseScript() error:" 
 //					+ e.getMessage());
 //		} catch (IOException e) {
-//			Log.w(Utils.class.getName(), "parseScript() error:" 
+//			Log.w(LOGTAG, "parseScript() error:" 
 //					+ e.getMessage());
 //		}
 //	}
@@ -592,7 +595,7 @@ public class Utils
 
 	public static void getDeviceId(Context context) 
 	{
-		Log.w(Utils.class.getName(), "getDeviceId() will get device id");
+		Log.w(LOGTAG, "getDeviceId() will get device id");
 		Utils.ConstantVars.DEVICE_ID = Secure.getString(context.getContentResolver(),
                 Secure.ANDROID_ID);
 	}
@@ -600,15 +603,15 @@ public class Utils
 	public static void getGPSInfo(Context context) 
 	{
 		//Utils.ConstantVars.GPS_INFO = 
-		Log.w(Utils.class.getName(), "getGPSInfo() will get GPS info");
+		Log.w(LOGTAG, "getGPSInfo() will get GPS info");
 		
 		LocationManager locationManager = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);
-		LocationListener locationListener = new MyLocationListener(context);  
+		LocationListener locationListener = new SrmLocationListener(context);  
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
 	}
 
 	// Toast some text for debugging
-	public static void toastText(Context context, String s)
+	public static void toastDebuggingText(Context context, String s)
 	{
 		if(Utils.ConstantVars.canToastDebugText) 
 			Toast.makeText(context, s, 2 * Toast.LENGTH_LONG).show();
@@ -647,7 +650,7 @@ public class Utils
 		{
 			return app_dir_ext_path_temp;
 		}
-		else Log.w(Utils.class.getName(), 
+		else Log.w(LOGTAG, 
 				"getAppExternalDir(): Can NOT make directory: " 
 				+ app_dir_ext_path_temp);
 		return null;
@@ -666,7 +669,7 @@ public class Utils
 			}
 			return dir.getAbsolutePath();
 		}
-		Log.w(Utils.class.getName(), 
+		Log.w(LOGTAG, 
 				"makeDir(): Can NOT make directory, parent folder path is null: " 
 				+ parentFolderPath);
 		return null;
@@ -688,7 +691,7 @@ public class Utils
 		DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
 		float screenWidthDp = displayMetrics.widthPixels / displayMetrics.density; 
 		float screenHeightDp = displayMetrics.heightPixels / displayMetrics.density;
-		Log.w(Utils.class.getName(), 
+		Log.w(LOGTAG, 
 				"getScreenSize() gets the screen size in DP width=" 
 				+ screenWidthDp + " height=" + screenHeightDp);
 		
@@ -715,7 +718,7 @@ public class Utils
 		Utils.ConstantVars.screenWidth = screenWidthInt;
 		Utils.ConstantVars.screenHeight = screenHeightInt;
 		
-		Log.w(Utils.class.getName(), "getScreenSize() optimized the screen size in integer width=" 
+		Log.w(LOGTAG, "getScreenSize() optimized the screen size in integer width=" 
 				+ Utils.ConstantVars.screenWidth + " height=" + Utils.ConstantVars.screenHeight);
 				
 	}
@@ -732,7 +735,7 @@ public class Utils
 				Utils.ConstantVars.ITEMHEIGHT + 2 * Utils.ConstantVars.marginItemBGInVerticalMode;
 		
 		
-		Log.w(Utils.class.getName(), "setLayoutValuesInVerticalMode() set the item margin " 
+		Log.w(LOGTAG, "setLayoutValuesInVerticalMode() set the item margin " 
 				+ "Utils.ConstantVars.marginItemBGInVerticalMode=" 
 				+ Utils.ConstantVars.marginItemBGInVerticalMode);
 		
@@ -750,7 +753,7 @@ public class Utils
 				Utils.ConstantVars.ITEMHEIGHT + 2 * Utils.ConstantVars.marginItemBGInVerticalMode;
 		
 		
-		Log.w(Utils.class.getName(), "setLayoutValuesInHorizontalMode() set the item margin "
+		Log.w(LOGTAG, "setLayoutValuesInHorizontalMode() set the item margin "
 				+ "Utils.ConstantVars.marginItemBGInHorizontalMode=" 
 				+ Utils.ConstantVars.marginItemBGInHorizontalMode);
 		
@@ -764,11 +767,11 @@ public class Utils
 	 * Listener class to get coordinates 
 	 * 
 	 */
-	private static class MyLocationListener implements LocationListener 
+	private static class SrmLocationListener implements LocationListener 
 	{
 		private Context context = null;
 		
-		public MyLocationListener(Context context)
+		public SrmLocationListener(Context context)
 		{
 			this.context = context;
 		}
@@ -776,15 +779,15 @@ public class Utils
 	    @Override
 	    public void onLocationChanged(Location loc) 
 	    {
-	    	Log.w(MyLocationListener.class.getName(), 
+	    	Log.w(SrmLocationListener.class.getName(), 
 	    			"Location changed: latitude: " + loc.getLatitude() 
 	    			+ " longitude: " + loc.getLongitude());
 	    	
 	        String longitude = "Longitude: " + loc.getLongitude();
-	        Log.w(MyLocationListener.class.getName(), "get new longitude=" + longitude);
+	        Log.w(SrmLocationListener.class.getName(), "get new longitude=" + longitude);
 	        
 	        String latitude = "Latitude: " + loc.getLatitude();
-	        Log.w(MyLocationListener.class.getName(), "get new latitude=" + latitude);
+	        Log.w(SrmLocationListener.class.getName(), "get new latitude=" + latitude);
 	        /*-------to get City-Name from coordinates -------- */
 	        String cityName = null;
 	        Geocoder gcd = new Geocoder(context, Locale.getDefault());
@@ -800,7 +803,7 @@ public class Utils
 	        
 	        Utils.ConstantVars.GPS_INFO = s;
 	        
-	        Log.w(MyLocationListener.class.getName(), 
+	        Log.w(SrmLocationListener.class.getName(), 
 	    			"new location is:" + s);
 	    }
 

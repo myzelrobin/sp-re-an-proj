@@ -317,7 +317,7 @@ public class ActivityMain extends Activity {
         {
         	// actionbar buttons
         	case R.id.button_search_sessions:
-        		Utils.toastText(getApplicationContext(), "clicked search sessions");
+        		Utils.toastDebuggingText(getApplicationContext(), "clicked search sessions");
         		break;
         	case R.id.button_download_script:
         		// Utils.toastText(getApplicationContext(), "clicked download script");
@@ -341,20 +341,20 @@ public class ActivityMain extends Activity {
         		Uri uri_2 = getContentResolver().insert(SrmUriMatcher.CONTENT_URI_TABLE_SCRIPTS, valuesTemp2);
         		Log.w(this.getClass().getName(), " inserted example script id=" + uri_2);
         		
-        		Utils.toastText(getApplicationContext(), "downloaded two new scripts");
+        		Utils.toastDebuggingText(getApplicationContext(), "downloaded two new scripts");
         		
         		break;
         	case R.id.button_search_scripts:
-        		Utils.toastText(getApplicationContext(), "clicked search scripts");
+        		Utils.toastDebuggingText(getApplicationContext(), "clicked search scripts");
         		break;
         	case R.id.button_add_speaker:
-        		Utils.toastText(getApplicationContext(), "clicked add speaker");
+        		Utils.toastDebuggingText(getApplicationContext(), "clicked add speaker");
         		Intent newI = new Intent(ActivityMain.this, ActivityAddSpeaker.class);
         		// newI.putExtra("key", value); //Optional parameters
         		ActivityMain.this.startActivity(newI);
         		break;
         	case R.id.button_search_speakers:
-        		Utils.toastText(getApplicationContext(), "clicked search speakers");
+        		Utils.toastDebuggingText(getApplicationContext(), "clicked search speakers");
         		break;
         		
         	// overflow buttons
@@ -363,10 +363,10 @@ public class ActivityMain extends Activity {
         	    Intent i = new Intent(ActivityMain.this, PrefActivitySettings.class);
         	    startActivity(i);
         	    // Some feedback to the user
-        	    Utils.toastText(getApplicationContext(), "clicked settings, settings window starts");
+        	    Utils.toastDebuggingText(getApplicationContext(), "clicked settings, settings window starts");
         		break;
         	case R.id.button_exit:
-        		Utils.toastText(getApplicationContext(), "clicked exit, app exits");
+        		Utils.toastDebuggingText(getApplicationContext(), "clicked exit, app exits");
         		break;
         	
         	default:
