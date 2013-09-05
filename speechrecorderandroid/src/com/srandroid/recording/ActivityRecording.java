@@ -452,7 +452,7 @@ public class ActivityRecording extends Activity
 			
 			bPlay = (Button) findViewById(R.id.act_recording_button_play);
 			bPlay.setEnabled(false);
-			bRecord.setOnClickListener(this);
+			bPlay.setOnClickListener(this);
 			
 			bPrev = (Button) findViewById(R.id.act_recording_button_previous);
 			bPrev.setEnabled(true);
