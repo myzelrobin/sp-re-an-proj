@@ -62,11 +62,6 @@ public class TestActivitySessionDetails extends Activity
 		// log
 		private final static String LOGTAG = TestActivitySessionDetails.class.getSimpleName();
 		
-		
-		
-		
-		
-		
 		private String speakerIdForSession;
 		private String scriptIdForSession;
 		
