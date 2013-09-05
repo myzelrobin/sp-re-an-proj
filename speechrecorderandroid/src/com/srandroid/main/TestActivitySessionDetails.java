@@ -61,6 +61,11 @@ public class TestActivitySessionDetails extends Activity
 		// log
 		private final static String LOGTAG = TestActivitySessionDetails.class.getSimpleName();
 		
+		
+		
+		
+		
+		
 		private String speakerIdForSession;
 		private String scriptIdForSession;
 		
@@ -434,6 +439,7 @@ public class TestActivitySessionDetails extends Activity
 					TableRecords.COLUMN_PROMPT,
 					TableRecords.COLUMN_COMMENT,
 					TableRecords.COLUMN_ITEMCODE,
+					TableRecords.COLUMN_ITEMTYPE,
 					TableRecords.COLUMN_ISUPLOADED};
 			
 			String wherePart = "script_id=" + scriptId + " AND " + "session_id=" + sessionItemId;

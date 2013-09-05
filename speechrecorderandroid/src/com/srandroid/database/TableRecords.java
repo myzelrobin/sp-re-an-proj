@@ -30,6 +30,7 @@ public class TableRecords
 	public static final String COLUMN_PROMPT = "prompt"; // text not null
 	public static final String COLUMN_COMMENT = "comment"; // text not null
 	public static final String COLUMN_ITEMCODE = "itemcode"; // text not null
+	public static final String COLUMN_ITEMTYPE = "itemtype"; // text not null
 	public static final String COLUMN_ISUPLOADED = "is_uploaded"; //  text default: uploaded/unuploaded
 	public static final String COLUMN_SCRIPT_ID = "script_id"; // foreign key reference scripts(_id)
 	public static final String COLUMN_SPEAKER_ID = "speaker_id"; // foreign key reference speakers(_id)
@@ -42,10 +43,11 @@ public class TableRecords
 		+ " ( "
 		+ COLUMN_ID + " integer primary key autoincrement, "
 		+ COLUMN_FILEPATH + " text not null, "
-		+ COLUMN_INSTRUCTION + " text, "
-		+ COLUMN_PROMPT + " text, "
+		+ COLUMN_INSTRUCTION + " text not null, "
+		+ COLUMN_PROMPT + " text not null, "
 		+ COLUMN_COMMENT + " text, "
 		+ COLUMN_ITEMCODE + " text not null, "
+		+ COLUMN_ITEMTYPE + " text not null, "
 		+ COLUMN_ISUPLOADED + " text, "
 		+ COLUMN_SCRIPT_ID + " integer, "
 		+ COLUMN_SPEAKER_ID + " integer, "
@@ -73,7 +75,6 @@ public class TableRecords
 	public static void onCreate(SQLiteDatabase db)
 	{
 		Log.w(TableRecords.class.getName(), "onCreate(): will create table: " + TABLE_RECORDS);
-		setALL_COLUMNS();
 		db.execSQL(CREATE_TABLE_RECORDS);
 	}
 	
@@ -93,7 +94,8 @@ public class TableRecords
 			String instruction,
 			String prompt,
 			String comment,
-			String itemcode)
+			String itemcode,
+			String itemtype)
 	{
 		// session id
 		values.put(COLUMN_SESSION_ID, Integer.parseInt(sessionId));
@@ -118,44 +120,10 @@ public class TableRecords
 		
 		values.put(COLUMN_ITEMCODE, itemcode);
 		
+		values.put(COLUMN_ITEMTYPE, itemtype);
+		
 	}
 	
-	/**
-	 * @return the aLL_COLUMNS
-	 */
-	public static ArrayList<String> getALL_COLUMNS() 
-	{
-		return ALL_COLUMNS;
-	}
-
-	/**
-	 * @param aLL_COLUMNS the aLL_COLUMNS to set
-	 */
-	public static void setALL_COLUMNS() 
-	{
-		/*
-		 + COLUMN_FILEPATH + " text not null, "
-			+ COLUMN_INSTRUCTION + " text, "
-			+ COLUMN_PROMPT + " text, "
-			+ COLUMN_COMMENT + " text, "
-			+ COLUMN_ITEMCODE + " text not null, "
-			+ COLUMN_ISUPLOADED + " text, "
-			+ COLUMN_SCRIPT_ID + " integer, "
-			+ COLUMN_SPEAKER_ID + " integer, "
-			+ COLUMN_SESSION_ID + " integer, "
-		 */
-		
-		ALL_COLUMNS.add(COLUMN_ID);
-		ALL_COLUMNS.add(COLUMN_FILEPATH);
-		ALL_COLUMNS.add(COLUMN_INSTRUCTION);
-		ALL_COLUMNS.add(COLUMN_PROMPT);
-		ALL_COLUMNS.add(COLUMN_COMMENT);
-		ALL_COLUMNS.add(COLUMN_ITEMCODE);
-		ALL_COLUMNS.add(COLUMN_ISUPLOADED);
-		ALL_COLUMNS.add(COLUMN_SCRIPT_ID);
-		ALL_COLUMNS.add(COLUMN_SPEAKER_ID);
-		ALL_COLUMNS.add(COLUMN_SESSION_ID);
-	}
 
 	// as a record text item in script
 	public static class RecordItem 

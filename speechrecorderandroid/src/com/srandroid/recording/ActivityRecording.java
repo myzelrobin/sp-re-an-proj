@@ -443,7 +443,8 @@ public class ActivityRecording extends Activity
 				recItem.recinstructions, 
 				recItem.recprompt, 
 				recItem.reccomment, 
-				recItem.itemcode);
+				recItem.itemcode,
+				recItem.itemType);
 		
 		Uri uriNewRecItem = getContentResolver().insert(SrmUriMatcher.CONTENT_URI_TABLE_RECORDS, values);
 		
@@ -508,7 +509,6 @@ public class ActivityRecording extends Activity
 				+ File.separator + "sessionID-" + Utils.ConstantVars.sessionItemIdForNewSession + "_"
 				+ scriptItem.scriptName + File.separator + "test", 
 				recItemsList.get(recItemIndex).itemcode);
-		
 		
 		srmRecorder.startRecording();
 		
