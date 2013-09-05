@@ -466,21 +466,6 @@ public class ActivityMain extends Activity {
 	    drawerlayout_in_activitymain.closeDrawer(listview_drawer_items);
 	    selectedItemIndex = position;
 	}
-	
-	/**
-	 * @return the array_drawer_items
-	 */
-	public String[] getArray_drawer_items() {
-		return array_drawer_items;
-	}
-
-
-	/**
-	 * @param array_drawer_items the array_drawer_items to set
-	 */
-	public void setArray_drawer_items(String[] array_drawer_items) {
-		this.array_drawer_items = array_drawer_items;
-	}
 
 
 	
@@ -769,7 +754,7 @@ public class ActivityMain extends Activity {
 			{
 					case Utils.ConstantVars.POS_SESSIONS:
 					
-						// Sessions left outer join Speakers, both have _id so use a new column
+						// Sessions left outer join Speakers, both have _id, so use a new column
 						// Fields from the database 
 						from = new String[] {TableSessions.COLUMN_ID,
 												TableSessions.COLUMN_SCRIPT_ID,

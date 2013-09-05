@@ -124,7 +124,7 @@ public class SrmContentProvider extends ContentProvider
 			
 			case SrmUriMatcher.TABLE_SESSIONS_LEFTJOIN_SPEAKERS:
 				switcher = 2;
-				return cursor;
+				break;
 			
 			case SrmUriMatcher.TABLE_SPEAKERS_LEFTJOIN_SESSIONS:
 				switcher = 3;
