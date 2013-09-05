@@ -88,15 +88,15 @@ public class TestActivitySessionDetails extends Activity
 	    
 	    private LocalAdapterForSessionDetails localAdapter;
 	    
-	/**
-	 * 
-	 */
-	public TestActivitySessionDetails() 
-	{
-	}
+		/**
+		 * 
+		 */
+		public TestActivitySessionDetails() 
+		{
+		}
 	
-
-	// Creates View of this activity
+	
+		// Creates View of this activity
 		@Override
 		protected void onCreate(Bundle savedInstanceState) 
 		{
@@ -344,18 +344,21 @@ public class TestActivitySessionDetails extends Activity
 		private void getIDsForSessionItem(String sessionItemId)
 		{
 			Log.w(TestActivitySessionDetails.class.getName(), 
-					"getIDsForSessionItem() will query scriptIdForSession and speakerIdForSession from table sessions"
+					"getIDsForSessionItem() will query scriptIdForSession and"
+					+ " speakerIdForSession from table sessions"
 					+ " with sessionItemId=" + sessionItemId);
 			
-//			// query from db
-//	        String[] selectColumns = {
-//	        		TableSessions.COLUMN_ID,
-//					TableSessions.COLUMN_SCRIPT_ID,
-//					TableSessions.COLUMN_SPEAKER_ID};
+			// query from db
+	        String[] selectColumns = {
+	        		TableSessions.COLUMN_ID,
+					TableSessions.COLUMN_SCRIPT_ID,
+					TableSessions.COLUMN_SPEAKER_ID};
 			
-	        Uri uri = Uri.parse(SrmUriMatcher.CONTENT_URI_TABLE_SESSIONS + "/" + sessionItemId);
+	        String wherePart = "sessions._id=" + sessionItemId;
 	        
-			Cursor cursor = getApplicationContext().getContentResolver().query(uri, null, null, null, null);
+			Cursor cursor = getApplicationContext().getContentResolver().query(
+					SrmUriMatcher.CONTENT_URI_TABLE_SESSIONS, 
+					selectColumns, wherePart, null, null);
 			cursor.moveToFirst();
 			
 			if (cursor != null && cursor.getCount()!=0) 
