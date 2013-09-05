@@ -59,8 +59,6 @@ public class ActivityRecording extends Activity
 	
 	private GridView gridView;
 	
-
-	
 	private Button bRecord;
 	private int isBRecordClicked = 0;
 	private Button bPlay;
@@ -70,14 +68,7 @@ public class ActivityRecording extends Activity
 	private TextView instrText;
 	private TextView promptText;
 	
-	
 	private ImageView imageCircle1;
-	private ImageView imageCircle2;
-	private ImageView imageCircle3;
-	
-//	private LocalAdapterForActRecording adapter;
-	
-//	private OnClickListenerForRecording listener;
 	
 	private SrmRecorder srmRecorder;
 	
@@ -88,7 +79,6 @@ public class ActivityRecording extends Activity
 	
 	private String recordFilepath;
 	
-	private Handler handler;
 	
 	private static Activity thisAct;
 	/**
@@ -96,7 +86,7 @@ public class ActivityRecording extends Activity
 	 */
 	public ActivityRecording() 
 	{
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	
@@ -109,7 +99,6 @@ public class ActivityRecording extends Activity
 		super.onCreate(savedInstanceState);
 		
 		thisAct = this;
-//		listener = new OnClickListenerForRecording();
 		
 		scriptItem = Utils.ConstantVars.scriptItemForNewSession;
 		recItemsList = Utils.ConstantVars.recordItemListForNewSession;
@@ -140,20 +129,6 @@ public class ActivityRecording extends Activity
         	setTitle(getResources().getString(R.string.act_recording_title_testrec));
         	
         	fillOneArea();
-        	
-//        	setContentView(R.layout.gridviewlayout_act_recording);
-//        	
-//        	setTitle(getResources().getString(R.string.act_recording_title_testrec));
-//        	
-//        	gridView = (GridView) findViewById(R.id.id_gridview_act_recoding);
-//            
-//            String[] arealist = {"TEXT_AREA", "CONTROL_AREA_FOR_USER"};
-//            
-//            adapter = new LocalAdapterForActRecording(this, arealist);
-//            
-//            gridView.setAdapter(adapter);
-//            
-//            gridView.setClickable(false);
         }
         else
     	{
@@ -398,52 +373,6 @@ public class ActivityRecording extends Activity
 		
 	}
 
-	
-//	private void fillTextArea()
-//	{
-//		instrText = (TextView) gridView.findViewById(R.id.act_recording_text_intro_textvalue);
-//		instrText.setText(recItemsList.get(recItemIndex).recinstructions);
-//		
-//		promptText = (TextView) gridView.findViewById(R.id.act_recording_text_prompt_textvalue);
-//		promptText.setText(recItemsList.get(recItemIndex).recprompt);
-//		
-//	}
-	
-//	private void fillControlArea(View areaView)
-//	{
-//		bRecord = (Button) areaView.findViewById(R.id.act_recording_control_button_record);
-//		bRecord.setEnabled(true);
-//    	bPlay = (Button) areaView.findViewById(R.id.act_recording_control_button_play);
-//    	bPlay.setEnabled(false);
-//    	bNext = (Button) areaView.findViewById(R.id.act_recording_control_button_next);
-//    	bPrev = (Button) areaView.findViewById(R.id.act_recording_control_button_previous);
-//		bPrev.setEnabled(true);
-//		bNext.setEnabled(true);
-//    	
-//    	imageCircle1 = (ImageView) areaView.findViewById(R.id.act_recording_control_circle1);
-//    	imageCircle2 = (ImageView) areaView.findViewById(R.id.act_recording_control_circle2);
-//    	imageCircle3 = (ImageView) areaView.findViewById(R.id.act_recording_control_circle3);
-//    	
-//    	if(!isTestRecroding)
-//    	{
-//    		// Act Recording
-//    		bPrev.setVisibility(View.INVISIBLE);
-//    		bNext.setVisibility(View.INVISIBLE);
-//    		bPlay.setVisibility(View.INVISIBLE);
-//    		
-//    		bRecord.setOnClickListener(listener);
-//    	}
-//    	else
-//    	{
-//    		bRecord.setOnClickListener(listener);
-//    		bPlay.setOnClickListener(listener);
-//    		bNext.setOnClickListener(listener);
-//    		bPrev.setOnClickListener(listener);
-//    	}
-//    	
-//	}
-	
-
 	private void fillOneArea() 
 	{
 		if(isTestRecroding)
@@ -492,7 +421,7 @@ public class ActivityRecording extends Activity
     	
 	}
 
-	private Uri insertRecord(RecordItem recItem, String recFilepath) 
+	private Uri insertRecordItemToDB(RecordItem recItem, String recFilepath) 
 	{
 		Log.w(ActivityRecording.class.getName(), "insertRecord() will insert a record");
 		
@@ -678,7 +607,7 @@ public class ActivityRecording extends Activity
 		    	srmRecorder.stopRecording();
 				
 		    	// insert record
-		    	Uri uriNewRecordItem = insertRecord(recItemsList.get(recItemIndex), 
+		    	Uri uriNewRecordItem = insertRecordItemToDB(recItemsList.get(recItemIndex), 
 			    		srmRecorder.getAudioFile());
 		    	
 		    	Log.w(ActivityRecording.class.getName(), "recording click stop, inserted record id="
@@ -710,212 +639,4 @@ public class ActivityRecording extends Activity
 	    }, Integer.parseInt(recItemsList.get(recItemIndex).postrecdelay));
 	}
 	
-	
-	
-//	protected class LocalAdapterForActRecording extends BaseAdapter
-//	{
-//		private Context context;
-//		private String[] arealist;
-//		
-//		public LocalAdapterForActRecording(Context context, String[] arealist)
-//		{
-//			this.context = context;
-//			this.arealist = arealist;
-//			
-//		}
-//
-//		@Override
-//		public int getCount() 
-//		{
-//			return arealist.length;
-//		}
-//
-//		@Override
-//		public Object getItem(int position) {
-//			return null;
-//		}
-//		
-//
-//		@Override
-//		public long getItemId(int position) {
-//			// TODO Auto-generated method stub
-//			return 0;
-//		}
-//
-//		@Override
-//		public View getView(int position, View convertView, ViewGroup parent) {
-//			
-//			LinearLayout areaView = null;
-//			
-//			if(arealist[position].equals("TEXT_AREA"))
-//			{
-//				areaView = 
-//						(LinearLayout) (convertView == null
-//						? LayoutInflater.from(context).
-//								inflate(R.layout.linearlayout_act_recording_text_area, parent, false)
-//						: convertView);
-//				
-//				try
-//		        {
-//		        	fillTextArea();
-//		        }
-//		        catch (Exception e) 
-//		        {
-//		            e.printStackTrace();
-//		        }
-//
-//			}
-//			else if(arealist[position].equals("CONTROL_AREA_FOR_USER"))
-//			{
-//				
-//				areaView = 
-//						(LinearLayout) (convertView == null
-//						? LayoutInflater.from(context).
-//								inflate(R.layout.linearlayout_act_recording_control_area, parent, false)
-//						: convertView);
-//
-//		        try
-//		        {
-//		        	fillControlArea(areaView);
-//		        }
-//		        catch (Exception e) 
-//		        {
-//		            e.printStackTrace();
-//		        }
-//		        
-//			}
-//			else if(arealist[position].equals("CONTROL_AREA_FOR_SPEAKER"))
-//			{
-//				
-//				areaView = 
-//						(LinearLayout) (convertView == null
-//						? LayoutInflater.from(context).
-//								inflate(R.layout.linearlayout_act_recording_control_area, parent, false)
-//								: convertView);
-//
-//		        try
-//		        {
-//		        	fillControlArea(areaView);
-//		        }
-//		        catch (Exception e) 
-//		        {
-//		            e.printStackTrace();
-//		        }
-//		        
-//		        
-//			}
-//			
-//			
-//			return areaView;
-//		}
-//		
-//	}
-
-	
-//	protected class OnClickListenerForRecording implements OnClickListener
-//	{
-//		
-//		
-//		
-//		public OnClickListenerForRecording() 
-//		{
-//			super();
-//		}
-//
-//		@Override
-//		public void onClick(View v) 
-//		{
-//			int viewId = v.getId();
-//			
-//			switch (viewId) 
-//			{
-//				case R.id.act_recording_control_button_record:
-//					
-//					
-//					if(isTestRecroding)
-//					{
-//						if(isBRecordClicked == 0)
-//						{
-//							
-//						}
-//						else if (isBRecordClicked == 1)
-//						{
-//							
-//							
-//						}
-//					}
-//					
-//					
-//					
-//					break;
-//				
-//				case R.id.act_recording_control_button_play:
-//					// intent 
-//					Log.w(ActivityRecording.class.getName(), "click play");
-//					// play the record
-//					try 
-//					{
-//						Utils.playRecord(thisAct, srmRecorder.getAudioFile());
-//					} 
-//					catch (ActivityNotFoundException e) 
-//					{
-//						Log.w(ActivityRecording.class.getName(), 
-//								"Utils.playRecord() throws Exceptions " + e.getMessage());
-//					}
-//					
-//					bPlay.setEnabled(false);
-//					break;
-//					
-//				case R.id.act_recording_control_button_previous:
-//					// new recording
-//					Log.w(ActivityRecording.class.getName(), "click <<");
-//					recItemIndex--;
-//					Log.w(ActivityRecording.class.getName(), "<<, recItemIndex=" + recItemIndex);
-//					if(recItemIndex<0)
-//					{
-//						recItemIndex = 0;
-//						Utils.toastTextToUser(thisAct, "the first record item");
-//					}
-//					Log.w(ActivityRecording.class.getName(), "<<, recItemIndex=" + recItemIndex);
-//					
-//					
-//					bPlay.setEnabled(false);
-//					
-//					updateTextArea(gridView, 
-//							recItemsList.get(recItemIndex).recinstructions, 
-//							recItemsList.get(recItemIndex).recprompt);
-//					break;
-//				
-//				case R.id.act_recording_control_button_next:
-//					// new recording
-//					
-//					Log.w(ActivityRecording.class.getName(), "click >>");
-//					recItemIndex++;
-//					Log.w(ActivityRecording.class.getName(), ">>, recItemIndex=" + recItemIndex);
-//					if(recItemIndex>(recItemsList.size() -1))
-//					{
-//						recItemIndex = recItemsList.size() -1;
-//						Utils.toastTextToUser(thisAct, "the last record item");
-//					}
-//					Log.w(ActivityRecording.class.getName(), ">>, recItemIndex=" + recItemIndex);
-//					
-//					
-//					bPlay.setEnabled(false);
-//					
-//					updateTextArea(gridView, 
-//							recItemsList.get(recItemIndex).recinstructions, 
-//							recItemsList.get(recItemIndex).recprompt);
-//					
-//					break;
-//					
-//				default:
-//					break;
-//			}
-//			
-//		}
-//		
-//	}
-
-
-
 }
