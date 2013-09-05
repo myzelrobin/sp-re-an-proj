@@ -50,7 +50,6 @@ import android.support.v4.widget.StaggeredGridView.LayoutParams;
  *
  */
 public class TestActivitySessionDetails extends Activity
-	implements OnItemClickListener
 {
 		// state
 		public static final String ITEM_URI = "ITEM_URI";
@@ -59,8 +58,6 @@ public class TestActivitySessionDetails extends Activity
 		
 		// log
 		private final static String LOGTAG = TestActivitySessionDetails.class.getSimpleName();
-		
-		private boolean isShowUploadButton = false;
 		
 		private String speakerIdForSession;
 		private String scriptIdForSession;
@@ -82,7 +79,6 @@ public class TestActivitySessionDetails extends Activity
 	    private TextView recordItemComment;
 	    private TextView recordItemScriptid;
 	    private TextView recordItemIsuploaded;
-	    private TextView recordItemFilepath;
 	    private Button bPlayrecord;
 	    
 	    private ArrayList<String> itemlist; // for adapter
@@ -165,7 +161,7 @@ public class TestActivitySessionDetails extends Activity
 //	        stGridView.setOnItemClickListener(this);
 	        
 	        
-	        Utils.toastTextToUser(getApplicationContext(), "click record item to play");
+	        Utils.toastTextToUser(getApplicationContext(), "SCROLL DOWN FOR MORE!");
 	        
 	        // enable home button
 	        getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -320,32 +316,6 @@ public class TestActivitySessionDetails extends Activity
 		}
 
 
-
-
-		@Override
-		public void onItemClick(AdapterView<?> parent, 
-				View itemView, 
-				int position,
-				long rowId) 
-		{
-			if(position != 0)
-			{
-
-				TextView filepathTextTemp = 
-						(TextView) itemView.findViewById(R.id.recorditem_filepath_textvalue);
-				String filepathTemp = (String) filepathTextTemp.getText();
-				
-				// play the record
-				try {
-					Utils.playRecord(this, filepathTemp);
-				} catch (ActivityNotFoundException e) {
-					Log.w(LOGTAG, 
-							"Utils.playRecord() throws Exceptions " + e.getMessage());
-				}
-			}
-			
-			
-		}
 		
 		private void getIDsForSessionItem(String sessionItemId)
 		{
@@ -568,7 +538,6 @@ public class TestActivitySessionDetails extends Activity
 			    recordItemIntro = (TextView) view.findViewById(R.id.recorditem_intro_textvalue);
 			    recordItemComment = (TextView) view.findViewById(R.id.recorditem_comment_textvalue);
 			    recordItemPrompt = (TextView) view.findViewById(R.id.recorditem_prompt_textvalue);
-			    recordItemFilepath = (TextView) view.findViewById(R.id.recorditem_filepath_textvalue);
 		        
 			    String itemcode = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ITEMCODE));
 			    recordItemItemcode.setText(itemcode);
@@ -588,9 +557,8 @@ public class TestActivitySessionDetails extends Activity
 			    String prompt = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_PROMPT));
 			    recordItemPrompt.setText(prompt);
 			    
-			    final String filepath = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_FILEPATH));;
-			    recordItemFilepath.setText(filepath);
-			    
+			    final String recFilepath = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_FILEPATH));
+
 			    bPlayrecord = (Button) view.findViewById(R.id.recorditem_button_play_record);
 			    bPlayrecord.setOnClickListener(new OnClickListener() {
 					
@@ -599,7 +567,7 @@ public class TestActivitySessionDetails extends Activity
 					{
 						// play the record
 						try {
-							Utils.playRecord(thisAct, filepath);
+							Utils.playRecord(thisAct, recFilepath);
 						} catch (ActivityNotFoundException e) {
 							Log.w(LOGTAG, 
 									"Utils.playRecord() throws Exceptions " + e.getMessage());
@@ -607,9 +575,6 @@ public class TestActivitySessionDetails extends Activity
 					}
 				});
 			    
-//			    // records file to play
-//			    filepathList.add(position,
-//						cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_FILEPATH))); 
 			}
 			
 			

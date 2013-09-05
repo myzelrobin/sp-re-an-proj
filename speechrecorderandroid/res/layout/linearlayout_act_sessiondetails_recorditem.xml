@@ -24,12 +24,6 @@
                         android:scaleType="fitXY"
                         android:id="@+id/recorditem_icon_record"
                         android:src="@drawable/icon_record_256"  />
-                    
-                    <TextView
-                        android:id="@+id/recorditem_filepath_textvalue"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp" />
-                    
             </LinearLayout>
             
             <LinearLayout
