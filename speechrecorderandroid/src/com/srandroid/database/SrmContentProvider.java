@@ -449,7 +449,8 @@ public class SrmContentProvider extends ContentProvider
 				throw new IllegalArgumentException(
 						SrmContentProvider.class.getName() 
 						+ " checkColumns(): "
-						+ "Unknown requested column in selectColumns!");
+						+ "Unknown requested column in selectColumns:" 
+						+ requestedColsTemp.toString());
 			}
 			
 		}

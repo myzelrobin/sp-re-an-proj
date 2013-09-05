@@ -767,8 +767,7 @@ public class ActivityMain extends Activity {
 			switch (itemIndex)
 			{
 					case Utils.ConstantVars.POS_SESSIONS:
-						
-						
+					
 						// Sessions left outer join Speakers, both have _id so use a new column
 						// Fields from the database 
 						from = new String[] {TableSessions.COLUMN_ID,
