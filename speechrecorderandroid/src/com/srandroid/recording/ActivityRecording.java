@@ -72,9 +72,6 @@ public class ActivityRecording extends Activity
 	private ImageView promptImage;
 	private ImageView imageCircle1;
 	
-	private static int widthPromptArea;
-	private static int heightPromptArea;
-	
 	private SrmRecorder srmRecorder;
 	
 	private int recItemIndex = 0;
@@ -420,8 +417,6 @@ public class ActivityRecording extends Activity
 		instrText.setText(recItemsList.get(recItemIndex).recinstructions);
 		promptText.setText(recItemsList.get(recItemIndex).recprompt);
 		
-		widthPromptArea = promptText.getWidth();
-		heightPromptArea = promptText.getHeight();
 		
 		bRecord = (Button) findViewById(R.id.act_recording_button_record);
 		bRecord.setEnabled(true);
@@ -459,14 +454,16 @@ public class ActivityRecording extends Activity
 	
 	private void updateInstrAndPrompt(RecordItem recItem)
 	{
-		LinearLayout.LayoutParams whFull = new LinearLayout.LayoutParams(widthPromptArea, heightPromptArea);
+		LinearLayout.LayoutParams whNew = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.MATCH_PARENT, 
+				LinearLayout.LayoutParams.MATCH_PARENT);
 		LinearLayout.LayoutParams whZero = new LinearLayout.LayoutParams(0, 0);
 		
 		
 		if(recItem.itemType == RecordItem.TYPE_TEXT)
 		{
 			promptImage.setLayoutParams(whZero);
-			promptText.setLayoutParams(whFull);
+			promptText.setLayoutParams(whNew);
 			
 			instrText.setText(recItem.recinstructions);
 			promptText.setText(recItem.recprompt);
@@ -474,18 +471,24 @@ public class ActivityRecording extends Activity
 		else if(recItem.itemType == RecordItem.TYPE_IMAGE)
 		{
 			promptText.setLayoutParams(whZero);
-			promptImage.setLayoutParams(whFull);
+			promptImage.setLayoutParams(whNew);
+			
+			instrText.setText(recItem.recinstructions);
 			
 			File imgFile = new  File(recItem.recprompt);
 			if(imgFile.exists())
 			{
+				Log.w(LOGTAG, "updateInstrAndPrompt() will update prompt with image, filepath:" 
+						+ recItem.recprompt); 
+				
 			    Bitmap myBitmap = BitmapFactory.decodeFile(recItem.recprompt);
 
 			    promptImage.setImageBitmap(myBitmap);
 			}
 			else 
 			{
-				Log.w(LOGTAG, "updateInstrAndPrompt() image file does not exist, filepath:" + recItem.recprompt); 
+				Log.w(LOGTAG, "updateInstrAndPrompt() image file does not exist, filepath:" 
+						+ recItem.recprompt); 
 			}
 			
 		}
