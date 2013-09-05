@@ -162,9 +162,6 @@ public class TestActivitySessionDetails extends Activity
 	        
 //	        stGridView.setOnItemClickListener(this);
 	        
-	        
-	        Utils.toastTextToUser(getApplicationContext(), "SCROLL DOWN FOR MORE!");
-	        
 	        // enable home button
 	        getActionBar().setDisplayHomeAsUpEnabled(true);
 	        getActionBar().setHomeButtonEnabled(true);
@@ -589,7 +586,7 @@ public class TestActivitySessionDetails extends Activity
 			                               (ViewGroup) findViewById(R.id.linearlayout_act_sessiondetails_toasthint));
 
 			Toast toast = new Toast(getApplicationContext());
-			toast.setGravity(Gravity.BOTTOM | Gravity.LEFT, 0, 0);
+			toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
 			toast.setDuration(Toast.LENGTH_LONG * 3);
 			toast.setView(layout);
 			toast.show();
