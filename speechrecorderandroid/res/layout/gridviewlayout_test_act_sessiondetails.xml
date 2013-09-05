@@ -5,13 +5,7 @@ android:background="#EEEEEE"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:gravity="center"
-android:orientation="vertical"
-android:numColumns="auto_fit"
-android:columnWidth="400dp"
-android:horizontalSpacing="0dp"
-android:paddingTop="20dp"
-android:verticalSpacing="20dp"
-android:clickable="true" >
+android:orientation="vertical" >
 
 </android.support.v4.widget.StaggeredGridView>
 

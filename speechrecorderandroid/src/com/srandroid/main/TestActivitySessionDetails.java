@@ -694,6 +694,7 @@ public class TestActivitySessionDetails extends Activity
 			        {
 			        	lp = new LayoutParams(itemView.getLayoutParams());
 	                    lp.span = stGridView.getColumnCount();
+	                    lp.height = 480;
 	                    itemView.setLayoutParams(lp);
 	                    
 			        	fillSessionItem(itemView);
@@ -722,6 +723,7 @@ public class TestActivitySessionDetails extends Activity
 				        {
 							lp = new LayoutParams(itemView.getLayoutParams());
 		                    lp.span = 1;
+		                    lp.height = 480;
 		                    itemView.setLayoutParams(lp);
 							
 							fillRecordItem(itemView, cursor, position);
