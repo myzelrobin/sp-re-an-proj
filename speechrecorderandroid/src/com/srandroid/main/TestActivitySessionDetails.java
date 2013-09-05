@@ -168,6 +168,8 @@ public class TestActivitySessionDetails extends Activity
 	        // enable home button
 	        getActionBar().setDisplayHomeAsUpEnabled(true);
 	        getActionBar().setHomeButtonEnabled(true);
+	        
+	        toastSwipeHint();
 	    }
 		
 
