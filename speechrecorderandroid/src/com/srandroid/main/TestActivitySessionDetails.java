@@ -76,13 +76,13 @@ public class TestActivitySessionDetails extends Activity
 	    private TextView speakers;
 	    private TextView scripts;
 	    
-	    private TextView recordItemItemcode;
-	    private TextView recordItemIntro;
-	    private TextView recordItemPrompt;
-	    private TextView recordItemComment;
-	    private TextView recordItemScriptid;
-	    private TextView recordItemIsuploaded;
-	    private Button bPlayrecord;
+//	    private TextView recordItemItemcode;
+//	    private TextView recordItemIntro;
+//	    private TextView recordItemPrompt;
+//	    private TextView recordItemComment;
+//	    private TextView recordItemScriptid;
+//	    private TextView recordItemIsuploaded;
+//	    private Button bPlayrecord;
 	    
 	    private ArrayList<String> itemlist; // for adapter
 	    private ArrayList<String> recordItemIdList;
@@ -523,12 +523,12 @@ public class TestActivitySessionDetails extends Activity
 				int id = cursor.getInt(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ID));
 				Log.w(LOGTAG, "fillRecordItem() will fill record item with idInTable=" + id);
 				
-		    	recordItemItemcode = (TextView) view.findViewById(R.id.recorditem_itemcode_textvalue);
-				recordItemScriptid = (TextView) view.findViewById(R.id.recorditem_script_id_textvalue);
-				recordItemIsuploaded = (TextView) view.findViewById(R.id.recorditem_isuploaded_textvalue);
-			    recordItemIntro = (TextView) view.findViewById(R.id.recorditem_intro_textvalue);
-			    recordItemComment = (TextView) view.findViewById(R.id.recorditem_comment_textvalue);
-			    recordItemPrompt = (TextView) view.findViewById(R.id.recorditem_prompt_textvalue);
+		    	TextView recordItemItemcode = (TextView) view.findViewById(R.id.recorditem_itemcode_textvalue);
+		    	TextView recordItemScriptid = (TextView) view.findViewById(R.id.recorditem_script_id_textvalue);
+		    	TextView recordItemIsuploaded = (TextView) view.findViewById(R.id.recorditem_isuploaded_textvalue);
+		    	TextView recordItemIntro = (TextView) view.findViewById(R.id.recorditem_intro_textvalue);
+		    	TextView recordItemComment = (TextView) view.findViewById(R.id.recorditem_comment_textvalue);
+		    	TextView recordItemPrompt = (TextView) view.findViewById(R.id.recorditem_prompt_textvalue);
 		        
 			    
 			    
@@ -558,7 +558,7 @@ public class TestActivitySessionDetails extends Activity
 			    
 		    	final String recFilepath = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_FILEPATH));
 
-			    bPlayrecord = (Button) view.findViewById(R.id.recorditem_button_play_record);
+			    Button bPlayrecord = (Button) view.findViewById(R.id.recorditem_button_play_record);
 			    bPlayrecord.setOnClickListener(
 			    	new OnClickListener() 
 				    {
@@ -581,94 +581,94 @@ public class TestActivitySessionDetails extends Activity
 			
 		}
 		
-		private void fillRecordItem2(View view, String recItemId)
-		{
-			Log.w(LOGTAG, 
-				"fillRecordItem2() will query record item with recItemId=" + recItemId);
-			
-			// query from db
-	        String[] selectColumns = {
-					TableRecords.COLUMN_ID,
-					TableRecords.COLUMN_SESSION_ID,
-					TableRecords.COLUMN_SPEAKER_ID,
-					TableRecords.COLUMN_SCRIPT_ID,
-					TableRecords.COLUMN_FILEPATH,
-					TableRecords.COLUMN_INSTRUCTION,
-					TableRecords.COLUMN_PROMPT,
-					TableRecords.COLUMN_COMMENT,
-					TableRecords.COLUMN_ITEMCODE,
-					TableRecords.COLUMN_ITEMTYPE,
-					TableRecords.COLUMN_ISUPLOADED};
-			
-			String wherePart = "records._id=" + recItemId;
-			
-			Cursor cursor = getApplicationContext().getContentResolver().query(
-					SrmUriMatcher.CONTENT_URI_TABLE_RECORDS, 
-					selectColumns, wherePart, null, null);
-			cursor.moveToFirst();
-			
-			
-			Log.w(LOGTAG, 
-					"fillRecordItem2() will fill record item with recItemId=" + recItemId);
-			
-			if (cursor != null && cursor.getCount()!=0) 
-			{
-				int id = cursor.getInt(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ID));
-				Log.w(LOGTAG, "fillRecordItem2() will fill record item idInTable=" + id);
-				
-				recordItemItemcode = (TextView) view.findViewById(R.id.recorditem_itemcode_textvalue);
-				recordItemScriptid = (TextView) view.findViewById(R.id.recorditem_script_id_textvalue);
-				recordItemIsuploaded = (TextView) view.findViewById(R.id.recorditem_isuploaded_textvalue);
-			    recordItemIntro = (TextView) view.findViewById(R.id.recorditem_intro_textvalue);
-			    recordItemComment = (TextView) view.findViewById(R.id.recorditem_comment_textvalue);
-			    recordItemPrompt = (TextView) view.findViewById(R.id.recorditem_prompt_textvalue);
-		        
-			    String itemcode = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ITEMCODE));
-			    recordItemItemcode.setText(itemcode);
-			    
-			    String scriptidTemp = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_SCRIPT_ID));
-			    recordItemScriptid.setText("Script #" + scriptidTemp);
-			    
-			    String isuploaded = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ISUPLOADED));
-			    recordItemIsuploaded.setText(isuploaded);
-			    
-			    
-			    String itemtype = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ITEMTYPE));
-			    
-			    String instruction = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_INSTRUCTION));
-			    recordItemIntro.setText(instruction);
-			    
-			    String comment = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_COMMENT));
-			    recordItemComment.setText(comment);
-			    
-			    String prompt = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_PROMPT));
-			    // recordItemPrompt.setText(prompt);
-			    if (itemtype == RecordItem.TYPE_TEXT) recordItemPrompt.setText(prompt);
-			    else if(itemtype == RecordItem.TYPE_IMAGE) recordItemPrompt.setText("#IMAGE " + prompt);
-			    else if(itemtype == RecordItem.TYPE_SOUND) recordItemPrompt.setText("#SOUND " + prompt);
-			    
-			    final String recFilepath = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_FILEPATH));
-
-			    bPlayrecord = (Button) view.findViewById(R.id.recorditem_button_play_record);
-			    bPlayrecord.setOnClickListener(new OnClickListener() 
-			    {
-					
-					@Override
-					public void onClick(View v) 
-					{
-						// play the record
-						try {
-							Utils.playRecord(thisAct, recFilepath);
-						} catch (ActivityNotFoundException e) {
-							Log.w(LOGTAG, 
-									"Utils.playRecord() throws Exceptions " + e.getMessage());
-						}
-					}
-				});
-			}
-			
-			cursor.close();
-		}
+//		private void fillRecordItem2(View view, String recItemId)
+//		{
+//			Log.w(LOGTAG, 
+//				"fillRecordItem2() will query record item with recItemId=" + recItemId);
+//			
+//			// query from db
+//	        String[] selectColumns = {
+//					TableRecords.COLUMN_ID,
+//					TableRecords.COLUMN_SESSION_ID,
+//					TableRecords.COLUMN_SPEAKER_ID,
+//					TableRecords.COLUMN_SCRIPT_ID,
+//					TableRecords.COLUMN_FILEPATH,
+//					TableRecords.COLUMN_INSTRUCTION,
+//					TableRecords.COLUMN_PROMPT,
+//					TableRecords.COLUMN_COMMENT,
+//					TableRecords.COLUMN_ITEMCODE,
+//					TableRecords.COLUMN_ITEMTYPE,
+//					TableRecords.COLUMN_ISUPLOADED};
+//			
+//			String wherePart = "records._id=" + recItemId;
+//			
+//			Cursor cursor = getApplicationContext().getContentResolver().query(
+//					SrmUriMatcher.CONTENT_URI_TABLE_RECORDS, 
+//					selectColumns, wherePart, null, null);
+//			cursor.moveToFirst();
+//			
+//			
+//			Log.w(LOGTAG, 
+//					"fillRecordItem2() will fill record item with recItemId=" + recItemId);
+//			
+//			if (cursor != null && cursor.getCount()!=0) 
+//			{
+//				int id = cursor.getInt(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ID));
+//				Log.w(LOGTAG, "fillRecordItem2() will fill record item idInTable=" + id);
+//				
+//				recordItemItemcode = (TextView) view.findViewById(R.id.recorditem_itemcode_textvalue);
+//				recordItemScriptid = (TextView) view.findViewById(R.id.recorditem_script_id_textvalue);
+//				recordItemIsuploaded = (TextView) view.findViewById(R.id.recorditem_isuploaded_textvalue);
+//			    recordItemIntro = (TextView) view.findViewById(R.id.recorditem_intro_textvalue);
+//			    recordItemComment = (TextView) view.findViewById(R.id.recorditem_comment_textvalue);
+//			    recordItemPrompt = (TextView) view.findViewById(R.id.recorditem_prompt_textvalue);
+//		        
+//			    String itemcode = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ITEMCODE));
+//			    recordItemItemcode.setText(itemcode);
+//			    
+//			    String scriptidTemp = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_SCRIPT_ID));
+//			    recordItemScriptid.setText("Script #" + scriptidTemp);
+//			    
+//			    String isuploaded = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ISUPLOADED));
+//			    recordItemIsuploaded.setText(isuploaded);
+//			    
+//			    
+//			    String itemtype = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ITEMTYPE));
+//			    
+//			    String instruction = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_INSTRUCTION));
+//			    recordItemIntro.setText(instruction);
+//			    
+//			    String comment = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_COMMENT));
+//			    recordItemComment.setText(comment);
+//			    
+//			    String prompt = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_PROMPT));
+//			    // recordItemPrompt.setText(prompt);
+//			    if (itemtype == RecordItem.TYPE_TEXT) recordItemPrompt.setText(prompt);
+//			    else if(itemtype == RecordItem.TYPE_IMAGE) recordItemPrompt.setText("#IMAGE " + prompt);
+//			    else if(itemtype == RecordItem.TYPE_SOUND) recordItemPrompt.setText("#SOUND " + prompt);
+//			    
+//			    final String recFilepath = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_FILEPATH));
+//
+//			    bPlayrecord = (Button) view.findViewById(R.id.recorditem_button_play_record);
+//			    bPlayrecord.setOnClickListener(new OnClickListener() 
+//			    {
+//					
+//					@Override
+//					public void onClick(View v) 
+//					{
+//						// play the record
+//						try {
+//							Utils.playRecord(thisAct, recFilepath);
+//						} catch (ActivityNotFoundException e) {
+//							Log.w(LOGTAG, 
+//									"Utils.playRecord() throws Exceptions " + e.getMessage());
+//						}
+//					}
+//				});
+//			}
+//			
+//			cursor.close();
+//		}
 		
 		private void toastSwipeHint()
 		{
