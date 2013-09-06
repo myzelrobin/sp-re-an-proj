@@ -523,22 +523,13 @@ public class TestActivitySessionDetails extends Activity
 				int id = cursor.getInt(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ID));
 				Log.w(LOGTAG, "fillRecordItem() will fill record item with idInTable=" + id);
 				
-				
+		    	recordItemItemcode = (TextView) view.findViewById(R.id.recorditem_itemcode_textvalue);
+				recordItemScriptid = (TextView) view.findViewById(R.id.recorditem_script_id_textvalue);
+				recordItemIsuploaded = (TextView) view.findViewById(R.id.recorditem_isuploaded_textvalue);
+			    recordItemIntro = (TextView) view.findViewById(R.id.recorditem_intro_textvalue);
+			    recordItemComment = (TextView) view.findViewById(R.id.recorditem_comment_textvalue);
+			    recordItemPrompt = (TextView) view.findViewById(R.id.recorditem_prompt_textvalue);
 		        
-			    try
-		        {
-			    	recordItemItemcode = (TextView) view.findViewById(R.id.recorditem_itemcode_textvalue);
-					recordItemScriptid = (TextView) view.findViewById(R.id.recorditem_script_id_textvalue);
-					recordItemIsuploaded = (TextView) view.findViewById(R.id.recorditem_isuploaded_textvalue);
-				    recordItemIntro = (TextView) view.findViewById(R.id.recorditem_intro_textvalue);
-				    recordItemComment = (TextView) view.findViewById(R.id.recorditem_comment_textvalue);
-				    recordItemPrompt = (TextView) view.findViewById(R.id.recorditem_prompt_textvalue);
-		        }
-		        catch (Exception e) 
-		        {
-		            Log.w(LOGTAG + ".Adapter", 
-							"fillRecordItem() finding view objects throws error:" + e.getMessage());
-		        }
 			    
 			    
 			    
@@ -546,30 +537,67 @@ public class TestActivitySessionDetails extends Activity
 		        {
 			    	String itemcode = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ITEMCODE));
 				    recordItemItemcode.setText(itemcode);
-				    
-				    String scriptidTemp = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_SCRIPT_ID));
-				    recordItemScriptid.setText("Script #" + scriptidTemp);
-				    
-				    String isuploaded = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ISUPLOADED));
-				    recordItemIsuploaded.setText(isuploaded);
-				    
-				    String instruction = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_INSTRUCTION));
-				    recordItemIntro.setText(instruction);
-				    
-				    String comment = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_COMMENT));
-				    recordItemComment.setText(comment);
-				    
-				    String prompt = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_PROMPT));
-				    recordItemPrompt.setText(prompt);
 		        }
 		        catch (Exception e) 
 		        {
-		            Log.w(LOGTAG + ".Adapter", 
-							"fillRecordItem() setting textviews throws error:" + e.getMessage());
+		            Log.w(LOGTAG + ".Adapter", "fillRecordItem() setting itemcode textviews throws error:" + e.getMessage());
 		        }
 			    
 			    try
 		        {
+			    	String scriptidTemp = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_SCRIPT_ID));
+				    recordItemScriptid.setText("Script #" + scriptidTemp);
+		        }
+		        catch (Exception e) 
+		        {
+		            Log.w(LOGTAG + ".Adapter", "fillRecordItem() setting scriptid textviews throws error:" + e.getMessage());
+		        }
+			    
+			    try
+		        {
+			    	String isuploaded = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ISUPLOADED));
+				    recordItemIsuploaded.setText(isuploaded);
+		        }
+		        catch (Exception e) 
+		        {
+		            Log.w(LOGTAG + ".Adapter", "fillRecordItem() setting isuploaded textviews throws error:" + e.getMessage());
+		        }
+			    
+			    try
+		        {
+			    	String instruction = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_INSTRUCTION));
+				    recordItemIntro.setText(instruction);
+		        }
+		        catch (Exception e) 
+		        {
+		            Log.w(LOGTAG + ".Adapter", "fillRecordItem() setting intro textviews throws error:" + e.getMessage());
+		        }
+			    
+			    try
+		        {
+			    	String comment = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_COMMENT));
+				    recordItemComment.setText(comment);
+		        }
+		        catch (Exception e) 
+		        {
+		            Log.w(LOGTAG + ".Adapter", "fillRecordItem() setting comment textviews throws error:" + e.getMessage());
+		        }
+			    
+			    try
+		        {
+			    	String prompt = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_PROMPT));
+				    recordItemPrompt.setText(prompt);
+		        }
+		        catch (Exception e) 
+		        {
+		            Log.w(LOGTAG + ".Adapter", "fillRecordItem() setting prompt textviews throws error:" + e.getMessage());
+		        }
+			    
+			    
+			    
+			    
+			    
+			    
 			    	final String recFilepath = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_FILEPATH));
 
 				    bPlayrecord = (Button) view.findViewById(R.id.recorditem_button_play_record);
@@ -589,12 +617,6 @@ public class TestActivitySessionDetails extends Activity
 								}
 							}
 						});
-		        }
-		        catch (Exception e) 
-		        {
-		            Log.w(LOGTAG + ".Adapter", 
-							"fillRecordItem() setting play button throws error:" + e.getMessage());
-		        }
 			    
 			    
 			    
