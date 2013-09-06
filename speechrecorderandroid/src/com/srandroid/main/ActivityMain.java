@@ -1,12 +1,9 @@
 package com.srandroid.main;
 
-import java.io.File;
-import java.sql.Savepoint;
 import java.util.Arrays;
 
 import com.srandroid.speechrecorder.R;
 import com.srandroid.main.ActivityScriptDetails;
-import com.srandroid.main.ActivitySessionDetails;
 import com.srandroid.main.ActivityAddSpeaker;
 import com.srandroid.main.ActivitySpeakerDetails;
 import com.srandroid.database.DBAccessor;

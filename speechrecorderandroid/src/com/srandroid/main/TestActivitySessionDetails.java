@@ -125,11 +125,10 @@ public class TestActivitySessionDetails extends Activity
 	        
 	        
 	        
-	        
+	        // start creating
 	        Log.w(LOGTAG, "start creating, get sessionItemId=" + sessionItemId);
 	        
 	        setContentView(R.layout.gridviewlayout_test_act_sessiondetails);
-	        
 	        
 	        // create itemlist
 	        try 
@@ -140,8 +139,7 @@ public class TestActivitySessionDetails extends Activity
 	        catch (Exception e) 
 	        {
 				// TODO Auto-generated catch block
-				Log.w(LOGTAG, " getIDsForSessionItem() throws " 
-				+ e.getLocalizedMessage());
+				Log.w(LOGTAG, " getIDsForSessionItem() throws " + e.getMessage());
 			}
 	        
 //	        itemlist = new ArrayList<String>();
@@ -163,7 +161,7 @@ public class TestActivitySessionDetails extends Activity
 	        getActionBar().setDisplayHomeAsUpEnabled(true);
 	        getActionBar().setHomeButtonEnabled(true);
 	        
-	        // if there are records, toast hint to user
+	        // if there are records, toast hint to user to scroll down
 	        if(recItemsCount > 0) toastSwipeHint();
 	    }
 		
@@ -513,20 +511,17 @@ public class TestActivitySessionDetails extends Activity
 		
 		private void fillRecordItem(View view, Cursor cursor, int position)
 		{
-			Log.w(LOGTAG, 
-					"fillRecordItem() will fill record item");
+			//if (cursor != null && cursor.getCount()!=0) 
 			
-			if (cursor != null && cursor.getCount()!=0) 
-			{
 				
 				cursor.moveToPosition(position - 1);
 				
 				Log.w(LOGTAG, 
-						"fillRecordItem() will create record item, item position=" + position 
-						+ " cursor position = " + cursor.getPosition());
+						"fillRecordItem() will create record item, item_position=" + position 
+						+ ", cursor_position=" + cursor.getPosition());
 				
 				int id = cursor.getInt(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ID));
-				Log.w(LOGTAG, "fillRecordItem() will fill record item idInTable=" + id);
+				Log.w(LOGTAG, "fillRecordItem() will fill record item with idInTable=" + id);
 				
 				recordItemItemcode = (TextView) view.findViewById(R.id.recorditem_itemcode_textvalue);
 				recordItemScriptid = (TextView) view.findViewById(R.id.recorditem_script_id_textvalue);
@@ -571,7 +566,7 @@ public class TestActivitySessionDetails extends Activity
 						}
 					}
 				});
-			}
+			
 			
 		}
 		
@@ -762,7 +757,7 @@ public class TestActivitySessionDetails extends Activity
 				if(itemlist.get(position).equals("SESSION_ITEM"))
 				{
 					Log.w(LOGTAG + ".Adapter", 
-							"getView() will create sessionitem at position=" + position);
+							"getView() will create SESSIONITEM at position=" + position);
 					
 					itemView = 
 							(LinearLayout) (convertView == null
@@ -781,15 +776,15 @@ public class TestActivitySessionDetails extends Activity
 			        catch (Exception e) 
 			        {
 			        	Log.w(LOGTAG + ".Adapter", 
-								"getView() created sessionitem at position=" + position 
-								+ " throws error:" + e.getLocalizedMessage());
+								"getView() created SESSIONITEM at position=" + position 
+								+ " throws error:" + e.getMessage());
 			        }
 
 				}
 				else if(itemlist.get(position).equals("RECORD_ITEM"))
 				{
 					Log.w(LOGTAG + ".Adapter", 
-							"getView() will create recorditem at position=" + position 
+							"getView() will create RECORDITEM at position=" + position 
 							+ " recordItemId=" + getRecItemIdFromList(position));
 					
 					itemView = 
@@ -811,7 +806,7 @@ public class TestActivitySessionDetails extends Activity
 				        catch (Exception e) 
 				        {
 				            Log.w(LOGTAG + ".Adapter", 
-									"getView() created recorditem at position=" + position 
+									"getView() created RECORDITEM at position=" + position 
 									+ " throws error:" + e.getMessage());
 				        }
 					}
