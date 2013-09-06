@@ -60,7 +60,7 @@ public class TestActivitySessionDetails extends Activity
 		
 		
 		// log
-		private final static String LOGTAG = TestActivitySessionDetails.class.getSimpleName();
+		private final static String LOGTAG = TestActivitySessionDetails.class.getName();
 		
 		private String speakerIdForSession;
 		private String scriptIdForSession;
@@ -523,13 +523,23 @@ public class TestActivitySessionDetails extends Activity
 				int id = cursor.getInt(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ID));
 				Log.w(LOGTAG, "fillRecordItem() will fill record item with idInTable=" + id);
 				
-				recordItemItemcode = (TextView) view.findViewById(R.id.recorditem_itemcode_textvalue);
-				recordItemScriptid = (TextView) view.findViewById(R.id.recorditem_script_id_textvalue);
-				recordItemIsuploaded = (TextView) view.findViewById(R.id.recorditem_isuploaded_textvalue);
-			    recordItemIntro = (TextView) view.findViewById(R.id.recorditem_intro_textvalue);
-			    recordItemComment = (TextView) view.findViewById(R.id.recorditem_comment_textvalue);
-			    recordItemPrompt = (TextView) view.findViewById(R.id.recorditem_prompt_textvalue);
+				
 		        
+			    try
+		        {
+			    	recordItemItemcode = (TextView) view.findViewById(R.id.recorditem_itemcode_textvalue);
+					recordItemScriptid = (TextView) view.findViewById(R.id.recorditem_script_id_textvalue);
+					recordItemIsuploaded = (TextView) view.findViewById(R.id.recorditem_isuploaded_textvalue);
+				    recordItemIntro = (TextView) view.findViewById(R.id.recorditem_intro_textvalue);
+				    recordItemComment = (TextView) view.findViewById(R.id.recorditem_comment_textvalue);
+				    recordItemPrompt = (TextView) view.findViewById(R.id.recorditem_prompt_textvalue);
+		        }
+		        catch (Exception e) 
+		        {
+		            Log.w(LOGTAG + ".Adapter", 
+							"fillRecordItem() finding view objects throws error:" + e.getMessage());
+		        }
+			    
 			    String itemcode = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ITEMCODE));
 			    recordItemItemcode.setText(itemcode);
 			    
@@ -551,21 +561,22 @@ public class TestActivitySessionDetails extends Activity
 			    final String recFilepath = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_FILEPATH));
 
 			    bPlayrecord = (Button) view.findViewById(R.id.recorditem_button_play_record);
-			    bPlayrecord.setOnClickListener(new OnClickListener() 
-			    {
-					
-					@Override
-					public void onClick(View v) 
-					{
-						// play the record
-						try {
-							Utils.playRecord(thisAct, recFilepath);
-						} catch (ActivityNotFoundException e) {
-							Log.w(LOGTAG, 
-									"Utils.playRecord() throws Exceptions " + e.getMessage());
+			    bPlayrecord.setOnClickListener(
+			    	new OnClickListener() 
+				    {
+						
+						@Override
+						public void onClick(View v) 
+						{
+							// play the record
+							try {
+								Utils.playRecord(thisAct, recFilepath);
+							} catch (ActivityNotFoundException e) {
+								Log.w(LOGTAG, 
+										"Utils.playRecord() throws Exceptions " + e.getMessage());
+							}
 						}
-					}
-				});
+					});
 			
 			
 		}
@@ -784,8 +795,7 @@ public class TestActivitySessionDetails extends Activity
 				else if(itemlist.get(position).equals("RECORD_ITEM"))
 				{
 					Log.w(LOGTAG + ".Adapter", 
-							"getView() will create RECORDITEM at position=" + position 
-							+ " recordItemId=" + getRecItemIdFromList(position));
+							"getView() will create RECORDITEM at position=" + position);
 					
 					itemView = 
 							(LinearLayout) (convertView == null
