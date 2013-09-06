@@ -15,21 +15,28 @@ import android.os.Bundle;
 import android.util.Log;
 
 /**
- * @author flc
+ * not finished
  *
  */
 public class SrmLocationHandler 
 {
-
-	private static final String LOGTAG = SrmLocationHandler.class.getSimpleName();
+	private static final String LOGTAG = SrmLocationHandler.class.getName();
 	
 	private static String gps_data;
 
 	private static Location lastKnownLocation;
 	
-	private static final int FIFTEEN_MINUTES = 1000 * 60 * 15;
+	private static final int TEN_MINUTES = 1000 * 60 * 10;
 
+	private static LocationManager locationManager;
 	
+	private static LocationListener locationListener;
+	
+	public static String cityName;
+	
+	public static String longitude;
+	
+	public static String latitude;
 	
 	/**
 	 * 
@@ -43,22 +50,18 @@ public class SrmLocationHandler
 		//Utils.ConstantVars.GPS_INFO = 
 		Log.w(LOGTAG, "getGPSInfo() will get GPS info");
 
-		LocationManager locationManager = 
+		locationManager = 
 			(LocationManager) context.getSystemService(context.LOCATION_SERVICE);
-		LocationListener locationListener = new SrmLocationListener(context);
+		locationListener = new SrmLocationListener(context);
 		
 		// start listening for updates
 		locationManager.requestLocationUpdates(
 			LocationManager.NETWORK_PROVIDER, // type of location provider, GPS_PROVIDER
-			0, // minimum time interval between notifications, 0 as frequently as possible
-			0, // minimum change in distance between notifications, 0 as frequently as possible
+			1000, // minimum time interval between notifications, 0 as frequently as possible
+			1000, // minimum change in distance between notifications, 0 as frequently as possible
 			locationListener);
 		
 		lastKnownLocation = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
-		
-		
-		// decide when to close listener
-		// locationManager.removeUpdates(locationListener);
 		
 	}
 	
@@ -75,8 +78,8 @@ public class SrmLocationHandler
 
 	    // Check whether the new location fix is newer or older
 	    long timeDelta = location.getTime() - currentBestLocation.getTime();
-	    boolean isSignificantlyNewer = timeDelta > FIFTEEN_MINUTES;
-	    boolean isSignificantlyOlder = timeDelta < -FIFTEEN_MINUTES;
+	    boolean isSignificantlyNewer = timeDelta > TEN_MINUTES;
+	    boolean isSignificantlyOlder = timeDelta < -TEN_MINUTES;
 	    boolean isNewer = timeDelta > 0;
 
 	    // If it's been more than two minutes since the current location, use the new location
@@ -141,31 +144,35 @@ public class SrmLocationHandler
 				  "onLocationChanged(): Location changed: latitude: " + loc.getLatitude() 
 				  + " longitude: " + loc.getLongitude());
 
-	        String longitude = "Longitude: " + loc.getLongitude();
+	        longitude = "Longitude: " + loc.getLongitude();
 	        Log.w(LOGTAG + "$SrmLocationListener", 
 	        		"onLocationChanged(): get new longitude=" + longitude);
 
-	        String latitude = "Latitude: " + loc.getLatitude();
+	        latitude = "Latitude: " + loc.getLatitude();
 	        Log.w(LOGTAG + "$SrmLocationListener", 
 	        		"onLocationChanged(): get new latitude=" + latitude);
 	        
 	        /*-------to get City-Name from coordinates -------- */
-	        String cityName = null;
 	        Geocoder gcd = new Geocoder(context, Locale.getDefault());
-	        try {
+	        try 
+	        {
 	        	cityName = gcd.getFromLocation(loc.getLatitude(),
 											   loc.getLongitude(), 1).get(0).getLocality();
-	        } catch (IOException e) {
+	        } 
+	        catch (IOException e) 
+	        {
 	            e.printStackTrace();
 	        }
 	        String s = "longitude=" + longitude 
-				+ "\nlatitude=" + latitude 
-				+ "\n\nCurrent City is: " + cityName;
+				+ ", latitude=" + latitude + ", Current City is: " + cityName;
 
 	        gps_data = s;
 
 	        Log.w(LOGTAG + "$SrmLocationListener", 
 				  "onLocationChanged(): new location is:" + s);
+	        
+	        // close listener
+			locationManager.removeUpdates(locationListener);
 	    }
 
 	    @Override
@@ -185,10 +192,8 @@ public class SrmLocationHandler
 	    public void onStatusChanged(String provider, int status, Bundle extras) 
 	    {
 			
-
 	    }
 
 
 	}
-
 }
