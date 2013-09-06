@@ -532,10 +532,10 @@ public class TestActivitySessionDetails extends Activity
 		        
 			    
 			    
-			    
+			    String itemcode = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ITEMCODE));
 			    try
 		        {
-			    	String itemcode = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ITEMCODE));
+			    	
 				    recordItemItemcode.setText(itemcode);
 		        }
 		        catch (Exception e) 
@@ -543,9 +543,10 @@ public class TestActivitySessionDetails extends Activity
 		            Log.w(LOGTAG + ".Adapter", "fillRecordItem() setting itemcode textviews throws error:" + e.getMessage());
 		        }
 			    
+			    String scriptidTemp = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_SCRIPT_ID));
 			    try
 		        {
-			    	String scriptidTemp = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_SCRIPT_ID));
+			    	
 				    recordItemScriptid.setText("Script #" + scriptidTemp);
 		        }
 		        catch (Exception e) 
@@ -553,9 +554,10 @@ public class TestActivitySessionDetails extends Activity
 		            Log.w(LOGTAG + ".Adapter", "fillRecordItem() setting scriptid textviews throws error:" + e.getMessage());
 		        }
 			    
+			    String isuploaded = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ISUPLOADED));
 			    try
 		        {
-			    	String isuploaded = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ISUPLOADED));
+			    	
 				    recordItemIsuploaded.setText(isuploaded);
 		        }
 		        catch (Exception e) 
@@ -563,9 +565,10 @@ public class TestActivitySessionDetails extends Activity
 		            Log.w(LOGTAG + ".Adapter", "fillRecordItem() setting isuploaded textviews throws error:" + e.getMessage());
 		        }
 			    
+			    String instruction = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_INSTRUCTION));
 			    try
 		        {
-			    	String instruction = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_INSTRUCTION));
+			    	
 				    recordItemIntro.setText(instruction);
 		        }
 		        catch (Exception e) 
@@ -573,9 +576,10 @@ public class TestActivitySessionDetails extends Activity
 		            Log.w(LOGTAG + ".Adapter", "fillRecordItem() setting intro textviews throws error:" + e.getMessage());
 		        }
 			    
+			    String comment = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_COMMENT));
 			    try
 		        {
-			    	String comment = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_COMMENT));
+			    	
 				    recordItemComment.setText(comment);
 		        }
 		        catch (Exception e) 
@@ -583,9 +587,10 @@ public class TestActivitySessionDetails extends Activity
 		            Log.w(LOGTAG + ".Adapter", "fillRecordItem() setting comment textviews throws error:" + e.getMessage());
 		        }
 			    
+			    String prompt = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_PROMPT));
 			    try
 		        {
-			    	String prompt = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_PROMPT));
+			    	
 				    recordItemPrompt.setText(prompt);
 		        }
 		        catch (Exception e) 
