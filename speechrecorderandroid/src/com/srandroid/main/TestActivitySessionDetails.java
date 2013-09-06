@@ -533,95 +533,47 @@ public class TestActivitySessionDetails extends Activity
 			    
 			    
 			    String itemcode = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ITEMCODE));
-			    try
-		        {
-			    	
-				    recordItemItemcode.setText(itemcode);
-		        }
-		        catch (Exception e) 
-		        {
-		            Log.w(LOGTAG + ".Adapter", "fillRecordItem() setting itemcode textviews throws error:" + e.getMessage());
-		        }
+			    recordItemItemcode.setText(itemcode);
+		       
 			    
 			    String scriptidTemp = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_SCRIPT_ID));
-			    try
-		        {
-			    	
-				    recordItemScriptid.setText("Script #" + scriptidTemp);
-		        }
-		        catch (Exception e) 
-		        {
-		            Log.w(LOGTAG + ".Adapter", "fillRecordItem() setting scriptid textviews throws error:" + e.getMessage());
-		        }
+			    recordItemScriptid.setText("Script #" + scriptidTemp);
+		        
 			    
 			    String isuploaded = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ISUPLOADED));
-			    try
-		        {
-			    	
-				    recordItemIsuploaded.setText(isuploaded);
-		        }
-		        catch (Exception e) 
-		        {
-		            Log.w(LOGTAG + ".Adapter", "fillRecordItem() setting isuploaded textviews throws error:" + e.getMessage());
-		        }
+			    recordItemIsuploaded.setText(isuploaded);
+		        
 			    
 			    String instruction = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_INSTRUCTION));
-			    try
-		        {
-			    	
-				    recordItemIntro.setText(instruction);
-		        }
-		        catch (Exception e) 
-		        {
-		            Log.w(LOGTAG + ".Adapter", "fillRecordItem() setting intro textviews throws error:" + e.getMessage());
-		        }
+			    recordItemIntro.setText(instruction);
+		        
 			    
 			    String comment = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_COMMENT));
-			    try
-		        {
-			    	
-				    recordItemComment.setText(comment);
-		        }
-		        catch (Exception e) 
-		        {
-		            Log.w(LOGTAG + ".Adapter", "fillRecordItem() setting comment textviews throws error:" + e.getMessage());
-		        }
+			    recordItemComment.setText(comment);
+		        
 			    
 			    String prompt = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_PROMPT));
-			    try
-		        {
-			    	
-				    recordItemPrompt.setText(prompt);
-		        }
-		        catch (Exception e) 
-		        {
-		            Log.w(LOGTAG + ".Adapter", "fillRecordItem() setting prompt textviews throws error:" + e.getMessage());
-		        }
+			    recordItemPrompt.setText(prompt);
+		        
 			    
-			    
-			    
-			    
-			    
-			    
-			    	final String recFilepath = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_FILEPATH));
+		    	final String recFilepath = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_FILEPATH));
 
-				    bPlayrecord = (Button) view.findViewById(R.id.recorditem_button_play_record);
-				    bPlayrecord.setOnClickListener(
-				    	new OnClickListener() 
-					    {
-							
-							@Override
-							public void onClick(View v) 
-							{
-								// play the record
-								try {
-									Utils.playRecord(thisAct, recFilepath);
-								} catch (ActivityNotFoundException e) {
-									Log.w(LOGTAG, 
-											"Utils.playRecord() throws Exceptions " + e.getMessage());
-								}
+			    bPlayrecord = (Button) view.findViewById(R.id.recorditem_button_play_record);
+			    bPlayrecord.setOnClickListener(
+			    	new OnClickListener() 
+				    {
+						@Override
+						public void onClick(View v) 
+						{
+							// play the record
+							try {
+								Utils.playRecord(thisAct, recFilepath);
+							} catch (ActivityNotFoundException e) {
+								Log.w(LOGTAG, 
+										"Utils.playRecord() throws Exceptions " + e.getMessage());
 							}
-						});
+						}
+					});
 			    
 			    
 			    
@@ -848,13 +800,11 @@ public class TestActivitySessionDetails extends Activity
 					
 					itemView = (LinearLayout) (convertView == null
 								? LayoutInflater
-										.from(context)
-										.inflate(R.layout.linearlayout_act_sessiondetails_recorditem, parent, false)
-										: convertView);
-					Log.w(LOGTAG + ".Adapter", 
-							"getView() created itemView=" + itemView);
+									.from(context)
+									.inflate(R.layout.linearlayout_act_sessiondetails_recorditem, parent, false)
+								: convertView);
 					
-					if(cursor != null)
+					if(cursor != null && cursor.getCount() != 0)
 					{
 						try
 				        {
