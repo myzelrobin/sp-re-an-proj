@@ -818,10 +818,11 @@ public class TestActivitySessionDetails extends Activity
 					Log.w(LOGTAG + ".Adapter", 
 							"getView() will create SESSIONITEM at position=" + position);
 					
-					itemView = 
-							(LinearLayout) (convertView == null
-							? LayoutInflater.from(context).inflate(R.layout.linearlayout_activity_sessiondetails, parent, false)
-									: convertView);
+					itemView = (LinearLayout) (convertView == null
+								? LayoutInflater
+										.from(context)
+										.inflate(R.layout.linearlayout_activity_sessiondetails, parent, false)
+										: convertView);
 					
 			        try
 			        {
@@ -845,10 +846,14 @@ public class TestActivitySessionDetails extends Activity
 					Log.w(LOGTAG + ".Adapter", 
 							"getView() will create RECORDITEM at position=" + position);
 					
-					itemView = 
-							(LinearLayout) (convertView == null
-							? LayoutInflater.from(context).inflate(R.layout.linearlayout_act_sessiondetails_recorditem, parent, false)
-									: convertView);
+					itemView = (LinearLayout) (convertView == null
+								? LayoutInflater
+										.from(context)
+										.inflate(R.layout.linearlayout_act_sessiondetails_recorditem, parent, false)
+										: convertView);
+					Log.w(LOGTAG + ".Adapter", 
+							"getView() created itemView=" + itemView);
+					
 					if(cursor != null)
 					{
 						try
