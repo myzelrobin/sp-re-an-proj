@@ -64,6 +64,7 @@ public class TestActivitySessionDetails extends Activity
 		
 		private String speakerIdForSession;
 		private String scriptIdForSession;
+		private boolean isSessionFinished;
 		
 		private CharSequence activity_title;
 		
@@ -88,8 +89,8 @@ public class TestActivitySessionDetails extends Activity
 	    private ArrayList<String> recordItemIdList;
 	    
 	    private Activity thisAct;
-	
-	    private int recItemsCount;
+
+	    private int recItemsCount = 0;
 	    
 	    private LocalAdapterForSessionDetails localAdapter;
 	    
@@ -131,16 +132,14 @@ public class TestActivitySessionDetails extends Activity
 	        setContentView(R.layout.gridviewlayout_test_act_sessiondetails);
 	        
 	        // create itemlist
-	        try 
+	        getSessionItemInfos(sessionItemId);
+			
+	        if(isSessionFinished) getRecordsIDsForSession(sessionItemId);
+	        else
 	        {
-				getIDsForSessionItem(sessionItemId);
-				getRecordsIDsForSession(sessionItemId);
-			} 
-	        catch (Exception e) 
-	        {
-				// TODO Auto-generated catch block
-				Log.w(LOGTAG, " getIDsForSessionItem() throws " + e.getMessage());
-			}
+	        	itemlist.add(0, "SESSION_ITEM");
+	        }
+			
 	        
 //	        itemlist = new ArrayList<String>();
 //
@@ -262,7 +261,7 @@ public class TestActivitySessionDetails extends Activity
 			     // actionbar buttons
 	        	case R.id.act_sessiondetails_button_start:
 	        		
-		        		Utils.toastTextToUser(this, "prepare recording");
+		        		// Utils.toastTextToUser(this, "prepare recording");
 		        		
 		        		Utils.ConstantVars.speakerItemIdForNewSession = speakerIdForSession;
 		        		Utils.ConstantVars.scriptItemIdForNewSession = scriptIdForSession;
@@ -272,8 +271,17 @@ public class TestActivitySessionDetails extends Activity
 		        				+ " and Utils.scriptID=" 
 		        				+ Utils.ConstantVars.scriptItemIdForNewSession);
 		        		
-		        		Intent newI = new Intent(this, ActivityPreRecording.class);
-		        		this.startActivity(newI);
+		        		if(isSessionFinished)
+		        		{
+		        			// start a new session
+		        			Intent newI = new Intent(this, ActivityPreRecording.class);
+			        		this.startActivity(newI);
+		        		}
+		        		else
+		        		{
+		        			// start current session from act 
+		        			Utils.toastTextToUser(this, "this session is not finished yet!");
+		        		}
 	        		break;
 	        	
 	        	case R.id.act_sessiondetails_button_upload:
@@ -312,18 +320,18 @@ public class TestActivitySessionDetails extends Activity
 
 
 		
-		private void getIDsForSessionItem(String sessionItemId)
+		private void getSessionItemInfos(String sessionItemId)
 		{
 			Log.w(LOGTAG, 
-					"getIDsForSessionItem() will query scriptIdForSession and"
-					+ " speakerIdForSession from table sessions"
+					"getSessionItemInfos() will query from table sessions"
 					+ " with sessionItemId=" + sessionItemId);
 			
 			// query from db
 	        String[] selectColumns = {
 	        		TableSessions.COLUMN_ID,
 					TableSessions.COLUMN_SCRIPT_ID,
-					TableSessions.COLUMN_SPEAKER_ID};
+					TableSessions.COLUMN_SPEAKER_ID,
+					TableSessions.COLUMN_IS_FINISHED};
 			
 	        String wherePart = "sessions._id=" + sessionItemId;
 	        
@@ -344,12 +352,16 @@ public class TestActivitySessionDetails extends Activity
 						cursor.getInt(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SPEAKER_ID));
 				speakerIdForSession = Integer.toString(speakerIdTemp);
 				
+				String isFinishedValue = 
+						cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_IS_FINISHED));
+				if(isFinishedValue.equals("finished")) isSessionFinished = true;
+				else isSessionFinished = false;
 				
 				Log.w(LOGTAG, 
-						"getIDsForSessionItem() find scriptIdForSession=" + scriptIdForSession);
+						"getSessionItemInfos() find scriptIdForSession=" + scriptIdForSession);
 				
 				Log.w(LOGTAG, 
-						"getIDsForSessionItem() find speakerIdForSession=" + speakerIdForSession);
+						"getSessionItemInfos() find speakerIdForSession=" + speakerIdForSession);
 			}
 			
 			
