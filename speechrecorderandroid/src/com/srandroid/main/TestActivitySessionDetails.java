@@ -85,8 +85,8 @@ public class TestActivitySessionDetails extends Activity
 //	    private TextView recordItemIsuploaded;
 //	    private Button bPlayrecord;
 	    
-	    private ArrayList<String> itemlist; // for adapter
-	    private ArrayList<String> recordItemIdList;
+	    private ArrayList<String> itemlist = new ArrayList<String> (); // for adapter
+	    private ArrayList<String> recordItemIdList = new ArrayList<String> ();
 	    
 	    private Activity thisAct;
 
@@ -399,14 +399,12 @@ public class TestActivitySessionDetails extends Activity
 				
 				recItemsCount = cursor.getCount();
 				
-				itemlist = new ArrayList<String> ();
 				itemlist.add(0, "SESSION_ITEM");
 				for(int i = 1; i < recItemsCount + 1; i++)
 				{
 					itemlist.add(i, "RECORD_ITEM");
 				}
 				
-				recordItemIdList = new ArrayList<String> ();
 				recordItemIdList.add(0, Integer.toString(-1));
 				for(int i = 1; i < recItemsCount + 1; i++)
 				{
