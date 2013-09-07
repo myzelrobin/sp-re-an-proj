@@ -63,7 +63,7 @@ public class ActivityRecording extends Activity
 
 	private boolean isTestRecroding;
 	
-	private Button bRecord;
+	// private Button bRecord;
 	private int isBRecordClicked = 0;
 	private Button bPlay;
 	private Button bNext;
@@ -74,7 +74,13 @@ public class ActivityRecording extends Activity
 	private TextView instrText;
 	private TextView promptText;
 	private ImageView promptImage;
-	private ImageView imageCircle1;
+	
+	private static int hInstrTextView = 100;
+	private static int hPromtTextView = 250;
+	
+	
+	
+	// private ImageView imageCircle1;
 	
 	private SrmRecorder srmRecorder;
 	
@@ -464,16 +470,15 @@ public class ActivityRecording extends Activity
 	
 	private void updateInstrAndPrompt(RecordItem recItem)
 	{
-		LinearLayout.LayoutParams whNew = new LinearLayout.LayoutParams(
+		LinearLayout.LayoutParams whNewPrompt = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.MATCH_PARENT, 
-				LinearLayout.LayoutParams.MATCH_PARENT);
+				hPromtTextView);
 		LinearLayout.LayoutParams whZero = new LinearLayout.LayoutParams(0, 0);
-		
 		
 		if(recItem.itemType == RecordItem.TYPE_TEXT)
 		{
 			promptImage.setLayoutParams(whZero);
-			promptText.setLayoutParams(whNew);
+			promptText.setLayoutParams(whNewPrompt);
 			
 			instrText.setText(recItem.recinstructions);
 			promptText.setText(recItem.recprompt);
@@ -481,7 +486,7 @@ public class ActivityRecording extends Activity
 		else if(recItem.itemType == RecordItem.TYPE_IMAGE)
 		{
 			promptText.setLayoutParams(whZero);
-			promptImage.setLayoutParams(whNew);
+			promptImage.setLayoutParams(whNewPrompt);
 			
 			instrText.setText(recItem.recinstructions);
 			
@@ -509,6 +514,32 @@ public class ActivityRecording extends Activity
 		
 	}
 	
+	
+	private void enlargePromptImage()
+	{
+		LinearLayout.LayoutParams whNewLarge = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.MATCH_PARENT, 
+				LinearLayout.LayoutParams.MATCH_PARENT);
+		LinearLayout.LayoutParams whZero = new LinearLayout.LayoutParams(0, 0);
+		
+		instrText.setLayoutParams(whZero);
+		promptImage.setLayoutParams(whNewLarge);
+	}
+	
+	private void shrinkPromptImage()
+	{
+		LinearLayout.LayoutParams whOriginInstr = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.MATCH_PARENT, 
+				hInstrTextView);
+		LinearLayout.LayoutParams whOriginPromt = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.MATCH_PARENT, 
+				hPromtTextView);
+		
+		instrText.setLayoutParams(whOriginInstr);
+		promptImage.setLayoutParams(whOriginPromt);
+	}
+	
+	
 	private void startTestRecording()
 	{
 		Log.w(ActivityRecording.class.getName(), "test recording, clicked record, start test recording");
@@ -529,8 +560,10 @@ public class ActivityRecording extends Activity
 		isBRecordClicked = 1;						
 		
 		// buttons
-//		bRecord.setText(getResources().getString(R.string.stop));
-//		bRecord.setEnabled(false);
+		// bRecord.setText(getResources().getString(R.string.stop));
+		// bRecord.setEnabled(false);
+		
+		imageButtonRecord.setImageDrawable(getResources().getDrawable(R.drawable.icon_circle_red));
 		imageButtonRecord.setEnabled(false);
 		
 		bPlay.setEnabled(false);
@@ -596,7 +629,7 @@ public class ActivityRecording extends Activity
 				// bRecord.setText(getResources().getString(R.string.record));
 				// bRecord.setEnabled(true);
 				
-		    	imageButtonRecord.setImageDrawable(getResources().getDrawable(R.drawable.icon_circle_red));
+		    	imageButtonRecord.setImageDrawable(getResources().getDrawable(R.drawable.icon_circle_grey));
 		    	imageButtonRecord.setEnabled(true);
 		    	
 				bPlay.setEnabled(true);
@@ -630,6 +663,7 @@ public class ActivityRecording extends Activity
 		// bRecord.setText(getResources().getString(R.string.stop));
 		// bRecord.setEnabled(false);
 		
+		imageButtonRecord.setImageDrawable(getResources().getDrawable(R.drawable.icon_circle_red));
     	imageButtonRecord.setEnabled(false);
 		
 		// change images
@@ -663,7 +697,10 @@ public class ActivityRecording extends Activity
 						         { 
 						        	// imageCircle1.setVisibility(View.INVISIBLE);
 						        	instrText.setVisibility(View.INVISIBLE);
+						        	
 						        	// enlarge prompt area
+						        	if(recItemsList.get(recItemIndex).itemType == RecordItem.TYPE_IMAGE)
+						        		enlargePromptImage();
 						         } 
 						    }, (Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay)) / 2);
 				         } 
@@ -715,6 +752,9 @@ public class ActivityRecording extends Activity
 			    	// imageCircle1.setVisibility(View.VISIBLE);
 			    	
 			    	// shrink prompt text
+					if(recItemsList.get(recItemIndex).itemType == RecordItem.TYPE_IMAGE)
+		        		shrinkPromptImage();
+					
 					instrText.setVisibility(View.VISIBLE);
 			    	
 			    	updateInstrAndPrompt(recItemsList.get(recItemIndex));
@@ -725,7 +765,7 @@ public class ActivityRecording extends Activity
 					// bRecord.setText(getResources().getString(R.string.record));
 					// bRecord.setEnabled(true);
 					
-					imageButtonRecord.setImageDrawable(getResources().getDrawable(R.drawable.icon_circle_red));
+					imageButtonRecord.setImageDrawable(getResources().getDrawable(R.drawable.icon_circle_grey));
 		     		imageButtonRecord.setEnabled(true);
 				}
 		    } 
