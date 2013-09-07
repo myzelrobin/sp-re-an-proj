@@ -214,7 +214,7 @@ public class ActivityPreRecording extends Activity
 //        				Utils.ConstantVars.recordItemListForNewSession);
 
         		
-	    		Utils.toastTextToUser(this, "start test recording");
+	    		// Utils.toastTextToUser(this, "start test recording");
 	    		
 	    		Intent newI = new Intent(this, ActivityRecording.class);
 	    		newI.putExtra("isTestRecording", true);

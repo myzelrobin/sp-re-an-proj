@@ -75,7 +75,7 @@ public class ActivityStartRecording extends Activity
 			@Override
 			public void onClick(View v) 
 			{
-				Utils.toastTextToUser(getApplicationContext(), "start recording");
+				// Uils.toastTextToUser(getApplicationContext(), "start recording");
 	    		
 	    		Intent newI = new Intent(thisAct, ActivityRecording.class);
 	    		newI.putExtra("isTestRecording", false);
