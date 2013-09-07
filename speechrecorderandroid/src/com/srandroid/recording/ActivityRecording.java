@@ -59,7 +59,7 @@ public class ActivityRecording extends Activity
 	implements OnClickListener
 {
 	
-	private static final String LOGTAG = ActivityRecording.class.getSimpleName();
+	private static final String LOGTAG = ActivityRecording.class.getName();
 
 	private boolean isTestRecroding;
 	
@@ -547,7 +547,7 @@ public class ActivityRecording extends Activity
 	         public void run() 
 	         { 
 	        	// imageCircle1.setImageResource(R.drawable.icon_circle_yellow);
-				imageButtonRecord.setBackground(getResources().getDrawable(R.drawable.icon_circle_yellow));
+				imageButtonRecord.setImageDrawable(getResources().getDrawable(R.drawable.icon_circle_yellow));
 	        	
 				Handler handler2 = new Handler(); 
 			    handler2.postDelayed(new Runnable() 
@@ -556,7 +556,7 @@ public class ActivityRecording extends Activity
 			         { 
 			        	// imageCircle1.setImageResource(R.drawable.icon_circle_green);
 						// bRecord.setEnabled(true);
-			        	imageButtonRecord.setBackground(getResources().getDrawable(R.drawable.icon_circle_green));
+			        	imageButtonRecord.setImageDrawable(getResources().getDrawable(R.drawable.icon_circle_green));
 			        	imageButtonRecord.setEnabled(true); 
 			         } 
 			    }, (Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay)) / 2);
@@ -596,7 +596,7 @@ public class ActivityRecording extends Activity
 				// bRecord.setText(getResources().getString(R.string.record));
 				// bRecord.setEnabled(true);
 				
-		    	imageButtonRecord.setBackground(getResources().getDrawable(R.drawable.icon_circle_red));
+		    	imageButtonRecord.setImageDrawable(getResources().getDrawable(R.drawable.icon_circle_red));
 		    	imageButtonRecord.setEnabled(true);
 		    	
 				bPlay.setEnabled(true);
@@ -643,7 +643,7 @@ public class ActivityRecording extends Activity
 		         { 
 		        	// imageCircle1.setImageResource(R.drawable.icon_circle_yellow);
 
-		     		imageButtonRecord.setBackground(getResources().getDrawable(R.drawable.icon_circle_yellow));
+		     		imageButtonRecord.setImageDrawable(getResources().getDrawable(R.drawable.icon_circle_yellow));
 		        	 
 					Handler handler2 = new Handler(); 
 				    handler2.postDelayed(new Runnable() 
@@ -653,7 +653,7 @@ public class ActivityRecording extends Activity
 				        	// imageCircle1.setImageResource(R.drawable.icon_circle_green);
 							// bRecord.setEnabled(true);
 							
-				     		imageButtonRecord.setBackground(getResources().getDrawable(R.drawable.icon_circle_green));
+				     		imageButtonRecord.setImageDrawable(getResources().getDrawable(R.drawable.icon_circle_green));
 				     		imageButtonRecord.setEnabled(true);
 				     		
 							Handler handler3 = new Handler(); 
@@ -725,7 +725,7 @@ public class ActivityRecording extends Activity
 					// bRecord.setText(getResources().getString(R.string.record));
 					// bRecord.setEnabled(true);
 					
-					imageButtonRecord.setBackground(getResources().getDrawable(R.drawable.icon_circle_red));
+					imageButtonRecord.setImageDrawable(getResources().getDrawable(R.drawable.icon_circle_red));
 		     		imageButtonRecord.setEnabled(true);
 				}
 		    } 

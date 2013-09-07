@@ -86,7 +86,9 @@
 					        android:id="@+id/act_recording_imagebutton_record"
 					        android:layout_width="60dp"
 					        android:layout_height="60dp"
-					        android:background="@drawable/icon_circle_red" />
+					        android:scaleType="fitXY"
+					        android:background="@drawable/icon_circle_grey" 
+					        android:src="@drawable/icon_circle_red" />
                 </LinearLayout>
                 
                 <Button
