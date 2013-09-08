@@ -268,7 +268,7 @@
         
         <!-- activity PreRecording -->
         <string name="act_prerecording_title">Prepare Recording</string>
-        <string name="act_prerecoring_button_test_text">Test</string>
+        <string name="act_prerecoring_button_test_text">START TEST</string>
         
         <!-- activity StartRecording -->
         <string name="act_startrecording_title">Welcome</string>

@@ -277,13 +277,14 @@ public class ActivityMain extends Activity {
         // If the navigation drawer is open, hide action items related to the content view
         boolean isDrawerOpen = drawerlayout_in_activitymain.isDrawerOpen(listview_drawer_items);
         
-        // menu.findItem(R.id.button_search).setEnabled(!drawerOpen);
         menu.setGroupVisible(R.id.bgroup_overflow, !isDrawerOpen);
         
         //show different buttons for different fragments
+        // menu.findItem(R.id.button_search).setEnabled(!drawerOpen);
+        
         CharSequence title = getActionBar().getTitle();
         int index = Arrays.asList(array_drawer_items).indexOf(title);
-        Log.w(this.getClass().getName(), "onPrepareOptionsMenu: title=" + title + " index=" + index);
+        Log.w(this.getClass().getName(), "onPrepareOptionsMenu(): title=" + title + " index=" + index);
 		switch(index)
 		{
 			case Utils.ConstantVars.POS_SESSIONS:

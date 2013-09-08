@@ -23,6 +23,7 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.text.TextUtils;
 import android.text.format.Time;
 import android.util.Log;
@@ -43,6 +44,7 @@ public class ActivityPreRecording extends Activity
 {
 	//private String itemId = null;
 	
+	private static final String LOGTAG = ActivityPreRecording.class.getName();
 	
 	private GridView gridView;
 	
@@ -52,15 +54,15 @@ public class ActivityPreRecording extends Activity
 	private TextView accent;
 	private TextView sex;
 	private TextView birthday;
-	private TextView sessions1;
-	private TextView scripts1;
+	private TextView sessionsListSpeaker;
+	private TextView scriptsListSpeaker;
 	
 	
 	// script item
 	private TextView scriptid;
 	private TextView scriptdesc;
-	private TextView sessions2;
-	private TextView speakers2;
+	private TextView sessionsListScript;
+	private TextView speakersListScript;
 	
 
 	/**
@@ -89,7 +91,7 @@ public class ActivityPreRecording extends Activity
         	//itemId = savedInstanceState.getString("itemId");
         }
         
-        Log.w(this.getClass().getName(), "start creating");
+        Log.w(LOGTAG, "start creating");
         
         setContentView(R.layout.gridviewlayout_act_prerecording);
         
@@ -100,8 +102,12 @@ public class ActivityPreRecording extends Activity
         
         gridView.setAdapter(new LocalAdapterForActPreRec(this, itemlist));
         
-        
         gridView.setClickable(false);
+        
+        
+        // enable home button
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
         
 	}
 	
@@ -177,6 +183,7 @@ public class ActivityPreRecording extends Activity
 	@Override
     public boolean onPrepareOptionsMenu(Menu menu) 
 	{
+		menu.setGroupVisible(R.id.bgroup_overflow_empty, true);
 		menu.setGroupVisible(R.id.bgroup_prerecording, true);
         return super.onPrepareOptionsMenu(menu);
     }
@@ -190,38 +197,43 @@ public class ActivityPreRecording extends Activity
        
         switch (item.getItemId()) 
         {
-		     // actionbar buttons
+        
+	        case android.R.id.home:
+		        NavUtils.navigateUpFromSameTask(this);
+		        return true;
+        
+		    // actionbar buttons
         	case R.id.act_prerecording_button_test:
-        		
-        		// insert new session
-        		Uri uriNewSessionitem = insertNewSession();
-        		
-        		Log.w(this.getClass().getName(), "inserted new session item:" + uriNewSessionitem);
-        		
-        		Utils.ConstantVars.sessionItemIdForNewSession = 
-        				uriNewSessionitem.getLastPathSegment();
-        		
-        		Log.w(this.getClass().getName(), "new session item id=" 
-        				+ Utils.ConstantVars.sessionItemIdForNewSession);
-        		
-        		// insert new sections, XMLPullParser has bugs! 
-        		// Use fake ScriptItem and List<RecordItem> in Utils
-        		Utils.prepareItemsForNewSessions();
-        		
-        		
-//        		Utils.parseScript(Utils.ConstantVars.exampleScriptFilepath, 
-//        				Utils.ConstantVars.scriptItemForNewSession, 
-//        				Utils.ConstantVars.recordItemListForNewSession);
-
-        		
-	    		// Utils.toastTextToUser(this, "start test recording");
-	    		
-	    		Intent newI = new Intent(this, ActivityRecording.class);
-	    		newI.putExtra("isTestRecording", true);
-	    		
-	        	this.startActivity(newI);
+	        	
+		    		// insert new session
+		    		Uri uriNewSessionitem = insertNewSession();
+		    		
+		    		Log.w(LOGTAG, "inserted new session item:" + uriNewSessionitem);
+		    		
+		    		Utils.ConstantVars.sessionItemIdForNewSession = 
+		    				uriNewSessionitem.getLastPathSegment();
+		    		
+		    		Log.w(LOGTAG, "Utils: new session item id=" 
+		    				+ Utils.ConstantVars.sessionItemIdForNewSession);
+		    		
+		    		// insert new sections, scriptXMLParser has bugs! 
+		    		// Use fake ScriptItem and List<RecordItem> in Utils
+		    		Utils.prepareItemsForNewSessions();
+		    		
+				
+//		        	Utils.parseScript(Utils.ConstantVars.exampleScriptFilepath, 
+//		        				Utils.ConstantVars.scriptItemForNewSession, 
+//		        				Utils.ConstantVars.recordItemListForNewSession);
+		
+		    		
+		    		// Utils.toastTextToUser(this, "start test recording");
+		    		
+		    		Intent newI = new Intent(this, ActivityRecording.class);
+		    		newI.putExtra("isTestRecording", true);
+		    		
+		        	this.startActivity(newI);
 	        		
-        		break;
+	    		break;
         	
         	default:
         		break;
@@ -253,7 +265,6 @@ public class ActivityPreRecording extends Activity
 	    getActionBar().setTitle(title);
 	}
 	
-	
 	private Uri insertNewSession() 
 	{
 		ContentValues values = new ContentValues();
@@ -276,17 +287,18 @@ public class ActivityPreRecording extends Activity
         accent = (TextView) view.findViewById(R.id.activity_speakerdetails_accent_textvalue);
         sex = (TextView) view.findViewById(R.id.activity_speakerdetails_sex_textvalue);
         birthday = (TextView) view.findViewById(R.id.activity_speakerdetails_birthday_textvalue);
-        sessions1 = (TextView) view.findViewById(R.id.activity_speakerdetails_sessions_textvalue);
-        scripts1 = (TextView) view.findViewById(R.id.activity_speakerdetails_scripts_textvalue);
+        sessionsListSpeaker = (TextView) view.findViewById(R.id.activity_speakerdetails_sessions_textvalue);
+        scriptsListSpeaker = (TextView) view.findViewById(R.id.activity_speakerdetails_scripts_textvalue);
 
 		// query from db
-		String[] selectColumns = {
-				TableSpeakers.COLUMN_FIRSTNAME,
-				TableSpeakers.COLUMN_SURNAME,
-				TableSpeakers.COLUMN_ACCENT,
-				TableSpeakers.COLUMN_SEX,
-				TableSpeakers.COLUMN_BIRTHDAY,
-				TableSessions.COLUMN_SCRIPT_ID,
+		String[] selectColumns = 
+		{
+			TableSpeakers.COLUMN_FIRSTNAME,
+			TableSpeakers.COLUMN_SURNAME,
+			TableSpeakers.COLUMN_ACCENT,
+			TableSpeakers.COLUMN_SEX,
+			TableSpeakers.COLUMN_BIRTHDAY,
+			TableSessions.COLUMN_SCRIPT_ID,
 		};
 		
 		String wherePart = "speaker_key_id=" + Utils.ConstantVars.speakerItemIdForNewSession;
@@ -326,8 +338,8 @@ public class ActivityPreRecording extends Activity
 				if(!scriptlist.contains(s2)) scriptlist.add(s2);
 				cursor.moveToNext();
 			}
-			if(!(sessionlist.toString().contains("null"))) sessions1.setText(TextUtils.join(", ", sessionlist));
-			if(!(scriptlist.toString().contains("null")))  scripts1.setText(TextUtils.join(", ", scriptlist));
+			if(!(sessionlist.toString().contains("null"))) sessionsListSpeaker.setText(TextUtils.join(", ", sessionlist));
+			if(!(scriptlist.toString().contains("null")))  scriptsListSpeaker.setText(TextUtils.join(", ", scriptlist));
 			
 		}
         
@@ -339,8 +351,8 @@ public class ActivityPreRecording extends Activity
 
 		scriptid = (TextView) view.findViewById(R.id.activity_scriptdetails_scriptid_textvalue);
         scriptdesc = (TextView) view.findViewById(R.id.activity_scriptdetails_desc_textvalue);
-        sessions2 = (TextView) view.findViewById(R.id.activity_scriptdetails_sessions_textvalue);
-        speakers2 = (TextView) view.findViewById(R.id.activity_scriptdetails_speakers_textvalue);
+        sessionsListScript = (TextView) view.findViewById(R.id.activity_scriptdetails_sessions_textvalue);
+        speakersListScript = (TextView) view.findViewById(R.id.activity_scriptdetails_speakers_textvalue);
         
 		// query from db
 		String[] selectColumns = {
@@ -379,8 +391,8 @@ public class ActivityPreRecording extends Activity
 				
 				cursor.moveToNext();
 			}
-			if(!(sessionlist.toString().contains("null"))) sessions2.setText(TextUtils.join(", ", sessionlist));
-			if(!(speakerlist.toString().contains("null"))) speakers2.setText(TextUtils.join(", ", speakerlist));
+			if(!(sessionlist.toString().contains("null"))) sessionsListScript.setText(TextUtils.join(", ", sessionlist));
+			if(!(speakerlist.toString().contains("null"))) speakersListScript.setText(TextUtils.join(", ", speakerlist));
 			
 		}
         

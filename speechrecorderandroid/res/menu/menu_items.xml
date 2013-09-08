@@ -18,6 +18,12 @@
     
     </group>
     
+    <group 
+        android:id="@+id/bgroup_overflow_empty"    
+        android:visible="false" >
+    
+    </group>
+    
     
     <!-- Buttons in Actionbar for Fragments, not shown when ActivityMain is created,
             only shown when the Fragment is created -->

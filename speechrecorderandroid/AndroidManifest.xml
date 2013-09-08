@@ -89,7 +89,11 @@
         
         <activity 
             android:name="com.srandroid.recording.ActivityPreRecording"
-            android:label="@string/act_prerecording_title" >
+            android:label="@string/act_prerecording_title" 
+            android:parentActivityName="com.srandroid.main.ActivityMain" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.srandroid.main.ActivityMain" />
         </activity>
         
         

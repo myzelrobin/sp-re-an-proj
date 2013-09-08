@@ -152,9 +152,12 @@ public class ActivitySpeakerDetails extends Activity
 			}
 	        
 	        cursor.close();
+	        
+	        
 	        // enable home button
 	        getActionBar().setDisplayHomeAsUpEnabled(true);
 	        getActionBar().setHomeButtonEnabled(true);
+	        
 	    }
 		
 
@@ -222,7 +225,6 @@ public class ActivitySpeakerDetails extends Activity
 		
 		/**
 		 * Called whenever we call invalidateOptionsMenu()
-		 * Updates the menu items in action bar when the "drawer items" is closed
 		 * 
 		 * @param menu
 		 * @return
