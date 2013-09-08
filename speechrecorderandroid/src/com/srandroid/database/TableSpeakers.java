@@ -73,19 +73,24 @@ public class TableSpeakers
 	{
 		Log.w(TableSpeakers.class.getName(), "insertSpeakerExamples() will insert examples");
 		ContentValues values = new ContentValues(); 
-
-		for(int i = 1; i < 11; i++)
+		
+		String[] firstnames = {
+			"Noname", "Avocado", "Brownie", "Caviar", "Eggplant", "Gingerbread" 
+		};
+		
+		String[] surnames = {
+			"Noname", "Zucchini", "Yogurt", "Waffle", "Vanilla", "Tofu"
+		};
+		
+		for(int i = 1; i < 6; i++)
 		{
-			values.put(COLUMN_FIRSTNAME, "Test");
-			values.put(COLUMN_SURNAME, "Exp" + "#" + i);
+			values.put(COLUMN_FIRSTNAME, firstnames[i]);
+			values.put(COLUMN_SURNAME, surnames[i]);
 			if( i%2 == 0) values.put(COLUMN_SEX, "male");
 			else values.put(COLUMN_SEX, "female");
 			values.put(COLUMN_ACCENT, "bayerisch");
 			db.insert(TABLE_SPEAKERS, null, values);
-			
-			
 		}
-		
 		
 	}
 	
