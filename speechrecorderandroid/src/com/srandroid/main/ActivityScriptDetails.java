@@ -7,11 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.text.TextUtils;
@@ -19,11 +17,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Spinner;
 
 import com.srandroid.recording.ActivityPreRecording;
 import com.srandroid.speechrecorder.R;
-import com.srandroid.database.SrmContentProvider;
 import com.srandroid.database.TableScripts;
 import com.srandroid.database.SrmContentProvider.SrmUriMatcher;
 import com.srandroid.database.TableScripts.ScriptItem;
@@ -39,20 +35,16 @@ public class ActivityScriptDetails extends Activity
 	
 	private static final String LOGTAG = ActivityScriptDetails.class.getName();
 	
-		// state
-		public static final String ITEM_URI = "ITEM_URI";
-		private String scriptItemId = null;
-		
-		
-		private CharSequence activity_title = null;
-		
-		private ScriptItem scriptItem =  new ScriptItem();
-		
-		
-		private TextView scriptid = null;
-		private TextView scriptdesc = null;
-		private TextView sessionsList = null;
-		private TextView speakersList = null;
+	// state
+	public static final String ITEM_URI = "ITEM_URI";
+	private String scriptItemId = null;
+	
+	
+	
+	private TextView scriptid = null;
+	private TextView scriptdesc = null;
+	private TextView sessionsList = null;
+	private TextView speakersList = null;
 	
 	/**
 	 * 
@@ -303,6 +295,8 @@ public class ActivityScriptDetails extends Activity
 			Log.w(LOGTAG, "querySpeakerName() will find speaker name with id=" 
 					+ speakerItemId);
 			
+			String name = "no name";
+			
 			// query from db
 			String[] selectColumns = {
 					TableSpeakers.COLUMN_ID,
@@ -315,13 +309,22 @@ public class ActivityScriptDetails extends Activity
 			Cursor cursor = getContentResolver().query(
 					SrmUriMatcher.CONTENT_URI_TABLE_SPEAKERS, 
 					selectColumns, wherePart, null, null);
-			
-			String firstname = cursor.getString(
-					cursor.getColumnIndexOrThrow(TableSpeakers.COLUMN_FIRSTNAME));
-			String surname = cursor.getString(
-					cursor.getColumnIndexOrThrow(TableSpeakers.COLUMN_SURNAME));
-			
-			return firstname + " " + surname;
+			 if (cursor != null && cursor.getCount()!=0) 
+			{
+		        
+				cursor.moveToFirst();
+				
+				String firstname = cursor.getString(
+						cursor.getColumnIndexOrThrow(TableSpeakers.COLUMN_FIRSTNAME));
+				String surname = cursor.getString(
+						cursor.getColumnIndexOrThrow(TableSpeakers.COLUMN_SURNAME));
+				
+				name = firstname + " " + surname;
+			}
+		        
+		    cursor.close();
+					
+			return name;
 		}
 
 
