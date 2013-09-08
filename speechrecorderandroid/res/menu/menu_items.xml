@@ -154,7 +154,6 @@
             android:showAsAction="always"
             android:title="@string/act_prerecoring_button_test_text" />
         
-        
     </group>
     
     

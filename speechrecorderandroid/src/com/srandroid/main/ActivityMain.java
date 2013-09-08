@@ -144,7 +144,10 @@ public class ActivityMain extends Activity {
 		setContentView(R.layout.drawerlayout_in_activitymain);
 		
 		activity_title = title_drawer_items = getTitle();
-				
+		
+		// Pop up hint at the left side
+        toastSwipeHint();
+		
 		// Creates drawer
 		array_drawer_items = getResources().getStringArray(R.array.array_drawer_items);
         listview_drawer_items = (ListView) findViewById(R.id.listview_drawer_items);
@@ -191,8 +194,6 @@ public class ActivityMain extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
         
-        // Pop up hint at the left side
-        toastSwipeHint();
 	}
 	
 
@@ -415,7 +416,7 @@ public class ActivityMain extends Activity {
 
 		Toast toast = new Toast(getApplicationContext());
 		toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT, 0, 0);
-		toast.setDuration(Toast.LENGTH_LONG * 3);
+		toast.setDuration(Toast.LENGTH_LONG);
 		toast.setView(layout);
 		toast.show();
 	}
