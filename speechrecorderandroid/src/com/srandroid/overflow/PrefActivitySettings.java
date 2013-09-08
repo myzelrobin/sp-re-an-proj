@@ -6,8 +6,11 @@ package com.srandroid.overflow;
 import com.srandroid.speechrecorder.R;
 import com.srandroid.util.Utils;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.PreferenceActivity;
@@ -15,8 +18,11 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.support.v4.app.NavUtils;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 /**
  * Activity settings
@@ -24,7 +30,7 @@ import android.view.MenuItem;
  */
 public class PrefActivitySettings extends PreferenceActivity 
 {
-	
+	private static final String LOGTAG = PrefActivitySettings.class.getName();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -75,6 +81,7 @@ public class PrefActivitySettings extends PreferenceActivity
 		extends PreferenceFragment 
 		implements OnSharedPreferenceChangeListener
     {
+		
 		private CheckBoxPreference overwriteCheckBox;
 		
         @Override
@@ -83,7 +90,9 @@ public class PrefActivitySettings extends PreferenceActivity
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.preference_settings);
             
-            getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+            getPreferenceManager()
+            	.getSharedPreferences()
+            	.registerOnSharedPreferenceChangeListener(this);
             
         }
         
@@ -91,7 +100,9 @@ public class PrefActivitySettings extends PreferenceActivity
     	public void onDestroy() 
     	{
     	    super.onDestroy();
-    	    getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+    	    getPreferenceManager()
+    	    	.getSharedPreferences()
+    	    	.unregisterOnSharedPreferenceChangeListener(this);
     	}
     	/**
     	 * handles changes of the settings
@@ -102,9 +113,10 @@ public class PrefActivitySettings extends PreferenceActivity
     		// TODO Auto-generated method stub
     		if(key.equals(Utils.ConstantVars.KEY_LANGUAGE))
     		{
-    			Utils.ConstantVars.setLANGUAGE(sharedPreferences.getString(Utils.ConstantVars.KEY_LANGUAGE, 
+    			Utils.ConstantVars
+    				.setLANGUAGE(sharedPreferences.getString(Utils.ConstantVars.KEY_LANGUAGE, 
     							Utils.ConstantVars.KEY_LANGUAGE_DEF));
-    			Log.w(this.getClass().getName(), "changed language");
+    			Log.w(LOGTAG, "changed language");
     			Utils.toastDebuggingText(getActivity(), 
     					"changed language to " + 
     					sharedPreferences.getString(Utils.ConstantVars.KEY_LANGUAGE, 
@@ -112,9 +124,10 @@ public class PrefActivitySettings extends PreferenceActivity
     		}
     		if(key.equals(Utils.ConstantVars.KEY_MICVOL))
     		{
-    			Utils.ConstantVars.setMICVOL(sharedPreferences.getString(Utils.ConstantVars.KEY_MICVOL, 
+    			Utils.ConstantVars
+    				.setMICVOL(sharedPreferences.getString(Utils.ConstantVars.KEY_MICVOL, 
     							Utils.ConstantVars.KEY_MICVOL_DEF));
-    			Log.w(this.getClass().getName(), "changed microphone");
+    			Log.w(LOGTAG, "changed microphone");
     			Utils.toastDebuggingText(getActivity(), 
     					"changed microphone to " 
     					+ sharedPreferences.getString(Utils.ConstantVars.KEY_MICVOL, 
@@ -124,7 +137,7 @@ public class PrefActivitySettings extends PreferenceActivity
     		{
     			Utils.ConstantVars.setSAMPLE_RATE(sharedPreferences.getString(Utils.ConstantVars.KEY_SAMPLE_RATE, 
     							Utils.ConstantVars.KEY_SAMPLE_RATE_DEF));
-    			Log.w(this.getClass().getName(), "changed recording_values->sample_rate");
+    			Log.w(LOGTAG, "changed recording_values->sample_rate");
     			Utils.toastDebuggingText(getActivity(), 
     					"changed recording_value->sample_rate to " 
     					+ sharedPreferences.getString(Utils.ConstantVars.KEY_SAMPLE_RATE, 
@@ -134,7 +147,7 @@ public class PrefActivitySettings extends PreferenceActivity
     		{
     			Utils.ConstantVars.setCHANNELS(sharedPreferences.getString(Utils.ConstantVars.KEY_CHANNELS, 
     							Utils.ConstantVars.KEY_CHANNELS_DEF));
-    			Log.w(this.getClass().getName(), "changed recording_values->channels");
+    			Log.w(LOGTAG, "changed recording_values->channels");
     			Utils.toastDebuggingText(getActivity(), 
     					"changed recording_value->channels to " 
     					+ sharedPreferences.getString(Utils.ConstantVars.KEY_CHANNELS, 
@@ -144,7 +157,7 @@ public class PrefActivitySettings extends PreferenceActivity
     		{
     			Utils.ConstantVars.setALLOW_OVERWRITE(sharedPreferences.getBoolean(Utils.ConstantVars.KEY_OVERWRITE, 
     					true));
-    			Log.w(this.getClass().getName(), "changed recording_values->overwrite");
+    			Log.w(LOGTAG, "changed recording_values->overwrite");
     			Utils.toastDebuggingText(getActivity(), 
     					"changed recording_value->overwrite to " 
     					+ sharedPreferences.getBoolean(Utils.ConstantVars.KEY_OVERWRITE, true));
@@ -153,19 +166,14 @@ public class PrefActivitySettings extends PreferenceActivity
     		{
     			Utils.ConstantVars.setALLOW_OVERWRITE_WARNING(sharedPreferences.getBoolean(Utils.ConstantVars.KEY_OVERWRITE_WARNING, 
     					true));
-    			Log.w(this.getClass().getName(), "changed recording_values->overwrite_warning");
+    			Log.w(LOGTAG, "changed recording_values->overwrite_warning");
     			Utils.toastDebuggingText(getActivity(), 
     					"changed recording_value->overwrite_warning to " 
     					+ sharedPreferences.getBoolean(Utils.ConstantVars.KEY_OVERWRITE_WARNING, true));
     		}
     	}
-
-        
+    	
     }
-
-
-
-
 	
 }
 

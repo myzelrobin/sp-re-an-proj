@@ -1,34 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    key="pref_screen" >
+<PreferenceScreen 
+xmlns:android="http://schemas.android.com/apk/res/android"
+key="pref_screen" >
 
-    <PreferenceCategory 
-        android:title="@string/settings_application" >
+    <com.srandroid.overflow.CustomizedPreferenceCategory 
+    android:title="@string/settings_application" >
         <ListPreference
-            android:title="@string/settings_language" 
-            android:summary="@string/settings_language_summary" 
-            android:dialogTitle="@string/settings_language"
-            android:entries="@array/language_items"
-            android:entryValues="@array/language_items_values"
-            android:key="@string/settings_lang_key"
-            android:defaultValue="@string/settings_lang_default" 
-            android:negativeButtonText="CANCEL"
-            android:positiveButtonText="DONE" 
-            android:persistent="true" />
-    </PreferenceCategory>
+        android:title="@string/settings_language" 
+        android:summary="@string/settings_language_summary" 
+        android:dialogTitle="@string/settings_language"
+        android:entries="@array/language_items"
+        android:entryValues="@array/language_items_values"
+        android:key="@string/settings_lang_key"
+        android:defaultValue="@string/settings_lang_default" 
+        android:negativeButtonText="CANCEL"
+        android:positiveButtonText="DONE" 
+        android:persistent="true" />
+    </com.srandroid.overflow.CustomizedPreferenceCategory >
     
-    <PreferenceCategory 
-        android:title="@string/settings_hardware" >
+    <com.srandroid.overflow.CustomizedPreferenceCategory  
+    android:title="@string/settings_hardware" >
             <com.srandroid.overflow.DialogSetMicrophoneVolume
-	            android:title="@string/settings_microphone"
-	            android:summary="@string/settings_microphone_summary" 
-	            android:key="@string/settings_mic_volume_key" 
-	            android:defaultValue="@string/settings_mic_volume_default" 
-	            android:persistent="true" />
-    </PreferenceCategory>
+	        android:title="@string/settings_microphone"
+	        android:summary="@string/settings_microphone_summary" 
+	        android:key="@string/settings_mic_volume_key" 
+	        android:defaultValue="@string/settings_mic_volume_default" 
+	        android:persistent="true" />
+    </com.srandroid.overflow.CustomizedPreferenceCategory >
     
-    <PreferenceCategory
-            android:title="@string/settings_recvalue" >
+    <com.srandroid.overflow.CustomizedPreferenceCategory 
+    android:title="@string/settings_recvalue" >
                 
                 <ListPreference
                     android:summary="@string/settings_sample_rate_summary"
@@ -68,6 +69,6 @@
                     android:defaultValue="true" 
                     android:persistent="true" />
                
-        </PreferenceCategory>
+        </com.srandroid.overflow.CustomizedPreferenceCategory >
         
 </PreferenceScreen>
