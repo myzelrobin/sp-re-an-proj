@@ -73,7 +73,7 @@ public class ActivityScriptDetails extends Activity
 
 			if (extras != null) 
 			{
-			    scriptItemId = extras.getString("scriptItemId");
+			    scriptItemId = extras.getString("itemId");
 			}
 			
 			// orientation changed
