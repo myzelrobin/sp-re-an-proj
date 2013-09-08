@@ -28,6 +28,7 @@ import com.srandroid.database.TableScripts;
 import com.srandroid.database.SrmContentProvider.SrmUriMatcher;
 import com.srandroid.database.TableScripts.ScriptItem;
 import com.srandroid.database.TableSessions;
+import com.srandroid.database.TableSpeakers;
 import com.srandroid.util.Utils;
 
 /**
@@ -35,9 +36,12 @@ import com.srandroid.util.Utils;
  */
 public class ActivityScriptDetails extends Activity
 {
-	// state
+	
+	private static final String LOGTAG = ActivityScriptDetails.class.getName();
+	
+		// state
 		public static final String ITEM_URI = "ITEM_URI";
-		private String itemId = null;
+		private String scriptItemId = null;
 		
 		
 		private CharSequence activity_title = null;
@@ -45,10 +49,10 @@ public class ActivityScriptDetails extends Activity
 		private ScriptItem scriptItem =  new ScriptItem();
 		
 		
-		TextView scriptid = null;
-	    TextView scriptdesc = null;
-	    TextView sessions = null;
-	    TextView speakers = null;
+		private TextView scriptid = null;
+		private TextView scriptdesc = null;
+		private TextView sessionsList = null;
+		private TextView speakersList = null;
 	
 	/**
 	 * 
@@ -69,74 +73,28 @@ public class ActivityScriptDetails extends Activity
 
 			if (extras != null) 
 			{
-			    itemId = extras.getString("itemId");
+			    scriptItemId = extras.getString("scriptItemId");
 			}
 			
 			// orientation changed
 	        if(savedInstanceState != null)
 	        {
-	        	itemId = savedInstanceState.getString("itemId");
+	        	scriptItemId = savedInstanceState.getString("scriptItemId");
 	        }
 	        
-	        Log.w(ActivityScriptDetails.class.getName(), "start creating, get itemId=" + itemId);
+	        Log.w(LOGTAG, "start creating script details, get scriptItemId=" + scriptItemId);
 	        
+	        Log.w(LOGTAG, " will create view of this activity.");
+			
+			setContentView(R.layout.linearlayout_activity_scriptdetails);
+			
+			scriptid = (TextView) findViewById(R.id.activity_scriptdetails_scriptid_textvalue);
+	        scriptdesc = (TextView) findViewById(R.id.activity_scriptdetails_desc_textvalue);
+	        sessionsList = (TextView) findViewById(R.id.activity_scriptdetails_sessions_textvalue);
+	        speakersList = (TextView) findViewById(R.id.activity_scriptdetails_speakers_textvalue);
 	        
-	        // query from db
-			String[] selectColumns = {
-					TableScripts.COLUMN_DESCRIPTION,
-					TableSessions.COLUMN_SCRIPT_ID,
-					TableSessions.COLUMN_SPEAKER_ID
-			};
-			
-			String wherePart = "script_key_id=" + itemId;
-			
-			Cursor cursor = getContentResolver().query(SrmUriMatcher.CONTENT_URI_TABLE_SCRIPTS_LOJ_SESSIONS, 
-					selectColumns, wherePart, null, null);
-			
-			
-			
-	        if (cursor != null && cursor.getCount()!=0) 
-			{
-				
-				Log.w(ActivityScriptDetails.class.getName(), " will create view of this activity.");
-				
-				setContentView(R.layout.linearlayout_activity_scriptdetails);
-				
-		        
-		        scriptid = (TextView) findViewById(R.id.activity_scriptdetails_scriptid_textvalue);
-		        scriptdesc = (TextView) findViewById(R.id.activity_scriptdetails_desc_textvalue);
-		        sessions = (TextView) findViewById(R.id.activity_scriptdetails_sessions_textvalue);
-		        speakers = (TextView) findViewById(R.id.activity_scriptdetails_speakers_textvalue);
-		        
-	        	
-				cursor.moveToFirst();
-				
-				String idText = cursor.getString(cursor.getColumnIndexOrThrow("script_key_id"));
-				itemId = idText;
-				scriptid.setText("Script #" + idText);
-				setTitle("Script #" + idText);
-				
-				scriptdesc.setText(cursor.getString(cursor.getColumnIndexOrThrow(TableScripts.COLUMN_DESCRIPTION)));
-				
-				List<String> sessionlist = new ArrayList<String>();
-				List<String> speakerlist = new ArrayList<String>();
-				
-				while(!cursor.isAfterLast())
-				{
-					String s1 = cursor.getString(cursor.getColumnIndexOrThrow("session_key_id"));
-					if(!sessionlist.contains(s1)) sessionlist.add(s1);
-					
-					String s2 = cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SPEAKER_ID));
-					if(!speakerlist.contains(s2)) speakerlist.add(s2);
-					
-					cursor.moveToNext();
-				}
-				if(!(sessionlist.toString().contains("null"))) sessions.setText(TextUtils.join(", ", sessionlist));
-				if(!(speakerlist.toString().contains("null"))) speakers.setText(TextUtils.join(", ", speakerlist));
-				
-			}
+	        fillScriptDetails();
 	        
-	        cursor.close();
 	        // enable home button
 	        getActionBar().setDisplayHomeAsUpEnabled(true);
 	        getActionBar().setHomeButtonEnabled(true);
@@ -240,7 +198,7 @@ public class ActivityScriptDetails extends Activity
 		        		// Utils.toastTextToUser(this, "start recording");
 	        		
 	        			// save script item to Utils
-	        			Utils.ConstantVars.scriptItemIdForNewSession = itemId;
+	        			Utils.ConstantVars.scriptItemIdForNewSession = scriptItemId;
 	        		
 		        		if(Utils.checkItemsForNewSession(this))
 		        		{
@@ -261,7 +219,7 @@ public class ActivityScriptDetails extends Activity
 		@Override
 		protected void onSaveInstanceState(Bundle savedInstanceState) 
 		{
-			savedInstanceState.putString("itemId", itemId);
+			savedInstanceState.putString("scriptItemId", scriptItemId);
 		    super.onSaveInstanceState(savedInstanceState);
 		}
 
@@ -282,6 +240,89 @@ public class ActivityScriptDetails extends Activity
 		    getActionBar().setTitle(title);
 		}
 
+		
+		private void fillScriptDetails()
+		{
+			Log.w(LOGTAG, "fillScriptDetails() will fill script details.");
+			
+	        // query from db
+			String[] selectColumns = {
+					TableScripts.COLUMN_DESCRIPTION,
+					TableSessions.COLUMN_SCRIPT_ID,
+					TableSessions.COLUMN_SPEAKER_ID
+			};
+			
+			String wherePart = "script_key_id=" + scriptItemId;
+			
+			Cursor cursor = getContentResolver().query(
+					SrmUriMatcher.CONTENT_URI_TABLE_SCRIPTS_LOJ_SESSIONS, 
+					selectColumns, wherePart, null, null);
+			
+	        if (cursor != null && cursor.getCount()!=0) 
+			{
+		        
+				cursor.moveToFirst();
+				
+				String idText = cursor.getString(cursor.getColumnIndexOrThrow("script_key_id"));
+				scriptItemId = idText;
+				scriptid.setText("Script #" + idText);
+				setTitle("Script #" + idText);
+				
+				scriptdesc.setText(cursor.getString(
+						cursor.getColumnIndexOrThrow(TableScripts.COLUMN_DESCRIPTION)));
+				
+				List<String> sessionsArraylist = new ArrayList<String>();
+				List<String> speakersArraylist = new ArrayList<String>();
+				
+				while(!cursor.isAfterLast())
+				{
+					String sessionItemId = cursor.getString(
+							cursor.getColumnIndexOrThrow("session_key_id"));
+					if(!sessionsArraylist.contains(sessionItemId)) 
+						sessionsArraylist.add(sessionItemId);
+					
+					String name = querySpeakerName(cursor.getString(
+							cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SPEAKER_ID)));
+					if(!speakersArraylist.contains(name)) 
+						speakersArraylist.add(name);
+					
+					cursor.moveToNext();
+				}
+				if(!(sessionsArraylist.toString().contains("null"))) 
+					sessionsList.setText(TextUtils.join(", ", sessionsArraylist));
+				if(!(speakersArraylist.toString().contains("null"))) 
+					speakersList.setText(TextUtils.join(", ", speakersArraylist));
+				
+			}
+	        
+	        cursor.close();
+		}
+		
+		private String querySpeakerName(String speakerItemId)
+		{
+			Log.w(LOGTAG, "querySpeakerName() will find speaker name with id=" 
+					+ speakerItemId);
+			
+			// query from db
+			String[] selectColumns = {
+					TableSpeakers.COLUMN_ID,
+					TableSpeakers.COLUMN_FIRSTNAME,
+					TableSpeakers.COLUMN_SURNAME
+			};
+			
+			String wherePart = "speakers._id=" + speakerItemId;
+			
+			Cursor cursor = getContentResolver().query(
+					SrmUriMatcher.CONTENT_URI_TABLE_SPEAKERS, 
+					selectColumns, wherePart, null, null);
+			
+			String firstname = cursor.getString(
+					cursor.getColumnIndexOrThrow(TableSpeakers.COLUMN_FIRSTNAME));
+			String surname = cursor.getString(
+					cursor.getColumnIndexOrThrow(TableSpeakers.COLUMN_SURNAME));
+			
+			return firstname + " " + surname;
+		}
 
 
 }
