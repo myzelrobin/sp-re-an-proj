@@ -98,8 +98,8 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:layout_marginLeft="20dp"
-                        android:text="@string/activity_scriptdetials_speakers_text2" 
-                        android:textSize="20sp"/>
+                        android:text="@string/activity_scriptdetials_speakers_text2"
+                        android:textSize="16sp"/>
                        
                 </LinearLayout>
         </LinearLayout>

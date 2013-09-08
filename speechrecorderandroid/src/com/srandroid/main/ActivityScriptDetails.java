@@ -283,7 +283,7 @@ public class ActivityScriptDetails extends Activity
 				if(!(sessionsArraylist.toString().contains("null"))) 
 					sessionsList.setText(TextUtils.join(", ", sessionsArraylist));
 				if(!(speakersArraylist.toString().contains("null"))) 
-					speakersList.setText(TextUtils.join(", ", speakersArraylist));
+					speakersList.setText(TextUtils.join(",\n", speakersArraylist));
 				
 			}
 	        
@@ -309,9 +309,8 @@ public class ActivityScriptDetails extends Activity
 			Cursor cursor = getContentResolver().query(
 					SrmUriMatcher.CONTENT_URI_TABLE_SPEAKERS, 
 					selectColumns, wherePart, null, null);
-			 if (cursor != null && cursor.getCount()!=0) 
+			if (cursor != null && cursor.getCount()!=0) 
 			{
-		        
 				cursor.moveToFirst();
 				
 				String firstname = cursor.getString(
