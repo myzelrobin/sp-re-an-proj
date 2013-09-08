@@ -54,13 +54,12 @@ import android.support.v4.widget.StaggeredGridView.LayoutParams;
  */
 public class TestActivitySessionDetails extends Activity
 {
+		// log
+		private final static String LOGTAG = TestActivitySessionDetails.class.getName();
+		
 		// state
 		public static final String ITEM_URI = "ITEM_URI";
 		private String sessionItemId = null;
-		
-		
-		// log
-		private final static String LOGTAG = TestActivitySessionDetails.class.getName();
 		
 		private String speakerIdForSession;
 		private String scriptIdForSession;
