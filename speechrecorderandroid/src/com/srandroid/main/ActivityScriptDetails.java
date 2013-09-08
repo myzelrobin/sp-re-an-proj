@@ -295,7 +295,7 @@ public class ActivityScriptDetails extends Activity
 			Log.w(LOGTAG, "querySpeakerName() will find speaker name with id=" 
 					+ speakerItemId);
 			
-			String name = "no name";
+			String name = null;
 			
 			// query from db
 			String[] selectColumns = {
