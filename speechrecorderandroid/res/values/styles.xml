@@ -115,7 +115,7 @@
 	<style name="Widget.ProgressBar">
 	  <item name="android:indeterminateOnly">true</item>
 	  <item name="android:indeterminateBehavior">repeat</item>
-	  <item name="android:indeterminateDuration">3500</item>
+	  <item name="android:indeterminateDuration">4000</item>
 	  <item name="android:minWidth">48dp</item>
 	  <item name="android:maxWidth">48dp</item>
 	  <item name="android:minHeight">48dp</item>
