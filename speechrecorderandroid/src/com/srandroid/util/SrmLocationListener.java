@@ -180,7 +180,7 @@ public class SrmLocationListener extends Service implements LocationListener
 	             // First get location from Network Provider
 	             if (isNetworkEnabled) 
 	             {
-	            	 Log.w(LOGTAG, "getLocation(), network is enabled, will get GPS info from network");
+	            	 Log.w(LOGTAG, "getLocation(), network is enabled, will retrieve GPS info from network");
 	            	 
 	            	 locationManager.requestLocationUpdates(
 	         				LocationManager.NETWORK_PROVIDER, // type of location provider, GPS_PROVIDER
@@ -194,12 +194,13 @@ public class SrmLocationListener extends Service implements LocationListener
 	                             .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 	                     if (lastKnownLocation != null) 
 	                     {
-	                    	 Log.w(LOGTAG, "getLocation(), network is enabled, get location=" 
+	                    	 Log.w(LOGTAG, "getLocation(), network is enabled, retrieved location=" 
 	                    			 + getlocationString(lastKnownLocation));
 	                     }
 	                 }
 	             }
-	             else if (isGPSEnabled) // if GPS Enabled get lat/long using GPS Services
+	             
+	             if (isGPSEnabled) // if GPS Enabled get lat/long using GPS Services
 	             {
 	            	 Log.w(LOGTAG, "getLocation(), gps device is enabled, will get GPS info from gps device");
 	            	 
@@ -221,7 +222,7 @@ public class SrmLocationListener extends Service implements LocationListener
 		                    			 "Retreiving GPS info from gps device!\nThis takes a while, please wait until it is finished.", 
 		                    			 Toast.LENGTH_LONG * 3)
 		                    	 	.show();
-	                        	 Log.w(LOGTAG, "getLocation(), gps device is enabled, get location=" 
+	                        	 Log.w(LOGTAG, "getLocation(), gps device is enabled, retrieved location=" 
 		                    			 + getlocationString(lastKnownLocation));
 	                        	 
 	                         }
