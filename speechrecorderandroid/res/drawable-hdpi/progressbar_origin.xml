@@ -16,7 +16,7 @@
     <item android:id="@android:id/progress">
         <clip
         android:clipOrientation="vertical" 
-        android:gravity="center" >
+        android:gravity="bottom" >
             <shape>
                 <corners android:radius="8dp" />
                 <gradient
