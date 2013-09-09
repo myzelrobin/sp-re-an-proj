@@ -416,7 +416,7 @@ public class ActivityMain extends Activity {
 
 		Toast toast = new Toast(getApplicationContext());
 		toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT, 0, 0);
-		toast.setDuration(Toast.LENGTH_LONG / 2);
+		toast.setDuration(2000);
 		toast.setView(layout);
 		toast.show();
 	}

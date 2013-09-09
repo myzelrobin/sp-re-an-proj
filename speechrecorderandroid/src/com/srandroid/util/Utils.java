@@ -664,13 +664,13 @@ public class Utils
 	public static void toastDebuggingText(Context context, String s)
 	{
 		if(Utils.ConstantVars.canToastDebugText) 
-			Toast.makeText(context, s, 2 * Toast.LENGTH_LONG).show();
+			Toast.makeText(context, s, Toast.LENGTH_LONG).show();
 	}
 	
 	public static void toastTextToUser(Context context, String s)
 	{
 		if(Utils.ConstantVars.canToastTextToUser) 
-			Toast.makeText(context, s, 2 * Toast.LENGTH_LONG).show();
+			Toast.makeText(context, s, Toast.LENGTH_LONG).show();
 	}
 	
 	
