@@ -212,7 +212,7 @@ public class SrmLocationListener extends Service implements LocationListener
 	                             1000, 
 	                             this);
 	                     Toast.makeText(context, 
-	                			 "Retreiving GPS info from gps device!\nThis takes a while, please wait until it is finished.", 
+	                			 "Retreiving GPS info from gps device!", 
 	                			 Toast.LENGTH_LONG * 5)
 	                	 	.show();
 	                     
