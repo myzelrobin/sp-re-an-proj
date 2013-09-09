@@ -177,8 +177,8 @@ public class SrmLocationListener extends Service implements LocationListener
 	   	     {
 	             canGetLocation = true;
 	             
-	             // First get location from Network Provider
-	             if (isNetworkEnabled) 
+	             
+	             if (isNetworkEnabled) // First get location from Network Provider
 	             {
 	            	 Log.w(LOGTAG, "getLocation(), network is enabled, will retrieve GPS info from network");
 	            	 
@@ -213,7 +213,7 @@ public class SrmLocationListener extends Service implements LocationListener
 	                             this);
 	                     Toast.makeText(context, 
 	                			 "Retreiving GPS info from gps device!\nThis takes a while, please wait until it is finished.", 
-	                			 Toast.LENGTH_LONG * 3)
+	                			 Toast.LENGTH_LONG * 5)
 	                	 	.show();
 	                     
 	                     if (locationManager != null) 
