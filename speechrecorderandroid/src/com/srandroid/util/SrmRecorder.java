@@ -75,6 +75,8 @@ public class SrmRecorder
 	
 	// fields for DialogSetMicrophone
 	private DialogSetMicrophoneVolume dialog;
+	
+	private static final String LOGTAG = SrmRecorder.class.getName();
 
 	/**
 	 * Constructor for recording a item by the speaker
@@ -89,14 +91,14 @@ public class SrmRecorder
 		
 		if(dirPath == null)
 		{
-		   Log.w(this.getClass().getName(), 
+		   Log.w(LOGTAG, 
 				   "Folder to save audio file doese NOT exist, save audio file to " 
 						   + Utils.ConstantVars.TEST_MIC_DIR_EXT_PATH);
 		   dirPath = Utils.ConstantVars.TEST_MIC_DIR_EXT_PATH;
 		}
 		if(fileName == null)
 		{
-		   Log.w(this.getClass().getName(), 
+		   Log.w(LOGTAG, 
 				   "file name of this audio file is invalid, save audio file as unnamed_audio");
 		   fileName = "unnamed_audio";
 		}
@@ -115,14 +117,14 @@ public class SrmRecorder
 		
 		if(dirPath == null)
 		{
-		   Log.w(this.getClass().getName(), 
+		   Log.w(LOGTAG, 
 				   "Folder to save audio file doese NOT exist, save audio file to " 
 					+ Utils.ConstantVars.TEST_MIC_DIR_EXT_PATH);
 		   dirPath = Utils.ConstantVars.TEST_MIC_DIR_EXT_PATH;
 		}
 		if(fileName == null)
 		{
-		   Log.w(this.getClass().getName(), 
+		   Log.w(LOGTAG, 
 				   "file name of this audio file is invalid, save audio file as unnamed_audio");
 		   fileName = "unnamed_audio";
 		}
@@ -149,7 +151,7 @@ public class SrmRecorder
 		
 		if(minBufferSize < 0) 
 		{
-			Log.w(this.getClass().getName(), "bufferSize < 0, can not create AudioRecord object!");
+			Log.w(LOGTAG, "bufferSize < 0, can not create AudioRecord object!");
 			return;
 		}
 		
@@ -170,7 +172,7 @@ public class SrmRecorder
 				@Override
 				public void run() 
 				{
-					Log.w(this.getClass().getName(), "startRecording(): Thread recordingThread=" 
+					Log.w(LOGTAG, "startRecording(): Thread recordingThread=" 
 							+ recordingThread.getId()
 							+ " is started, will writeAudioDataToFile()" );
 					writeAudioDataToFile();
@@ -196,7 +198,7 @@ public class SrmRecorder
 			@Override
 			public void run() 
 			{
-				Log.w(this.getClass().getName(), "startTestMicrophone(): Thread recordingThread=" 
+				Log.w(LOGTAG, "startTestMicrophone(): Thread recordingThread=" 
 						+ recordingThread.getId()
 						+ " is started, will writeAudioDataToFile()");
 				writeAudioDataToFile();
@@ -211,18 +213,18 @@ public class SrmRecorder
 			@Override
 			public void run() 
 			{
-				Log.w(this.getClass().getName(), "startTestMicrophone(): Thread updadeProgressBarThread=" 
+				Log.w(LOGTAG, "startTestMicrophone(): Thread updadeProgressBarThread=" 
 						+ updadeProgressBarThread.getId()
 						+ " is started!" );
 				
 				try {
-					Log.w(this.getClass().getName(), "startTestMicrophone(): Thread updadeProgressBarThread=" 
+					Log.w(LOGTAG, "startTestMicrophone(): Thread updadeProgressBarThread=" 
 							+ updadeProgressBarThread.getId()
 							+ " will sleep for 200ms!" );
 					Thread.sleep(200);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
-					Log.w(this.getClass().getName(),
+					Log.w(LOGTAG,
 							"startTestMicrophone(): Thread.sleep(200) throws InterruptedException " 
 									+ e.getMessage() );
 				}
@@ -244,7 +246,7 @@ public class SrmRecorder
 				@Override
 				public void run() 
 				{
-					Log.w(this.getClass().getName(), "startTestRecording(): Thread recordingThread=" 
+					Log.w(LOGTAG, "startTestRecording(): Thread recordingThread=" 
 							+ recordingThread.getId()
 							+ " is started, will writeAudioDataToFile()" );
 					writeAudioDataToFile();
@@ -315,71 +317,84 @@ public class SrmRecorder
 	
 	public void updateProgressbar(ProgressBar pb)
 	{
-				String rawAudioFile = getRawFileNameForProgBar();
-				if(rawAudioFile == null)
+		String rawAudioFile = getRawFileNameForProgBar();
+		if(rawAudioFile == null)
+		{
+			Log.w(LOGTAG, 
+					"updateProgressbar(): raw file does not exist, "
+					+ "can not read data! function returns!");
+			return;
+		}
+		DataOutputStream output = null;
+		short[] buffer = new short[minBufferSize];
+		
+		try 
+		{
+			output = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(rawAudioFile)));
+			
+			while (isRecording) 
+			{
+				double sum = 0;
+				int readSize = audioRecorder.read(buffer, 0, buffer.length);
+				for (int i = 0; i < readSize; i++) 
 				{
-					Log.w(this.getClass().getName(), 
-							"updateProgressbar(): raw file does not exist, can not read data! function returns!");
-					return;
-				}
-				DataOutputStream output = null;
-				short[] buffer = new short[minBufferSize];
-				
-				try {
-					output = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(rawAudioFile)));
-					while (isRecording) 
-					{
-						double sum = 0;
-						int readSize = audioRecorder.read(buffer, 0, buffer.length);
-						for (int i = 0; i < readSize; i++) 
-						{
-							try {
-								output.writeShort(buffer[i]);
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								Log.w(this.getClass().getName(),
-										"updateProgressbar(): output.writeShort(buffer[i]) throws exception " 
-												+ e.getMessage() );
-							}
-							sum += buffer [i] * buffer [i];
-						}
-						if (readSize > 0) 
-						{
-							final double amplitude = sum / readSize;
-							pb.setProgress((int) Math.sqrt(amplitude));
-						}
+					try {
+						output.writeShort(buffer[i]);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						Log.w(LOGTAG,
+								"updateProgressbar(): output.writeShort(buffer[i]) throws exception " 
+										+ e.getMessage() );
 					}
-				} catch (FileNotFoundException e1) {
+					sum += buffer [i] * buffer [i];
+				}
+				if (readSize > 0) 
+				{
+					final double amplitude = sum / readSize;
+					pb.setProgress( ((int) Math.sqrt(amplitude)) / 4000 );
+				}
+			}
+		} 
+		catch (FileNotFoundException e1) 
+		{
+			// TODO Auto-generated catch block
+			Log.w(LOGTAG,
+					"updateProgressbar(): output.writeShort(buffer[i]) throws exception " 
+							+ e1.getMessage() );
+		} 
+		finally
+		{
+			pb.setProgress(0);
+			
+			if(output != null)
+			{
+				try 
+				{
+					output.flush();
+				} 
+				catch (IOException e)
+				{
 					// TODO Auto-generated catch block
-					Log.w(this.getClass().getName(),
-							"updateProgressbar(): output.writeShort(buffer[i]) throws exception " 
-									+ e1.getMessage() );
-				} finally
+					Log.w(LOGTAG,
+							"updateProgressbar(): output.flush() throws exception " 
+									+ e.getMessage() );
+				} 
+				finally
 				{
-					pb.setProgress(0);
-					if(output != null)
+					try 
 					{
-						try {
-							output.flush();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							Log.w(this.getClass().getName(),
-									"updateProgressbar(): output.flush() throws exception " 
-											+ e.getMessage() );
-						} finally
-						{
-							try {
-								output.close();
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								Log.w(this.getClass().getName(),
-										"updateProgressbar(): output.close() throws exception " 
-												+ e.getMessage() );
-							}
-						}
+						output.close();
+					} 
+					catch (IOException e) 
+					{
+						// TODO Auto-generated catch block
+						Log.w(LOGTAG,
+								"updateProgressbar(): output.close() throws exception " 
+										+ e.getMessage() );
 					}
-					
 				}
+			}
+		}
 		
 	}
 	
@@ -392,7 +407,7 @@ public class SrmRecorder
 		try {
 			os = new FileOutputStream(rawFileName);
 		} catch (FileNotFoundException e) {
-			Log.w(this.getClass().getName(), 
+			Log.w(LOGTAG, 
 					"writeAudioDataToFile(): os = new FileOutputStream(rawFileName) throws error: " 
 												+ e.getMessage());
 		}
@@ -407,7 +422,7 @@ public class SrmRecorder
 					try {
 						os.write(data);
 					} catch (IOException e) {
-						Log.w(this.getClass().getName(), 
+						Log.w(LOGTAG, 
 								"writeAudioDataToFile(): os.write(data) throws error: " 
 															+ e.getMessage());
 					}
@@ -417,7 +432,7 @@ public class SrmRecorder
 			try {
 				os.close();
 			} catch (IOException e) {
-				Log.w(this.getClass().getName(), "writeAudioDataToFile(): os.close() throws error: " + e.getMessage());
+				Log.w(LOGTAG, "writeAudioDataToFile(): os.close() throws error: " + e.getMessage());
 			}
 		}
 	}
@@ -429,13 +444,13 @@ public class SrmRecorder
 		if(!fileFolder.exists())
 		{
 			fileFolder.mkdirs();
-			Log.w(this.getClass().getName(), "createFile(): make a new folder at " +  fileFolder.getAbsolutePath());
+			Log.w(LOGTAG, "createFile(): make a new folder at " +  fileFolder.getAbsolutePath());
 		}
 		
 		File file = new File(dirPath, fileName);
 		String fileFullName = file.getAbsolutePath() + SUFFIX;
 		setAudioFile(fileFullName);
-		Log.w(this.getClass().getName(), "createFile(): returns a new file at " +  fileFullName);
+		Log.w(LOGTAG, "createFile(): returns a new file at " +  fileFullName);
 		return fileFullName;
 	}
 	
@@ -446,14 +461,14 @@ public class SrmRecorder
 		if(!fileFolder.exists())
 		{
 			fileFolder.mkdirs();
-			Log.w(this.getClass().getName(), "createRawFile(): make a new folder at " +  fileFolder.getAbsolutePath());
+			Log.w(LOGTAG, "createRawFile(): make a new folder at " +  fileFolder.getAbsolutePath());
 		}
 		
 		File tempFile = new File(dirPath, AUDIO_RECORDER_TEMP_FILE);
 		
 		if(tempFile.exists())
 		{
-			Log.w(this.getClass().getName(), "getRawFileName(): tempFile exists, will be deleted at " 
+			Log.w(LOGTAG, "getRawFileName(): tempFile exists, will be deleted at " 
 												+  tempFile.getAbsolutePath());
 			tempFile.delete();
 		}
@@ -461,7 +476,7 @@ public class SrmRecorder
 		File file = new File(dirPath, fileName);
 		String rawFileFullName = file.getAbsolutePath() + "_" + AUDIO_RECORDER_TEMP_FILE;
 		setRawAudioFile(rawFileFullName);
-		Log.w(this.getClass().getName(), "createRawFile(): returns a new rawfile at " + rawFileFullName);
+		Log.w(LOGTAG, "createRawFile(): returns a new rawfile at " + rawFileFullName);
 		return rawFileFullName;
 	}
 	
@@ -471,11 +486,11 @@ public class SrmRecorder
 		
 		if(!tempRawFile.exists()) 
 		{
-			Log.w(this.getClass().getName(), "getRawFileNameForProgBar(): tempRawFile does not exist, return null");
+			Log.w(LOGTAG, "getRawFileNameForProgBar(): tempRawFile does not exist, return null");
 			return null;
 			
 		}
-		Log.w(this.getClass().getName(), "getRawFileNameForProgBar(): tempRawFile exists, will be returned, at " +  tempRawFile.getAbsolutePath());
+		Log.w(LOGTAG, "getRawFileNameForProgBar(): tempRawFile exists, will be returned, at " +  tempRawFile.getAbsolutePath());
 		
 		return tempRawFile.getAbsolutePath();
 		
@@ -508,16 +523,16 @@ public class SrmRecorder
 			in.close();
 			out.close();
 		} catch (FileNotFoundException e) {
-			Log.w(this.getClass().getName(),
+			Log.w(LOGTAG,
 					"copyWaveFile():  throws FileNotFoundException " 
 							+ e.getMessage() );
 		} catch (IOException e) {
-			Log.w(this.getClass().getName(),
+			Log.w(LOGTAG,
 					"copyWaveFile():  throws IOException " 
 							+ e.getMessage() );
 		}
 		
-		Log.w(this.getClass().getName(), "copyWaveFile() successfully!: copied file from " 
+		Log.w(LOGTAG, "copyWaveFile() successfully!: copied file from " 
 				+ inFileName + " to " + outFileName + "");
 	}
 	
@@ -525,7 +540,7 @@ public class SrmRecorder
 	{
 		File file = new File(createRawFile());
 		
-		Log.w(this.getClass().getName(), "deleteRawFile(): will delete rawfile " + file.getAbsolutePath());
+		Log.w(LOGTAG, "deleteRawFile(): will delete rawfile " + file.getAbsolutePath());
 		
 		file.delete();
 	}
@@ -534,7 +549,7 @@ public class SrmRecorder
 	{
 		File file = new File(fileName);
 		
-		Log.w(this.getClass().getName(), "deleteFile(): will delete file " + file.getAbsolutePath());
+		Log.w(LOGTAG, "deleteFile(): will delete file " + file.getAbsolutePath());
 		
 		file.delete();
 	}
