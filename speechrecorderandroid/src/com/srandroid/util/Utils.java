@@ -323,9 +323,7 @@ public class Utils
 			
 		    isPreStartInitialized = true;
 			Log.w(LOGTAG, "initializeApp(): finished initializing data before app starts");
-			
 		}
-		
 	}
 	
 	
