@@ -21,7 +21,7 @@
     
     <!-- get gps from network and gps device -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
-    <!-- for network only   -->
+    <!-- get gps from network only -->
 <!--     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>  -->
 
     <application

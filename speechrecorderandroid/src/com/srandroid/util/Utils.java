@@ -1,25 +1,18 @@
 package com.srandroid.util;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
-import org.xmlpull.v1.XmlPullParserException;
 
 import com.srandroid.speechrecorder.R;
-import com.srandroid.database.DBAccessor;
-import com.srandroid.database.ScriptXMLParser;
 import com.srandroid.database.TableRecords.RecordItem;
 import com.srandroid.database.TableScripts.ScriptItem;
-import com.srandroid.database.TableSpeakers.SpeakerItem;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
@@ -27,20 +20,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
-import android.database.sqlite.SQLiteDatabase;
-import android.support.v4.app.NavUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Toast;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Environment;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 import android.provider.Settings.Secure;
 
 
