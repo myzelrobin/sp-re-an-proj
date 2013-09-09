@@ -27,7 +27,7 @@ public class TableSessions
 	public static final String COLUMN_TIME = "time"; // text not null
 	public static final String COLUMN_PLACE = "place"; // text not null
 	public static final String COLUMN_DEVICE_DATA = "device_data"; // text not null
-	public static final String COLUMN_GPS_DATA = "gps_data"; // text, android needs a little time to set GPS sensors, only get it when is needed
+	public static final String COLUMN_GPS_DATA = "gps_data"; // text, 
 	public static final String COLUMN_IS_FINISHED = "is_finished"; // text not null finished/unfinished
 	public static final String COLUMN_LAST_SECTION = "last_section"; // text 
 	public static final String COLUMN_IS_UPLOADED = "is_uploaded"; // text not null uploaded/unuploaded
@@ -88,14 +88,14 @@ public class TableSessions
 		Log.w(TableSessions.class.getName(), "insertSessionExamples() will insert examples");
 		ContentValues values = new ContentValues(); 
 		
-		for(int i=1; i<11; i++)
+		for(int i=1; i<3; i++)
 		{
 			values.put(COLUMN_DATE, "1234-56-78");
 			values.put(COLUMN_TIME, "12:34:56");
-			values.put(COLUMN_PLACE, "Munich");
-			values.put(COLUMN_DEVICE_DATA, Utils.ConstantVars.DEVICE_ID);
-			values.put(COLUMN_GPS_DATA, Utils.ConstantVars.GPS_INFO);
-			values.put(COLUMN_IS_FINISHED, "finished");
+			values.put(COLUMN_PLACE, Utils.ConstantVars.CITYNAME);
+			values.put(COLUMN_DEVICE_DATA, Utils.ConstantVars.DEVICE_DATA);
+			values.put(COLUMN_GPS_DATA, Utils.ConstantVars.GPS_DATA);
+			values.put(COLUMN_IS_FINISHED, "unfinished");
 			values.put(COLUMN_IS_UPLOADED, "unuploaded");
 			values.put(COLUMN_LAST_SECTION, "null");
 			values.put(COLUMN_SCRIPT_ID, ""+i);
@@ -134,13 +134,12 @@ public class TableSessions
 	    String sTime = "" + mHour + ":" + mMinute + ":" + mSecond;
 	    values.put(COLUMN_TIME, sTime);
 	    
-	    String sPlace = "Munich";
-	    values.put(COLUMN_PLACE, sPlace);
+	    values.put(COLUMN_PLACE, Utils.ConstantVars.CITYNAME);
 	    	
-	    values.put(COLUMN_GPS_DATA, Utils.ConstantVars.GPS_INFO);
+	    values.put(COLUMN_GPS_DATA, Utils.ConstantVars.GPS_DATA);
 	    
 	    // device data
-	    values.put(COLUMN_DEVICE_DATA, Utils.ConstantVars.DEVICE_ID);
+	    values.put(COLUMN_DEVICE_DATA, Utils.ConstantVars.DEVICE_DATA);
 	    
 	    // script_id
 	    values.put(COLUMN_SCRIPT_ID, Integer.parseInt(scriptId));

@@ -82,7 +82,8 @@ import com.srandroid.util.Utils;
 		  * handles click events on buttons
 		  */
 		 @Override
-		public void onClick(View v) {
+		public void onClick(View v) 
+		{
 			// TODO Auto-generated method stub
 			 int id = v.getId();
 			 
@@ -99,7 +100,6 @@ import com.srandroid.util.Utils;
 					if(isBTestmicClicked == 1)
 					{
 						 Utils.toastDebuggingText(v.getContext(), "settings: dialog: finish testing MIC");
-						 volume_value = "999";
 						 
 						 recorderForMic.stopTestMicrophone();
 						 Log.w(this.getClass().getName(), SrmRecorder.TAG_TESTMIC 
@@ -122,7 +122,8 @@ import com.srandroid.util.Utils;
 					bCancel.setEnabled(false);
 					
 					recorderForMic = 
-							new SrmRecorder(Utils.ConstantVars.TEST_MIC_DIR_EXT_PATH, 
+							new SrmRecorder(
+									Utils.ConstantVars.TEST_MIC_DIR_EXT_PATH, 
 									"test_mic", this);
 					Log.w(this.getClass().getName(), SrmRecorder.TAG_TESTMIC 
 							+ ": AudioRecord recorderForMic is created: " 
@@ -215,10 +216,12 @@ import com.srandroid.util.Utils;
 		  * Saves new value for this preference key from xml into the SharedPreference
 		  */
 		 @Override
-		 protected void onDialogClosed(boolean positiveResult) {
+		 protected void onDialogClosed(boolean positiveResult) 
+		 {
 		     // When the user selects "OK", persist the new value
-		     if (positiveResult) {
-		         persistString(volume_value);
+		     if (positiveResult) 
+		     {
+		         // persistString(volume_value);
 		     }
 		 }
 		 /**
@@ -233,14 +236,18 @@ import com.srandroid.util.Utils;
 		  * Initialize the default value
 		  */
 		 @Override
-		 protected void onSetInitialValue(boolean restorePersistedValue, Object defaultValue) {
-		     if (restorePersistedValue) {
+		 protected void onSetInitialValue(boolean restorePersistedValue, Object defaultValue) 
+		 {
+		     if (restorePersistedValue) 
+		     {
 		         // Restore existing state
 		         volume_value = this.getPersistedString(Utils.ConstantVars.MICVOL);
-		     } else {
+		     } 
+		     else 
+		     {
 		         // Set default state from the XML attribute
 		    	 volume_value = (String) defaultValue;
-		         persistString(volume_value);
+		         // persistString(volume_value);
 		     }
 		 }
 		/**

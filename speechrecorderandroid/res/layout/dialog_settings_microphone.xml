@@ -21,6 +21,7 @@ android:orientation="vertical" >
 	    <ProgressBar
 	    android:id="@+id/progressBarInDialogSetMic"
 	    style="@style/Widget.ProgressBar.Vertical"
+	    android:max="4000"
 	    android:layout_width="12dp"
 	    android:layout_height="match_parent"
 	    android:layout_margin="14dp" />

@@ -68,9 +68,7 @@ public class Utils
 		
 		public static int selectedItemIndex = 0;
 		
-		// device informations
-		public static String DEVICE_ID = "default unknow";
-		public static String GPS_INFO = "device unavailable";
+		
 		
 		// SharedPreferece key and default values
 		public static final String KEY_PREFSCREEN_RECVALUE = "prefscreen_recvalue";
@@ -128,8 +126,24 @@ public class Utils
 		public static final String KEY_RECORDS_PATH = "records_path";
 		public static final String KEY_RECORDS_PATH_DEF = "unknown";
 		
+		public static final String KEY_CITYNAME = "cityname";
+		public static final String KEY_CITYNAME_DEF = "city unknown";
+		
+		public static final String KEY_GPS_DATA = "gps_data";
+		public static final String KEY_GPS_DATA_DEF = "location unknown";
+		
+		public static final String KEY_DEVICE_DATA = "device_data";
+		public static final String KEY_DEVICE_DATA_DEF = "device data unknown";
 		
 		
+		// device informations
+		public static String DEVICE_DATA = "device data unknow";
+		
+		// location infos
+		public static String GPS_DATA = "gps data unknown";
+		public static String CITYNAME = "city name unknown";
+		
+		public static SrmLocationListener locListener;
 		
 		
 		// path variables
@@ -304,8 +318,12 @@ public class Utils
 			// device info
 			getDeviceId(context);
 			
+			// location listener
+			initLocationListener(context);
+			
 			// gps info
-			// getGPSInfo(context);
+			if(Utils.ConstantVars.locListener.canGetLocation)
+				getLocationData(context);
 			
 			isPreStartInitialized = true;
 			
@@ -365,7 +383,34 @@ public class Utils
 		
 		editor.putString(Utils.ConstantVars.KEY_RECORDS_PATH, Utils.ConstantVars.KEY_RECORDS_PATH_DEF);
         editor.commit(); 
+        
+        editor.putString(Utils.ConstantVars.KEY_DEVICE_DATA, Utils.ConstantVars.DEVICE_DATA);
+        editor.commit(); 
 		
+        editor.putString(Utils.ConstantVars.KEY_GPS_DATA, Utils.ConstantVars.GPS_DATA);
+        editor.commit(); 
+        
+        editor.putString(Utils.ConstantVars.KEY_CITYNAME, Utils.ConstantVars.CITYNAME);
+        editor.commit(); 
+	}
+	
+	public static void updatePreference(SharedPreferences sharedPreferences, 
+			String key, String value)
+	{ 
+		Log.w(LOGTAG, "updatePreference() will update key=" + key 
+				+ " from oldvalue=" + sharedPreferences.getString(key, null)
+				+ " to newvalue=" + value);
+		
+		SharedPreferences.Editor editor = sharedPreferences.edit();
+		editor.putString(key, value).commit(); 
+	}
+	
+	public static String retirevePreference(SharedPreferences sharedPreferences, 
+			String key)
+	{ 
+		Log.w(LOGTAG, "retirevePreference() will get value with key=" + key);
+		
+		return sharedPreferences.getString(key, "unable to get value!"); 
 	}
 	
 	public static void updateGlobalVarsForNewSession()
@@ -626,9 +671,29 @@ public class Utils
 	public static void getDeviceId(Context context) 
 	{
 		Log.w(LOGTAG, "getDeviceId() will get device id");
-		Utils.ConstantVars.DEVICE_ID = Secure.getString(context.getContentResolver(),
+		Utils.ConstantVars.DEVICE_DATA = Secure.getString(context.getContentResolver(),
                 Secure.ANDROID_ID);
 	}
+	
+
+	public static void initLocationListener(Context context)
+	{
+		Log.w(LOGTAG, "initLocationListener() will initiate location listener");
+		Utils.ConstantVars.locListener = new SrmLocationListener(context);
+		Utils.ConstantVars.locListener.getLocation();
+	}
+	
+	public static void getLocationData(Context context) 
+	{
+		Log.w(LOGTAG, "getLocationData() will get gps data and city name");
+		
+		Utils.ConstantVars.GPS_DATA = 
+				Utils.ConstantVars.locListener.gps_data;
+		
+		Utils.ConstantVars.GPS_DATA = 
+				Utils.ConstantVars.locListener.cityName;
+	}
+	
 	
 
 	// Toast some text for debugging

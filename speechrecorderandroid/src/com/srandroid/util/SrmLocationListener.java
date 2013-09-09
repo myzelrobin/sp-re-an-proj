@@ -9,12 +9,14 @@ import java.util.Locale;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -34,13 +36,13 @@ public class SrmLocationListener extends Service implements LocationListener
 	private static LocationManager locationManager;
 	
 	// flag for GPS status
-	private boolean isGPSEnabled = false;
+	private static boolean isGPSEnabled = false;
 
 	// flag for network status
-	private boolean isNetworkEnabled = false;
+	private static boolean isNetworkEnabled = false;
 
-	// flag for GPS status
-	private boolean canGetLocation = false;
+	// flag for get location status
+	public static boolean canGetLocation = false;
 	
 	public static String cityName;
 	
@@ -52,9 +54,13 @@ public class SrmLocationListener extends Service implements LocationListener
 	
 	private Context context = null;
 	
+	private SharedPreferences shPrefs = null;
+	
 	public SrmLocationListener(Context context)
 	{
 		this.context = context;
+		
+		this.shPrefs = PreferenceManager.getDefaultSharedPreferences(this.context);
 	}
 
 	// called when a new location is found
@@ -91,7 +97,18 @@ public class SrmLocationListener extends Service implements LocationListener
 
         Log.w(LOGTAG, "onLocationChanged(): new location is:" + s);
         
-        // update gps info in db or sharedpreference
+        // update gps info into sharedpreference
+        
+        Utils.getLocationData(context);
+        
+        Utils.updatePreference(shPrefs, 
+        		Utils.ConstantVars.KEY_GPS_DATA, 
+        		gps_data);
+        
+        Utils.updatePreference(shPrefs, 
+        		Utils.ConstantVars.KEY_CITYNAME, 
+        		cityName);
+        
     }
 
     @Override
@@ -123,7 +140,7 @@ public class SrmLocationListener extends Service implements LocationListener
     
     public void getLocation() 
 	{
-		//Utils.ConstantVars.GPS_INFO = 
+		//Utils.ConstantVars.GPS_DATA = 
 		Log.w(LOGTAG, "getLocation() will get GPS info");
 		
 		try 
