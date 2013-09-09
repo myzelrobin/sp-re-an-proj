@@ -211,6 +211,10 @@ public class SrmLocationListener extends Service implements LocationListener
 	                             TEN_MINUTES,
 	                             1000, 
 	                             this);
+	                     Toast.makeText(context, 
+	                			 "Retreiving GPS info from gps device!\nThis takes a while, please wait until it is finished.", 
+	                			 Toast.LENGTH_LONG * 3)
+	                	 	.show();
 	                     
 	                     if (locationManager != null) 
 	                     {
@@ -218,10 +222,6 @@ public class SrmLocationListener extends Service implements LocationListener
 	                    	 //  location = locationManager.getLastKnownLocation("gps");
 	                         if (lastKnownLocation != null) 
 	                         {
-	                        	 Toast.makeText(context, 
-		                    			 "Retreiving GPS info from gps device!\nThis takes a while, please wait until it is finished.", 
-		                    			 Toast.LENGTH_LONG * 3)
-		                    	 	.show();
 	                        	 Log.w(LOGTAG, "getLocation(), gps device is enabled, retrieved location=" 
 		                    			 + getlocationString(lastKnownLocation));
 	                        	 
