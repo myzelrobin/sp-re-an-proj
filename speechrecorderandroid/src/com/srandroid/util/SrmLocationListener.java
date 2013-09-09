@@ -97,9 +97,12 @@ public class SrmLocationListener extends Service implements LocationListener
 
         Log.w(LOGTAG, "onLocationChanged(): new location is:" + s);
         
-        // update gps info into sharedpreference
         
-        Utils.getLocationData(context);
+        // update gps info into utils and sharedpreference
+        Log.w(LOGTAG, "onLocationChanged(): will updata data into utils and shPrefs");
+        
+        Utils.ConstantVars.GPS_DATA = gps_data;
+        Utils.ConstantVars.CITYNAME = cityName;
         
         Utils.updatePreference(shPrefs, 
         		Utils.ConstantVars.KEY_GPS_DATA, 
@@ -185,9 +188,8 @@ public class SrmLocationListener extends Service implements LocationListener
 	                     {
 	                    	 Toast.makeText(context, 
 	                    			 "get GPS info from network" + getlocationString(lastKnownLocation), 
-	                    			 Toast.LENGTH_LONG * 3)
+	                    			 Toast.LENGTH_LONG * 5)
 	                    	 	.show();
-	                    	 // update gps info in db or sharedpreference
 	                     }
 	                 }
 	             }
@@ -213,9 +215,8 @@ public class SrmLocationListener extends Service implements LocationListener
 	                         {
 	                        	 Toast.makeText(context, 
 		                    			 "get GPS info from gps device" + getlocationString(lastKnownLocation), 
-		                    			 Toast.LENGTH_LONG * 3)
+		                    			 Toast.LENGTH_LONG * 5)
 		                    	 	.show();
-	                        	// update gps info in db or sharedpreference
 	                        	 
 	                         }
 	                     }
@@ -261,6 +262,20 @@ public class SrmLocationListener extends Service implements LocationListener
 	      gps_data = s;
 	      
 	      Log.w(LOGTAG, "getlocationString() build new location string" + s);
+	      
+	   // update gps info into utils and sharedpreference
+	        Log.w(LOGTAG, "getlocationString(): will updata data into utils and shPrefs");
+	        
+	        Utils.ConstantVars.GPS_DATA = gps_data;
+	        Utils.ConstantVars.CITYNAME = cityName;
+	        
+	        Utils.updatePreference(shPrefs, 
+	        		Utils.ConstantVars.KEY_GPS_DATA, 
+	        		gps_data);
+	        
+	        Utils.updatePreference(shPrefs, 
+	        		Utils.ConstantVars.KEY_CITYNAME, 
+	        		cityName);
 	      
 	      return gps_data;
     }

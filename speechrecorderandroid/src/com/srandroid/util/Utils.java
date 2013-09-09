@@ -321,12 +321,7 @@ public class Utils
 			// location listener
 			initLocationListener(context);
 			
-			// gps info
-			if(Utils.ConstantVars.locListener.canGetLocation)
-				getLocationData(context);
-			
-			isPreStartInitialized = true;
-			
+		    isPreStartInitialized = true;
 			Log.w(LOGTAG, "initializeApp(): finished initializing data before app starts");
 			
 		}
@@ -683,19 +678,6 @@ public class Utils
 		Utils.ConstantVars.locListener.getLocation();
 	}
 	
-	public static void getLocationData(Context context) 
-	{
-		Log.w(LOGTAG, "getLocationData() will get gps data and city name");
-		
-		Utils.ConstantVars.GPS_DATA = 
-				Utils.ConstantVars.locListener.gps_data;
-		
-		Utils.ConstantVars.GPS_DATA = 
-				Utils.ConstantVars.locListener.cityName;
-	}
-	
-	
-
 	// Toast some text for debugging
 	public static void toastDebuggingText(Context context, String s)
 	{
