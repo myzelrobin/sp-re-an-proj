@@ -6,10 +6,14 @@ package com.srandroid.util;
 import java.io.IOException;
 import java.util.Locale;
 
+import com.srandroid.speechrecorder.R;
+
+import android.app.Activity;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
@@ -18,6 +22,10 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 /**
@@ -186,16 +194,12 @@ public class SrmLocationListener extends Service implements LocationListener
 	                             .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 	                     if (lastKnownLocation != null) 
 	                     {
-	                    	 Toast.makeText(context, 
-	                    			 "get GPS info from network" + getlocationString(lastKnownLocation), 
-	                    			 Toast.LENGTH_LONG * 5)
-	                    	 	.show();
+	                    	 Log.w(LOGTAG, "getLocation(), network is enabled, get location=" 
+	                    			 + getlocationString(lastKnownLocation));
 	                     }
 	                 }
 	             }
-	             
-	             // if GPS Enabled get lat/long using GPS Services
-	             if (isGPSEnabled) 
+	             else if (isGPSEnabled) // if GPS Enabled get lat/long using GPS Services
 	             {
 	            	 Log.w(LOGTAG, "getLocation(), gps device is enabled, will get GPS info from gps device");
 	            	 
@@ -214,9 +218,11 @@ public class SrmLocationListener extends Service implements LocationListener
 	                         if (lastKnownLocation != null) 
 	                         {
 	                        	 Toast.makeText(context, 
-		                    			 "get GPS info from gps device" + getlocationString(lastKnownLocation), 
-		                    			 Toast.LENGTH_LONG * 5)
+		                    			 "Retreiving GPS info from gps device!\nThis takes a while, please wait until it is finished.", 
+		                    			 Toast.LENGTH_LONG * 3)
 		                    	 	.show();
+	                        	 Log.w(LOGTAG, "getLocation(), gps device is enabled, get location=" 
+		                    			 + getlocationString(lastKnownLocation));
 	                        	 
 	                         }
 	                     }
@@ -352,5 +358,6 @@ public class SrmLocationListener extends Service implements LocationListener
 	    }
 	    return provider1.equals(provider2);
 	}
+	
 	
 }
