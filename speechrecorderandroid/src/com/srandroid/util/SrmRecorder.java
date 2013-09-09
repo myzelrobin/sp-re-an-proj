@@ -351,7 +351,7 @@ public class SrmRecorder
 				if (readSize > 0) 
 				{
 					final double amplitude = sum / readSize;
-					pb.setProgress( ((int) Math.sqrt(amplitude)) / 4000 );
+					pb.setProgress( ((int) Math.sqrt(amplitude)) );
 				}
 			}
 		} 
