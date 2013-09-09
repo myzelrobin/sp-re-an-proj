@@ -21,7 +21,8 @@ import com.srandroid.speechrecorder.R;
 import com.srandroid.util.SrmRecorder;
 import com.srandroid.util.Utils;
 
-	public class DialogSetMicrophoneVolume extends DialogPreference implements OnClickListener
+	public class DialogSetMicrophoneVolume 
+		extends DialogPreference implements OnClickListener
 	{
 		private Button bCancel, bTestmic, bTestrecord;
 		private int isBTestmicClicked = 0;

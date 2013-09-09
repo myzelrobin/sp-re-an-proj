@@ -39,11 +39,13 @@ public class PrefActivitySettings extends PreferenceActivity
 		
 		// create a PreferenceFragment to load the Preference layout
 		// addPreferencesFromResource(R.xml.preference_settings);
-		getFragmentManager().beginTransaction().replace(android.R.id.content, new PrefFragmentInSettings()).commit();
+		getFragmentManager()
+			.beginTransaction()
+			.replace(android.R.id.content, new PrefFragmentInSettings()).commit();
 		
 		// Shows Up button
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-		
+		getActionBar().setHomeButtonEnabled(true);
 	}
 	
 	/**
@@ -52,11 +54,12 @@ public class PrefActivitySettings extends PreferenceActivity
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) 
 	{
-	    switch (item.getItemId()) {
-	    // Respond to the action bar's Up/Home button
-	    case android.R.id.home:
-	        NavUtils.navigateUpFromSameTask(this);
-	        return true;
+	    switch (item.getItemId()) 
+	    {
+		    // Respond to the action bar's Up/Home button
+		    case android.R.id.home:
+		        NavUtils.navigateUpFromSameTask(this);
+		        return true;
 	    }
 	    return super.onOptionsItemSelected(item);
 	}
