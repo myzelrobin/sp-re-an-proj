@@ -402,7 +402,7 @@ public class ActivityPreRecording extends Activity
 			if(!(sessionsList.toString().contains("null"))) 
 				sessionsListScript.setText(TextUtils.join(", ", sessionsList));
 			if(!(speakersList.toString().contains("null"))) 
-				speakersListScript.setText(TextUtils.join(", ", speakersList));
+				speakersListScript.setText(TextUtils.join(",\n", speakersList));
 		}
         
         cursor.close();
