@@ -647,6 +647,8 @@ public class ActivityRecording extends Activity
 						// bRecord.setEnabled(true);
 			        	imageButtonRecord.setImageDrawable(getResources().getDrawable(R.drawable.icon_circle_green));
 			        	imageButtonRecord.setEnabled(true); 
+			        	
+			        	
 			         } 
 			    }, ( Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay)) / 2 );
 	         } 
@@ -685,6 +687,7 @@ public class ActivityRecording extends Activity
 				// bRecord.setText(getResources().getString(R.string.record));
 				// bRecord.setEnabled(true);
 				
+		    	
 		    	imageButtonRecord.setImageDrawable(getResources().getDrawable(R.drawable.icon_circle_grey));
 		    	imageButtonRecord.setEnabled(true);
 		    	
@@ -722,6 +725,8 @@ public class ActivityRecording extends Activity
     	imageButtonRecord.setEnabled(false);
     	imageButtonRecord.setImageDrawable(getResources().getDrawable(R.drawable.icon_circle_red));
 		
+    	
+    	
     	// enlarge prompt area
     	if(recItemsList.get(recItemIndex).itemType == RecordItem.TYPE_IMAGE)
     		enlargePromptImage();
@@ -747,6 +752,8 @@ public class ActivityRecording extends Activity
 				        	// imageCircle1.setImageResource(R.drawable.icon_circle_green);
 							// bRecord.setEnabled(true);
 							
+				        	 instrText.setVisibility(View.INVISIBLE);
+				        	 
 				     		imageButtonRecord.setImageDrawable(getResources().getDrawable(R.drawable.icon_circle_green));
 				     		imageButtonRecord.setEnabled(true);
 				     		
@@ -810,13 +817,15 @@ public class ActivityRecording extends Activity
 			    	// imageCircle1.setImageResource(R.drawable.icon_circle_red);
 			    	// imageCircle1.setVisibility(View.VISIBLE);
 			    	
-			    	updateInstrAndPrompt(recItemsList.get(recItemIndex));
-			    	
 			    	// instrText.setText(recItemsList.get(recItemIndex).recinstructions);
 					// promptText.setText(recItemsList.get(recItemIndex).recprompt);
 
 					// bRecord.setText(getResources().getString(R.string.record));
 					// bRecord.setEnabled(true);
+					
+
+			    	updateInstrAndPrompt(recItemsList.get(recItemIndex));
+			    	instrText.setVisibility(View.INVISIBLE);
 					
 					imageButtonRecord.setImageDrawable(getResources().getDrawable(R.drawable.icon_circle_grey));
 		     		imageButtonRecord.setEnabled(true);
