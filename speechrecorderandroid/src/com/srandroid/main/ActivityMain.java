@@ -353,7 +353,6 @@ public class ActivityMain extends Activity {
         		Utils.toastDebuggingText(getApplicationContext(), "clicked search scripts");
         		break;
         	case R.id.button_add_speaker:
-        		Utils.toastDebuggingText(getApplicationContext(), "clicked add speaker");
         		Intent newI = new Intent(ActivityMain.this, ActivityAddSpeaker.class);
         		// newI.putExtra("key", value); //Optional parameters
         		ActivityMain.this.startActivity(newI);
@@ -367,9 +366,7 @@ public class ActivityMain extends Activity {
         		// Launch Preference activity
         	    Intent i = new Intent(ActivityMain.this, PrefActivitySettings.class);
         	    startActivity(i);
-        	    // Some feedback to the user
-        	    Utils.toastDebuggingText(getApplicationContext(), "clicked settings, settings window starts");
-        		break;
+        	    break;
         	case R.id.button_exit:
         		Utils.toastDebuggingText(getApplicationContext(), "clicked exit, app exits");
         		break;
