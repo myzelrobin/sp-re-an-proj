@@ -522,9 +522,9 @@ public class ActivityRecording extends Activity
 	
 	private void enlargePromptImage()
 	{
-		float fromXscale = 0;
+		float fromXscale = 1;
 		float toXscale = heightPromtTextView2 / heightPromtTextView;
-		float fromYscale = 0;
+		float fromYscale = 1;
 		float toYscale = heightPromtTextView2 / heightPromtTextView;
 		
 		Animation scale = new ScaleAnimation(fromXscale, toXscale, fromYscale, toYscale, 
@@ -549,13 +549,15 @@ public class ActivityRecording extends Activity
 		LinearLayout.LayoutParams whZero = new LinearLayout.LayoutParams(0, 0);
 		instrText.setLayoutParams(whZero);
 		
-		//LinearLayout.LayoutParams whNewLarge = new LinearLayout.LayoutParams(
-		//		LinearLayout.LayoutParams.MATCH_PARENT, 
-		//		LinearLayout.LayoutParams.MATCH_PARENT);
-		// promptImage.setLayoutParams(whNewLarge);
-		
 		// Launching animation set
 		promptImage.startAnimation(animSet);
+		
+		LinearLayout.LayoutParams whNewLarge = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.MATCH_PARENT, 
+				LinearLayout.LayoutParams.MATCH_PARENT);
+		promptImage.setLayoutParams(whNewLarge);
+		
+		
 	}
 	
 	private void shrinkPromptImage()
@@ -583,12 +585,14 @@ public class ActivityRecording extends Activity
 		animSet.addAnimation(translate);
 		
 		
-		//LinearLayout.LayoutParams whOriginPromt = new LinearLayout.LayoutParams(
-		//		LinearLayout.LayoutParams.MATCH_PARENT, 
-		//		heightPromtTextView);
-		// promptImage.setLayoutParams(whOriginPromt);
+		
 		
 		promptImage.startAnimation(animSet);
+		
+		LinearLayout.LayoutParams whOriginPromt = new LinearLayout.LayoutParams(
+						LinearLayout.LayoutParams.MATCH_PARENT, 
+						heightPromtTextView);
+		promptImage.setLayoutParams(whOriginPromt);
 		
 		LinearLayout.LayoutParams whOriginInstr = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.MATCH_PARENT, 
