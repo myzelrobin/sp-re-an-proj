@@ -441,7 +441,6 @@ public class ActivityRecording extends Activity
 //		bRecord.setEnabled(true);
 //		bRecord.setOnClickListener(this);
 //		
-//		
 //		imageCircle1 = (ImageView) findViewById(R.id.act_recording_signal_circle);
 //    	imageCircle1.setImageResource(R.drawable.icon_circle_red);
     	
@@ -524,7 +523,7 @@ public class ActivityRecording extends Activity
 	private void enlargePromptImage()
 	{
 		float fromXscale = 1;
-		float toXscale = 1;
+		float toXscale = heightPromtTextView2 / heightPromtTextView;
 		float fromYscale = 1;
 		float toYscale = heightPromtTextView2 / heightPromtTextView;
 		
