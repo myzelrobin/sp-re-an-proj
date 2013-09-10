@@ -314,14 +314,14 @@ public class Utils
 	public static class UIutils
 	{
 		public static AlertDialog createSimpleAlertDialog(
-				Context context, 
+				Activity act, 
 				String title, 
 				String message,
 				String pButtonText,
 				String nButtonText)
 		{
 			AlertDialog.Builder alertDialogBuilder = 
-					new AlertDialog.Builder(context);
+					new AlertDialog.Builder(act);
 	 
 				// set title
 				alertDialogBuilder.setTitle(title);

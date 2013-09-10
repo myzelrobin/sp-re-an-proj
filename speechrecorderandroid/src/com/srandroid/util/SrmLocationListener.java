@@ -6,6 +6,7 @@ package com.srandroid.util;
 import java.io.IOException;
 import java.util.Locale;
 
+import com.srandroid.main.ActivityMain;
 import com.srandroid.speechrecorder.R;
 
 import android.app.Activity;
@@ -175,7 +176,7 @@ public class SrmLocationListener extends Service implements LocationListener
 //	   	    		.show();
 	   	    	
 	   	    	AlertDialog alertDialog = Utils.UIutils.createSimpleAlertDialog(
-           			 context, 
+           			 ActivityMain.ACT_MAIN, 
            			 "Location", 
            			 "Can not get location data!\n"
            			 + "This device can not connect to network or gps satelite!\n"
@@ -224,7 +225,7 @@ public class SrmLocationListener extends Service implements LocationListener
 	                     if(!isNetworkEnabled)
 	                     {
 	                    	 AlertDialog alertDialog = Utils.UIutils.createSimpleAlertDialog(
-	                    			 context, 
+	                    			 ActivityMain.ACT_MAIN, 
 	                    			 "Location", 
 	                    			 "Retreiving GPS info from gps device!"
 	                    			 + "\nThis takes a while, please wait...", 

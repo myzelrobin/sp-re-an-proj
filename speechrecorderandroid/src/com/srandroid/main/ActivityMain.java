@@ -65,10 +65,10 @@ public class ActivityMain extends Activity {
     
     private int selectedItemIndex = 0; // app starts, select the first item 0
     
-    
-    
     // STATE for savedInstance, should be in Utils.ConstantVars
     public static final String SELECTED_ITEM_INDEX = "selectedItemIndex";
+    
+    public static Activity ACT_MAIN;
     
     // 
     private Thread initAppThread = null;
@@ -79,6 +79,7 @@ public class ActivityMain extends Activity {
 	public ActivityMain() 
 	{
 		super();
+		ACT_MAIN = this;
 	}
     
 	
