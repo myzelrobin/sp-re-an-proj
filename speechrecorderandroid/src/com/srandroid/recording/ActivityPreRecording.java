@@ -363,8 +363,10 @@ public class ActivityPreRecording extends Activity
 		
 		String wherePart = "script_key_id=" + Utils.ConstantVars.scriptItemIdForNewSession;
 		
-		Cursor cursor = getContentResolver().query(SrmUriMatcher.CONTENT_URI_TABLE_SCRIPTS_LOJ_SESSIONS, 
-				selectColumns, wherePart, null, null);
+		Cursor cursor = 
+				getContentResolver().query(
+						SrmUriMatcher.CONTENT_URI_TABLE_SCRIPTS_LOJ_SESSIONS, 
+						selectColumns, wherePart, null, null);
 		
 		
 		
@@ -375,31 +377,84 @@ public class ActivityPreRecording extends Activity
 			String idText = cursor.getString(cursor.getColumnIndexOrThrow("script_key_id"));
 			scriptid.setText("Script #" + idText);
 			
-			String descText = cursor.getString(cursor.getColumnIndexOrThrow(TableScripts.COLUMN_DESCRIPTION));
+			String descText = cursor.getString(
+					cursor.getColumnIndexOrThrow(TableScripts.COLUMN_DESCRIPTION));
 			scriptdesc.setText(descText);
 			
-			List<String> sessionlist = new ArrayList<String>();
-			List<String> speakerlist = new ArrayList<String>();
+			List<String> sessionsList = new ArrayList<String>();
+			List<String> speakersList = new ArrayList<String>();
 			
 			while(!cursor.isAfterLast())
 			{
-				String s1 = cursor.getString(cursor.getColumnIndexOrThrow("session_key_id"));
-				if(!sessionlist.contains(s1)) sessionlist.add(s1);
+				String sessionItemId = cursor.getString(
+						cursor.getColumnIndexOrThrow("session_key_id"));
+				if(!sessionsList.contains(sessionItemId)) 
+					sessionsList.add(sessionItemId);
 				
-				String s2 = cursor.getString(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SPEAKER_ID));
-				if(!speakerlist.contains(s2)) speakerlist.add(s2);
+				String name = querySpeakerName(cursor.getString(
+						cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SPEAKER_ID)));
+				if(!speakersList.contains(name)) 
+					speakersList.add(name);
+				
+				String s2 = cursor.getString(
+						cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SPEAKER_ID));
+				if(!speakersList.contains(s2)) speakersList.add(s2);
 				
 				cursor.moveToNext();
 			}
-			if(!(sessionlist.toString().contains("null"))) sessionsListScript.setText(TextUtils.join(", ", sessionlist));
-			if(!(speakerlist.toString().contains("null"))) speakersListScript.setText(TextUtils.join(", ", speakerlist));
 			
+			if(!(sessionsList.toString().contains("null"))) 
+				sessionsListScript.setText(TextUtils.join(", ", sessionsList));
+			if(!(speakersList.toString().contains("null"))) 
+				speakersListScript.setText(TextUtils.join(", ", speakersList));
 		}
         
         cursor.close();
 	}
 
+	private String querySpeakerName(String speakerItemId)
+	{
+		Log.w(LOGTAG, "querySpeakerName() will find speaker name with id=" 
+				+ speakerItemId);
+		
+		String name = null;
+		
+		// query from db
+		String[] selectColumns = {
+				TableSpeakers.COLUMN_ID,
+				TableSpeakers.COLUMN_FIRSTNAME,
+				TableSpeakers.COLUMN_SURNAME
+		};
+		
+		String wherePart = "speakers._id=" + speakerItemId;
+		
+		Cursor cursor = getContentResolver().query(
+				SrmUriMatcher.CONTENT_URI_TABLE_SPEAKERS, 
+				selectColumns, wherePart, null, null);
+		if (cursor != null && cursor.getCount()!=0) 
+		{
+			cursor.moveToFirst();
+			
+			String firstname = cursor.getString(
+					cursor.getColumnIndexOrThrow(TableSpeakers.COLUMN_FIRSTNAME));
+			String surname = cursor.getString(
+					cursor.getColumnIndexOrThrow(TableSpeakers.COLUMN_SURNAME));
+			
+			name = firstname + " " + surname;
+		}
+	        
+	    cursor.close();
+				
+		return name;
+	}
 	
+	
+	
+	
+	/**
+	 * 
+	 *
+	 */
 	protected class LocalAdapterForActPreRec extends BaseAdapter
 	{
 		private Context context;

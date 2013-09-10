@@ -544,8 +544,6 @@ public class ActivityRecording extends Activity
 		animSet.addAnimation(scale);
 		animSet.addAnimation(translate);
 		
-		
-		
 		LinearLayout.LayoutParams whZero = new LinearLayout.LayoutParams(0, 0);
 		instrText.setLayoutParams(whZero);
 		
@@ -583,9 +581,6 @@ public class ActivityRecording extends Activity
 		animSet.setFillEnabled(true);
 		animSet.addAnimation(scale);
 		animSet.addAnimation(translate);
-		
-		
-		
 		
 		promptImage.startAnimation(animSet);
 		
