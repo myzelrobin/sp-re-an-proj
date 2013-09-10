@@ -248,7 +248,7 @@
         <string name="activity_scriptdetials_title">Script Details</string>
         <string name="activity_scriptdetials_button_startrecording_text">Start</string>
         <string name="activity_scriptdetials_scriptid_text">Script ID:</string>
-        <string name="activity_scriptdetials_desc_text">Description</string>
+        <string name="activity_scriptdetials_desc_text">This is Description part.</string>
         <string name="activity_scriptdetials_sessions_text">In Sessions</string>
         <string name="activity_scriptdetials_speakers_text">Read by Speakers</string>
         <string name="activity_scriptdetials_sessions_text2">No sessions informations</string>
