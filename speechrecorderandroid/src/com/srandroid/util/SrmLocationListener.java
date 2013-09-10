@@ -170,8 +170,17 @@ public class SrmLocationListener extends Service implements LocationListener
 	   	        
 	   	     if (!isGPSEnabled && !isNetworkEnabled) 
 	   	     {
-	   	    	Toast.makeText(context, "Device network is not available", Toast.LENGTH_LONG)
-	   	    		.show();
+//	   	    	Toast.makeText(context, "Device network is not available", Toast.LENGTH_LONG)
+//	   	    		.show();
+	   	    	
+	   	    	Utils.UIutils.showAlertDialog(
+           			 context, 
+           			 "Location", 
+           			 "Can not get location data!\n"
+           			 + "This device can not connect to network or gps satelite!\n"
+           			 + "Check system settings or hardware settings!", 
+           			 "OK", "CANCEL");
+	   	    	
 	         } 
 	   	     else 
 	   	     {
