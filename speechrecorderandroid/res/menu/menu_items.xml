@@ -42,6 +42,8 @@
         
     </group>
     
+    
+    <!-- ################################################################# -->
     <!-- Fragment "Scripts" -->
     <!-- Buttons in Actionbar for Fragment "Scripts"-->
     <group 
@@ -62,6 +64,7 @@
         
     </group>
     
+    <!-- ################################################################# -->
     <!-- Fragment "Speakers" -->
     <!-- Buttons in Actionbar for Fragment "Speakers"-->
     <group 
@@ -82,20 +85,21 @@
         
     </group>
     
+    <!-- ################################################################# -->
     <!-- Activity add speaker -->
     <group 
         android:id="@+id/bgroup_addspeaker"
         android:visible="false" >
     
         <item
-            android:id="@+id/activity_addspeaker_button_start"
-            android:icon="@drawable/icon_button_mic"
+            android:id="@+id/activity_addspeaker_button_add"
             android:showAsAction="always"
-            android:title="@string/activity_addspeaker_button_startrecording_text" />
+            android:title="@string/add" />
         
         
     </group>
     
+    <!-- ################################################################# -->
     <!-- Activity speaker details -->
     <group 
         android:id="@+id/bgroup_speakerdetails"

@@ -175,17 +175,17 @@ public class ActivityAddSpeaker extends Activity
 		{
 	       
 	        switch (item.getItemId()) {
-			    // Respond to the action bar's Up/Home button
+			    // Up/Home button
 			    case android.R.id.home:
 			        NavUtils.navigateUpFromSameTask(this);
 			        return true;
 			        
 			     // actionbar buttons
-	        	case R.id.activity_addspeaker_button_start:
+	        	case R.id.activity_addspeaker_button_add:
 	        		if(!firstnameInput.getText().toString().matches("") 
-	        				&& !surnameInput.getText().toString().matches("")
-	        				&& !accentInput.getText().toString().matches("") 
-	        				&& !sexDropdownlist.isSelected())
+        				&& !surnameInput.getText().toString().matches("")
+        				&& !accentInput.getText().toString().matches("") 
+        				&& !sexDropdownlist.isSelected())
 	        		{
 	        			saveDataToSpeakerItem(speaker);
 		        		Uri speakerItemUri = saveSpeakerItemToDB(speaker);
@@ -194,16 +194,10 @@ public class ActivityAddSpeaker extends Activity
 		        		String newSpeakerItemId = speakerItemUri.getLastPathSegment();
 		        		Utils.ConstantVars.speakerItemIdForNewSession = newSpeakerItemId;
 		        		
-		        		if(Utils.checkItemsForNewSession(this))
-		        		{
-		        			Intent newI = new Intent(this, ActivityPreRecording.class);
-		        			this.startActivity(newI);
-	        				break;
-		        		}
 		        		NavUtils.navigateUpFromSameTask(this);
 				        return true;
 	        		}
-	        		Utils.toastTextToUser(this, "Please input name, accent and choose sex to create a speaker!");
+	        		Utils.toastTextToUser(this, "Please input NAME, ACCENT and choose SEX!");
 	        		break;
 	        		
 	        	default:
