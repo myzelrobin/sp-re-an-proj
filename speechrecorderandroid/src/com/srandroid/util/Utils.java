@@ -313,7 +313,7 @@ public class Utils
 	
 	public static class UIutils
 	{
-		public static void showAlertDialog(
+		public static AlertDialog createSimpleAlertDialog(
 				Context context, 
 				String title, 
 				String message,
@@ -349,9 +349,10 @@ public class Utils
 	 
 					// create alert dialog
 					AlertDialog alertDialog = alertDialogBuilder.create();
-	 
+					
+					return alertDialog;
 					// show it
-					alertDialog.show();
+					// alertDialog.show();
 		}
 		
 	}

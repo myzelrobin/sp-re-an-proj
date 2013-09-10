@@ -9,6 +9,7 @@ import java.util.Locale;
 import com.srandroid.speechrecorder.R;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -173,14 +174,14 @@ public class SrmLocationListener extends Service implements LocationListener
 //	   	    	Toast.makeText(context, "Device network is not available", Toast.LENGTH_LONG)
 //	   	    		.show();
 	   	    	
-	   	    	Utils.UIutils.showAlertDialog(
+	   	    	AlertDialog alertDialog = Utils.UIutils.createSimpleAlertDialog(
            			 context, 
            			 "Location", 
            			 "Can not get location data!\n"
            			 + "This device can not connect to network or gps satelite!\n"
            			 + "Check system settings or hardware settings!", 
            			 "OK", "CANCEL");
-	   	    	
+	   	    	alertDialog.show();
 	         } 
 	   	     else 
 	   	     {
@@ -221,11 +222,18 @@ public class SrmLocationListener extends Service implements LocationListener
 	                             1000, 
 	                             this);
 	                     if(!isNetworkEnabled)
-	                    	 Utils.UIutils.showAlertDialog(
+	                     {
+	                    	 AlertDialog alertDialog = Utils.UIutils.createSimpleAlertDialog(
 	                    			 context, 
 	                    			 "Location", 
-	                    			 "Retreiving GPS info from gps device!\nThis takes a while, please wait...", 
+	                    			 "Retreiving GPS info from gps device!"
+	                    			 + "\nThis takes a while, please wait...", 
 	                    			 "OK", "CANCEL");
+	                    	 alertDialog.show();
+	                     }
+	                    	 
+	                     
+	                    
 //	                    	Toast.makeText(context, 
 //	                			 "Retreiving GPS info from gps device!\nThis takes a while, please wait...", 
 //	                			 Toast.LENGTH_LONG).show();
