@@ -76,7 +76,7 @@ public class ActivityRecording extends Activity
 	private ImageView promptImage;
 	
 	private static int hInstrTextView = 100;
-	private static int hPromtTextView = 250;
+	private static int hPromtTextView = 300;
 	
 	
 	
@@ -470,24 +470,22 @@ public class ActivityRecording extends Activity
 	
 	private void updateInstrAndPrompt(RecordItem recItem)
 	{
-		LinearLayout.LayoutParams whNewPrompt = new LinearLayout.LayoutParams(
+		LinearLayout.LayoutParams whNewPrompt = 
+			new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.MATCH_PARENT, 
 				hPromtTextView);
 		LinearLayout.LayoutParams whZero = new LinearLayout.LayoutParams(0, 0);
 		
 		if(recItem.itemType == RecordItem.TYPE_TEXT)
 		{
-			promptImage.setLayoutParams(whZero);
-			promptText.setLayoutParams(whNewPrompt);
-			
 			instrText.setText(recItem.recinstructions);
 			promptText.setText(recItem.recprompt);
+			
+			promptText.setLayoutParams(whNewPrompt);
+			promptImage.setLayoutParams(whZero);
 		}
 		else if(recItem.itemType == RecordItem.TYPE_IMAGE)
 		{
-			promptText.setLayoutParams(whZero);
-			promptImage.setLayoutParams(whNewPrompt);
-			
 			instrText.setText(recItem.recinstructions);
 			
 			File imgFile = new  File(recItem.recprompt);
@@ -502,10 +500,12 @@ public class ActivityRecording extends Activity
 			}
 			else 
 			{
-				Log.w(LOGTAG, "updateInstrAndPrompt() image file does not exist, filepath:" 
+				Log.w(LOGTAG, "updateInstrAndPrompt() image file does not exist, filepath=" 
 						+ recItem.recprompt); 
 			}
 			
+			promptText.setLayoutParams(whZero);
+			promptImage.setLayoutParams(whNewPrompt);
 		}
 		else if(recItem.itemType == RecordItem.TYPE_SOUND)
 		{
