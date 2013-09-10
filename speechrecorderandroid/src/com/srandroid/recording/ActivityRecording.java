@@ -9,23 +9,15 @@ import java.util.List;
 
 import com.srandroid.database.TableRecords.RecordItem;
 import com.srandroid.database.TableRecords;
-import com.srandroid.database.TableScripts;
 import com.srandroid.database.TableScripts.ScriptItem;
-import com.srandroid.database.TableSessions;
 import com.srandroid.database.SrmContentProvider.SrmUriMatcher;
-import com.srandroid.main.ActivitySessionDetails;
-import com.srandroid.recording.ActivityPreRecording.LocalAdapterForActPreRec;
 import com.srandroid.speechrecorder.R;
 import com.srandroid.util.SrmRecorder;
 import com.srandroid.util.Utils;
 
-import android.R.drawable;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ClipData.Item;
 import android.content.UriMatcher;
@@ -85,7 +77,6 @@ public class ActivityRecording extends Activity
 	private static int heightPromtTextView = 300;
 	private static int heightPromtTextView2 = 400;
 	
-	
 	// private ImageView imageCircle1;
 	
 	private SrmRecorder srmRecorder;
@@ -96,7 +87,6 @@ public class ActivityRecording extends Activity
 	private List<RecordItem> recItemsList;
 	
 	private String recordFilepath;
-	
 	
 	private static Activity thisAct;
 	/**
@@ -821,7 +811,6 @@ public class ActivityRecording extends Activity
 					// bRecord.setText(getResources().getString(R.string.record));
 					// bRecord.setEnabled(true);
 					
-
 			    	updateInstrAndPrompt(recItemsList.get(recItemIndex));
 			    	instrText.setVisibility(View.VISIBLE);
 					

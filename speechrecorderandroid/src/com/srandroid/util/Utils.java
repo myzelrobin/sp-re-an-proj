@@ -9,14 +9,15 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import com.srandroid.speechrecorder.R;
 import com.srandroid.database.TableRecords.RecordItem;
 import com.srandroid.database.TableScripts.ScriptItem;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
@@ -310,7 +311,50 @@ public class Utils
 		}
 	}
 	
-	
+	public static class UIutils
+	{
+		public static void showAlertDialog(
+				Context context, 
+				String title, 
+				String message,
+				String pButtonText,
+				String nButtonText)
+		{
+			AlertDialog.Builder alertDialogBuilder = 
+					new AlertDialog.Builder(context);
+	 
+				// set title
+				alertDialogBuilder.setTitle(title);
+	 
+				// set dialog message
+				alertDialogBuilder
+					.setMessage(message)
+					.setCancelable(false)
+					.setPositiveButton(pButtonText, 
+							new DialogInterface.OnClickListener() 
+							{
+								public void onClick(DialogInterface dialog,int id) 
+								{
+									dialog.dismiss();
+								}
+							})
+					.setNegativeButton(nButtonText, 
+							new DialogInterface.OnClickListener() 
+							{
+								public void onClick(DialogInterface dialog,int id) 
+								{
+									dialog.cancel();
+								}
+							});
+	 
+					// create alert dialog
+					AlertDialog alertDialog = alertDialogBuilder.create();
+	 
+					// show it
+					alertDialog.show();
+		}
+		
+	}
 	
 	public static void initSharedPreference(SharedPreferences sharedPreferences) 
 	{
