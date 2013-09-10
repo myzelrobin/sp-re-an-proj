@@ -396,10 +396,6 @@ public class ActivityPreRecording extends Activity
 				if(!speakersList.contains(name)) 
 					speakersList.add(name);
 				
-				String s2 = cursor.getString(
-						cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SPEAKER_ID));
-				if(!speakersList.contains(s2)) speakersList.add(s2);
-				
 				cursor.moveToNext();
 			}
 			
