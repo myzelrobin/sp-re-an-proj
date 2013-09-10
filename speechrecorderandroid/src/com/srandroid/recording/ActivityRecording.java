@@ -522,9 +522,9 @@ public class ActivityRecording extends Activity
 	
 	private void enlargePromptImage()
 	{
-		float fromXscale = 1;
+		float fromXscale = 0;
 		float toXscale = heightPromtTextView2 / heightPromtTextView;
-		float fromYscale = 1;
+		float fromYscale = 0;
 		float toYscale = heightPromtTextView2 / heightPromtTextView;
 		
 		Animation scale = new ScaleAnimation(fromXscale, toXscale, fromYscale, toYscale, 
