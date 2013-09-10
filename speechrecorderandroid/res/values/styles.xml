@@ -35,7 +35,7 @@
     columnCount is calculatet at runtime -->
     <style name="style_gridview_fragment_in_activitymain" 
         parent="@android:style/Widget.GridView">
-        <item name="android:background">#EEEEEE</item>
+        <item name="android:background">#CCCCCC</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:gravity">center</item>
