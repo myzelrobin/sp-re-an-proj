@@ -823,7 +823,7 @@ public class ActivityRecording extends Activity
 					
 
 			    	updateInstrAndPrompt(recItemsList.get(recItemIndex));
-			    	instrText.setVisibility(View.INVISIBLE);
+			    	instrText.setVisibility(View.VISIBLE);
 					
 					imageButtonRecord.setImageDrawable(getResources().getDrawable(R.drawable.icon_circle_grey));
 		     		imageButtonRecord.setEnabled(true);
