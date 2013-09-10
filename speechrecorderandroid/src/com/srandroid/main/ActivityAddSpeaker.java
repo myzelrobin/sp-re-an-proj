@@ -6,6 +6,7 @@ package com.srandroid.main;
 
 import com.srandroid.recording.ActivityPreRecording;
 import com.srandroid.speechrecorder.R;
+import com.srandroid.database.SrmContentProvider.SrmUriMatcher;
 import com.srandroid.database.TableSpeakers;
 import com.srandroid.database.SrmContentProvider;
 import com.srandroid.database.TableSpeakers.SpeakerItem;
@@ -191,7 +192,8 @@ public class ActivityAddSpeaker extends Activity
 	        			saveDataToSpeakerItem(speaker);
 		        		Uri speakerItemUri = saveSpeakerItemToDB(speaker);
 		        		Log.w(ActivityAddSpeaker.class.getName(), 
-		        				"saveSpeakerItemToDB() inserted a speaker into db with id=" + speakerItemUri);
+		        				"saveSpeakerItemToDB() inserted a speaker into db with id=" 
+		        				+ speakerItemUri);
 		        		
 		        		NavUtils.navigateUpFromSameTask(this);
 				        return true;
@@ -238,8 +240,8 @@ public class ActivityAddSpeaker extends Activity
 			speaker.setAccent(accentInput.getText().toString());
 			speaker.setSex(String.valueOf(sexDropdownlist.getSelectedItem()));
 			String birthday = yearInput.getText().toString() + "-" 
-						+ monthInput.getText().toString() + "-"
-					+ dayInput.getText().toString();
+								+ monthInput.getText().toString() + "-"
+								+ dayInput.getText().toString();
 			speaker.setBirthday(birthday);
 			
 			
@@ -257,7 +259,8 @@ public class ActivityAddSpeaker extends Activity
 
 			
 			speakerItemUri = 
-					getContentResolver().insert(SrmContentProvider.SrmUriMatcher.CONTENT_URI_TABLE_SPEAKERS, values);
+					getContentResolver()
+						.insert(SrmUriMatcher.CONTENT_URI_TABLE_SPEAKERS, values);
 			return speakerItemUri;
 		}
 
