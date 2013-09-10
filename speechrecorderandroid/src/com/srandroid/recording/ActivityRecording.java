@@ -647,8 +647,6 @@ public class ActivityRecording extends Activity
 						// bRecord.setEnabled(true);
 			        	imageButtonRecord.setImageDrawable(getResources().getDrawable(R.drawable.icon_circle_green));
 			        	imageButtonRecord.setEnabled(true); 
-			        	
-			        	
 			         } 
 			    }, ( Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay)) / 2 );
 	         } 
