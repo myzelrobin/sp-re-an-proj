@@ -182,6 +182,7 @@ public class ActivityAddSpeaker extends Activity
 			        
 			     // actionbar buttons
 	        	case R.id.activity_addspeaker_button_add:
+	        		
 	        		if(!firstnameInput.getText().toString().matches("") 
         				&& !surnameInput.getText().toString().matches("")
         				&& !accentInput.getText().toString().matches("") 
@@ -191,8 +192,6 @@ public class ActivityAddSpeaker extends Activity
 		        		Uri speakerItemUri = saveSpeakerItemToDB(speaker);
 		        		Log.w(ActivityAddSpeaker.class.getName(), 
 		        				"saveSpeakerItemToDB() inserted a speaker into db with id=" + speakerItemUri);
-		        		String newSpeakerItemId = speakerItemUri.getLastPathSegment();
-		        		Utils.ConstantVars.speakerItemIdForNewSession = newSpeakerItemId;
 		        		
 		        		NavUtils.navigateUpFromSameTask(this);
 				        return true;
