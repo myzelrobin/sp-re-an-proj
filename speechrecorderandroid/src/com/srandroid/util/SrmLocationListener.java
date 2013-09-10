@@ -181,7 +181,7 @@ public class SrmLocationListener extends Service implements LocationListener
            			 "Can not get location data!\n"
            			 + "This device can not connect to network or gps satelite!\n"
            			 + "Check system settings or hardware settings!", 
-           			 "OK", "CANCEL");
+           			 "OK");
 	   	    	alertDialog.show();
 	         } 
 	   	     else 
@@ -229,11 +229,9 @@ public class SrmLocationListener extends Service implements LocationListener
 	                    			 "Location", 
 	                    			 "Retreiving GPS info from gps device!"
 	                    			 + "\nThis takes a while, please wait...", 
-	                    			 "OK", "CANCEL");
+	                    			 "OK");
 	                    	 alertDialog.show();
 	                     }
-	                    	 
-	                     
 	                    
 //	                    	Toast.makeText(context, 
 //	                			 "Retreiving GPS info from gps device!\nThis takes a while, please wait...", 

@@ -317,8 +317,7 @@ public class Utils
 				Activity act, 
 				String title, 
 				String message,
-				String pButtonText,
-				String nButtonText)
+				String buttonText)
 		{
 			AlertDialog.Builder alertDialogBuilder = 
 					new AlertDialog.Builder(act);
@@ -330,21 +329,13 @@ public class Utils
 				alertDialogBuilder
 					.setMessage(message)
 					.setCancelable(false)
-					.setPositiveButton(pButtonText, 
-							new DialogInterface.OnClickListener() 
+					.setNeutralButton(buttonText,
+				            new DialogInterface.OnClickListener() 
 							{
-								public void onClick(DialogInterface dialog,int id) 
-								{
-									dialog.dismiss();
-								}
-							})
-					.setNegativeButton(nButtonText, 
-							new DialogInterface.OnClickListener() 
-							{
-								public void onClick(DialogInterface dialog,int id) 
-								{
-									dialog.cancel();
-								}
+						        public void onClick(DialogInterface dialog, int id) 
+						        {
+						            dialog.cancel();
+						        }
 							});
 	 
 					// create alert dialog
