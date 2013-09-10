@@ -6,6 +6,7 @@
     <string name="hello_world">Hello world!</string>
     
     <!-- common strings -->
+    <string name="ok">OK</string>
     <string name="add">ADD</string>
     <string name="delete">DELETE</string>
     <string name="yes">YES</string>
@@ -26,7 +27,7 @@
     <string name="testviewtext">
         The quick brown fox jumps over the lazy dog.</string>
     <string name="swipeHintText">SWIPE FROM HERE TO RIGHT</string>
-    <string name="swipeHintText2">SCROLL DOWN FOR MORE</string>
+    <string name="hinttext2">SCROLL DOWN FOR MORE</string>
     
     
     <!-- ActivityMain -->

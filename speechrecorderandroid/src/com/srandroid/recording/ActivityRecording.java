@@ -44,6 +44,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
@@ -75,9 +79,11 @@ public class ActivityRecording extends Activity
 	private TextView promptText;
 	private ImageView promptImage;
 	
-	private static int hInstrTextView = 100;
-	private static int hPromtTextView = 300;
+	private static int heightInstrTextView = 100;
 	
+	private static int widthPromptTextView = 800;
+	private static int heightPromtTextView = 300;
+	private static int heightPromtTextView2 = 400;
 	
 	
 	// private ImageView imageCircle1;
@@ -473,7 +479,7 @@ public class ActivityRecording extends Activity
 		LinearLayout.LayoutParams whNewPrompt = 
 			new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.MATCH_PARENT, 
-				hPromtTextView);
+				heightPromtTextView);
 		LinearLayout.LayoutParams whZero = new LinearLayout.LayoutParams(0, 0);
 		
 		if(recItem.itemType == RecordItem.TYPE_TEXT)
@@ -517,26 +523,78 @@ public class ActivityRecording extends Activity
 	
 	private void enlargePromptImage()
 	{
-		LinearLayout.LayoutParams whNewLarge = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.MATCH_PARENT, 
-				LinearLayout.LayoutParams.MATCH_PARENT);
-		LinearLayout.LayoutParams whZero = new LinearLayout.LayoutParams(0, 0);
+		float fromXscale = 1;
+		float toXscale = 1;
+		float fromYscale = 1;
+		float toYscale = heightPromtTextView2 / heightPromtTextView;
 		
+		Animation scale = new ScaleAnimation(fromXscale, toXscale, fromYscale, toYscale, 
+				Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+		scale.setDuration( Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay) );
+		
+		float fromX = promptImage.getX();
+		float toX = promptImage.getX();
+		float fromY = promptImage.getY();
+		float toY = promptImage.getY() - heightInstrTextView;
+		
+		Animation translate = new TranslateAnimation(fromX, toX, fromY, toY);
+		translate.setDuration( Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay) );
+		
+		AnimationSet animSet = new AnimationSet(true);
+		animSet.setFillEnabled(true);
+		animSet.addAnimation(scale);
+		animSet.addAnimation(translate);
+		
+		
+		
+		LinearLayout.LayoutParams whZero = new LinearLayout.LayoutParams(0, 0);
 		instrText.setLayoutParams(whZero);
-		promptImage.setLayoutParams(whNewLarge);
+		
+		//LinearLayout.LayoutParams whNewLarge = new LinearLayout.LayoutParams(
+		//		LinearLayout.LayoutParams.MATCH_PARENT, 
+		//		LinearLayout.LayoutParams.MATCH_PARENT);
+		// promptImage.setLayoutParams(whNewLarge);
+		
+		// Launching animation set
+		promptImage.startAnimation(animSet);
 	}
 	
 	private void shrinkPromptImage()
 	{
+		float fromXscale = 1;
+		float toXscale = 1;
+		float fromYscale = 1;
+		float toYscale = heightPromtTextView / heightPromtTextView2;
+		
+		Animation scale = new ScaleAnimation(fromXscale, toXscale, fromYscale, toYscale, 
+				Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+		scale.setDuration( Integer.parseInt(recItemsList.get(recItemIndex).postrecdelay) );
+		
+		float fromX = promptImage.getX();
+		float toX = promptImage.getX();
+		float fromY = promptImage.getY();
+		float toY = promptImage.getY() + heightInstrTextView;
+		
+		Animation translate = new TranslateAnimation(fromX, toX, fromY, toY);
+		translate.setDuration( Integer.parseInt(recItemsList.get(recItemIndex).postrecdelay) );
+		
+		AnimationSet animSet = new AnimationSet(true);
+		animSet.setFillEnabled(true);
+		animSet.addAnimation(scale);
+		animSet.addAnimation(translate);
+		
+		
+		//LinearLayout.LayoutParams whOriginPromt = new LinearLayout.LayoutParams(
+		//		LinearLayout.LayoutParams.MATCH_PARENT, 
+		//		heightPromtTextView);
+		// promptImage.setLayoutParams(whOriginPromt);
+		
+		promptImage.startAnimation(animSet);
+		
 		LinearLayout.LayoutParams whOriginInstr = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.MATCH_PARENT, 
-				hInstrTextView);
-		LinearLayout.LayoutParams whOriginPromt = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.MATCH_PARENT, 
-				hPromtTextView);
-		
+				heightInstrTextView);
 		instrText.setLayoutParams(whOriginInstr);
-		promptImage.setLayoutParams(whOriginPromt);
 	}
 	
 	
@@ -592,9 +650,9 @@ public class ActivityRecording extends Activity
 			        	imageButtonRecord.setImageDrawable(getResources().getDrawable(R.drawable.icon_circle_green));
 			        	imageButtonRecord.setEnabled(true); 
 			         } 
-			    }, (Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay)) / 2);
+			    }, ( Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay)) / 2 );
 	         } 
-	    }, (Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay)) / 2); 
+	    }, ( Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay)) / 2 ); 
 	}
 	
 	private void stopTestRecording()
@@ -663,9 +721,13 @@ public class ActivityRecording extends Activity
 		// bRecord.setText(getResources().getString(R.string.stop));
 		// bRecord.setEnabled(false);
 		
-		imageButtonRecord.setImageDrawable(getResources().getDrawable(R.drawable.icon_circle_red));
     	imageButtonRecord.setEnabled(false);
+    	imageButtonRecord.setImageDrawable(getResources().getDrawable(R.drawable.icon_circle_red));
 		
+    	// enlarge prompt area
+    	if(recItemsList.get(recItemIndex).itemType == RecordItem.TYPE_IMAGE)
+    		enlargePromptImage();
+    	
 		// change images
     	// imageCircle1.setImageResource(R.drawable.icon_circle_red);
 		
@@ -690,19 +752,14 @@ public class ActivityRecording extends Activity
 				     		imageButtonRecord.setImageDrawable(getResources().getDrawable(R.drawable.icon_circle_green));
 				     		imageButtonRecord.setEnabled(true);
 				     		
-							Handler handler3 = new Handler(); 
-						    handler3.postDelayed(new Runnable() 
-						    { 
-						         public void run() 
-						         { 
-						        	// imageCircle1.setVisibility(View.INVISIBLE);
-						        	instrText.setVisibility(View.INVISIBLE);
-						        	
-						        	// enlarge prompt area
-						        	if(recItemsList.get(recItemIndex).itemType == RecordItem.TYPE_IMAGE)
-						        		enlargePromptImage();
-						         } 
-						    }, (Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay)) / 2);
+//							Handler handler3 = new Handler(); 
+//						    handler3.postDelayed(new Runnable() 
+//						    { 
+//						         public void run() 
+//						         { 
+//						        	 imageCircle1.setVisibility(View.INVISIBLE);
+//						         } 
+//						    }, (Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay)) / 2);
 				         } 
 				    }, (Integer.parseInt(recItemsList.get(recItemIndex).prerecdelay)) / 2);
 		         } 
@@ -722,6 +779,10 @@ public class ActivityRecording extends Activity
     	// bRecord.setEnabled(false);
     	
     	imageButtonRecord.setEnabled(false);
+    	
+    	// shrink prompt text
+		if(recItemsList.get(recItemIndex).itemType == RecordItem.TYPE_IMAGE)
+    		shrinkPromptImage();
     	
     	Handler handler = new Handler(); 
 	    handler.postDelayed(new Runnable() 
@@ -750,12 +811,6 @@ public class ActivityRecording extends Activity
 			    	// update UI
 			    	// imageCircle1.setImageResource(R.drawable.icon_circle_red);
 			    	// imageCircle1.setVisibility(View.VISIBLE);
-			    	
-			    	// shrink prompt text
-					if(recItemsList.get(recItemIndex).itemType == RecordItem.TYPE_IMAGE)
-		        		shrinkPromptImage();
-					
-					instrText.setVisibility(View.VISIBLE);
 			    	
 			    	updateInstrAndPrompt(recItemsList.get(recItemIndex));
 			    	
