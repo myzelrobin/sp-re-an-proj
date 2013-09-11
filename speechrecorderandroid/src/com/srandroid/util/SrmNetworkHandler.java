@@ -59,7 +59,6 @@ public class SrmNetworkHandler
 	    		(ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 	}
 	
-	
 	public void connectToServer(
 			String address, 
 			String username, 
