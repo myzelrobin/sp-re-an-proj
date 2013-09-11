@@ -3,6 +3,8 @@
  */
 package com.srandroid.util;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -44,6 +46,9 @@ public class SrmNetworkHandler
 	private static boolean isMobileConnected;
 	
 	
+	private HttpURLConnection conn;
+	// ((HttpURLConnection) e).getErrorStream();
+	
 	
 	/**
 	 * 
@@ -75,7 +80,7 @@ public class SrmNetworkHandler
 			}
 			else if(checkMobileConnection())
 			{ // uses Mobile Network
-				//new ConnectToServerTask().execute(address, username, password);
+				new ConnectToServerTask().execute(address, username, password);
 			}
 		}
 		else
@@ -140,12 +145,26 @@ public class SrmNetworkHandler
 			// first test connect to the server to get head infos
 			try 
 			{
-				result = requestHeadHTTPS(address);
+				if(requestHeadHTTPS(address))
+				{
+					Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() checks server(" 
+							+ address + ") is available, will download file");
+					// download file
+					downloadFile(Utils.ConstantVars.DIR_EXT_SCRIPTS_PATH, 
+							"test_download.txt");
+					result = "downloaded file";
+				}
+				else 
+				{
+					Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() checks server(" 
+							+ address + ") is UNavailable");
+					result = "server unavailable";
+				}
 			} 
-			catch (Exception e) 
+			catch (IOException e) 
 			{
 				Log.w(LOGTAG + "$ConnectToServerTask", 
-						"doInBackground() calls requestHead() throws Exception=" + e.getMessage()); 
+						"doInBackground() calls requestHead() throws Exception=" + conn.getErrorStream()); 
 			}
 			
 			// second test connect to the server with username and password
@@ -161,14 +180,12 @@ public class SrmNetworkHandler
 			Log.w(LOGTAG + "$ConnectToServerTask", "onPostExecute() get result=" + result);
 		}
 		
-		// HTTP
-		private String requestHead(String address)
+		// HTTP, check if the server is available
+		private boolean requestHead(String address)
 			throws IOException, MalformedURLException
 		{
 			Log.w(LOGTAG + "$ConnectToServerTask", 
 					"requestHead() will request HEAD from address=" + address);
-		
-			HttpURLConnection conn = null;
 			
 		    try 
 		    {
@@ -183,8 +200,11 @@ public class SrmNetworkHandler
 		        
 		        int response = conn.getResponseCode();
 		        Log.w(LOGTAG + "$ConnectToServerTask", "requestHead() get response=" + response);
+		        Log.w(LOGTAG + "$ConnectToServerTask", "requestHead() get HeaderFields=" 
+		        		+ conn.getHeaderFields().toString());
 		        
-		        return conn.getHeaderFields().toString();
+		        if(200 <= response && response <= 399) return true;
+		        else return false;
 		    } 
 		    finally 
 		    {
@@ -193,75 +213,42 @@ public class SrmNetworkHandler
 		        	conn.disconnect();
 		        }
 		    }
-			
-			
-//			InputStream input = null;
-//			
-//		    // Only display the first 500 characters of the retrieved content.
-//		    int len = 500;
-//
-//		    try 
-//		    {
-//		        URL url = new URL(address);
-//		        conn = (HttpURLConnection) url.openConnection();
-//		        conn.setReadTimeout(10000 /* milliseconds */);
-//		        conn.setConnectTimeout(15000 /* milliseconds */);
-//		        conn.setRequestMethod("HEAD"); // GET
-//		        conn.setDoInput(true);
-//		        // Starts the query
-//		        conn.connect();
-//		        
-//		        int response = conn.getResponseCode();
-//		        Log.w(LOGTAG + "$ConnectToServerTask", "requestHead() get response=" + response);
-//		        
-//		        input = conn.getInputStream();
-//		        // Convert the InputStream into a string
-//		        String contentAsString = readInputStreamToString(input, len);
-//		        return contentAsString;
-//		        
-//		    } finally {
-//		        if (input != null) {
-//		        	input.close();
-//		        } 
-//		        if (conn != null) {
-//		        	conn.disconnect();
-//		        }
-//		    }
 		}
 		
-		// HTTPS
-		private String requestHeadHTTPS(String address)
-				throws IOException, MalformedURLException
-			{
-				Log.w(LOGTAG + "$ConnectToServerTask", 
-						"requestHeadHTTPS() will request HEAD from address=" + address);
+		// HTTPS, check if the server is available
+		private boolean requestHeadHTTPS(String address)
+			throws IOException, MalformedURLException
+		{
+			Log.w(LOGTAG + "$ConnectToServerTask", 
+					"requestHeadHTTPS() will request HEAD from address=" + address);
 			
-				HttpsURLConnection conn = null;
-				
-			    try 
-			    {	
-			        URL url = new URL(address);
-			        conn = (HttpsURLConnection) url.openConnection();
-			        conn.setReadTimeout(10000 /* milliseconds */);
-			        conn.setConnectTimeout(15000 /* milliseconds */);
-			        conn.setRequestMethod("HEAD"); // GET
-			        conn.setDoInput(true);
-			        // Starts the query
-			        conn.connect();
-			        
-			        int response = conn.getResponseCode();
-			        Log.w(LOGTAG + "$ConnectToServerTask", "requestHeadHTTPS() get response=" + response);
-			        
-			        return conn.getHeaderFields().toString();
-			    } 
-			    finally 
-			    {
-			        if (conn != null) 
-			        {
-			        	conn.disconnect();
-			        }
-			    }
-			}
+		    try 
+		    {	
+		        URL url = new URL(address);
+		        conn = (HttpsURLConnection) url.openConnection();
+		        conn.setReadTimeout(10000 /* milliseconds */);
+		        conn.setConnectTimeout(15000 /* milliseconds */);
+		        conn.setRequestMethod("HEAD"); // GET
+		        conn.setDoInput(true);
+		        // Starts the query
+		        conn.connect();
+		        
+		        int response = conn.getResponseCode();
+		        Log.w(LOGTAG + "$ConnectToServerTask", "requestHeadHTTPS() get response=" + response);
+		        Log.w(LOGTAG + "$ConnectToServerTask", "requestHead() get HeaderFields=" 
+		        		+ conn.getHeaderFields().toString());
+		        
+		        if(200 <= response && response <= 399) return true;
+		        else return false;
+		    } 
+		    finally 
+		    {
+		        if (conn != null) 
+		        {
+		        	conn.disconnect();
+		        }
+		    }
+		}
 		
 		// Reads an InputStream and converts it to a String.
 		private String readInputStreamToString(InputStream stream, int len) 
@@ -272,6 +259,61 @@ public class SrmNetworkHandler
 		    char[] buffer = new char[len];
 		    reader.read(buffer);
 		    return new String(buffer);
+		}
+		
+		
+		private void downloadFile(String resFilepath, String destFilename)
+				throws IOException, MalformedURLException
+		{
+			Log.w(LOGTAG + "$ConnectToServerTask", 
+					"downloadFile() will download RES=" + resFilepath 
+					+ " to DEST=" + destFilename);
+			
+			InputStream input = null;
+			FileOutputStream output = null;
+			
+		    try 
+		    {
+		    	// input stream
+		        URL url = new URL(resFilepath);
+		        conn = (HttpURLConnection) url.openConnection();
+		        conn.setReadTimeout(10000 /* milliseconds */);
+		        conn.setConnectTimeout(15000 /* milliseconds */);
+		        conn.setRequestMethod("GET"); 
+		        conn.setDoInput(true);
+		        conn.connect();
+		        input = conn.getInputStream();
+		        
+		        // output stream
+		        File scriptsFolder = new File(Utils.ConstantVars.DIR_EXT_SCRIPTS_PATH);
+		        File outputFilePath = new File(scriptsFolder, destFilename);
+		        output = new FileOutputStream(outputFilePath);
+		        
+		        // read & write
+		        byte[] buffer = new byte[1024];
+		        int bufferLength = 0;
+
+		        while ( (bufferLength = input.read(buffer)) > 0 ) 
+		        {
+		        	output.write(buffer, 0, bufferLength);
+		        }
+		        
+		    } 
+		    finally 
+		    {
+		        if (input != null) 
+		        {
+		        	input.close();
+		        } 
+		        if(output != null)
+		        {
+		        	output.close();
+		        }
+		        if (conn != null) 
+		        {
+		        	conn.disconnect();
+		        }
+		    }
 		}
 	}
 

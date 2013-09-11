@@ -140,13 +140,13 @@ public class Utils
 		
 		
 		// path variables
-		public static String APP_DIR_INT_PATH; // app internal root folder
-		public static String APP_FILES_DIR_INT_PATH; // app internal folder "files"
-		public static String APP_DIR_EXT_PATH; // app external root foler
-		public static String APP_FILES_DIR_EXT_PATH; // app external foler "files"
-		public static String REC_FILES_DIR_EXT_PATH; // folder "records" in external "files"
-		public static String TEST_MIC_DIR_EXT_PATH; // folder "test_mic" in external "records"
-		public static String SCRIPTS_DIR_EXT_PATH; // folder "scripts" in external files 
+		public static String DIR_APP_INT_PATH; // app internal root folder
+		public static String DIR_APP_INT_FILES_PATH; // app internal folder "files"
+		public static String DIR_APP_EXT_PATH; // app external root foler
+		public static String DIR_APP_EXT_FILES_PATH; // app external foler "files"
+		public static String DIR_EXT_RECFILES_PATH; // folder "records" in external "files"
+		public static String DIR_EXT_TESTMIC_PATH; // folder "test_mic" in external "records"
+		public static String DIR_EXT_SCRIPTS_PATH; // folder "scripts" in external files 
 		
 		
 		
@@ -178,9 +178,13 @@ public class Utils
 		//public  static DBAccessor dbAccessor;
 		
 		// network
-		public static final String SERVER_ADDRESS = "https://www.google.com"; // http://www.android.com
+		public static final String SERVER_ADDRESS = "http://www.dropbox.com"; // http://www.android.com
+		public static final String SERVER_ADDRESS_HTTPS = "https://www.google.com";
 		public static final String SERVER_USERNAME = "null";
 		public static final String SERVER_PASSWORD = "null";
+		
+		public static final String SERVER_TESTDOWNLOAD_FILEPATH = 
+				"http://dl.dropboxusercontent.com/u/34034269/srandroid_test.txt";
 		
 		
 		
@@ -278,42 +282,42 @@ public class Utils
 			
 			// get application folder path (/data/data/APP_PACKAGE/)
 			try {
-				APP_DIR_INT_PATH = getAppInternalDir(context);
+				DIR_APP_INT_PATH = getAppInternalDir(context);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			Log.w(LOGTAG, "APP_DIR_INT=" + APP_DIR_INT_PATH);
+			Log.w(LOGTAG, "APP_DIR_INT=" + DIR_APP_INT_PATH);
 			
 			// get files folder path (/data/data/APP_PACKAGE/files)
 			try {
-				APP_FILES_DIR_INT_PATH = getAppInternalFilesDir(context);
+				DIR_APP_INT_FILES_PATH = getAppInternalFilesDir(context);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			Log.w(LOGTAG, "APP_FILES_DIR_INT=" + APP_FILES_DIR_INT_PATH);
+			Log.w(LOGTAG, "APP_FILES_DIR_INT=" + DIR_APP_INT_FILES_PATH);
 			
 			// get app folder path in sdcard(/mnt/sdcard/Android/APP_PACKAGE/)
 			try {
-				APP_DIR_EXT_PATH = getAppExternalDir(context);
+				DIR_APP_EXT_PATH = getAppExternalDir(context);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			Log.w(LOGTAG, "APP_DIR_EXT=" + APP_DIR_EXT_PATH);
+			Log.w(LOGTAG, "APP_DIR_EXT=" + DIR_APP_EXT_PATH);
 			
 			// make folder path in sdcard(/mnt/sdcard/Android/APP_PACKAGE/records/)
-			REC_FILES_DIR_EXT_PATH = makeDir(APP_DIR_EXT_PATH, "records");
-			Log.w(LOGTAG, "REC_FILES_DIR_EXT=" + REC_FILES_DIR_EXT_PATH);
+			DIR_EXT_RECFILES_PATH = makeDir(DIR_APP_EXT_PATH, "records");
+			Log.w(LOGTAG, "REC_FILES_DIR_EXT=" + DIR_EXT_RECFILES_PATH);
 			
 			// make folder path in sdcard(/mnt/sdcard/Android/APP_PACKAGE/records/test)
-			TEST_MIC_DIR_EXT_PATH = makeDir(REC_FILES_DIR_EXT_PATH, "test");
-			Log.w(LOGTAG, "REC_TEST_DIR_EXT=" + TEST_MIC_DIR_EXT_PATH);
+			DIR_EXT_TESTMIC_PATH = makeDir(DIR_EXT_RECFILES_PATH, "test");
+			Log.w(LOGTAG, "REC_TEST_DIR_EXT=" + DIR_EXT_TESTMIC_PATH);
 			
 			// make folder path in sdcard()
-			SCRIPTS_DIR_EXT_PATH = makeDir(APP_DIR_EXT_PATH, "scripts");
-			Log.w(LOGTAG, "SCRIPTS_DIR_EXT_PATH=" + SCRIPTS_DIR_EXT_PATH);
+			DIR_EXT_SCRIPTS_PATH = makeDir(DIR_APP_EXT_PATH, "scripts");
+			Log.w(LOGTAG, "SCRIPTS_DIR_EXT_PATH=" + DIR_EXT_SCRIPTS_PATH);
 			
 			getScreenSize(context);
 			setLayoutValuesInVerticalMode();
@@ -495,10 +499,10 @@ public class Utils
 	public static void copyScriptFilesToAppExtFolder(String fileName, AssetManager assetsManager)
 	{
 		Log.w(LOGTAG, "copyScriptFilesToAppExtFolder()" 
-				+ "will copy script " + fileName + " to " + Utils.ConstantVars.SCRIPTS_DIR_EXT_PATH);
+				+ "will copy script " + fileName + " to " + Utils.ConstantVars.DIR_EXT_SCRIPTS_PATH);
 		
 		// better  not hard code storage directory . use Environment.getExternalStorageDirectory()
-		String destFilePath = Utils.ConstantVars.SCRIPTS_DIR_EXT_PATH + File.separator + fileName;
+		String destFilePath = Utils.ConstantVars.DIR_EXT_SCRIPTS_PATH + File.separator + fileName;
 		try 
 		{
 
@@ -518,7 +522,7 @@ public class Utils
 		        
 		        Log.w(LOGTAG, "copyScriptFilesToAppExtFolder()" 
 						+ "finished copying script " + fileName 
-						+ " to " + Utils.ConstantVars.SCRIPTS_DIR_EXT_PATH);
+						+ " to " + Utils.ConstantVars.DIR_EXT_SCRIPTS_PATH);
 		       
 	        }
 	        
@@ -531,7 +535,7 @@ public class Utils
 	    } catch (FileNotFoundException ex) {
 	    	Log.w(LOGTAG, "copyScriptFilesToAppExtFolder() error: " 
 	    			+ ex.getMessage() + " in " 
-	    			+ Utils.ConstantVars.SCRIPTS_DIR_EXT_PATH);
+	    			+ Utils.ConstantVars.DIR_EXT_SCRIPTS_PATH);
 	    } catch (IOException e) {
 	    	Log.w(LOGTAG, "copyScriptFilesToAppExtFolder() error:" 
 	    			+ e.getMessage());
@@ -642,7 +646,7 @@ public class Utils
 		recordItem6.postrecdelay = "500";
 		recordItem6.recduration = "20000";
 		recordItem6.recinstructions = "Describe the picture";
-		recordItem6.recprompt = Utils.ConstantVars.SCRIPTS_DIR_EXT_PATH 
+		recordItem6.recprompt = Utils.ConstantVars.DIR_EXT_SCRIPTS_PATH 
 				+ File.separator + "example_boy.jpg";
 		recordItem6.reccomment = "Expect some descriptions";
 		recordItem6.itemType = RecordItem.TYPE_IMAGE;
@@ -659,7 +663,7 @@ public class Utils
 		recordItem7.postrecdelay = "500";
 		recordItem7.recduration = "20000";
 		recordItem7.recinstructions = "Describe the picture";
-		recordItem7.recprompt = Utils.ConstantVars.SCRIPTS_DIR_EXT_PATH 
+		recordItem7.recprompt = Utils.ConstantVars.DIR_EXT_SCRIPTS_PATH 
 				+ File.separator + "example_food.jpg";
 		recordItem7.reccomment = "Expect some descriptions";
 		recordItem7.itemType = RecordItem.TYPE_IMAGE;

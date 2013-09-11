@@ -93,8 +93,8 @@ public class SrmRecorder
 		{
 		   Log.w(LOGTAG, 
 				   "Folder to save audio file doese NOT exist, save audio file to " 
-						   + Utils.ConstantVars.TEST_MIC_DIR_EXT_PATH);
-		   dirPath = Utils.ConstantVars.TEST_MIC_DIR_EXT_PATH;
+						   + Utils.ConstantVars.DIR_EXT_TESTMIC_PATH);
+		   dirPath = Utils.ConstantVars.DIR_EXT_TESTMIC_PATH;
 		}
 		if(fileName == null)
 		{
@@ -119,8 +119,8 @@ public class SrmRecorder
 		{
 		   Log.w(LOGTAG, 
 				   "Folder to save audio file doese NOT exist, save audio file to " 
-					+ Utils.ConstantVars.TEST_MIC_DIR_EXT_PATH);
-		   dirPath = Utils.ConstantVars.TEST_MIC_DIR_EXT_PATH;
+					+ Utils.ConstantVars.DIR_EXT_TESTMIC_PATH);
+		   dirPath = Utils.ConstantVars.DIR_EXT_TESTMIC_PATH;
 		}
 		if(fileName == null)
 		{

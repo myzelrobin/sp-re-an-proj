@@ -123,7 +123,7 @@ import com.srandroid.util.Utils;
 					
 					recorderForMic = 
 							new SrmRecorder(
-									Utils.ConstantVars.TEST_MIC_DIR_EXT_PATH, 
+									Utils.ConstantVars.DIR_EXT_TESTMIC_PATH, 
 									"test_mic", this);
 					Log.w(this.getClass().getName(), SrmRecorder.TAG_TESTMIC 
 							+ ": AudioRecord recorderForMic is created: " 
@@ -188,7 +188,7 @@ import com.srandroid.util.Utils;
 					 bTestrecord.setText(R.string.stop);
 					 
 					 recorderForTestRecording = 
-							 new SrmRecorder(Utils.ConstantVars.TEST_MIC_DIR_EXT_PATH, "test_record");
+							 new SrmRecorder(Utils.ConstantVars.DIR_EXT_TESTMIC_PATH, "test_record");
 					 Log.w(this.getClass().getName(), SrmRecorder.TAG_TESTREC 
 								+ ": AudioRecord recorderForTestRecording is created: " 
 								+ "\nsampleRateHz=" + SrmRecorder.getSampleRateHz()
