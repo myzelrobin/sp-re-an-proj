@@ -150,7 +150,7 @@ public class SrmNetworkHandler
 					Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() checks server(" 
 							+ address + ") is available, will download file");
 					// download file
-					downloadFile(Utils.ConstantVars.DIR_EXT_SCRIPTS_PATH, 
+					downloadFile(Utils.ConstantVars.SERVER_TESTDOWNLOAD_FILEPATH, 
 							"test_download.txt");
 					result = "downloaded file";
 				}
@@ -168,7 +168,6 @@ public class SrmNetworkHandler
 			}
 			
 			// second test connect to the server with username and password
-			
 			
 			return result;
 		}
