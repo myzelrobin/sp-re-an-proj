@@ -165,11 +165,6 @@ public class SrmNetworkHandler
 		
 			HttpURLConnection conn = null;
 			
-			InputStream input = null;
-			
-		    // Only display the first 500 characters of the retrieved content.
-		    int len = 500;
-
 		    try 
 		    {
 		        URL url = new URL(address);
@@ -184,19 +179,49 @@ public class SrmNetworkHandler
 		        int response = conn.getResponseCode();
 		        Log.w(LOGTAG + "$ConnectToServerTask", "requestHead() get response=" + response);
 		        
-		        input = conn.getInputStream();
-		        // Convert the InputStream into a string
-		        String contentAsString = readInputStreamToString(input, len);
-		        return contentAsString;
-		        
-		    } finally {
-		        if (input != null) {
-		        	input.close();
-		        } 
-		        if (conn != null) {
+		        return conn.getHeaderFields().toString();
+		    } 
+		    finally 
+		    {
+		        if (conn != null) 
+		        {
 		        	conn.disconnect();
 		        }
 		    }
+			
+			
+//			InputStream input = null;
+//			
+//		    // Only display the first 500 characters of the retrieved content.
+//		    int len = 500;
+//
+//		    try 
+//		    {
+//		        URL url = new URL(address);
+//		        conn = (HttpURLConnection) url.openConnection();
+//		        conn.setReadTimeout(10000 /* milliseconds */);
+//		        conn.setConnectTimeout(15000 /* milliseconds */);
+//		        conn.setRequestMethod("HEAD"); // GET
+//		        conn.setDoInput(true);
+//		        // Starts the query
+//		        conn.connect();
+//		        
+//		        int response = conn.getResponseCode();
+//		        Log.w(LOGTAG + "$ConnectToServerTask", "requestHead() get response=" + response);
+//		        
+//		        input = conn.getInputStream();
+//		        // Convert the InputStream into a string
+//		        String contentAsString = readInputStreamToString(input, len);
+//		        return contentAsString;
+//		        
+//		    } finally {
+//		        if (input != null) {
+//		        	input.close();
+//		        } 
+//		        if (conn != null) {
+//		        	conn.disconnect();
+//		        }
+//		    }
 		}
 		
 		// Reads an InputStream and converts it to a String.
