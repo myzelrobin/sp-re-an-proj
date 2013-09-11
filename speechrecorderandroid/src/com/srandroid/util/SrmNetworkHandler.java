@@ -59,8 +59,8 @@ public class SrmNetworkHandler
 	{
 		Log.w(LOGTAG, "connectToServer(): will connect to server " 
 				+ "address=" + address 
-				+ "username=" + username
-				+ "password=" + password);
+				+ ", username=" + username
+				+ ", password=" + password);
 		
 		if(isDeviceOnline())
 		{
@@ -82,7 +82,6 @@ public class SrmNetworkHandler
 					+ "Check system network settings!", 
 					"OK");
 		}
-		
 	}
 	
 	public boolean checkWifiConnection()
@@ -130,8 +129,8 @@ public class SrmNetworkHandler
 			
 			Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() get strings " 
 					+ "address=" + address 
-					+ "username=" + username
-					+ "password=" + password);
+					+ ", username=" + username
+					+ ", password=" + password);
 			
 			// first test connect to the server to get head infos
 			try 
@@ -167,6 +166,7 @@ public class SrmNetworkHandler
 			HttpURLConnection conn = null;
 			
 			InputStream input = null;
+			
 		    // Only display the first 500 characters of the retrieved content.
 		    int len = 500;
 
@@ -209,8 +209,6 @@ public class SrmNetworkHandler
 		    reader.read(buffer);
 		    return new String(buffer);
 		}
-
-		
 	}
 
 }

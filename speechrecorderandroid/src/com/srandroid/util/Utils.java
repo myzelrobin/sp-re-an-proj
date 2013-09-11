@@ -178,7 +178,7 @@ public class Utils
 		//public  static DBAccessor dbAccessor;
 		
 		// network
-		public static final String SERVER_ADDRESS = "http://www.dropbox.com/";
+		public static final String SERVER_ADDRESS = "http://www.android.com/"; // https?
 		public static final String SERVER_USERNAME = "null";
 		public static final String SERVER_PASSWORD = "null";
 		
