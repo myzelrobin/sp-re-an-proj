@@ -318,7 +318,7 @@ public class SrmNetworkHandler
 		private String extractFileName(String filepath)
 		{
 			int start = filepath.lastIndexOf('/') + 1;
-			int end = filepath.length() - 1;
+			int end = filepath.length();
 			
 			String filename = filepath.substring(start, end);
 			
