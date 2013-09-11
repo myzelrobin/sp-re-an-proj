@@ -52,7 +52,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class ActivityMain extends Activity {
+public class ActivityMain extends Activity 
+{
+	
+	public static Context context;
 	
 	// fields for Drawer
 	private CharSequence activity_title;
@@ -79,7 +82,7 @@ public class ActivityMain extends Activity {
 	public ActivityMain() 
 	{
 		super();
-		ACT_MAIN = this;
+		context = this;
 	}
     
 	
