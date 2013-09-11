@@ -195,8 +195,7 @@ public class SrmNetworkHandler
 		        
 		        int response = conn.getResponseCode();
 		        Log.w(LOGTAG + "$ConnectToServerTask", "requestHead() get response=" + response);
-		        Log.w(LOGTAG + "$ConnectToServerTask", "requestHead() get HeaderFields=" 
-		        		+ conn.getHeaderFields().toString());
+		        // Log.w(LOGTAG + "$ConnectToServerTask", "requestHead() get HeaderFields=" + conn.getHeaderFields().toString());
 		        
 		        if(200 <= response && response <= 399) return true;
 		        else return false;
@@ -230,8 +229,7 @@ public class SrmNetworkHandler
 		        
 		        int response = conn.getResponseCode();
 		        Log.w(LOGTAG + "$ConnectToServerTask", "requestHeadHTTPS() get response=" + response);
-		        Log.w(LOGTAG + "$ConnectToServerTask", "requestHead() get HeaderFields=" 
-		        		+ conn.getHeaderFields().toString());
+		        //Log.w(LOGTAG + "$ConnectToServerTask", "requestHead() get HeaderFields=" + conn.getHeaderFields().toString());
 		        
 		        if(200 <= response && response <= 399) return true;
 		        else return false;
@@ -278,6 +276,8 @@ public class SrmNetworkHandler
 		        conn.setRequestMethod("GET"); 
 		        conn.setDoInput(true);
 		        conn.connect();
+		        int response = conn.getResponseCode();
+		        Log.w(LOGTAG + "$ConnectToServerTask", "downloadSingleFile() get response=" + response);
 		        input = conn.getInputStream();
 		        
 		        // output stream

@@ -184,7 +184,7 @@ public class Utils
 		public static final String SERVER_PASSWORD = "null";
 		
 		public static final String SERVER_TESTDOWNLOAD_FILEPATH = 
-				"http://dl.dropboxusercontent.com/u/34034269/srandroid_test.txt";
+				"";
 		
 		
 		
