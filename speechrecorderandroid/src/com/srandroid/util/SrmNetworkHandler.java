@@ -34,8 +34,6 @@ import android.util.Log;
 public class SrmNetworkHandler 
 {
 	private static final String LOGTAG = SrmNetworkHandler.class.getName();
-
-	
 	
 	private Context context;
 	
@@ -150,8 +148,7 @@ public class SrmNetworkHandler
 					Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() checks server(" 
 							+ address + ") is available, will download file");
 					// download file
-					downloadFile(Utils.ConstantVars.SERVER_TESTDOWNLOAD_FILEPATH, 
-							extractFileName(Utils.ConstantVars.SERVER_TESTDOWNLOAD_FILEPATH) );
+					downloadSingleFile(Utils.ConstantVars.SERVER_TESTDOWNLOAD_FILEPATH);
 					result = "downloaded file";
 				}
 				else 
@@ -261,11 +258,12 @@ public class SrmNetworkHandler
 		}
 		
 		
-		private void downloadFile(String resFilepath, String destFilename)
+		private void downloadSingleFile(String resFilepath)
 				throws IOException, MalformedURLException
 		{
+			String destFilename = extractFileName(resFilepath);
 			Log.w(LOGTAG + "$ConnectToServerTask", 
-					"downloadFile() will download RES=" + resFilepath 
+					"downloadSingleFile() will download RES=" + resFilepath 
 					+ " to DEST=" + destFilename);
 			
 			InputStream input = null;
@@ -328,6 +326,13 @@ public class SrmNetworkHandler
 			
 			return filename;
 		}
+		
+		private void downloadAllFiles(String resFolder)
+				throws IOException, MalformedURLException
+		{
+			
+		}
+		
 		
 	}
 
