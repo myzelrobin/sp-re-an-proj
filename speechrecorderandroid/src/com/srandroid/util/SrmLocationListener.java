@@ -176,7 +176,7 @@ public class SrmLocationListener extends Service implements LocationListener
 //	   	    		.show();
 	   	    	
 	   	    	AlertDialog alertDialog = Utils.UIutils.createSimpleAlertDialog(
-           			 ActivityMain.ACT_MAIN, 
+           			 this.context, 
            			 "Location", 
            			 "Can not get location data!\n"
            			 + "This device can not connect to network or gps satelite!\n"
@@ -225,7 +225,7 @@ public class SrmLocationListener extends Service implements LocationListener
 	                     if(!isNetworkEnabled)
 	                     {
 	                    	 AlertDialog alertDialog = Utils.UIutils.createSimpleAlertDialog(
-	                    			 ActivityMain.ACT_MAIN, 
+	                    			 this.context, 
 	                    			 "Location", 
 	                    			 "Retreiving GPS info from gps device!"
 	                    			 + "\nThis takes a while, please wait...", 

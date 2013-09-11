@@ -14,8 +14,10 @@ import com.srandroid.database.TableRecords.RecordItem;
 import com.srandroid.database.TableScripts.ScriptItem;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -41,6 +43,12 @@ public class Utils
 	// class contains constant variables 
 	public static class ConstantVars
 	{
+		// application context
+		public static Context appContext = null;
+		
+		
+		
+		
 		// drawer item array
 		public static String[] arrayDrawerItems = null;
 		public static final int POS_SESSIONS = 0;
@@ -48,6 +56,10 @@ public class Utils
 		public static final int POS_SPEAKERS = 2;
 		
 		public static int selectedItemIndex = 0;
+		
+		
+		
+		
 		
 		
 		
@@ -246,6 +258,8 @@ public class Utils
 			
 			if(isPreStartInitialized) return;  // is initialized
 			
+			appContext = context;
+			
 			// drawer item array
 			arrayDrawerItems = context.getResources().getStringArray(R.array.array_drawer_items);
 
@@ -315,13 +329,13 @@ public class Utils
 		public static final boolean canToastTextToUser = true;
 		
 		public static AlertDialog createSimpleAlertDialog(
-				Activity act, 
+				Context context, 
 				String title, 
 				String message,
 				String buttonText)
 		{
 			AlertDialog.Builder alertDialogBuilder = 
-					new AlertDialog.Builder(act);
+					new AlertDialog.Builder(context);
 	 
 				// set title
 				alertDialogBuilder.setTitle(title);
@@ -856,8 +870,20 @@ public class Utils
 		Log.w(LOGTAG, "setLayoutValuesInHorizontalMode() set the item margin "
 				+ "Utils.ConstantVars.marginItemBGInHorizontalMode=" 
 				+ Utils.ConstantVars.marginItemBGInHorizontalMode);
-		
-		
+	}
+	
+	public static String getCurrentActiveActivity(Context context)
+	{
+		ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+
+	     // get the info from the currently running task
+	     List< ActivityManager.RunningTaskInfo > taskInfo = am.getRunningTasks(1); 
+	     
+	     Log.w(LOGTAG, "getCurrentActiveActivity() gets act:" 
+	    		 + taskInfo.get(0).topActivity.getClassName() );
+	     
+	     ComponentName componentInfo = taskInfo.get(0).topActivity;
+	     return componentInfo.getPackageName();
 	}
 	
 
