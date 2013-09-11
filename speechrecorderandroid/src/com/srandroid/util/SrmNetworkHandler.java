@@ -151,7 +151,7 @@ public class SrmNetworkHandler
 							+ address + ") is available, will download file");
 					// download file
 					downloadFile(Utils.ConstantVars.SERVER_TESTDOWNLOAD_FILEPATH, 
-							"test_download.txt");
+							getFileName(Utils.ConstantVars.SERVER_TESTDOWNLOAD_FILEPATH) );
 					result = "downloaded file";
 				}
 				else 
@@ -314,6 +314,21 @@ public class SrmNetworkHandler
 		        }
 		    }
 		}
+		
+		private String getFileName(String filepath)
+		{
+			int start = filepath.lastIndexOf('/') + 1;
+			int end = filepath.length() - 1;
+			
+			String filename = filepath.substring(start, end);
+			
+			Log.w(LOGTAG + "$ConnectToServerTask", 
+					"getFileName() get file name=" + filename 
+					+ " from filepath=" + filepath);
+			
+			return filename;
+		}
+		
 	}
 
 }
