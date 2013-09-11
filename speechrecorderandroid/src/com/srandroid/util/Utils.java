@@ -38,7 +38,7 @@ import android.provider.Settings.Secure;
 public class Utils
 {
 	// log
-	public static final String LOGTAG = Utils.class.getSimpleName();
+	public static final String LOGTAG = Utils.class.getName();
 	
 	// class contains constant variables 
 	public static class ConstantVars

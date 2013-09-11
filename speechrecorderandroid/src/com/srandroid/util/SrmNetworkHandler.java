@@ -57,7 +57,7 @@ public class SrmNetworkHandler
 		else
 		{
 			Utils.UIutils.createSimpleAlertDialog(
-					this.context, 
+					Utils.ConstantVars.appContext, 
 					"Network", 
 					"Can not connect to internet!\n"
 					+ "Check system network settings!", 
