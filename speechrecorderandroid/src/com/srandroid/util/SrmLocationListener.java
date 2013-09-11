@@ -179,7 +179,7 @@ public class SrmLocationListener extends Service implements LocationListener
            			 ActivityMain.context, 
            			 "Location", 
            			 "Can not get location data!\n"
-           			 + "This device can not connect to network or gps satelite!\n"
+           			 + "This device can not connect to network or gps satellite!\n"
            			 + "Check system settings or hardware settings!", 
            			 "OK");
 	   	    	alertDialog.show();
