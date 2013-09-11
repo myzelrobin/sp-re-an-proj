@@ -11,6 +11,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.KeyStore;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManagerFactory;
 
 import com.srandroid.main.ActivityMain;
 import com.srandroid.main.TestActivitySessionDetails;
@@ -135,7 +140,7 @@ public class SrmNetworkHandler
 			// first test connect to the server to get head infos
 			try 
 			{
-				result = requestHead(address);
+				result = requestHeadHTTPS(address);
 			} 
 			catch (Exception e) 
 			{
@@ -156,7 +161,7 @@ public class SrmNetworkHandler
 			Log.w(LOGTAG + "$ConnectToServerTask", "onPostExecute() get result=" + result);
 		}
 		
-		
+		// HTTP
 		private String requestHead(String address)
 			throws IOException, MalformedURLException
 		{
@@ -223,6 +228,40 @@ public class SrmNetworkHandler
 //		        }
 //		    }
 		}
+		
+		// HTTPS
+		private String requestHeadHTTPS(String address)
+				throws IOException, MalformedURLException
+			{
+				Log.w(LOGTAG + "$ConnectToServerTask", 
+						"requestHeadHTTPS() will request HEAD from address=" + address);
+			
+				HttpsURLConnection conn = null;
+				
+			    try 
+			    {	
+			        URL url = new URL(address);
+			        conn = (HttpsURLConnection) url.openConnection();
+			        conn.setReadTimeout(10000 /* milliseconds */);
+			        conn.setConnectTimeout(15000 /* milliseconds */);
+			        conn.setRequestMethod("HEAD"); // GET
+			        conn.setDoInput(true);
+			        // Starts the query
+			        conn.connect();
+			        
+			        int response = conn.getResponseCode();
+			        Log.w(LOGTAG + "$ConnectToServerTask", "requestHeadHTTPS() get response=" + response);
+			        
+			        return conn.getHeaderFields().toString();
+			    } 
+			    finally 
+			    {
+			        if (conn != null) 
+			        {
+			        	conn.disconnect();
+			        }
+			    }
+			}
 		
 		// Reads an InputStream and converts it to a String.
 		private String readInputStreamToString(InputStream stream, int len) 
