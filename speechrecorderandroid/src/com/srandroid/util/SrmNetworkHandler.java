@@ -151,7 +151,7 @@ public class SrmNetworkHandler
 							+ address + ") is available, will download file");
 					// download file
 					downloadFile(Utils.ConstantVars.SERVER_TESTDOWNLOAD_FILEPATH, 
-							getFileName(Utils.ConstantVars.SERVER_TESTDOWNLOAD_FILEPATH) );
+							extractFileName(Utils.ConstantVars.SERVER_TESTDOWNLOAD_FILEPATH) );
 					result = "downloaded file";
 				}
 				else 
@@ -315,7 +315,7 @@ public class SrmNetworkHandler
 		    }
 		}
 		
-		private String getFileName(String filepath)
+		private String extractFileName(String filepath)
 		{
 			int start = filepath.lastIndexOf('/') + 1;
 			int end = filepath.length() - 1;
