@@ -145,7 +145,7 @@ public class SrmNetworkHandler
 			// first test connect to the server to get head infos
 			try 
 			{
-				if(requestHeadHTTPS(address))
+				if(requestHead(address))
 				{
 					Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() checks server(" 
 							+ address + ") is available, will download file");
