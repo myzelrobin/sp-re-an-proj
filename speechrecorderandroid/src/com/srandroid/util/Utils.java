@@ -41,10 +41,6 @@ public class Utils
 	// class contains constant variables 
 	public static class ConstantVars
 	{
-		public static final String TESTTEXT = "TESTTEXT TEXTTEXT";
-		public static final boolean canToastDebugText = true;
-		public static final boolean canToastTextToUser = true;
-		
 		// drawer item array
 		public static String[] arrayDrawerItems = null;
 		public static final int POS_SESSIONS = 0;
@@ -313,6 +309,11 @@ public class Utils
 	
 	public static class UIutils
 	{
+		
+		public static final String TESTTEXT = "TESTTEXT TEXTTEXT";
+		public static final boolean canToastDebugText = true;
+		public static final boolean canToastTextToUser = true;
+		
 		public static AlertDialog createSimpleAlertDialog(
 				Activity act, 
 				String title, 
@@ -344,6 +345,19 @@ public class Utils
 					return alertDialog;
 					// show it
 					// alertDialog.show();
+		}
+		
+		// Toast some text for debugging
+		public static void toastDebuggingText(Context context, String s)
+		{
+			if(Utils.UIutils.canToastDebugText) 
+				Toast.makeText(context, s, Toast.LENGTH_LONG).show();
+		}
+		
+		public static void toastTextToUser(Context context, String s)
+		{
+			if(Utils.UIutils.canToastTextToUser) 
+				Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
 		}
 		
 	}
@@ -699,13 +713,13 @@ public class Utils
 	// Toast some text for debugging
 	public static void toastDebuggingText(Context context, String s)
 	{
-		if(Utils.ConstantVars.canToastDebugText) 
+		if(Utils.UIutils.canToastDebugText) 
 			Toast.makeText(context, s, Toast.LENGTH_LONG).show();
 	}
 	
 	public static void toastTextToUser(Context context, String s)
 	{
-		if(Utils.ConstantVars.canToastTextToUser) 
+		if(Utils.UIutils.canToastTextToUser) 
 			Toast.makeText(context, s, Toast.LENGTH_LONG).show();
 	}
 	
