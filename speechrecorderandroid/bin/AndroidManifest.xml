@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.srandroid.speechrecorder"
-    android:versionCode="1"
-    android:versionName="1.0" >
+<manifest 
+xmlns:android="http://schemas.android.com/apk/res/android"
+package="com.srandroid.speechrecorder"
+android:versionCode="1"
+android:versionName="1.0" >
 
 <!-- This is in branch version_2  -->
 
+    
     <uses-sdk
-        android:minSdkVersion="14"
-        android:targetSdkVersion="18" />
+    android:minSdkVersion="14"
+    android:targetSdkVersion="18" />
+	
+	
+	
+	<!-- ########################################################################################## -->
 	<!-- mic -->
     <uses-permission android:name="android.permission.RECORD_AUDIO"></uses-permission>
     
@@ -24,6 +30,12 @@
     <!-- get gps from network only -->
 <!--     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>  -->
 
+    <!-- activity informations -->
+    <uses-permission android:name="android.permission.GET_TASKS"></uses-permission>
+
+    
+    
+    <!-- ########################################################################################## -->
     <application
     android:allowBackup="true"
     android:icon="@drawable/icon_speechrecorder_256x256"
@@ -123,10 +135,13 @@
 	            android:value="com.srandroid.main.ActivityMain" />
         </activity>
         
+        
+        
+        
+        <!-- ########################################################################################## -->
         <provider
         android:authorities="com.srandroid.contentprovider"
-        android:name="com.srandroid.database.SrmContentProvider" >
-        </provider>
+        android:name="com.srandroid.database.SrmContentProvider" />
         
          
          

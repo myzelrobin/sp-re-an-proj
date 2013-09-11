@@ -177,6 +177,15 @@ public class Utils
 				"/mnt/sdcard/srandroid_testfolder";
 		//public  static DBAccessor dbAccessor;
 		
+		// network
+		public static final String SERVER_ADDRESS = "http://www.dropbox.com/";
+		public static final String SERVER_USERNAME = "null";
+		public static final String SERVER_PASSWORD = "null";
+		
+		
+		
+		
+		
 		public static boolean isPreStartInitialized = false;
 		
 		/**
@@ -323,8 +332,6 @@ public class Utils
 	
 	public static class UIutils
 	{
-		
-		public static final String TESTTEXT = "TESTTEXT TEXTTEXT";
 		public static final boolean canToastDebugText = true;
 		public static final boolean canToastTextToUser = true;
 		

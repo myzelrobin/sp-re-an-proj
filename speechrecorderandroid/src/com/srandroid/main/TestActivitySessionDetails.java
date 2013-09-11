@@ -43,6 +43,7 @@ import com.srandroid.database.TableScripts.ScriptItem;
 import com.srandroid.database.TableSessions;
 import com.srandroid.database.TableSpeakers;
 import com.srandroid.recording.ActivityPreRecording;
+import com.srandroid.util.SrmNetworkHandler;
 import com.srandroid.util.Utils;
 
 import android.support.v4.widget.StaggeredGridView;
@@ -56,6 +57,9 @@ public class TestActivitySessionDetails extends Activity
 {
 		// log
 		private final static String LOGTAG = TestActivitySessionDetails.class.getName();
+		
+		// context
+		public static Context context;
 		
 		// state
 		public static final String ITEM_URI = "ITEM_URI";
@@ -87,17 +91,23 @@ public class TestActivitySessionDetails extends Activity
 	    private ArrayList<String> itemlist = new ArrayList<String> (); // for adapter
 	    private ArrayList<String> recordItemIdList = new ArrayList<String> ();
 	    
-	    private Activity thisAct;
 
 	    private int recItemsCount = 0;
 	    
 	    private LocalAdapterForSessionDetails localAdapter;
+	    
+	    
+	    
+	    // Network
+	    private static SrmNetworkHandler networkHandler;
+	    
 	    
 		/**
 		 * 
 		 */
 		public TestActivitySessionDetails() 
 		{
+			context = this;
 		}
 	
 	
@@ -106,8 +116,6 @@ public class TestActivitySessionDetails extends Activity
 		protected void onCreate(Bundle savedInstanceState) 
 		{
 			super.onCreate(savedInstanceState);
-			
-			thisAct = this;
 			
 			// start activity from main
 			Bundle extras = getIntent().getExtras(); 
@@ -284,7 +292,13 @@ public class TestActivitySessionDetails extends Activity
 	        		break;
 	        	
 	        	case R.id.act_sessiondetails_button_upload:
-	        		Utils.toastTextToUser(this, "start uploading");
+	        		networkHandler = new SrmNetworkHandler(this);
+	        		networkHandler.connectToServer(
+	        				Utils.ConstantVars.SERVER_ADDRESS, 
+	        				Utils.ConstantVars.SERVER_USERNAME,
+	        				Utils.ConstantVars.SERVER_PASSWORD);
+	        		
+	        		//Utils.toastTextToUser(this, "start uploading");
 	        		break;
 	        		
 	        	default:
@@ -576,7 +590,7 @@ public class TestActivitySessionDetails extends Activity
 						{
 							// play the record
 							try {
-								Utils.playRecord(thisAct, recFilepath);
+								Utils.playRecord(context, recFilepath);
 							} catch (ActivityNotFoundException e) {
 								Log.w(LOGTAG, 
 										"Utils.playRecord() throws Exceptions " + e.getMessage());
@@ -667,7 +681,7 @@ public class TestActivitySessionDetails extends Activity
 //					{
 //						// play the record
 //						try {
-//							Utils.playRecord(thisAct, recFilepath);
+//							Utils.playRecord(context, recFilepath);
 //						} catch (ActivityNotFoundException e) {
 //							Log.w(LOGTAG, 
 //									"Utils.playRecord() throws Exceptions " + e.getMessage());
