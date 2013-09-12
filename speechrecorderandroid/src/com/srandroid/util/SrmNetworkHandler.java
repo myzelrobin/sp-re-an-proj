@@ -258,23 +258,39 @@ public class SrmNetworkHandler
 	    return new String(buffer);
 	}
 	
-	public int getURLProtocolType(URL url)
+	public int getAddressType(String address)
 	{
 		// 1: http
 		// 2: https
 		// 3: ssh
+		// 4: dropbox
 		int type = -1;
+		String head = null;
 		
-		String protocol = url.getProtocol();
+		int start = 0;
+		int end = address.indexOf(':');
 		
-		Log.w(LOGTAG, "getURLProtocolType() get protocol=" + protocol);
+		head = address.substring(start, end);
 		
-		if( protocol.equals(ProtocolTypes.TYPE_HTTP) ) type = 1;
-		else if( protocol.equals(ProtocolTypes.TYPE_HTTPS) ) type = 2;
-		else if( protocol.equals(ProtocolTypes.TYPE_SSH) ) type = 3;
-		else if( protocol.equals(ProtocolTypes.TYPE_DROPBOX) ) type = 4;
+		Log.w(LOGTAG, "getAddressType() get address head=" + head);
+		if(head.equals(ProtocolTypes.TYPE_DROPBOX))
+		{
+			type = 4;
+		}
+		else if(head.equals(ProtocolTypes.TYPE_SSH))
+		{
+			type = 3;
+		}
+		else if(head.equals(ProtocolTypes.TYPE_HTTPS))
+		{
+			type = 2;
+		}
+		else if(head.equals(ProtocolTypes.TYPE_HTTP))
+		{
+			type = 1;
+		}
 		
-		Log.w(LOGTAG, "getURLProtocolType() get protocol type=" + type);
+		Log.w(LOGTAG, "getAddressType() get address type=" + type);
 		
 		return type;
 	}

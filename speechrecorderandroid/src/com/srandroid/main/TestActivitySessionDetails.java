@@ -337,8 +337,6 @@ public class TestActivitySessionDetails extends Activity
 	        					serverItem.password);
 	        		}
 	        		
-	        		
-	        		
 	        		//Utils.toastTextToUser(this, "start uploading");
 	        		break;
 	        		
@@ -940,26 +938,19 @@ public class TestActivitySessionDetails extends Activity
 						+ "address=" + address 
 						+ ", username=" + username
 						+ ", password=" + password);
-				try 
-				{
-					url = new URL(address);
-				} 
-				catch (MalformedURLException e1) 
-				{
-					Log.w(LOGTAG + "$ConnectToServerTask", 
-							"doInBackground() throws MalformedURLException=" + e1.getMessage());
-				}
 				
-				// first test connect to the server to get head infos
-				// second test connect to the server with username and password in https
-				int protocolType = networkHandler.getURLProtocolType(url);
-				switch (protocolType) 
+				
+				int type = networkHandler.getAddressType(address);
+				switch (type) 
 				{
 					case 1: // HTTP
 							Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() will connect to HTTP server");
-							
+							// first test connect to the server to get head infos
+							// second test connect to the server with username and password in https
 							try 
 							{
+								url = new URL(address);
+								
 								if(networkHandler.requestHead(url))
 								{
 									Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() checks " +
@@ -976,11 +967,17 @@ public class TestActivitySessionDetails extends Activity
 									result = "http server unavailable";
 								}
 							} 
+							catch (MalformedURLException e) 
+							{
+								Log.w(LOGTAG + "$ConnectToServerTask", 
+										"doInBackground() HTTP throws MalformedURLException=" + e.getMessage());
+							}
 							catch (IOException e) 
 							{
 								Log.w(LOGTAG + "$ConnectToServerTask", 
-										"doInBackground() HTTP throws Exception=" + e.getMessage()); 
+										"doInBackground() HTTP throws IOException=" + e.getMessage()); 
 							}
+							
 							
 							break;
 					
@@ -1005,10 +1002,15 @@ public class TestActivitySessionDetails extends Activity
 									result = "https server unavailable";
 								}
 							} 
+							catch (MalformedURLException e) 
+							{
+								Log.w(LOGTAG + "$ConnectToServerTask", 
+										"doInBackground() HTTPS throws MalformedURLException=" + e.getMessage());
+							}
 							catch (IOException e) 
 							{
 								Log.w(LOGTAG + "$ConnectToServerTask", 
-										"doInBackground() HTTPS throws Exception=" + e.getMessage()); 
+										"doInBackground() HTTPS throws IOException=" + e.getMessage()); 
 							}
 							
 							break;
@@ -1030,8 +1032,8 @@ public class TestActivitySessionDetails extends Activity
 							break;
 		
 					default:
-							Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() get unsupported server");
-							result = "server unsupported";
+							Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() get unsupported server address");
+							result = "server address unsupported";
 							break;
 				}
 				
