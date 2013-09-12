@@ -47,9 +47,6 @@ public class SrmNetworkHandler
 	private static boolean isWifiConnected;
 	private static boolean isMobileConnected;
 	
-	
-	private HttpURLConnection conn;
-	
 	private static final int BYTE_BUFFER_SIZE = 4*1024;
 	private static final int CHAR_BUFFER_SIZE = 100; // 100 chars
 	
@@ -101,11 +98,11 @@ public class SrmNetworkHandler
 		}
 	}
 	
-	public void closeConnection(HttpURLConnection conn)
+	public void disconnectFromServer(HttpURLConnection conn)
 	{
 		if (conn != null) 
         {
-			Log.w(LOGTAG, "disconnectFromServer() will disconnect  from server " + conn.getURL());
+			Log.w(LOGTAG, "disconnectFromServer() will disconnect from server " + conn.getURL());
         	conn.disconnect();
         }
 	}
@@ -136,20 +133,25 @@ public class SrmNetworkHandler
 	    return (networkInfo != null && networkInfo.isConnected());
 	}  
 	
-	private void downloadSingleFile(HttpURLConnection conn)
+	private void downloadSingleFile(URL url)
 			throws IOException
 	{
-		String destFilename = extractFileName(conn.getURL().toString());
+		String destFilename = extractFileName(url.toString());
 		Log.w(LOGTAG, 
-				"downloadSingleFile() will download RESOURCE=" + conn.getURL() 
+				"downloadSingleFile() will download file RESOURCE=" + url 
 				+ " to DEST=" + Utils.ConstantVars.DIR_EXT_SCRIPTS_PATH + "/" + destFilename);
 		
 		InputStream input = null;
 		FileOutputStream output = null;
+		HttpURLConnection conn = null;
 		
 	    try 
 	    {
 	    	// input stream
+	    	if(url.getProtocol().equals(ProtocolTypes.TYPE_HTTP))
+				conn = (HttpURLConnection) url.openConnection();
+			else if(url.getProtocol().equals(ProtocolTypes.TYPE_HTTPS))
+				conn = (HttpsURLConnection) url.openConnection();
 	        conn.setReadTimeout(10000 /* milliseconds */);
 	        conn.setConnectTimeout(15000 /* milliseconds */);
 	        conn.setRequestMethod("GET"); 
@@ -190,7 +192,7 @@ public class SrmNetworkHandler
 	}
 	
 
-	private void downloadAllFiles(HttpURLConnection conn)
+	private void downloadAllFiles(URL url)
 			throws IOException
 	{
 		
@@ -211,13 +213,19 @@ public class SrmNetworkHandler
 	}
 	
 	// check if the server is available
-	private boolean requestHead(HttpURLConnection conn)
+	private boolean requestHead(URL url)
 		throws IOException
 	{
-		Log.w(LOGTAG, "requestHead() will request HEAD from address=" + conn.getURL());
+		Log.w(LOGTAG, "requestHead() will request HEAD from address=" + url);
+		
+		HttpURLConnection conn = null;
 		
 	    try 
 	    {
+	    	if(url.getProtocol().equals(ProtocolTypes.TYPE_HTTP))
+				conn = (HttpURLConnection) url.openConnection();
+			else if(url.getProtocol().equals(ProtocolTypes.TYPE_HTTPS))
+				conn = (HttpsURLConnection) url.openConnection();
 	        conn.setReadTimeout(10000 /* milliseconds */);
 	        conn.setConnectTimeout(15000 /* milliseconds */);
 	        conn.setRequestMethod("HEAD"); // GET
@@ -249,7 +257,7 @@ public class SrmNetworkHandler
 	    return new String(buffer);
 	}
 	
-	private int getServerProtocolType(URL url)
+	private int getURLProtocolType(URL url)
 	{
 		// 1: http
 		// 2: https
@@ -258,18 +266,18 @@ public class SrmNetworkHandler
 		
 		String protocol = url.getProtocol();
 		
-		Log.w(LOGTAG, "getServerProtocolType() get protocol=" + protocol);
+		Log.w(LOGTAG, "getURLProtocolType() get protocol=" + protocol);
 		
 		if( protocol.equals(ProtocolTypes.TYPE_HTTP) ) type = 1;
 		else if( protocol.equals(ProtocolTypes.TYPE_HTTPS) ) type = 2;
 		else if( protocol.equals(ProtocolTypes.TYPE_SSH) ) type = 3;
 		
-		Log.w(LOGTAG, "extractServerProtocolType() get protocol type=" + type);
+		Log.w(LOGTAG, "getURLProtocolType() get protocol type=" + type);
 		
 		return type;
 	}
 	
-	private void listFilesIvy(URL url)
+	private void listFilesApacheIvy(URL url)
 			throws IOException
 	{
 		Log.w(LOGTAG, "listFilesIvy() will list files in server=" + url );
@@ -288,20 +296,25 @@ public class SrmNetworkHandler
 
 	}
 	
-	private void listFiles(HttpURLConnection conn)
+	private void listFiles(URL url)
 			throws IOException
 	{
 		String destFilename = "response.html";
 		Log.w(LOGTAG, 
-				"listFiles() will download RESOURCE=" + conn.getURL() 
+				"listFiles() will download response file RESOURCE=" + url 
 				+ " to DEST=" + Utils.ConstantVars.DIR_EXT_SCRIPTS_PATH + "/" + destFilename);
 		
 		InputStream input = null;
 		FileOutputStream output = null;
+		HttpURLConnection conn = null;
 		
 	    try 
 	    {
 	    	// input stream
+	    	if(url.getProtocol().equals(ProtocolTypes.TYPE_HTTP))
+				conn = (HttpURLConnection) url.openConnection();
+			else if(url.getProtocol().equals(ProtocolTypes.TYPE_HTTPS))
+				conn = (HttpsURLConnection) url.openConnection();
 	        conn.setReadTimeout(10000 /* milliseconds */);
 	        conn.setConnectTimeout(15000 /* milliseconds */);
 	        conn.setRequestMethod("GET"); 
@@ -324,7 +337,6 @@ public class SrmNetworkHandler
 	        {
 	        	output.write(buffer, 0, bufferLength);
 	        }
-	        
 	    } 
 	    finally 
 	    {
@@ -402,7 +414,7 @@ public class SrmNetworkHandler
 			
 			// first test connect to the server to get head infos
 			// second test connect to the server with username and password in https
-			int protocolType = getServerProtocolType(url);
+			int protocolType = getURLProtocolType(url);
 			switch (protocolType) 
 			{
 				case 1: // HTTP
@@ -410,24 +422,20 @@ public class SrmNetworkHandler
 						
 						try 
 						{
-							conn = (HttpURLConnection) url.openConnection();
-					       
-							if(requestHead(conn))
+							if(requestHead(url))
 							{
-								Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() checks server(" 
-										+ conn.getURL() + ") is available");
+								Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() checks " +
+										"server(" + url + ") is available");
 								result = "http server available";
 								
 								// list files
-								listFiles(conn);
-								
+								listFiles(url);
 							}
 							else 
 							{
-								Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() checks server(" 
-										+ conn.getURL() + ") is UNavailable");
+								Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() checks " +
+										"server(" + url + ") is UNavailable");
 								result = "http server unavailable";
-								conn.disconnect();
 							}
 						} 
 						catch (IOException e) 
@@ -443,23 +451,20 @@ public class SrmNetworkHandler
 						
 						try 
 						{
-							conn = (HttpsURLConnection) url.openConnection();
-							
-							if(requestHead(conn))
+							if(requestHead(url))
 							{
-								Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() checks server(" 
-										+ conn.getURL() + ") is available");
+								Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() checks " +
+										"server(" + url + ") is available");
 								result = "https server available";
 								
 								// list files
-								listFiles(conn);
+								listFiles(url);
 							}
 							else 
 							{
-								Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() checks server(" 
-										+ conn.getURL() + ") is UNavailable");
+								Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() checks " +
+										"server(" + url + ") is UNavailable");
 								result = "https server unavailable";
-								conn.disconnect();
 							}
 						} 
 						catch (IOException e) 
