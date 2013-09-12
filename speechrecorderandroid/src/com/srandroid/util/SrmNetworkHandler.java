@@ -136,12 +136,12 @@ public class SrmNetworkHandler
 	    return (networkInfo != null && networkInfo.isConnected());
 	}  
 	
-	private void downloadSingleFile(String resFilepath, String protocolType)
-			throws IOException, MalformedURLException
+	private void downloadSingleFile(HttpURLConnection conn)
+			throws IOException
 	{
-		String destFilename = extractFileName(resFilepath);
+		String destFilename = extractFileName(conn.getURL().toString());
 		Log.w(LOGTAG, 
-				"downloadSingleFile() will download RES=" + resFilepath 
+				"downloadSingleFile() will download RES=" + conn.getURL() 
 				+ " to DEST=" + destFilename);
 		
 		InputStream input = null;
@@ -150,11 +150,6 @@ public class SrmNetworkHandler
 	    try 
 	    {
 	    	// input stream
-	        URL url = new URL(resFilepath);
-	        
-	        if( protocolType.equals(ProtocolTypes.TYPE_HTTP) ) conn = (HttpURLConnection) url.openConnection();
-	        else if( protocolType.equals(ProtocolTypes.TYPE_HTTPS) ) conn = (HttpsURLConnection) url.openConnection();
-	        
 	        conn.setReadTimeout(10000 /* milliseconds */);
 	        conn.setConnectTimeout(15000 /* milliseconds */);
 	        conn.setRequestMethod("GET"); 
@@ -189,14 +184,12 @@ public class SrmNetworkHandler
 	        {
 	        	output.close();
 	        }
-	        
-	        closeConnection(conn);
 	    }
 	}
 	
 
-	private void downloadAllFiles(String resFolder)
-			throws IOException, MalformedURLException
+	private void downloadAllFiles(HttpURLConnection conn)
+			throws IOException
 	{
 		
 	}
@@ -215,16 +208,14 @@ public class SrmNetworkHandler
 		return filename;
 	}
 	
-	// HTTP, check if the server is available
-	private boolean requestHead(String address)
-		throws IOException, MalformedURLException
+	// check if the server is available
+	private boolean requestHead(HttpURLConnection conn)
+		throws IOException
 	{
-		Log.w(LOGTAG, "requestHead() will request HEAD from address=" + address);
+		Log.w(LOGTAG, "requestHead() will request HEAD from address=" + conn.getURL());
 		
 	    try 
 	    {
-	        URL url = new URL(address);
-	        conn = (HttpURLConnection) url.openConnection();
 	        conn.setReadTimeout(10000 /* milliseconds */);
 	        conn.setConnectTimeout(15000 /* milliseconds */);
 	        conn.setRequestMethod("HEAD"); // GET
@@ -241,38 +232,7 @@ public class SrmNetworkHandler
 	    } 
 	    finally 
 	    {
-	    	closeConnection(conn);
-	    }
-	}
-			
-	// HTTPS, check if the server is available
-	private boolean requestHeadHTTPS(String address)
-		throws IOException, MalformedURLException
-	{
-		Log.w(LOGTAG, 
-				"requestHeadHTTPS() will request HEAD from address=" + address);
-		
-	    try 
-	    {	
-	        URL url = new URL(address);
-	        conn = (HttpsURLConnection) url.openConnection();
-	        conn.setReadTimeout(10000 /* milliseconds */);
-	        conn.setConnectTimeout(15000 /* milliseconds */);
-	        conn.setRequestMethod("HEAD"); // GET
-	        conn.setDoInput(true);
-	        // Starts the query
-	        conn.connect();
-	        
-	        int response = conn.getResponseCode();
-	        Log.w(LOGTAG, "requestHeadHTTPS() get response=" + response);
-	        //Log.w(LOGTAG, "requestHeadHTTPS() get HeaderFields=" + conn.getHeaderFields().toString());
-	        
-	        if(200 <= response && response <= 399) return true;
-	        else return false;
-	    } 
-	    finally 
-	    {
-	    	closeConnection(conn);
+	    	
 	    }
 	}
 	
@@ -287,46 +247,69 @@ public class SrmNetworkHandler
 	    return new String(buffer);
 	}
 	
-	private int extractServerProtocolType(String address)
+	private int getServerProtocolType(URL url)
 	{
 		// 1: http
 		// 2: https
 		// 3: ssh
 		int type = -1;
 		
-		int start = 0;
-		int end = address.indexOf(':');
+		String protocol = url.getProtocol();
 		
-		String protocolName = address.substring(start, end);
+		Log.w(LOGTAG, "getServerProtocolType() get protocol=" + protocol);
 		
-		Log.w(LOGTAG, "extractServerProtocolType() get protocol=" + protocolName);
-		
-		if( protocolName.equals(ProtocolTypes.TYPE_HTTP) ) type = 1;
-		else if( protocolName.equals(ProtocolTypes.TYPE_HTTPS) ) type = 2;
-		else if( protocolName.equals(ProtocolTypes.TYPE_SSH) ) type = 3;
+		if( protocol.equals(ProtocolTypes.TYPE_HTTP) ) type = 1;
+		else if( protocol.equals(ProtocolTypes.TYPE_HTTPS) ) type = 2;
+		else if( protocol.equals(ProtocolTypes.TYPE_SSH) ) type = 3;
 		
 		Log.w(LOGTAG, "extractServerProtocolType() get protocol type=" + type);
 		
 		return type;
 	}
 	
-	private void listFiles(String address)
-			throws IOException, MalformedURLException
+	private void listFilesIvy(URL url)
+			throws IOException
 	{
-		Log.w(LOGTAG, "listFiles() will list files in server=" + address );
+		Log.w(LOGTAG, "listFilesIvy() will list files in server=" + url );
 		
         try 
-        {           
-        	URL serverURL = new URL(address);           
+        {   
             ApacheURLLister lister = new ApacheURLLister();         
-            List serverDir = lister.listAll(serverURL);
-            Log.w(LOGTAG, "listFiles() lists files in server=" + address
+            List serverDir = lister.listAll(url);
+            Log.w(LOGTAG, "listFilesIvy() lists files in server=" + url
             		+ ", files=" + serverDir.toString());      
         }
         finally
         {
         	
         }
+
+	}
+	
+	private void listFiles(HttpURLConnection conn)
+			throws IOException
+	{
+		Log.w(LOGTAG, "listFiles() will list files in server=" + conn.getURL() );
+		
+		try 
+	    {
+			downloadSingleFile(conn);
+//	        conn.setReadTimeout(10000 /* milliseconds */);
+//	        conn.setConnectTimeout(15000 /* milliseconds */);
+//	        conn.setRequestMethod("HEAD"); // GET
+//	        conn.setDoInput(true);
+//	        // Starts the query
+//	        conn.connect();
+//	        
+//	        int response = conn.getResponseCode();
+//	        Log.w(LOGTAG, "listFiles() get response=" + response);
+//	        //Log.w(LOGTAG, "requestHeadHTTPS() get HeaderFields=" + conn.getHeaderFields().toString());
+	        
+	    } 
+	    finally 
+	    {
+	    	
+	    }
 
 	}
 	
@@ -368,6 +351,7 @@ public class SrmNetworkHandler
 		protected String doInBackground(String... array) 
 		{
 			String result = null;
+			URL url = null;
 			
 			address = array[0];
 			username = array[1];
@@ -377,11 +361,19 @@ public class SrmNetworkHandler
 					+ "address=" + address 
 					+ ", username=" + username
 					+ ", password=" + password);
-			
+			try 
+			{
+				url = new URL(address);
+			} 
+			catch (MalformedURLException e1) 
+			{
+				Log.w(LOGTAG + "$ConnectToServerTask", 
+						"doInBackground() throws MalformedURLException=" + e1.getMessage());
+			}
 			
 			// first test connect to the server to get head infos
 			// second test connect to the server with username and password in https
-			int protocolType = extractServerProtocolType(address);
+			int protocolType = getServerProtocolType(url);
 			switch (protocolType) 
 			{
 				case 1: // HTTP
@@ -389,20 +381,25 @@ public class SrmNetworkHandler
 						
 						try 
 						{
-							if(requestHead(address))
+							conn = (HttpURLConnection) url.openConnection();
+					       
+							if(requestHead(conn))
 							{
 								Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() checks server(" 
-										+ address + ") is available");
+										+ conn.getURL() + ") is available");
 								result = "http server available";
 								
 								// list files
-								listFiles(address);
+								listFiles(conn);
+								
+								conn.disconnect();
 							}
 							else 
 							{
 								Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() checks server(" 
-										+ address + ") is UNavailable");
+										+ conn.getURL() + ") is UNavailable");
 								result = "http server unavailable";
+								conn.disconnect();
 							}
 						} 
 						catch (IOException e) 
@@ -418,20 +415,25 @@ public class SrmNetworkHandler
 						
 						try 
 						{
-							if(requestHeadHTTPS(address))
+							conn = (HttpsURLConnection) url.openConnection();
+							
+							if(requestHead(conn))
 							{
 								Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() checks server(" 
-										+ address + ") is available");
+										+ conn.getURL() + ") is available");
 								result = "https server available";
 								
 								// list files
-								listFiles(address);
+								listFiles(conn);
+								
+								conn.disconnect();
 							}
 							else 
 							{
 								Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() checks server(" 
-										+ address + ") is UNavailable");
+										+ conn.getURL() + ") is UNavailable");
 								result = "https server unavailable";
+								conn.disconnect();
 							}
 						} 
 						catch (IOException e) 
