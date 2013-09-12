@@ -292,10 +292,12 @@ public class SrmNetworkHandler
 	private void listFiles(URL url)
 			throws IOException
 	{
-		String destFilename = "response.xml";
+		String destFileName = "response.html";
+		String destFolderName = url.getHost();
 		Log.w(LOGTAG, 
 				"listFiles() will download response file RESOURCE=" + url 
-				+ " to DEST=" + Utils.ConstantVars.DIR_EXT_SCRIPTS_PATH + "/" + destFilename);
+				+ " to DEST=" + Utils.ConstantVars.DIR_EXT_SCRIPTS_PATH 
+				+ "/" + destFolderName + "/" + destFileName);
 		
 		InputStream input = null;
 		FileOutputStream output = null;
@@ -318,8 +320,8 @@ public class SrmNetworkHandler
 	        input = conn.getInputStream();
 	        
 	        // output stream
-	        File scriptsFolder = new File(Utils.ConstantVars.DIR_EXT_SCRIPTS_PATH);
-	        File outputFilePath = new File(scriptsFolder, destFilename);
+	        File scriptsFolder = new File(Utils.ConstantVars.DIR_EXT_SCRIPTS_PATH + File.separator + destFolderName);
+	        File outputFilePath = new File(scriptsFolder, destFileName);
 	        output = new FileOutputStream(outputFilePath);
 	        
 	        // read & write
