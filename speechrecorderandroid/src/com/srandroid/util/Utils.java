@@ -184,10 +184,15 @@ public class Utils
 		public static final String SERVER_USERNAME = "null";
 		public static final String SERVER_PASSWORD = "null";
 		
-		public static final String SERVER_TESTDOWNLOAD_FILEPATH = 
-				"";
 		
+		public static final String SERVER_TEST_PUBLIC = 
+				"https://drive.google.com/folderview?id=0B7wpIt4n08O6amt0VFFmMF84ZmM&usp=sharing";
 		
+		public static final String SERVER_TEST_LOGIN = 
+				"https://drive.google.com/folderview?id=0B7wpIt4n08O6dU9oeE1USzZDZEU&usp=sharing";
+		
+		public static final String SERVER_TEST_LOGIN_USERNAME = "myzel.robin@gmail.com";
+		public static final String SERVER_TEST_LOGIN_PASSWORD = "";
 		
 		
 		

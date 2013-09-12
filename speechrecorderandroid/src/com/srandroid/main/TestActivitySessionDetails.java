@@ -294,7 +294,7 @@ public class TestActivitySessionDetails extends Activity
 	        	
 	        	case R.id.act_sessiondetails_button_upload:
 	        		ServerItem serverItem = new ServerItem(null, 
-	        				Utils.ConstantVars.SERVER_ADDRESS_HTTP, 
+	        				Utils.ConstantVars.SERVER_TEST_PUBLIC, 
 	        				Utils.ConstantVars.SERVER_USERNAME, 
 	        				Utils.ConstantVars.SERVER_PASSWORD, 
 	        				"Test Server Example");
