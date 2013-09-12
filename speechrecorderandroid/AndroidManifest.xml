@@ -135,18 +135,33 @@ android:versionName="1.0" >
 	            android:value="com.srandroid.main.ActivityMain" />
         </activity>
         
-        
-        
+        <!-- ########################################################################################## -->
+        <!-- dropbox key -->
+        <activity
+		android:name="com.dropbox.client2.android.AuthActivity"
+		android:launchMode="singleTask"
+		android:configChanges="orientation|keyboard">
+			  <intent-filter>
+			    <!-- Change this to be db- followed by your app key -->
+			    <data android:scheme="db-z0n6paty2uwi3ru" />
+			    <action android:name="android.intent.action.VIEW" />
+			    <category android:name="android.intent.category.BROWSABLE"/>
+			    <category android:name="android.intent.category.DEFAULT" />
+			  </intent-filter>
+        </activity>
         
         <!-- ########################################################################################## -->
         <provider
         android:authorities="com.srandroid.contentprovider"
         android:name="com.srandroid.database.SrmContentProvider" />
         
-         
+        
          
         
     </application>
+    
+    
+    
 	
 </manifest>
 

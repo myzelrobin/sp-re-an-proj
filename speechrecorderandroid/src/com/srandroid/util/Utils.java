@@ -194,7 +194,9 @@ public class Utils
 		public static final String SERVER_TEST_LOGIN_USERNAME = "myzel.robin@gmail.com";
 		public static final String SERVER_TEST_LOGIN_PASSWORD = "";
 		
-		
+		public static final String SERVER_DROPBOX = "dropbox://speechrecordermobile";
+		public static final String SERVER_DROPBOX_USERNAME = "myzel.robin@gmail.com";
+		public static final String SERVER_DROPBOX_PASSWORD = "mratdropbox";
 		
 		public static boolean isPreStartInitialized = false;
 		

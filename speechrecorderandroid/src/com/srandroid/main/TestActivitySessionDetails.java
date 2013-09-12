@@ -3,6 +3,9 @@
  */
 package com.srandroid.main;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -13,6 +16,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.text.TextUtils;
@@ -34,6 +38,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dropbox.client2.session.AccessTokenPair;
 import com.srandroid.speechrecorder.R;
 import com.srandroid.database.SrmContentProvider;
 import com.srandroid.database.SrmContentProvider.SrmUriMatcher;
@@ -189,6 +194,23 @@ public class TestActivitySessionDetails extends Activity
 	    protected void onResume()
 	    {
 			super.onResume();
+			
+		    if (networkHandler.dropboxAuthObj.getSession().authenticationSuccessful()) {
+	        try 
+	        {
+	            // Required to complete auth, sets the access token on the session
+	        	networkHandler.dropboxAuthObj.getSession().finishAuthentication();
+
+	            AccessTokenPair tokens = networkHandler.dropboxAuthObj.getSession().getAccessTokenPair();
+				// these tokens should be stored in shared preference
+	        } 
+	        catch (IllegalStateException e) 
+	        {
+	        	Log.w(LOGTAG, "onResume() throws authentication error" + e.getMessage());
+	        }
+	    }
+			
+			
 		}
 		
 		@Override
@@ -293,16 +315,28 @@ public class TestActivitySessionDetails extends Activity
 	        		break;
 	        	
 	        	case R.id.act_sessiondetails_button_upload:
+//	        		ServerItem serverItem = new ServerItem(null, 
+//	        				Utils.ConstantVars.SERVER_TEST_PUBLIC, 
+//	        				Utils.ConstantVars.SERVER_USERNAME, 
+//	        				Utils.ConstantVars.SERVER_PASSWORD, 
+//	        				"Test Server Example");
+	        		
 	        		ServerItem serverItem = new ServerItem(null, 
-	        				Utils.ConstantVars.SERVER_TEST_PUBLIC + "/scripts", 
-	        				Utils.ConstantVars.SERVER_USERNAME, 
-	        				Utils.ConstantVars.SERVER_PASSWORD, 
-	        				"Test Server Example");
+	        				Utils.ConstantVars.SERVER_DROPBOX, 
+	        				Utils.ConstantVars.SERVER_DROPBOX_USERNAME, 
+	        				Utils.ConstantVars.SERVER_DROPBOX_PASSWORD, 
+	        				"dropbox test server");
 	        		
 	        		networkHandler = new SrmNetworkHandler(this);
-	        		networkHandler.connectToServer(serverItem);
+	        		if(networkHandler.checkNetworkConnection(TestActivitySessionDetails.this))
+	        		{
+	        			new ConnectToServerTask().execute(
+	        					serverItem.address,
+	        					serverItem.username,
+	        					serverItem.password);
+	        		}
 	        		
-	        		// do something
+	        		
 	        		
 	        		//Utils.toastTextToUser(this, "start uploading");
 	        		break;
@@ -871,6 +905,146 @@ public class TestActivitySessionDetails extends Activity
 			 */
 			public void setCursor(Cursor cursor) {
 				this.cursor = cursor;
+			}
+			
+		}
+
+		
+		
+		
+		
+		
+		
+		
+
+		/**
+		 * Class  
+		 *
+		 */
+		private class ConnectToServerTask extends AsyncTask<String, Void, String>
+		{
+			private String address;
+			private String username;
+			private String password;
+			
+			@Override
+			protected String doInBackground(String... array) 
+			{
+				String result = null;
+				URL url = null;
+				
+				address = array[0];
+				username = array[1];
+				password = array[2];
+				
+				Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() get strings " 
+						+ "address=" + address 
+						+ ", username=" + username
+						+ ", password=" + password);
+				try 
+				{
+					url = new URL(address);
+				} 
+				catch (MalformedURLException e1) 
+				{
+					Log.w(LOGTAG + "$ConnectToServerTask", 
+							"doInBackground() throws MalformedURLException=" + e1.getMessage());
+				}
+				
+				// first test connect to the server to get head infos
+				// second test connect to the server with username and password in https
+				int protocolType = networkHandler.getURLProtocolType(url);
+				switch (protocolType) 
+				{
+					case 1: // HTTP
+							Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() connects to HTTP server");
+							
+							try 
+							{
+								if(networkHandler.requestHead(url))
+								{
+									Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() checks " +
+											"server(" + url + ") is available");
+									result = "http server available";
+									
+									// list files
+									networkHandler.listFiles(url);
+								}
+								else 
+								{
+									Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() checks " +
+											"server(" + url + ") is UNavailable");
+									result = "http server unavailable";
+								}
+							} 
+							catch (IOException e) 
+							{
+								Log.w(LOGTAG + "$ConnectToServerTask", 
+										"doInBackground() HTTP throws Exception=" + e.getMessage()); 
+							}
+							
+							break;
+					
+					case 2: // HTTPS
+							Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() connects to HTTPS server");
+							
+							try 
+							{
+								if(networkHandler.requestHead(url))
+								{
+									Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() checks " +
+											"server(" + url + ") is available");
+									result = "https server available";
+									
+									// list files
+									networkHandler.listFiles(url);
+								}
+								else 
+								{
+									Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() checks " +
+											"server(" + url + ") is UNavailable");
+									result = "https server unavailable";
+								}
+							} 
+							catch (IOException e) 
+							{
+								Log.w(LOGTAG + "$ConnectToServerTask", 
+										"doInBackground() HTTPS throws Exception=" + e.getMessage()); 
+							}
+							
+							break;
+					
+					case 3: // SSH
+							Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() connects to SSH server");
+							result = "ssh server ???";
+							break;
+							
+					case 4: // dropbox
+						Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() connects to SSH server");
+						result = "ssh server ???";
+						break;
+		
+					default:
+							Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() connects to dropbox server");
+							
+							networkHandler.dropboxAuthObj = networkHandler.createDropboxAPIObject();
+							networkHandler.dropboxAuthObj
+											.getSession()
+											.startAuthentication(TestActivitySessionDetails.this);
+							
+							result = "dropbox server available";
+							break;
+				}
+				
+				
+				return result;
+			}
+			
+			//displays the results of the AsyncTask
+			@Override
+	        protected void onPostExecute(String result) 
+			{
+				Log.w(LOGTAG + "$ConnectToServerTask", "onPostExecute() get result=" + result);
 			}
 			
 		}

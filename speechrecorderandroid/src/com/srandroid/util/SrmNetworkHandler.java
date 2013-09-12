@@ -22,10 +22,15 @@ import javax.net.ssl.TrustManagerFactory;
 
 import org.apache.ivy.util.url.ApacheURLLister;
 
+import com.dropbox.client2.DropboxAPI;
+import com.dropbox.client2.android.AndroidAuthSession;
+import com.dropbox.client2.session.AppKeyPair;
+import com.dropbox.client2.session.Session.AccessType;
 import com.srandroid.database.TableServers.ServerItem;
 import com.srandroid.main.ActivityMain;
 import com.srandroid.main.TestActivitySessionDetails;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -44,11 +49,19 @@ public class SrmNetworkHandler
 	private static ConnectivityManager connManager;
 	private static NetworkInfo networkInfo;
 	
-	private static boolean isWifiConnected;
-	private static boolean isMobileConnected;
+	public static boolean isWifiConnected;
+	public static boolean isMobileConnected;
 	
 	private static final int BYTE_BUFFER_SIZE = 4*1024;
 	private static final int CHAR_BUFFER_SIZE = 100; // 100 chars
+	
+	
+	// dropbox
+	private final static String APP_KEY = "z0n6paty2uwi3ru";
+	private final static String APP_SECRET = "xrphn2nzodjnqmq";
+	private final static AccessType ACCESS_TYPE = AccessType.APP_FOLDER;
+	
+	public static DropboxAPI<AndroidAuthSession> dropboxAuthObj;
 	
 	
 	/**
@@ -62,40 +75,31 @@ public class SrmNetworkHandler
 	    		(ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 	}
 	
-	public void connectToServer(ServerItem serverItem)
+	public boolean checkNetworkConnection(Activity activeAct)
 	{
-		
-		String address = serverItem.address;
-		String username = serverItem.username;
-		String password = serverItem.password;
-		String description = serverItem.description;
-		
-		Log.w(LOGTAG, "connectToServer(): will connect to server " 
-				+ "address=" + address 
-				+ ", username=" + username
-				+ ", password=" + password
-				+ ", desc=" + description);
-		
 		if(isDeviceOnline())
 		{
 			if(checkWifiConnection())
 			{ // uses Wifi
-				new ConnectToServerTask().execute(address, username, password);
+				Log.w(LOGTAG, "checkNetworkConnection() finds wifi available");
+				return true;
 			}
 			else if(checkMobileConnection())
 			{ // uses Mobile Network
-				new ConnectToServerTask().execute(address, username, password);
+				Log.w(LOGTAG, "checkNetworkConnection() finds mobile network available");
+				return true;
 			}
 		}
 		else
 		{
 			Utils.UIutils.createSimpleAlertDialog(
-					TestActivitySessionDetails.context, 
+					activeAct, 
 					"Network", 
 					"Can not connect to internet!\n"
 					+ "Check system network settings!", 
 					"OK");
 		}
+		return false;
 	}
 	
 	public void disconnectFromServer(HttpURLConnection conn)
@@ -133,7 +137,7 @@ public class SrmNetworkHandler
 	    return (networkInfo != null && networkInfo.isConnected());
 	}  
 	
-	private void downloadSingleFile(URL url)
+	public void downloadSingleFile(URL url)
 			throws IOException
 	{
 		String destFileName = extractFileName(url.toString());
@@ -189,14 +193,14 @@ public class SrmNetworkHandler
 	}
 	
 
-	private void downloadAllFiles(URL url)
+	public void downloadAllFiles(URL url)
 			throws IOException
 	{
 		
 	}
 	
 
-	private String extractFileName(String filepath)
+	public String extractFileName(String filepath)
 	{
 		int start = filepath.lastIndexOf('/') + 1;
 		int end = filepath.length();
@@ -210,7 +214,7 @@ public class SrmNetworkHandler
 	}
 	
 	// check if the server is available
-	private boolean requestHead(URL url)
+	public boolean requestHead(URL url)
 		throws IOException
 	{
 		Log.w(LOGTAG, "requestHead() will request HEAD from address=" + url);
@@ -244,7 +248,7 @@ public class SrmNetworkHandler
 	}
 	
 	// Reads an InputStream and converts it to a String.
-	private String readInputStreamToString(InputStream stream, int charBufferSize) 
+	public String readInputStreamToString(InputStream stream, int charBufferSize) 
 			throws IOException, UnsupportedEncodingException 
 	{
 	    Reader reader = null;
@@ -254,7 +258,7 @@ public class SrmNetworkHandler
 	    return new String(buffer);
 	}
 	
-	private int getURLProtocolType(URL url)
+	public int getURLProtocolType(URL url)
 	{
 		// 1: http
 		// 2: https
@@ -268,13 +272,14 @@ public class SrmNetworkHandler
 		if( protocol.equals(ProtocolTypes.TYPE_HTTP) ) type = 1;
 		else if( protocol.equals(ProtocolTypes.TYPE_HTTPS) ) type = 2;
 		else if( protocol.equals(ProtocolTypes.TYPE_SSH) ) type = 3;
+		else if( protocol.equals(ProtocolTypes.TYPE_DROPBOX) ) type = 4;
 		
 		Log.w(LOGTAG, "getURLProtocolType() get protocol type=" + type);
 		
 		return type;
 	}
 	
-	private void listFilesApacheIvy(URL url)
+	public void listFilesApacheIvy(URL url)
 			throws IOException
 	{
 		Log.w(LOGTAG, "listFilesIvy() will list files in server=" + url );
@@ -293,7 +298,7 @@ public class SrmNetworkHandler
 
 	}
 	
-	private void listFiles(URL url)
+	public void listFiles(URL url)
 			throws IOException
 	{
 		String destFileName = "response.html";
@@ -355,6 +360,49 @@ public class SrmNetworkHandler
 	}
 	
 	
+	public DropboxAPI<AndroidAuthSession> createDropboxAPIObject()
+	{
+		Log.w(LOGTAG, "createDropboxAPIObject() will create DropboxAPIObject");
+		
+		// In the class declaration section:
+		DropboxAPI<AndroidAuthSession> mDBApi;
+
+		// And later in some initialization function:
+		AppKeyPair appKeys = new AppKeyPair(APP_KEY, APP_SECRET);
+		AndroidAuthSession session = new AndroidAuthSession(appKeys, ACCESS_TYPE);
+		mDBApi = new DropboxAPI<AndroidAuthSession>(session);
+		
+		return mDBApi;
+		
+		// start authentication
+		// mDBApi.getSession().startAuthentication(MyActivity.this);
+		
+		// finish authentication
+//		protected void onResume() {
+//		    super.onResume();
+//
+//		    if (mDBApi.getSession().authenticationSuccessful()) {
+//		        try {
+//		            // Required to complete auth, sets the access token on the session
+//		            mDBApi.getSession().finishAuthentication();
+//
+//		            AccessTokenPair tokens = mDBApi.getSession().getAccessTokenPair();
+//					// these tokens should be stored in shared preference
+//		        } catch (IllegalStateException e) {
+//		            Log.i("DbAuthLog", "Error authenticating", e);
+//		        }
+//		    }
+//		}
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -367,136 +415,8 @@ public class SrmNetworkHandler
 		public static final String TYPE_HTTP = "http";
 		public static final String TYPE_HTTPS = "https";
 		public static final String TYPE_SSH = "ssh";
+		public static final String TYPE_DROPBOX = "dropbox";
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	/**
-	 * Class  
-	 *
-	 */
-	private class ConnectToServerTask extends AsyncTask<String, Void, String>
-	{
-		private String address;
-		private String username;
-		private String password;
-		
-		@Override
-		protected String doInBackground(String... array) 
-		{
-			String result = null;
-			URL url = null;
-			
-			address = array[0];
-			username = array[1];
-			password = array[2];
-			
-			Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() get strings " 
-					+ "address=" + address 
-					+ ", username=" + username
-					+ ", password=" + password);
-			try 
-			{
-				url = new URL(address);
-			} 
-			catch (MalformedURLException e1) 
-			{
-				Log.w(LOGTAG + "$ConnectToServerTask", 
-						"doInBackground() throws MalformedURLException=" + e1.getMessage());
-			}
-			
-			// first test connect to the server to get head infos
-			// second test connect to the server with username and password in https
-			int protocolType = getURLProtocolType(url);
-			switch (protocolType) 
-			{
-				case 1: // HTTP
-						Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() connects to HTTP server");
-						
-						try 
-						{
-							if(requestHead(url))
-							{
-								Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() checks " +
-										"server(" + url + ") is available");
-								result = "http server available";
-								
-								// list files
-								listFiles(url);
-							}
-							else 
-							{
-								Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() checks " +
-										"server(" + url + ") is UNavailable");
-								result = "http server unavailable";
-							}
-						} 
-						catch (IOException e) 
-						{
-							Log.w(LOGTAG + "$ConnectToServerTask", 
-									"doInBackground() HTTP throws Exception=" + e.getMessage()); 
-						}
-						
-						break;
-				
-				case 2: // HTTPS
-						Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() connects to HTTPS server");
-						
-						try 
-						{
-							if(requestHead(url))
-							{
-								Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() checks " +
-										"server(" + url + ") is available");
-								result = "https server available";
-								
-								// list files
-								listFiles(url);
-							}
-							else 
-							{
-								Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() checks " +
-										"server(" + url + ") is UNavailable");
-								result = "https server unavailable";
-							}
-						} 
-						catch (IOException e) 
-						{
-							Log.w(LOGTAG + "$ConnectToServerTask", 
-									"doInBackground() HTTPS throws Exception=" + e.getMessage()); 
-						}
-						
-						break;
-				
-				case 3: // SSH
-						Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() connects to SSH server");
-						result = "ssh server ???";
-						break;
-	
-				default:
-						Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() finds unsupported server");
-						result = "unsupported server";
-						break;
-			}
-			
-			
-			return result;
-		}
-		
-		//displays the results of the AsyncTask
-		@Override
-        protected void onPostExecute(String result) 
-		{
-			Log.w(LOGTAG + "$ConnectToServerTask", "onPostExecute() get result=" + result);
-		}
-		
-	}
-
 }

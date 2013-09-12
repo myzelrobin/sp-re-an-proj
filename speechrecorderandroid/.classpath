@@ -6,5 +6,13 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="lib" path="libs/ivy-2.3.0.jar"/>
+	<classpathentry kind="lib" path="libs/DropboxAPI/extra/android.jar"/>
+	<classpathentry kind="lib" path="libs/DropboxAPI/test/junit-4.10.jar"/>
+	<classpathentry kind="lib" path="libs/DropboxAPI/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="libs/DropboxAPI/dropbox-android-sdk-1.5.4.jar" sourcepath="/home/f/fanli/Development/eclipse_workspace/libs/dropbox-android-sdk-1.5.4.zip"/>
+	<classpathentry kind="lib" path="libs/DropboxAPI/httpclient-4.0.3.jar"/>
+	<classpathentry kind="lib" path="libs/DropboxAPI/httpcore-4.0.1.jar"/>
+	<classpathentry kind="lib" path="libs/DropboxAPI/httpmime-4.0.3.jar"/>
+	<classpathentry kind="lib" path="libs/DropboxAPI/json_simple-1.1.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
