@@ -50,7 +50,7 @@ public class SrmNetworkHandler
 	
 	private HttpURLConnection conn;
 	
-	private static final int BYTE_BUFFER_SIZE = 1024;
+	private static final int BYTE_BUFFER_SIZE = 4*1024;
 	private static final int CHAR_BUFFER_SIZE = 100; // 100 chars
 	
 	
@@ -141,8 +141,8 @@ public class SrmNetworkHandler
 	{
 		String destFilename = extractFileName(conn.getURL().toString());
 		Log.w(LOGTAG, 
-				"downloadSingleFile() will download RES=" + conn.getURL() 
-				+ " to DEST=" + destFilename);
+				"downloadSingleFile() will download RESOURCE=" + conn.getURL() 
+				+ " to DEST=" + Utils.ConstantVars.DIR_EXT_SCRIPTS_PATH + "/" + destFilename);
 		
 		InputStream input = null;
 		FileOutputStream output = null;
@@ -184,6 +184,8 @@ public class SrmNetworkHandler
 	        {
 	        	output.close();
 	        }
+	        
+	        conn.disconnect();
 	    }
 	}
 	
@@ -232,7 +234,7 @@ public class SrmNetworkHandler
 	    } 
 	    finally 
 	    {
-	    	
+	    	conn.disconnect();
 	    }
 	}
 	
@@ -289,26 +291,53 @@ public class SrmNetworkHandler
 	private void listFiles(HttpURLConnection conn)
 			throws IOException
 	{
-		Log.w(LOGTAG, "listFiles() will list files in server=" + conn.getURL() );
+		String destFilename = "response.html";
+		Log.w(LOGTAG, 
+				"listFiles() will download RESOURCE=" + conn.getURL() 
+				+ " to DEST=" + Utils.ConstantVars.DIR_EXT_SCRIPTS_PATH + "/" + destFilename);
 		
-		try 
+		InputStream input = null;
+		FileOutputStream output = null;
+		
+	    try 
 	    {
-			downloadSingleFile(conn);
-//	        conn.setReadTimeout(10000 /* milliseconds */);
-//	        conn.setConnectTimeout(15000 /* milliseconds */);
-//	        conn.setRequestMethod("HEAD"); // GET
-//	        conn.setDoInput(true);
-//	        // Starts the query
-//	        conn.connect();
-//	        
-//	        int response = conn.getResponseCode();
-//	        Log.w(LOGTAG, "listFiles() get response=" + response);
-//	        //Log.w(LOGTAG, "requestHeadHTTPS() get HeaderFields=" + conn.getHeaderFields().toString());
+	    	// input stream
+	        conn.setReadTimeout(10000 /* milliseconds */);
+	        conn.setConnectTimeout(15000 /* milliseconds */);
+	        conn.setRequestMethod("GET"); 
+	        conn.setDoInput(true);
+	        conn.connect();
+	        int response = conn.getResponseCode();
+	        Log.w(LOGTAG, "listFiles() get response=" + response);
+	        input = conn.getInputStream();
+	        
+	        // output stream
+	        File scriptsFolder = new File(Utils.ConstantVars.DIR_EXT_SCRIPTS_PATH);
+	        File outputFilePath = new File(scriptsFolder, destFilename);
+	        output = new FileOutputStream(outputFilePath);
+	        
+	        // read & write
+	        byte[] buffer = new byte[BYTE_BUFFER_SIZE];
+	        int bufferLength = 0;
+
+	        while ( (bufferLength = input.read(buffer)) > 0 ) 
+	        {
+	        	output.write(buffer, 0, bufferLength);
+	        }
 	        
 	    } 
 	    finally 
 	    {
-	    	
+	        if (input != null) 
+	        {
+	        	input.close();
+	        } 
+	        if(output != null)
+	        {
+	        	output.close();
+	        }
+	        
+	        conn.disconnect();
 	    }
 
 	}
@@ -392,7 +421,6 @@ public class SrmNetworkHandler
 								// list files
 								listFiles(conn);
 								
-								conn.disconnect();
 							}
 							else 
 							{
@@ -425,8 +453,6 @@ public class SrmNetworkHandler
 								
 								// list files
 								listFiles(conn);
-								
-								conn.disconnect();
 							}
 							else 
 							{
