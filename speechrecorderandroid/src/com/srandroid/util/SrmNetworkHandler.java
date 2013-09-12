@@ -149,8 +149,8 @@ public class SrmNetworkHandler
 	    	// input stream
 	        URL url = new URL(resFilepath);
 	        
-	        if(protocolType == ProtocolTypes.TYPE_HTTP) conn = (HttpURLConnection) url.openConnection();
-	        else if(protocolType == ProtocolTypes.TYPE_HTTPS) conn = (HttpsURLConnection) url.openConnection();
+	        if( protocolType.equals(ProtocolTypes.TYPE_HTTP) ) conn = (HttpURLConnection) url.openConnection();
+	        else if( protocolType.equals(ProtocolTypes.TYPE_HTTPS) ) conn = (HttpsURLConnection) url.openConnection();
 	        
 	        conn.setReadTimeout(10000 /* milliseconds */);
 	        conn.setConnectTimeout(15000 /* milliseconds */);
@@ -213,99 +213,157 @@ public class SrmNetworkHandler
 	}
 	
 	// HTTP, check if the server is available
-			private boolean requestHead(String address)
-				throws IOException, MalformedURLException
-			{
-				Log.w(LOGTAG, "requestHead() will request HEAD from address=" + address);
-				
-			    try 
-			    {
-			        URL url = new URL(address);
-			        conn = (HttpURLConnection) url.openConnection();
-			        conn.setReadTimeout(10000 /* milliseconds */);
-			        conn.setConnectTimeout(15000 /* milliseconds */);
-			        conn.setRequestMethod("HEAD"); // GET
-			        conn.setDoInput(true);
-			        // Starts the query
-			        conn.connect();
-			        
-			        int response = conn.getResponseCode();
-			        Log.w(LOGTAG, "requestHead() get response=" + response);
-			        // Log.w(LOGTAG, "requestHead() get HeaderFields=" + conn.getHeaderFields().toString());
-			        
-			        if(200 <= response && response <= 399) return true;
-			        else return false;
-			    } 
-			    finally 
-			    {
-			    	closeConnection(conn);
-			    }
-			}
+	private boolean requestHead(String address)
+		throws IOException, MalformedURLException
+	{
+		Log.w(LOGTAG, "requestHead() will request HEAD from address=" + address);
+		
+	    try 
+	    {
+	        URL url = new URL(address);
+	        conn = (HttpURLConnection) url.openConnection();
+	        conn.setReadTimeout(10000 /* milliseconds */);
+	        conn.setConnectTimeout(15000 /* milliseconds */);
+	        conn.setRequestMethod("HEAD"); // GET
+	        conn.setDoInput(true);
+	        // Starts the query
+	        conn.connect();
+	        
+	        int response = conn.getResponseCode();
+	        Log.w(LOGTAG, "requestHead() get response=" + response);
+	        // Log.w(LOGTAG, "requestHead() get HeaderFields=" + conn.getHeaderFields().toString());
+	        
+	        if(200 <= response && response <= 399) return true;
+	        else return false;
+	    } 
+	    finally 
+	    {
+	    	closeConnection(conn);
+	    }
+	}
 			
-			// HTTPS, check if the server is available
-			private boolean requestHeadHTTPS(String address)
-				throws IOException, MalformedURLException
-			{
-				Log.w(LOGTAG, 
-						"requestHeadHTTPS() will request HEAD from address=" + address);
-				
-			    try 
-			    {	
-			        URL url = new URL(address);
-			        conn = (HttpsURLConnection) url.openConnection();
-			        conn.setReadTimeout(10000 /* milliseconds */);
-			        conn.setConnectTimeout(15000 /* milliseconds */);
-			        conn.setRequestMethod("HEAD"); // GET
-			        conn.setDoInput(true);
-			        // Starts the query
-			        conn.connect();
-			        
-			        int response = conn.getResponseCode();
-			        Log.w(LOGTAG, "requestHeadHTTPS() get response=" + response);
-			        //Log.w(LOGTAG, "requestHeadHTTPS() get HeaderFields=" + conn.getHeaderFields().toString());
-			        
-			        if(200 <= response && response <= 399) return true;
-			        else return false;
-			    } 
-			    finally 
-			    {
-			    	closeConnection(conn);
-			    }
-			}
-			
-			// Reads an InputStream and converts it to a String.
-			private String readInputStreamToString(InputStream stream, int charBufferSize) 
-					throws IOException, UnsupportedEncodingException 
-			{
-			    Reader reader = null;
-			    reader = new InputStreamReader(stream, "UTF-8");        
-			    char[] buffer = new char[charBufferSize];
-			    reader.read(buffer);
-			    return new String(buffer);
-			}
-			
-			private int extractServerProtocolType(String address)
-			{
-				// 1: http
-				// 2: https
-				// 3: ssh
-				int type = -1;
-				
-				int start = 0;
-				int end = address.indexOf(':');
-				
-				String protocolName = address.substring(start, end);
-				
-				Log.w(LOGTAG, "extractServerProtocolType() get protocol=" + protocolName);
-				
-				if( protocolName.equals(ProtocolTypes.TYPE_HTTP) ) type = 1;
-				else if( protocolName.equals(ProtocolTypes.TYPE_HTTPS) ) type = 2;
-				else if( protocolName.equals(ProtocolTypes.TYPE_SSH) ) type = 3;
-				
-				Log.w(LOGTAG, "extractServerProtocolType() get protocol type=" + type);
-				
-				return type;
-			}
+	// HTTPS, check if the server is available
+	private boolean requestHeadHTTPS(String address)
+		throws IOException, MalformedURLException
+	{
+		Log.w(LOGTAG, 
+				"requestHeadHTTPS() will request HEAD from address=" + address);
+		
+	    try 
+	    {	
+	        URL url = new URL(address);
+	        conn = (HttpsURLConnection) url.openConnection();
+	        conn.setReadTimeout(10000 /* milliseconds */);
+	        conn.setConnectTimeout(15000 /* milliseconds */);
+	        conn.setRequestMethod("HEAD"); // GET
+	        conn.setDoInput(true);
+	        // Starts the query
+	        conn.connect();
+	        
+	        int response = conn.getResponseCode();
+	        Log.w(LOGTAG, "requestHeadHTTPS() get response=" + response);
+	        //Log.w(LOGTAG, "requestHeadHTTPS() get HeaderFields=" + conn.getHeaderFields().toString());
+	        
+	        if(200 <= response && response <= 399) return true;
+	        else return false;
+	    } 
+	    finally 
+	    {
+	    	closeConnection(conn);
+	    }
+	}
+	
+	// Reads an InputStream and converts it to a String.
+	private String readInputStreamToString(InputStream stream, int charBufferSize) 
+			throws IOException, UnsupportedEncodingException 
+	{
+	    Reader reader = null;
+	    reader = new InputStreamReader(stream, "UTF-8");        
+	    char[] buffer = new char[charBufferSize];
+	    reader.read(buffer);
+	    return new String(buffer);
+	}
+	
+	private int extractServerProtocolType(String address)
+	{
+		// 1: http
+		// 2: https
+		// 3: ssh
+		int type = -1;
+		
+		int start = 0;
+		int end = address.indexOf(':');
+		
+		String protocolName = address.substring(start, end);
+		
+		Log.w(LOGTAG, "extractServerProtocolType() get protocol=" + protocolName);
+		
+		if( protocolName.equals(ProtocolTypes.TYPE_HTTP) ) type = 1;
+		else if( protocolName.equals(ProtocolTypes.TYPE_HTTPS) ) type = 2;
+		else if( protocolName.equals(ProtocolTypes.TYPE_SSH) ) type = 3;
+		
+		Log.w(LOGTAG, "extractServerProtocolType() get protocol type=" + type);
+		
+		return type;
+	}
+	
+	private void listFiles(String folderPath, String protocolType)
+	{
+		Log.w(LOGTAG, 
+				"listFiles() will lsit files in folder=" + folderPath );
+		
+		InputStream input = null;
+		FileOutputStream output = null;
+		
+	    try 
+	    {
+	    	// input stream
+	        URL url = new URL(folderPath);
+	        
+	        if( protocolType.equals(ProtocolTypes.TYPE_HTTP) ) conn = (HttpURLConnection) url.openConnection();
+	        else if( protocolType.equals(ProtocolTypes.TYPE_HTTPS) ) conn = (HttpsURLConnection) url.openConnection();
+	        
+	        conn.setReadTimeout(10000 /* milliseconds */);
+	        conn.setConnectTimeout(15000 /* milliseconds */);
+	        conn.setRequestMethod("GET"); 
+	        conn.setDoInput(true);
+	        conn.connect();
+	        int response = conn.getResponseCode();
+	        Log.w(LOGTAG, "downloadSingleFile() get response=" + response);
+	        input = conn.getInputStream();
+	        
+	        // output stream
+	        File scriptsFolder = new File(Utils.ConstantVars.DIR_EXT_SCRIPTS_PATH);
+	        File outputFilePath = new File(scriptsFolder, destFilename);
+	        output = new FileOutputStream(outputFilePath);
+	        
+	        // read & write
+	        byte[] buffer = new byte[BYTE_BUFFER_SIZE];
+	        int bufferLength = 0;
+
+	        while ( (bufferLength = input.read(buffer)) > 0 ) 
+	        {
+	        	output.write(buffer, 0, bufferLength);
+	        }
+	        
+	    } 
+	    finally 
+	    {
+	        if (input != null) 
+	        {
+	        	input.close();
+	        } 
+	        if(output != null)
+	        {
+	        	output.close();
+	        }
+	        
+	        closeConnection(conn);
+	    }
+	}
+	
+	
+	
 	
 	
 	
@@ -338,7 +396,6 @@ public class SrmNetworkHandler
 		private String username;
 		private String password;
 		
-
 		@Override
 		protected String doInBackground(String... array) 
 		{
