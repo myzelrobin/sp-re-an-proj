@@ -178,16 +178,9 @@ public class SrmNetworkHandler
 	    } 
 	    finally 
 	    {
-	        if (input != null) 
-	        {
-	        	input.close();
-	        } 
-	        if(output != null)
-	        {
-	        	output.close();
-	        }
-	        
-	        conn.disconnect();
+	        if(input != null) input.close();
+	        if(output != null) output.close();
+	        if(conn != null) conn.disconnect();
 	    }
 	}
 	
@@ -242,7 +235,7 @@ public class SrmNetworkHandler
 	    } 
 	    finally 
 	    {
-	    	conn.disconnect();
+	    	if(conn != null) conn.disconnect();
 	    }
 	}
 	
@@ -299,7 +292,7 @@ public class SrmNetworkHandler
 	private void listFiles(URL url)
 			throws IOException
 	{
-		String destFilename = "response.html";
+		String destFilename = "response.xml";
 		Log.w(LOGTAG, 
 				"listFiles() will download response file RESOURCE=" + url 
 				+ " to DEST=" + Utils.ConstantVars.DIR_EXT_SCRIPTS_PATH + "/" + destFilename);
@@ -340,16 +333,11 @@ public class SrmNetworkHandler
 	    } 
 	    finally 
 	    {
-	        if (input != null) 
-	        {
-	        	input.close();
-	        } 
-	        if(output != null)
-	        {
-	        	output.close();
-	        }
-	        
-	        conn.disconnect();
+	    	Log.w(LOGTAG, "listFiles() finished reading and writing file");
+	    	
+	        if(input != null) input.close();
+	        if(output != null) output.close();
+	        if(conn != null) conn.disconnect();
 	    }
 
 	}
