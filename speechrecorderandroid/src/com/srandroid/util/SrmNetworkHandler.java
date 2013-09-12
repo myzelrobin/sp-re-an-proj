@@ -212,7 +212,100 @@ public class SrmNetworkHandler
 		return filename;
 	}
 	
-	
+	// HTTP, check if the server is available
+			private boolean requestHead(String address)
+				throws IOException, MalformedURLException
+			{
+				Log.w(LOGTAG, "requestHead() will request HEAD from address=" + address);
+				
+			    try 
+			    {
+			        URL url = new URL(address);
+			        conn = (HttpURLConnection) url.openConnection();
+			        conn.setReadTimeout(10000 /* milliseconds */);
+			        conn.setConnectTimeout(15000 /* milliseconds */);
+			        conn.setRequestMethod("HEAD"); // GET
+			        conn.setDoInput(true);
+			        // Starts the query
+			        conn.connect();
+			        
+			        int response = conn.getResponseCode();
+			        Log.w(LOGTAG, "requestHead() get response=" + response);
+			        // Log.w(LOGTAG, "requestHead() get HeaderFields=" + conn.getHeaderFields().toString());
+			        
+			        if(200 <= response && response <= 399) return true;
+			        else return false;
+			    } 
+			    finally 
+			    {
+			    	closeConnection(conn);
+			    }
+			}
+			
+			// HTTPS, check if the server is available
+			private boolean requestHeadHTTPS(String address)
+				throws IOException, MalformedURLException
+			{
+				Log.w(LOGTAG, 
+						"requestHeadHTTPS() will request HEAD from address=" + address);
+				
+			    try 
+			    {	
+			        URL url = new URL(address);
+			        conn = (HttpsURLConnection) url.openConnection();
+			        conn.setReadTimeout(10000 /* milliseconds */);
+			        conn.setConnectTimeout(15000 /* milliseconds */);
+			        conn.setRequestMethod("HEAD"); // GET
+			        conn.setDoInput(true);
+			        // Starts the query
+			        conn.connect();
+			        
+			        int response = conn.getResponseCode();
+			        Log.w(LOGTAG, "requestHeadHTTPS() get response=" + response);
+			        //Log.w(LOGTAG, "requestHeadHTTPS() get HeaderFields=" + conn.getHeaderFields().toString());
+			        
+			        if(200 <= response && response <= 399) return true;
+			        else return false;
+			    } 
+			    finally 
+			    {
+			    	closeConnection(conn);
+			    }
+			}
+			
+			// Reads an InputStream and converts it to a String.
+			private String readInputStreamToString(InputStream stream, int charBufferSize) 
+					throws IOException, UnsupportedEncodingException 
+			{
+			    Reader reader = null;
+			    reader = new InputStreamReader(stream, "UTF-8");        
+			    char[] buffer = new char[charBufferSize];
+			    reader.read(buffer);
+			    return new String(buffer);
+			}
+			
+			private int extractServerProtocolType(String address)
+			{
+				// 1: http
+				// 2: https
+				// 3: ssh
+				int type = -1;
+				
+				int start = 0;
+				int end = address.indexOf(':');
+				
+				String protocolName = address.substring(start, end);
+				
+				Log.w(LOGTAG, "extractServerProtocolType() get protocol=" + protocolName);
+				
+				if( protocolName.equals(ProtocolTypes.TYPE_HTTP) ) type = 1;
+				else if( protocolName.equals(ProtocolTypes.TYPE_HTTPS) ) type = 2;
+				else if( protocolName.equals(ProtocolTypes.TYPE_SSH) ) type = 3;
+				
+				Log.w(LOGTAG, "extractServerProtocolType() get protocol type=" + type);
+				
+				return type;
+			}
 	
 	
 	
@@ -342,101 +435,6 @@ public class SrmNetworkHandler
 			Log.w(LOGTAG + "$ConnectToServerTask", "onPostExecute() get result=" + result);
 		}
 		
-		// HTTP, check if the server is available
-		private boolean requestHead(String address)
-			throws IOException, MalformedURLException
-		{
-			Log.w(LOGTAG + "$ConnectToServerTask", 
-					"requestHead() will request HEAD from address=" + address);
-			
-		    try 
-		    {
-		        URL url = new URL(address);
-		        conn = (HttpURLConnection) url.openConnection();
-		        conn.setReadTimeout(10000 /* milliseconds */);
-		        conn.setConnectTimeout(15000 /* milliseconds */);
-		        conn.setRequestMethod("HEAD"); // GET
-		        conn.setDoInput(true);
-		        // Starts the query
-		        conn.connect();
-		        
-		        int response = conn.getResponseCode();
-		        Log.w(LOGTAG + "$ConnectToServerTask", "requestHead() get response=" + response);
-		        // Log.w(LOGTAG + "$ConnectToServerTask", "requestHead() get HeaderFields=" + conn.getHeaderFields().toString());
-		        
-		        if(200 <= response && response <= 399) return true;
-		        else return false;
-		    } 
-		    finally 
-		    {
-		    	closeConnection(conn);
-		    }
-		}
-		
-		// HTTPS, check if the server is available
-		private boolean requestHeadHTTPS(String address)
-			throws IOException, MalformedURLException
-		{
-			Log.w(LOGTAG + "$ConnectToServerTask", 
-					"requestHeadHTTPS() will request HEAD from address=" + address);
-			
-		    try 
-		    {	
-		        URL url = new URL(address);
-		        conn = (HttpsURLConnection) url.openConnection();
-		        conn.setReadTimeout(10000 /* milliseconds */);
-		        conn.setConnectTimeout(15000 /* milliseconds */);
-		        conn.setRequestMethod("HEAD"); // GET
-		        conn.setDoInput(true);
-		        // Starts the query
-		        conn.connect();
-		        
-		        int response = conn.getResponseCode();
-		        Log.w(LOGTAG + "$ConnectToServerTask", "requestHeadHTTPS() get response=" + response);
-		        //Log.w(LOGTAG + "$ConnectToServerTask", "requestHeadHTTPS() get HeaderFields=" + conn.getHeaderFields().toString());
-		        
-		        if(200 <= response && response <= 399) return true;
-		        else return false;
-		    } 
-		    finally 
-		    {
-		    	closeConnection(conn);
-		    }
-		}
-		
-		// Reads an InputStream and converts it to a String.
-		private String readInputStreamToString(InputStream stream, int charBufferSize) 
-				throws IOException, UnsupportedEncodingException 
-		{
-		    Reader reader = null;
-		    reader = new InputStreamReader(stream, "UTF-8");        
-		    char[] buffer = new char[charBufferSize];
-		    reader.read(buffer);
-		    return new String(buffer);
-		}
-		
-		private int extractServerProtocolType(String address)
-		{
-			// 1: http
-			// 2: https
-			// 3: ssh
-			int type = -1;
-			
-			int start = 0;
-			int end = address.indexOf(':');
-			
-			String protocolName = address.substring(start, end);
-			
-			Log.w(LOGTAG + "$ConnectToServerTask", "extractServerProtocolType() get protocol=" + protocolName);
-			
-			if(protocolName == ProtocolTypes.TYPE_HTTP) type = 1;
-			else if(protocolName == ProtocolTypes.TYPE_HTTPS) type = 2;
-			else if(protocolName == ProtocolTypes.TYPE_SSH) type = 3;
-			
-			Log.w(LOGTAG + "$ConnectToServerTask", "extractServerProtocolType() get protocol type=" + type);
-			
-			return type;
-		}
 	}
 
 }
