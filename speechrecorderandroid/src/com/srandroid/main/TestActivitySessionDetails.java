@@ -40,6 +40,7 @@ import com.srandroid.database.SrmContentProvider.SrmUriMatcher;
 import com.srandroid.database.TableRecords;
 import com.srandroid.database.TableRecords.RecordItem;
 import com.srandroid.database.TableScripts.ScriptItem;
+import com.srandroid.database.TableServers.ServerItem;
 import com.srandroid.database.TableSessions;
 import com.srandroid.database.TableSpeakers;
 import com.srandroid.recording.ActivityPreRecording;
@@ -292,11 +293,16 @@ public class TestActivitySessionDetails extends Activity
 	        		break;
 	        	
 	        	case R.id.act_sessiondetails_button_upload:
+	        		ServerItem serverItem = new ServerItem(null, 
+	        				Utils.ConstantVars.SERVER_ADDRESS_HTTP, 
+	        				Utils.ConstantVars.SERVER_USERNAME, 
+	        				Utils.ConstantVars.SERVER_PASSWORD, 
+	        				"Test Server Example");
+	        		
 	        		networkHandler = new SrmNetworkHandler(this);
-	        		networkHandler.connectToServer(
-	        				Utils.ConstantVars.SERVER_ADDRESS, 
-	        				Utils.ConstantVars.SERVER_USERNAME,
-	        				Utils.ConstantVars.SERVER_PASSWORD);
+	        		networkHandler.connectToServer(serverItem);
+	        		
+	        		// do something
 	        		
 	        		//Utils.toastTextToUser(this, "start uploading");
 	        		break;
