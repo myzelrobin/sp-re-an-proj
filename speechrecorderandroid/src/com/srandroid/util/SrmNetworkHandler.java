@@ -61,7 +61,7 @@ public class SrmNetworkHandler
 	private final static String APP_SECRET = "xrphn2nzodjnqmq";
 	private final static AccessType ACCESS_TYPE = AccessType.APP_FOLDER;
 	
-	public static DropboxAPI<AndroidAuthSession> dropboxAuthObj;
+	public static DropboxAPI<AndroidAuthSession> dropbox;
 	
 	
 	/**

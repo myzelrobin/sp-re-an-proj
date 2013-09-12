@@ -195,13 +195,13 @@ public class TestActivitySessionDetails extends Activity
 	    {
 			super.onResume();
 			
-		    if (networkHandler.dropboxAuthObj.getSession().authenticationSuccessful()) {
+		    if (networkHandler.dropbox.getSession().authenticationSuccessful()) {
 	        try 
 	        {
 	            // Required to complete auth, sets the access token on the session
-	        	networkHandler.dropboxAuthObj.getSession().finishAuthentication();
+	        	networkHandler.dropbox.getSession().finishAuthentication();
 
-	            AccessTokenPair tokens = networkHandler.dropboxAuthObj.getSession().getAccessTokenPair();
+	            AccessTokenPair tokens = networkHandler.dropbox.getSession().getAccessTokenPair();
 				// these tokens should be stored in shared preference
 	        } 
 	        catch (IllegalStateException e) 
@@ -593,8 +593,6 @@ public class TestActivitySessionDetails extends Activity
 		    	TextView recordItemComment = (TextView) view.findViewById(R.id.recorditem_comment_textvalue);
 		    	TextView recordItemPrompt = (TextView) view.findViewById(R.id.recorditem_prompt_textvalue);
 		        
-			    
-			    
 			    String itemcode = cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ITEMCODE));
 			    recordItemItemcode.setText(itemcode);
 		       
@@ -957,7 +955,7 @@ public class TestActivitySessionDetails extends Activity
 				switch (protocolType) 
 				{
 					case 1: // HTTP
-							Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() connects to HTTP server");
+							Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() will connect to HTTP server");
 							
 							try 
 							{
@@ -986,7 +984,7 @@ public class TestActivitySessionDetails extends Activity
 							break;
 					
 					case 2: // HTTPS
-							Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() connects to HTTPS server");
+							Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() will connect to HTTPS server");
 							
 							try 
 							{
@@ -1015,24 +1013,24 @@ public class TestActivitySessionDetails extends Activity
 							break;
 					
 					case 3: // SSH
-							Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() connects to SSH server");
+							Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() will connect to SSH server");
 							result = "ssh server ???";
 							break;
 							
 					case 4: // dropbox
-						Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() connects to SSH server");
-						result = "ssh server ???";
-						break;
-		
-					default:
-							Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() connects to dropbox server");
+							Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() will connect to dropbox server");
 							
-							networkHandler.dropboxAuthObj = networkHandler.createDropboxAPIObject();
-							networkHandler.dropboxAuthObj
+							networkHandler.dropbox = networkHandler.createDropboxAPIObject();
+							networkHandler.dropbox
 											.getSession()
 											.startAuthentication(TestActivitySessionDetails.this);
 							
 							result = "dropbox server available";
+							break;
+		
+					default:
+							Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() get unsupported server");
+							result = "server unsupported";
 							break;
 				}
 				
