@@ -204,7 +204,11 @@ public class TestActivitySessionDetails extends Activity
 			        	networkHandler.dropbox.getSession().finishAuthentication();
 		
 			            AccessTokenPair tokens = networkHandler.dropbox.getSession().getAccessTokenPair();
-						// these tokens should be stored in shared preference
+						
+			            // method, these tokens should be stored in shared preference
+			            
+			            Log.w(LOGTAG, "onResume() finished dropbox authen");
+			            
 			        } 
 			        catch (IllegalStateException e) 
 			        {
@@ -1023,7 +1027,7 @@ public class TestActivitySessionDetails extends Activity
 					case 4: // dropbox
 							Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() will connect to dropbox server");
 							
-							networkHandler.dropbox = networkHandler.createDropboxAPIObject();
+							networkHandler.dropbox = networkHandler.createDropboxObject();
 							networkHandler.dropbox
 											.getSession()
 											.startAuthentication(TestActivitySessionDetails.this);

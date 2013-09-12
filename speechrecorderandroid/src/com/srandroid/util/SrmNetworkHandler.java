@@ -262,7 +262,7 @@ public class SrmNetworkHandler
 	{
 		// 1: http
 		// 2: https
-		// 3: ssh
+		// 3: ssh ???
 		// 4: dropbox
 		int type = -1;
 		String head = null;
@@ -376,9 +376,9 @@ public class SrmNetworkHandler
 	}
 	
 	
-	public DropboxAPI<AndroidAuthSession> createDropboxAPIObject()
+	public DropboxAPI<AndroidAuthSession> createDropboxObject()
 	{
-		Log.w(LOGTAG, "createDropboxAPIObject() will create DropboxAPIObject");
+		Log.w(LOGTAG, "createDropboxObject() will create DropboxObject");
 		
 		// In the class declaration section:
 		DropboxAPI<AndroidAuthSession> mDBApi;
@@ -390,10 +390,10 @@ public class SrmNetworkHandler
 		
 		return mDBApi;
 		
-		// start authentication
-		// mDBApi.getSession().startAuthentication(MyActivity.this);
-		
-		// finish authentication
+//		// start authentication
+//		mDBApi.getSession().startAuthentication(MyActivity.this);
+//		
+//		// finish authentication
 //		protected void onResume() {
 //		    super.onResume();
 //
@@ -409,7 +409,6 @@ public class SrmNetworkHandler
 //		        }
 //		    }
 //		}
-		
 		
 	}
 	
