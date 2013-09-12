@@ -14,10 +14,13 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.KeyStore;
+import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
+
+import org.apache.ivy.util.url.ApacheURLLister;
 
 import com.srandroid.database.TableServers.ServerItem;
 import com.srandroid.main.ActivityMain;
@@ -307,59 +310,24 @@ public class SrmNetworkHandler
 		return type;
 	}
 	
-	private void listFiles(String folderPath, String protocolType)
+	private void listFiles(String address)
+			throws IOException, MalformedURLException
 	{
-		Log.w(LOGTAG, 
-				"listFiles() will lsit files in folder=" + folderPath );
+		Log.w(LOGTAG, "listFiles() will list files in server=" + address );
 		
-		InputStream input = null;
-		FileOutputStream output = null;
-		
-	    try 
-	    {
-	    	// input stream
-	        URL url = new URL(folderPath);
-	        
-	        if( protocolType.equals(ProtocolTypes.TYPE_HTTP) ) conn = (HttpURLConnection) url.openConnection();
-	        else if( protocolType.equals(ProtocolTypes.TYPE_HTTPS) ) conn = (HttpsURLConnection) url.openConnection();
-	        
-	        conn.setReadTimeout(10000 /* milliseconds */);
-	        conn.setConnectTimeout(15000 /* milliseconds */);
-	        conn.setRequestMethod("GET"); 
-	        conn.setDoInput(true);
-	        conn.connect();
-	        int response = conn.getResponseCode();
-	        Log.w(LOGTAG, "downloadSingleFile() get response=" + response);
-	        input = conn.getInputStream();
-	        
-	        // output stream
-	        File scriptsFolder = new File(Utils.ConstantVars.DIR_EXT_SCRIPTS_PATH);
-	        File outputFilePath = new File(scriptsFolder, destFilename);
-	        output = new FileOutputStream(outputFilePath);
-	        
-	        // read & write
-	        byte[] buffer = new byte[BYTE_BUFFER_SIZE];
-	        int bufferLength = 0;
+        try 
+        {           
+        	URL serverURL = new URL(address);           
+            ApacheURLLister lister = new ApacheURLLister();         
+            List serverDir = lister.listAll(serverURL);
+            Log.w(LOGTAG, "listFiles() lists files in server=" + address
+            		+ ", files=" + serverDir.toString());      
+        }
+        finally
+        {
+        	
+        }
 
-	        while ( (bufferLength = input.read(buffer)) > 0 ) 
-	        {
-	        	output.write(buffer, 0, bufferLength);
-	        }
-	        
-	    } 
-	    finally 
-	    {
-	        if (input != null) 
-	        {
-	        	input.close();
-	        } 
-	        if(output != null)
-	        {
-	        	output.close();
-	        }
-	        
-	        closeConnection(conn);
-	    }
 	}
 	
 	
@@ -426,7 +394,9 @@ public class SrmNetworkHandler
 								Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() checks server(" 
 										+ address + ") is available");
 								result = "http server available";
+								
 								// list files
+								listFiles(address);
 							}
 							else 
 							{
@@ -438,7 +408,7 @@ public class SrmNetworkHandler
 						catch (IOException e) 
 						{
 							Log.w(LOGTAG + "$ConnectToServerTask", 
-									"doInBackground() calls requestHead() throws Exception=" + conn.getErrorStream()); 
+									"doInBackground() HTTP throws Exception=" + e.getMessage()); 
 						}
 						
 						break;
@@ -453,7 +423,9 @@ public class SrmNetworkHandler
 								Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() checks server(" 
 										+ address + ") is available");
 								result = "https server available";
+								
 								// list files
+								listFiles(address);
 							}
 							else 
 							{
@@ -465,7 +437,7 @@ public class SrmNetworkHandler
 						catch (IOException e) 
 						{
 							Log.w(LOGTAG + "$ConnectToServerTask", 
-									"doInBackground() calls requestHeadHTTPS() throws Exception=" + conn.getErrorStream()); 
+									"doInBackground() HTTPS throws Exception=" + e.getMessage()); 
 						}
 						
 						break;
