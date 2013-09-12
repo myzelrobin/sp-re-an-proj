@@ -194,23 +194,24 @@ public class TestActivitySessionDetails extends Activity
 	    protected void onResume()
 	    {
 			super.onResume();
-			
-		    if (networkHandler.dropbox.getSession().authenticationSuccessful()) {
-	        try 
-	        {
-	            // Required to complete auth, sets the access token on the session
-	        	networkHandler.dropbox.getSession().finishAuthentication();
-
-	            AccessTokenPair tokens = networkHandler.dropbox.getSession().getAccessTokenPair();
-				// these tokens should be stored in shared preference
-	        } 
-	        catch (IllegalStateException e) 
-	        {
-	        	Log.w(LOGTAG, "onResume() throws authentication error" + e.getMessage());
-	        }
-	    }
-			
-			
+			if(networkHandler != null && networkHandler.dropbox != null)
+			{
+				if (networkHandler.dropbox.getSession().authenticationSuccessful()) 
+			    {
+			        try 
+			        {
+			            // Required to complete auth, sets the access token on the session
+			        	networkHandler.dropbox.getSession().finishAuthentication();
+		
+			            AccessTokenPair tokens = networkHandler.dropbox.getSession().getAccessTokenPair();
+						// these tokens should be stored in shared preference
+			        } 
+			        catch (IllegalStateException e) 
+			        {
+			        	Log.w(LOGTAG, "onResume() throws authentication error" + e.getMessage());
+			        }
+			    }
+			}
 		}
 		
 		@Override
