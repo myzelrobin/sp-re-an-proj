@@ -136,10 +136,10 @@ public class SrmNetworkHandler
 	private void downloadSingleFile(URL url)
 			throws IOException
 	{
-		String destFilename = extractFileName(url.toString());
+		String destFileName = extractFileName(url.toString());
 		Log.w(LOGTAG, 
 				"downloadSingleFile() will download file RESOURCE=" + url 
-				+ " to DEST=" + Utils.ConstantVars.DIR_EXT_SCRIPTS_PATH + "/" + destFilename);
+				+ " to DEST=" + Utils.ConstantVars.DIR_EXT_SCRIPTS_PATH + "/" + destFileName);
 		
 		InputStream input = null;
 		FileOutputStream output = null;
@@ -163,16 +163,20 @@ public class SrmNetworkHandler
 	        
 	        // output stream
 	        File scriptsFolder = new File(Utils.ConstantVars.DIR_EXT_SCRIPTS_PATH);
-	        File outputFilePath = new File(scriptsFolder, destFilename);
-	        output = new FileOutputStream(outputFilePath);
-	        
-	        // read & write
-	        byte[] buffer = new byte[BYTE_BUFFER_SIZE];
-	        int bufferLength = 0;
-
-	        while ( (bufferLength = input.read(buffer)) > 0 ) 
+	        if(!scriptsFolder.exists()) scriptsFolder.mkdir();
+	        File outputFilePath = new File(scriptsFolder, destFileName);
+	        if(!outputFilePath.exists())
 	        {
-	        	output.write(buffer, 0, bufferLength);
+	        	output = new FileOutputStream(outputFilePath);
+		        
+		        // read & write
+		        byte[] buffer = new byte[BYTE_BUFFER_SIZE];
+		        int bufferLength = 0;
+
+		        while ( (bufferLength = input.read(buffer)) > 0 ) 
+		        {
+		        	output.write(buffer, 0, bufferLength);
+		        }
 	        }
 	        
 	    } 
@@ -320,18 +324,24 @@ public class SrmNetworkHandler
 	        input = conn.getInputStream();
 	        
 	        // output stream
-	        File scriptsFolder = new File(Utils.ConstantVars.DIR_EXT_SCRIPTS_PATH + File.separator + destFolderName);
+	        File scriptsFolder = 
+	        		new File(Utils.ConstantVars.DIR_EXT_SCRIPTS_PATH + File.separator + destFolderName);
+	        if(!scriptsFolder.exists()) scriptsFolder.mkdir();
 	        File outputFilePath = new File(scriptsFolder, destFileName);
-	        output = new FileOutputStream(outputFilePath);
-	        
-	        // read & write
-	        byte[] buffer = new byte[BYTE_BUFFER_SIZE];
-	        int bufferLength = 0;
-
-	        while ( (bufferLength = input.read(buffer)) > 0 ) 
+	        if(!outputFilePath.exists())
 	        {
-	        	output.write(buffer, 0, bufferLength);
+	        	output = new FileOutputStream(outputFilePath);
+		        
+		        // read & write
+		        byte[] buffer = new byte[BYTE_BUFFER_SIZE];
+		        int bufferLength = 0;
+
+		        while ( (bufferLength = input.read(buffer)) > 0 ) 
+		        {
+		        	output.write(buffer, 0, bufferLength);
+		        }
 	        }
+	        
 	    } 
 	    finally 
 	    {
