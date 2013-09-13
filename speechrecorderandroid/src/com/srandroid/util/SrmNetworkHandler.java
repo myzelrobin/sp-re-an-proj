@@ -23,7 +23,9 @@ import javax.net.ssl.TrustManagerFactory;
 import org.apache.ivy.util.url.ApacheURLLister;
 
 import com.dropbox.client2.DropboxAPI;
+import com.dropbox.client2.DropboxAPI.Entry;
 import com.dropbox.client2.android.AndroidAuthSession;
+import com.dropbox.client2.exception.DropboxException;
 import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session.AccessType;
 import com.srandroid.database.TableServers.ServerItem;
@@ -497,6 +499,28 @@ public class SrmNetworkHandler
 		   Log.w(LOGTAG_1, "storeTokens() stored toakens with result=" + isTokensStored);
 		   
 		   return isTokensStored;
+		}
+		
+		public static void listFilesInFolder(String folderName) throws DropboxException
+		{
+			Log.w(LOGTAG_1, "listFiles() will list files in " + folderName);
+			
+			if(folderName.equals("root"))
+			{
+				Entry entry = dropbox.metadata("/", 0, null, true, null);
+				Log.w(LOGTAG_1, "listFiles() get filelist " + entry.contents.toString());
+			}
+		}
+		
+		public static void getFileEntry(String fileName) throws DropboxException
+		{
+			Log.w(LOGTAG_1, "getFileEntry() will get infos of file " + fileName);
+			
+//			if(fileName.equals("XXX"))
+//			{
+//				Entry existingEntry = dropbox.metadata("/", 0, null, true, null);
+//				
+//			}
 		}
 		
 	}

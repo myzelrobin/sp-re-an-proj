@@ -39,6 +39,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dropbox.client2.exception.DropboxException;
 import com.dropbox.client2.session.AccessTokenPair;
 import com.srandroid.speechrecorder.R;
 import com.srandroid.database.SrmContentProvider;
@@ -198,8 +199,8 @@ public class TestActivitySessionDetails extends Activity
 			super.onResume();
 			if(DropboxHandler.dropbox != null)
 			{
-				if (DropboxHandler.dropbox.getSession().authenticationSuccessful()
-						&& !DropboxHandler.isAuthenFinished) 
+				if (!DropboxHandler.isAuthenFinished 
+						&& DropboxHandler.dropbox.getSession().authenticationSuccessful()) 
 			    {
 			        try 
 			        {
@@ -1078,6 +1079,12 @@ public class TestActivitySessionDetails extends Activity
 	        protected void onPostExecute(String result) 
 			{
 				Log.w(LOGTAG + "$ConnectToServerTask", "onPostExecute() get result=" + result);
+				// if(result == ?)
+				try {
+					DropboxHandler.listFilesInFolder("root");
+				} catch (DropboxException e) {
+					Log.w(LOGTAG + "$ConnectToServerTask", "onPostExecute() throws DropboxException=" + e.getMessage());;
+				}
 			}
 			
 		}
