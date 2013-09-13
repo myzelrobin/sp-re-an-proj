@@ -14,6 +14,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.KeyStore;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -426,6 +427,9 @@ public class SrmNetworkHandler
 		public static boolean isAuthenFinished;
 		public static boolean isTokensStored;
 		
+		
+		private static final int FILENUMBERS = 1000;
+		
 		public static DropboxAPI<AndroidAuthSession> createDropboxHandler(SharedPreferences sharedPref)
 		{
 			Log.w(LOGTAG_1, "createDropboxHandler() will create a dropbox handler");
@@ -508,17 +512,35 @@ public class SrmNetworkHandler
 		   Log.w(LOGTAG_1, "storeTokens() stored toakens with result=" + isTokensStored);
 		   
 		   return isTokensStored;
+		   // in sharedprefs, after every new authen, key and secret are different, why?
 		}
 		
-		public static void listFilesInFolder(String folderName) throws DropboxException
+		public static String[] listFilesInFolder(String folderName) throws DropboxException
 		{
-			Log.w(LOGTAG_1, "listFiles() will list files in " + folderName);
+			Log.w(LOGTAG_1, "listFilesInFolder() will list files in " + folderName);
+			
+			String[] fnames = null;
+			ArrayList<Entry> filesList = null;
+			ArrayList<String> dirList = null;
 			
 			if(folderName.equals("root"))
 			{
-				Entry entry = dropbox.metadata("/", 0, null, true, null);
-				Log.w(LOGTAG_1, "listFiles() get filelist " + entry.contents.toString());
+				Entry dirEntry = dropbox.metadata("/", FILENUMBERS, null, true, null);
+				
+				filesList = new ArrayList<Entry>();
+	            dirList = new ArrayList<String>();
+	            int i = 0;
+	            for (Entry ent: dirEntry.contents) 
+	            {
+	                filesList.add(i, ent);// Add it to the list of thumbs we can choose from                       
+	                //dir = new ArrayList<String>();
+	                dirList.add(new String(filesList.get(i).path));
+	                i++;
+	            }
+	            
 			}
+			fnames=dirList.toArray(new String[dirList.size()]);
+            return fnames;
 		}
 		
 		public static void getFileEntry(String fileName) throws DropboxException
