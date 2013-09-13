@@ -463,6 +463,9 @@ public class SrmNetworkHandler
 			AndroidAuthSession authSession = new AndroidAuthSession(appKeys, ACCESS_TYPE);
 			mDBApi = new DropboxAPI<AndroidAuthSession>(authSession);
 			
+			Log.w(LOGTAG_1, "createDropboxHandler(), created a dropbox handler from sharedprefs, " +
+					"authen isSuccessed=" + mDBApi.getSession().authenticationSuccessful());
+			
 			return mDBApi;
 			
 //			// start authentication
