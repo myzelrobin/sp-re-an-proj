@@ -415,7 +415,7 @@ public class SrmNetworkHandler
 	{
 
 		// dropbox
-		public static DropboxAPI<AndroidAuthSession> dropbox = null;
+		public static DropboxAPI<AndroidAuthSession> dropbox;
 		
 		private static final String LOGTAG_1 = DropboxHandler.class.getName();
 		
@@ -518,10 +518,12 @@ public class SrmNetworkHandler
 			String[] filenames = null;
 			ArrayList<Entry> filesList = null;
 			ArrayList<String> dirList = null;
+			Entry dirEntry = null;
 			
 			if(folderName.equals("root"))
 			{
-				Entry dirEntry = dropbox.metadata("/", FILENUMBERS, null, true, null);
+				// metadata("/", FILENUMBERS, null, true, null)
+				dirEntry = dropbox.metadata("/Apps/speechrecordermobile", 0, null, true, null);
 				
 				filesList = new ArrayList<Entry>();
 	            dirList = new ArrayList<String>();
