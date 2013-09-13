@@ -59,7 +59,7 @@ public class SrmNetworkHandler
 	
 	
 	// dropbox
-	public static DropboxAPI<AndroidAuthSession> dropbox;
+	public static DropboxAPI<AndroidAuthSession> dropboxAuthenObj;
 	
 	
 	/**
@@ -424,7 +424,7 @@ public class SrmNetworkHandler
 		public static boolean isAuthenFinished;
 		public static boolean isTokensStored;
 		
-		public static DropboxAPI<AndroidAuthSession> createDropboxAPIObject()
+		public static DropboxAPI<AndroidAuthSession> createDropboxAuthenObject()
 		{
 			Log.w(LOGTAG_1, "createDropboxAPIObject() will create a dropbox api handler");
 			
