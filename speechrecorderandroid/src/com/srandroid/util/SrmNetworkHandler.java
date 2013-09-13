@@ -515,7 +515,7 @@ public class SrmNetworkHandler
 		{
 			Log.w(LOGTAG_1, "listFilesInFolder() will list files in " + folderName);
 			
-			String[] fnames = null;
+			String[] filenames = null;
 			ArrayList<Entry> filesList = null;
 			ArrayList<String> dirList = null;
 			
@@ -535,8 +535,8 @@ public class SrmNetworkHandler
 	            }
 	            
 			}
-			fnames=dirList.toArray(new String[dirList.size()]);
-            return fnames;
+			filenames=dirList.toArray(new String[dirList.size()]);
+            return filenames;
 		}
 		
 		public static void getFileEntry(String fileName) throws DropboxException
