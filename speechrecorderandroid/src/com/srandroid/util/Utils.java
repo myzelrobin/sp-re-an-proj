@@ -562,11 +562,15 @@ public class Utils
 	        Log.w(LOGTAG, "copyScriptFilesToAppExtFolder()" 
 					+ " file exists " + destFile.getAbsolutePath()) ;
 	        
-	    } catch (FileNotFoundException ex) {
+	    } 
+		catch (FileNotFoundException ex) 
+		{
 	    	Log.w(LOGTAG, "copyScriptFilesToAppExtFolder() throws FileNotFoundException=" 
 	    			+ ex.getMessage() + " in " 
 	    			+ Utils.ConstantVars.DIR_EXT_SCRIPTS_PATH);
-	    } catch (IOException e) {
+	    } 
+		catch (IOException e) 
+		{
 	    	Log.w(LOGTAG, "copyScriptFilesToAppExtFolder() throws IOException=" 
 	    			+ e.getMessage());
 	    }

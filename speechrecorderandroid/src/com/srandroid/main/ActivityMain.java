@@ -105,21 +105,21 @@ public class ActivityMain extends Activity
 		// initialize block
 		Utils.ConstantVars.initializeApp(getApplicationContext());
 		
-//		// for test
-//		new Thread()
-//	    {
-//	        public void run() 
-//	        {
-//	            Utils.copyScriptFilesToAppExtFolder("example_script.xml", 
-//	            		getApplication().getAssets());
-//	            Utils.copyScriptFilesToAppExtFolder("example_boy.jpg", 
-//	            		getApplication().getAssets());
-//	            Utils.copyScriptFilesToAppExtFolder("example_pig.jpg", 
-//	            		getApplication().getAssets());
-//	            Utils.copyScriptFilesToAppExtFolder("example_food.jpg", 
-//	            		getApplication().getAssets());
-//	        }
-//	    }.start();
+		// for test
+		new Thread()
+	    {
+	        public void run() 
+	        {
+	            Utils.copyScriptFilesToAppExtFolder("example_script.xml", 
+	            		getApplication().getAssets());
+	            Utils.copyScriptFilesToAppExtFolder("example_boy.jpg", 
+	            		getApplication().getAssets());
+	            Utils.copyScriptFilesToAppExtFolder("example_pig.jpg", 
+	            		getApplication().getAssets());
+	            Utils.copyScriptFilesToAppExtFolder("example_food.jpg", 
+	            		getApplication().getAssets());
+	        }
+	    }.start();
 		
 		
 	    if(selectedItemIndex != Utils.ConstantVars.selectedItemIndex)
