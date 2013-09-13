@@ -1078,8 +1078,7 @@ public class TestActivitySessionDetails extends Activity
 							
 							if(DropboxHandler.dropbox == null)
 							{
-								DropboxHandler.dropbox = 
-										DropboxHandler.createDropboxHandler(PreferenceManager.getDefaultSharedPreferences(context));
+								DropboxHandler.createDropboxHandler(PreferenceManager.getDefaultSharedPreferences(context));
 								
 //								if(DropboxHandler.isFirstInit && !DropboxHandler.dropbox.getSession().authenticationSuccessful() )
 //								{

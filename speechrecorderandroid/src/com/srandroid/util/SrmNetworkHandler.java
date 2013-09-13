@@ -430,15 +430,13 @@ public class SrmNetworkHandler
 		
 		private static final int FILENUMBERS = 1000;
 		
-		public static DropboxAPI<AndroidAuthSession> createDropboxHandler(SharedPreferences sharedPref)
+		public static void createDropboxHandler(SharedPreferences sharedPref)
 		{
 			Log.w(LOGTAG_1, "createDropboxHandler() will create a dropbox handler");
 			
-			DropboxAPI<AndroidAuthSession> mDBApi;
-			
 			AppKeyPair appKeys = new AppKeyPair(DROPBOX_AUTHENKEY, DROPBOX_AUTHENSECRET);
 			AndroidAuthSession authSession = new AndroidAuthSession(appKeys, ACCESS_TYPE);
-			mDBApi = new DropboxAPI<AndroidAuthSession>(authSession);
+			dropbox = new DropboxAPI<AndroidAuthSession>(authSession);
 			
 //			String key = sharedPref.getString(Utils.ConstantVars.KEY_DROPBOX_KEY, 
 //					Utils.ConstantVars.KEY_DROPBOX_KEY_DEF);
@@ -475,8 +473,6 @@ public class SrmNetworkHandler
 //				// isTokensStored = true;
 //				
 //			}
-			
-			return mDBApi;
 			
 //			// start authentication
 //			mDBApi.getSession().startAuthentication(MyActivity.this);
@@ -532,7 +528,7 @@ public class SrmNetworkHandler
 	            int i = 0;
 	            for (Entry ent: dirEntry.contents) 
 	            {
-	                filesList.add(i, ent);// Add it to the list of thumbs we can choose from                       
+	                filesList.add(i, ent);                   
 	                //dir = new ArrayList<String>();
 	                dirList.add(new String(filesList.get(i).path));
 	                i++;
