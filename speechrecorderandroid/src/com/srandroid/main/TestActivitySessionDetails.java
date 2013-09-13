@@ -1048,16 +1048,24 @@ public class TestActivitySessionDetails extends Activity
 							{
 								DropboxHandler.dropbox = 
 										DropboxHandler.createDropboxHandler(PreferenceManager.getDefaultSharedPreferences(context));
-								if(DropboxHandler.isFirstInit && !DropboxHandler.dropbox.getSession().authenticationSuccessful() )
-								{
-									DropboxHandler.isFirstInit = false;
-									Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() will start dropbox authen with isSuccess="
-											+ DropboxHandler.dropbox.getSession().authenticationSuccessful());
-									DropboxHandler.dropbox
-										.getSession()
-										.startAuthentication(TestActivitySessionDetails.this);
-								}
-								else Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() already authened app to dropbox");
+								
+//								if(DropboxHandler.isFirstInit && !DropboxHandler.dropbox.getSession().authenticationSuccessful() )
+//								{
+//									DropboxHandler.isFirstInit = false;
+//									Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() will start dropbox authen with isSuccess="
+//											+ DropboxHandler.dropbox.getSession().authenticationSuccessful());
+//									DropboxHandler.dropbox
+//										.getSession()
+//										.startAuthentication(TestActivitySessionDetails.this);
+//								}
+//								else Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() already authened app to dropbox");
+								
+								Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() will start dropbox authen with isSuccess="
+										+ DropboxHandler.dropbox.getSession().authenticationSuccessful());
+								DropboxHandler.dropbox
+									.getSession()
+									.startAuthentication(TestActivitySessionDetails.this);
+								
 							}
 							else Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() already created a dropbox");
 							
