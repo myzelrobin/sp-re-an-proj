@@ -456,15 +456,17 @@ public class SrmNetworkHandler
 					"this app is already authenticated, will create a dropbox handler from sharedprefs");
 			
 			isFirstInit = false;
-			isAuthenFinished = true;
-			isTokensStored = true;
 			
 			AppKeyPair appKeys = new AppKeyPair(key, secret);
 			AndroidAuthSession authSession = new AndroidAuthSession(appKeys, ACCESS_TYPE);
 			mDBApi = new DropboxAPI<AndroidAuthSession>(authSession);
+			String userID = mDBApi.getSession().finishAuthentication();
+			isAuthenFinished = true;
+			isTokensStored = true;
 			
-			Log.w(LOGTAG_1, "createDropboxHandler(), created a dropbox handler from sharedprefs, " +
-					"authen isSuccessed=" + mDBApi.getSession().authenticationSuccessful());
+			Log.w(LOGTAG_1, "createDropboxHandler(), created a dropbox handler from sharedprefs,"
+					+ " finished authen with userID=" + userID 
+					+ ", isSucceeded="+ mDBApi.getSession().authenticationSuccessful());
 			
 			return mDBApi;
 			
