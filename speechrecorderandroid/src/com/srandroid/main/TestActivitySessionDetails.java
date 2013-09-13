@@ -18,6 +18,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.text.TextUtils;
 import android.util.Log;
@@ -195,21 +196,21 @@ public class TestActivitySessionDetails extends Activity
 	    protected void onResume()
 	    {
 			super.onResume();
-			if(networkHandler.dropbox != null)
+			if(DropboxHandler.dropbox != null)
 			{
-				if (networkHandler.dropbox.getSession().authenticationSuccessful()
+				if (DropboxHandler.dropbox.getSession().authenticationSuccessful()
 						&& !DropboxHandler.isAuthenFinished) 
 			    {
 			        try 
 			        {
 			            // Required to complete auth, sets the access token on the session
-			        	String userID = networkHandler.dropbox.getSession().finishAuthentication();
+			        	String userID = DropboxHandler.dropbox.getSession().finishAuthentication();
 			        	
 			        	DropboxHandler.isAuthenFinished = true;
 			        	
 			        	Log.w(LOGTAG, "onResume(), finished dropbox authen id=" + userID );
 		
-			            AccessTokenPair tokens = networkHandler.dropbox.getSession().getAccessTokenPair();
+			            AccessTokenPair tokens = DropboxHandler.dropbox.getSession().getAccessTokenPair();
 						
 			            // method, these tokens should be stored in shared preference
 			            if(!DropboxHandler.isTokensStored)
@@ -1042,13 +1043,16 @@ public class TestActivitySessionDetails extends Activity
 					case 4: // dropbox
 							Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() will connect to dropbox server");
 							
-							if(networkHandler.dropbox == null)
+							if(DropboxHandler.dropbox == null)
 							{
-								networkHandler.dropbox = DropboxHandler.createDropboxAuthenObject();
-								if( !networkHandler.dropbox.getSession().authenticationSuccessful() )
+								DropboxHandler.dropbox = 
+										DropboxHandler.createDropboxHandler(PreferenceManager.getDefaultSharedPreferences(context));
+								if(DropboxHandler.isFirstInit && !DropboxHandler.dropbox.getSession().authenticationSuccessful() )
 								{
-									Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() will start dropbox authen");
-									networkHandler.dropbox
+									DropboxHandler.isFirstInit = false;
+									Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() will start dropbox authen with isSuccess="
+											+ DropboxHandler.dropbox.getSession().authenticationSuccessful());
+									DropboxHandler.dropbox
 										.getSession()
 										.startAuthentication(TestActivitySessionDetails.this);
 								}

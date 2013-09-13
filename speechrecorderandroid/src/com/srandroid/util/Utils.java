@@ -413,7 +413,8 @@ public class Utils
 	public static void initSharedPreference(SharedPreferences sharedPreferences) 
 	{
 		if(sharedPreferences.getBoolean(Utils.ConstantVars.KEY_ISFIRSTSTART, 
-				Utils.ConstantVars.KEY_ISFIRSTSTART_DEF)) return;
+				Utils.ConstantVars.KEY_ISFIRSTSTART_DEF)) 
+			return;
 		
 		Log.w(LOGTAG, "initSharedPreference() will init preferences with default values");
 		

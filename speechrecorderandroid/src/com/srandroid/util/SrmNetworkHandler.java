@@ -57,11 +57,6 @@ public class SrmNetworkHandler
 	private static final int BYTE_BUFFER_SIZE = 4*1024;
 	private static final int CHAR_BUFFER_SIZE = 100; // 100 chars
 	
-	
-	// dropbox
-	public static DropboxAPI<AndroidAuthSession> dropbox;
-	
-	
 	/**
 	 * 
 	 */
@@ -415,24 +410,54 @@ public class SrmNetworkHandler
 	
 	public static class DropboxHandler
 	{
+
+		// dropbox
+		public static DropboxAPI<AndroidAuthSession> dropbox = null;
+		
 		private static final String LOGTAG_1 = DropboxHandler.class.getName();
 		
 		private final static String APP_KEY = "z0n6paty2uwi3ru";
 		private final static String APP_SECRET = "xrphn2nzodjnqmq";
-		private final static AccessType ACCESS_TYPE = AccessType.APP_FOLDER;
+		public final static AccessType ACCESS_TYPE = AccessType.APP_FOLDER;
 		
+		public static boolean isFirstInit;
 		public static boolean isAuthenFinished;
 		public static boolean isTokensStored;
 		
-		public static DropboxAPI<AndroidAuthSession> createDropboxAuthenObject()
+		public static DropboxAPI<AndroidAuthSession> createDropboxHandler(SharedPreferences sharedPref)
 		{
-			Log.w(LOGTAG_1, "createDropboxAuthenObject() will create a dropbox handler");
+			Log.w(LOGTAG_1, "createDropboxHandler() will create a dropbox handler");
 			
-			// In the class declaration section:
 			DropboxAPI<AndroidAuthSession> mDBApi;
+			
+			String key = sharedPref.getString(Utils.ConstantVars.KEY_DROPBOX_KEY, 
+					Utils.ConstantVars.KEY_DROPBOX_KEY_DEF);
+			String secret = sharedPref.getString(Utils.ConstantVars.KEY_DROPBOX_SECRET, 
+					Utils.ConstantVars.KEY_DROPBOX_SECRET_DEF);
 
-			// initialization
-			AppKeyPair appKeys = new AppKeyPair(APP_KEY, APP_SECRET);
+			if(key.equals(Utils.ConstantVars.KEY_DROPBOX_KEY_DEF) 
+					|| secret.equals(Utils.ConstantVars.KEY_DROPBOX_SECRET_DEF))
+			{
+				Log.w(LOGTAG_1, "createDropboxHandler(), key and secret are unknown, " +
+						"this app is not authenticated, will create a dropbox handler for the first time");
+				isFirstInit = true;
+				
+				// initialization
+				AppKeyPair appKeys = new AppKeyPair(APP_KEY, APP_SECRET);
+				AndroidAuthSession authSession = new AndroidAuthSession(appKeys, ACCESS_TYPE);
+				mDBApi = new DropboxAPI<AndroidAuthSession>(authSession);
+				
+				return mDBApi;
+			}
+			
+			Log.w(LOGTAG_1, "createDropboxHandler(), key and secret are inserted, " +
+					"this app is already authenticated, will create a dropbox handler from sharedprefs");
+			
+			isFirstInit = false;
+			isAuthenFinished = true;
+			isTokensStored = true;
+			
+			AppKeyPair appKeys = new AppKeyPair(key, secret);
 			AndroidAuthSession authSession = new AndroidAuthSession(appKeys, ACCESS_TYPE);
 			mDBApi = new DropboxAPI<AndroidAuthSession>(authSession);
 			
