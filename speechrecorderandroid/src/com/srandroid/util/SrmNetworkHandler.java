@@ -523,11 +523,13 @@ public class SrmNetworkHandler
 			if(folderName.equals("root"))
 			{
 				// metadata("/", FILENUMBERS, null, true, null)
-				dirEntry = dropbox.metadata("/speechrecordermobile", 0, null, true, null);
+				dirEntry = dropbox.metadata("/Apps/speechrecordermobile/", 0, null, true, null);
 				
 				filesList = new ArrayList<Entry>();
 	            dirList = new ArrayList<String>();
 	            int i = 0;
+	            
+	            
 	            for (Entry ent: dirEntry.contents) 
 	            {
 	                filesList.add(i, ent);                   

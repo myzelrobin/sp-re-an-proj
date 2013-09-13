@@ -378,8 +378,7 @@ public class TestActivitySessionDetails extends Activity
 						} 
 						catch (DropboxException e) 
 						{
-							Log.w(LOGTAG, "DropboxHandler.listFilesInFolder() throws DropboxException=" + e.getMessage()); 
-							e.printStackTrace();
+							Log.w(LOGTAG, "DropboxHandler.listFilesInFolder() throws DropboxException=" + e.fillInStackTrace()); 
 						}
 	        			
     					break;
