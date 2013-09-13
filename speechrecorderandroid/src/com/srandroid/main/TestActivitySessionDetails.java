@@ -1091,7 +1091,8 @@ public class TestActivitySessionDetails extends Activity
 					Log.w(LOGTAG + "$ConnectToServerTask", "onPostExecute() get file list=" 
 							+ DropboxHandler.listFilesInFolder("root").toString() );
 				} catch (DropboxException e) {
-					Log.w(LOGTAG + "$ConnectToServerTask", "onPostExecute() throws DropboxException=" + e.getMessage());;
+					Log.w(LOGTAG + "$ConnectToServerTask", "onPostExecute() throws DropboxException=" + e.getMessage());
+					e.printStackTrace();
 				}
 			}
 			
