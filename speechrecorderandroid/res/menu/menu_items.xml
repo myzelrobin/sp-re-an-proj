@@ -114,6 +114,7 @@
         
     </group>
     
+    <!-- ################################################################# -->
     <!-- Activity script details -->
     <group 
         android:id="@+id/bgroup_scriptdetails"
@@ -128,10 +129,31 @@
         
     </group>
     
+    <!-- ################################################################# -->
     <!-- Activity session details -->
     <group 
         android:id="@+id/bgroup_sessiondetails"
         android:visible="false" >
+        
+        <item
+            android:id="@+id/act_sessiondetails_button_testauthen"
+            android:showAsAction="always"
+            android:title="AUTHEN" />
+        
+        <item
+            android:id="@+id/act_sessiondetails_button_testlistfile"
+            android:showAsAction="always"
+            android:title="LIST" />
+        
+        <item
+            android:id="@+id/act_sessiondetails_button_testupload"
+            android:showAsAction="always"
+            android:title="UPLOAD" />
+        
+        <item
+            android:id="@+id/act_sessiondetails_button_testdownload"
+            android:showAsAction="always"
+            android:title="DOWNLOAD" />
     
         <item
             android:id="@+id/act_sessiondetails_button_upload"

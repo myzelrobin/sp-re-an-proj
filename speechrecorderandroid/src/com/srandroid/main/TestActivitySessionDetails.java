@@ -337,11 +337,17 @@ public class TestActivitySessionDetails extends Activity
 	        	case R.id.act_sessiondetails_button_upload:
 	        		
 	        			Log.w(LOGTAG, "user clicked button upload"); 
-//		        		ServerItem serverItem = new ServerItem(null, 
-//		        				Utils.ConstantVars.SERVER_TEST_PUBLIC, 
-//		        				Utils.ConstantVars.SERVER_USERNAME, 
-//		        				Utils.ConstantVars.SERVER_PASSWORD, 
-//		        				"Test Server Example");
+		        		//Utils.toastTextToUser(this, "start uploading");
+		        		break;
+		        		
+	        	case R.id.act_sessiondetails_button_testauthen:
+		        		
+	        			Log.w(LOGTAG, "user clicked button test authen"); 
+	//	        		ServerItem serverItem = new ServerItem(null, 
+	//	        				Utils.ConstantVars.SERVER_TEST_PUBLIC, 
+	//	        				Utils.ConstantVars.SERVER_USERNAME, 
+	//	        				Utils.ConstantVars.SERVER_PASSWORD, 
+	//	        				"Test Server Example");
 		        		
 		        		// dropbox server item
 		        		ServerItem serverItem = new ServerItem(null, 
@@ -359,8 +365,34 @@ public class TestActivitySessionDetails extends Activity
 		        					serverItem.password);
 		        		}
 		        		
-		        		//Utils.toastTextToUser(this, "start uploading");
-		        		break;
+	        			break;
+	        	
+	        	case R.id.act_sessiondetails_button_testlistfile:
+	        			
+	        			Log.w(LOGTAG, "user clicked button test listfile");
+	        			
+						try 
+						{
+							String[] filelist = DropboxHandler.listFilesInFolder("root");
+							Log.w(LOGTAG, "DropboxHandler.listFilesInFolder() get file list=" + filelist.toString());
+						} 
+						catch (DropboxException e) 
+						{
+							Log.w(LOGTAG, "DropboxHandler.listFilesInFolder() throws DropboxException=" + e.getMessage()); 
+							e.printStackTrace();
+						}
+	        			
+    					break;
+	        			
+	        	case R.id.act_sessiondetails_button_testdownload:
+	        			Log.w(LOGTAG, "user clicked button test download");
+	        			
+        				break;
+        				
+	        	case R.id.act_sessiondetails_button_testupload:
+	        			Log.w(LOGTAG, "user clicked button test upload");
+	        			
+    					break;
 	        		
 	        	default:
 	        		break;
@@ -1087,13 +1119,6 @@ public class TestActivitySessionDetails extends Activity
 			{
 				Log.w(LOGTAG + "$ConnectToServerTask", "onPostExecute() get result=" + result);
 				// if(result == ?)
-				try {
-					Log.w(LOGTAG + "$ConnectToServerTask", "onPostExecute() get file list=" 
-							+ DropboxHandler.listFilesInFolder("root").toString() );
-				} catch (DropboxException e) {
-					Log.w(LOGTAG + "$ConnectToServerTask", "onPostExecute() throws DropboxException=" + e.getMessage());
-					e.printStackTrace();
-				}
 			}
 			
 		}
