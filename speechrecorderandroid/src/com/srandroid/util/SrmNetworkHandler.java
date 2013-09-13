@@ -432,41 +432,45 @@ public class SrmNetworkHandler
 			
 			DropboxAPI<AndroidAuthSession> mDBApi;
 			
-			String key = sharedPref.getString(Utils.ConstantVars.KEY_DROPBOX_KEY, 
-					Utils.ConstantVars.KEY_DROPBOX_KEY_DEF);
-			String secret = sharedPref.getString(Utils.ConstantVars.KEY_DROPBOX_SECRET, 
-					Utils.ConstantVars.KEY_DROPBOX_SECRET_DEF);
-
-			if(key.equals(Utils.ConstantVars.KEY_DROPBOX_KEY_DEF) 
-					|| secret.equals(Utils.ConstantVars.KEY_DROPBOX_SECRET_DEF))
-			{
-				Log.w(LOGTAG_1, "createDropboxHandler(), key and secret are unknown, " +
-						"this app is not authenticated, will create a dropbox handler for the first time");
-				
-				// isFirstInit = true;
-				
-				AppKeyPair appKeys = new AppKeyPair(DROPBOX_AUTHENKEY, DROPBOX_AUTHENSECRET);
-				AndroidAuthSession authSession = new AndroidAuthSession(appKeys, ACCESS_TYPE);
-				mDBApi = new DropboxAPI<AndroidAuthSession>(authSession);
-			}
-			else
-			{
-
-				Log.w(LOGTAG_1, "createDropboxHandler(), key and secret are inserted, " +
-						"this app is already authenticated, will create a dropbox handler from sharedprefs");
-				
-				// isFirstInit = false;
-				
-				AppKeyPair appKeys = new AppKeyPair(key, secret);
-				AndroidAuthSession authSession = new AndroidAuthSession(appKeys, ACCESS_TYPE);
-				mDBApi = new DropboxAPI<AndroidAuthSession>(authSession);
-				
-				// String userID = mDBApi.getSession().finishAuthentication(); // this line makes error
-				
-				// isAuthenFinished = true;
-				// isTokensStored = true;
-				
-			}
+			AppKeyPair appKeys = new AppKeyPair(DROPBOX_AUTHENKEY, DROPBOX_AUTHENSECRET);
+			AndroidAuthSession authSession = new AndroidAuthSession(appKeys, ACCESS_TYPE);
+			mDBApi = new DropboxAPI<AndroidAuthSession>(authSession);
+			
+//			String key = sharedPref.getString(Utils.ConstantVars.KEY_DROPBOX_KEY, 
+//					Utils.ConstantVars.KEY_DROPBOX_KEY_DEF);
+//			String secret = sharedPref.getString(Utils.ConstantVars.KEY_DROPBOX_SECRET, 
+//					Utils.ConstantVars.KEY_DROPBOX_SECRET_DEF);
+//
+//			if(key.equals(Utils.ConstantVars.KEY_DROPBOX_KEY_DEF) 
+//					|| secret.equals(Utils.ConstantVars.KEY_DROPBOX_SECRET_DEF))
+//			{
+//				Log.w(LOGTAG_1, "createDropboxHandler(), key and secret are unknown, " +
+//						"this app is not authenticated, will create a dropbox handler for the first time");
+//				
+//				// isFirstInit = true;
+//				
+//				AppKeyPair appKeys = new AppKeyPair(DROPBOX_AUTHENKEY, DROPBOX_AUTHENSECRET);
+//				AndroidAuthSession authSession = new AndroidAuthSession(appKeys, ACCESS_TYPE);
+//				mDBApi = new DropboxAPI<AndroidAuthSession>(authSession);
+//			}
+//			else
+//			{
+//
+//				Log.w(LOGTAG_1, "createDropboxHandler(), key and secret are inserted, " +
+//						"this app is already authenticated, will create a dropbox handler from sharedprefs");
+//				
+//				// isFirstInit = false;
+//				
+//				AppKeyPair appKeys = new AppKeyPair(key, secret);
+//				AndroidAuthSession authSession = new AndroidAuthSession(appKeys, ACCESS_TYPE);
+//				mDBApi = new DropboxAPI<AndroidAuthSession>(authSession);
+//				
+//				// String userID = mDBApi.getSession().finishAuthentication(); // this line makes error
+//				
+//				// isAuthenFinished = true;
+//				// isTokensStored = true;
+//				
+//			}
 			
 			return mDBApi;
 			

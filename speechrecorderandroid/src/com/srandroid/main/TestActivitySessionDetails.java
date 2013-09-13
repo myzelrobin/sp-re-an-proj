@@ -1060,8 +1060,7 @@ public class TestActivitySessionDetails extends Activity
 //								}
 //								else Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() already authened app to dropbox");
 								
-								Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() will start dropbox authen with isSuccess="
-										+ DropboxHandler.dropbox.getSession().authenticationSuccessful());
+								Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() will start dropbox authen ");
 								DropboxHandler.dropbox
 									.getSession()
 									.startAuthentication(TestActivitySessionDetails.this);
