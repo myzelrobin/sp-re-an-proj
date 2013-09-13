@@ -105,16 +105,7 @@ public class ActivityMain extends Activity
 		// initialize block
 		Utils.ConstantVars.initializeApp(getApplicationContext());
 		
-		// initialize the default values in SharedPreference
-		// PreferenceManager.setDefaultValues(this, R.xml.preference_settings, false);
-		Utils.initSharedPreference(PreferenceManager.getDefaultSharedPreferences(this));
-		
-		if(selectedItemIndex != Utils.ConstantVars.selectedItemIndex)
-			selectedItemIndex = Utils.ConstantVars.selectedItemIndex;
-		
-		
-		// initialize block
-		
+		// for test
 		new Thread()
 	    {
 	        public void run() 
@@ -130,6 +121,9 @@ public class ActivityMain extends Activity
 	        }
 	    }.start();
 		
+		
+	    if(selectedItemIndex != Utils.ConstantVars.selectedItemIndex)
+			selectedItemIndex = Utils.ConstantVars.selectedItemIndex;
 		
 	    
 	    

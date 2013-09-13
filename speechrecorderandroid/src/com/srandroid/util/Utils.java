@@ -28,6 +28,7 @@ import android.util.Log;
 import android.widget.Toast;
 import android.net.Uri;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.provider.Settings.Secure;
 
 
@@ -341,6 +342,8 @@ public class Utils
 			
 			// location listener
 			initLocationListener(context);
+			
+			initSharedPreference( PreferenceManager.getDefaultSharedPreferences(context) );
 			
 		    isPreStartInitialized = true;
 			Log.w(LOGTAG, "initializeApp(): finished initializing data before app starts");

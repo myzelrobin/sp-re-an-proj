@@ -308,6 +308,7 @@ public class TestActivitySessionDetails extends Activity
 			     // actionbar buttons
 	        	case R.id.act_sessiondetails_button_start:
 	        		
+	        			Log.w(LOGTAG, "user clicked button start"); 
 		        		// Utils.toastTextToUser(this, "prepare recording");
 		        		
 		        		Utils.ConstantVars.speakerItemIdForNewSession = speakerIdForSession;
@@ -332,6 +333,8 @@ public class TestActivitySessionDetails extends Activity
 	        		break;
 	        	
 	        	case R.id.act_sessiondetails_button_upload:
+	        		
+	        			Log.w(LOGTAG, "user clicked button upload"); 
 //		        		ServerItem serverItem = new ServerItem(null, 
 //		        				Utils.ConstantVars.SERVER_TEST_PUBLIC, 
 //		        				Utils.ConstantVars.SERVER_USERNAME, 
