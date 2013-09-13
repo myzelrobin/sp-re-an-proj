@@ -28,6 +28,7 @@ import android.util.Log;
 import android.widget.Toast;
 import android.net.Uri;
 import android.os.Environment;
+import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.provider.Settings.Secure;
 
@@ -65,6 +66,8 @@ public class Utils
 		
 		
 		// SharedPreferece key and default values
+		public static final String PREF_FILE_NAME = "com.srandroid.speechrecorder_preferences";
+		
 		public static final String KEY_PREFSCREEN_RECVALUE = "prefscreen_recvalue";
 
 		public static final String KEY_LANGUAGE = "lang";
@@ -346,10 +349,13 @@ public class Utils
 			// location listener
 			initLocationListener(context);
 			
-			initSharedPreference( PreferenceManager.getDefaultSharedPreferences(context) );
+			
+			// sharedprefs
+			initSharedPreference(context);
 			
 		    isPreStartInitialized = true;
-		    updatePreferenceBoolean(PreferenceManager.getDefaultSharedPreferences(context), 
+		    updatePreferenceBoolean(
+		    		PreferenceManager.getDefaultSharedPreferences(context), 
 		    		Utils.ConstantVars.KEY_ISFIRSTSTART, 
 		    		true);
 		    
@@ -410,15 +416,18 @@ public class Utils
 		
 	}
 	
-	public static void initSharedPreference(SharedPreferences sharedPreferences) 
+	public static void initSharedPreference(Context context) 
 	{
-		if(sharedPreferences.getBoolean(Utils.ConstantVars.KEY_ISFIRSTSTART, 
+		
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		
+		if(prefs.getBoolean(Utils.ConstantVars.KEY_ISFIRSTSTART, 
 				Utils.ConstantVars.KEY_ISFIRSTSTART_DEF)) 
 			return;
 		
 		Log.w(LOGTAG, "initSharedPreference() will init preferences with default values");
 		
-		SharedPreferences.Editor editor = sharedPreferences.edit();
+		SharedPreferences.Editor editor = prefs.edit();
 		
 		editor.putString(Utils.ConstantVars.KEY_LANGUAGE, Utils.ConstantVars.KEY_LANGUAGE_DEF);
 		
@@ -476,6 +485,14 @@ public class Utils
 		return editor.putString(key, value).commit(); 
 	}
 	
+	public static String retirevePreference(SharedPreferences sharedPreferences, 
+			String key)
+	{ 
+		Log.w(LOGTAG, "retirevePreference() will get value with key=" + key);
+		
+		return sharedPreferences.getString(key, "unable to get value!"); 
+	}
+	
 	public static boolean updatePreferenceBoolean(SharedPreferences sharedPreferences, 
 			String key, boolean value)
 	{ 
@@ -487,12 +504,12 @@ public class Utils
 		return editor.putBoolean(key, value).commit(); 
 	}
 	
-	public static String retirevePreference(SharedPreferences sharedPreferences, 
+	public static boolean retirevePreferenceBoolean(SharedPreferences sharedPreferences, 
 			String key)
 	{ 
-		Log.w(LOGTAG, "retirevePreference() will get value with key=" + key);
+		Log.w(LOGTAG, "retirevePreferenceBoolean() will get value with key=" + key);
 		
-		return sharedPreferences.getString(key, "unable to get value!"); 
+		return sharedPreferences.getBoolean(key, false); 
 	}
 	
 	public static void updateGlobalVarsForNewSession()
