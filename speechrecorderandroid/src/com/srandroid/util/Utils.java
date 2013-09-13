@@ -135,6 +135,9 @@ public class Utils
 		public static final String KEY_DROPBOX_SECRET = "dropbox_secret";
 		public static final String KEY_DROPBOX_SECRET_DEF = "value unknown";
 		
+		public static final String KEY_ISFIRSTSTART = "isFirstTime";
+		public static final boolean KEY_ISFIRSTSTART_DEF = false;
+		
 		// device informations
 		public static String DEVICE_DATA = "device data unknow";
 		
@@ -346,6 +349,10 @@ public class Utils
 			initSharedPreference( PreferenceManager.getDefaultSharedPreferences(context) );
 			
 		    isPreStartInitialized = true;
+		    updatePreferenceBoolean(PreferenceManager.getDefaultSharedPreferences(context), 
+		    		Utils.ConstantVars.KEY_ISFIRSTSTART, 
+		    		true);
+		    
 			Log.w(LOGTAG, "initializeApp(): finished initializing data before app starts");
 		}
 	}
@@ -405,6 +412,9 @@ public class Utils
 	
 	public static void initSharedPreference(SharedPreferences sharedPreferences) 
 	{
+		if(sharedPreferences.getBoolean(Utils.ConstantVars.KEY_ISFIRSTSTART, 
+				Utils.ConstantVars.KEY_ISFIRSTSTART_DEF)) return;
+		
 		Log.w(LOGTAG, "initSharedPreference() will init preferences with default values");
 		
 		SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -449,7 +459,7 @@ public class Utils
         
         editor.putString(Utils.ConstantVars.KEY_DROPBOX_SECRET, Utils.ConstantVars.KEY_DROPBOX_SECRET_DEF);
         
-        
+        editor.putBoolean(Utils.ConstantVars.KEY_ISFIRSTSTART, Utils.ConstantVars.KEY_ISFIRSTSTART_DEF);
         
         editor.commit(); 
 	}
@@ -463,6 +473,17 @@ public class Utils
 		
 		SharedPreferences.Editor editor = sharedPreferences.edit();
 		return editor.putString(key, value).commit(); 
+	}
+	
+	public static boolean updatePreferenceBoolean(SharedPreferences sharedPreferences, 
+			String key, boolean value)
+	{ 
+		Log.w(LOGTAG, "updatePreferenceBoolean() will update key=" + key 
+				+ " from oldvalue=" + sharedPreferences.getBoolean(key, false)
+				+ " to newvalue=" + value);
+		
+		SharedPreferences.Editor editor = sharedPreferences.edit();
+		return editor.putBoolean(key, value).commit(); 
 	}
 	
 	public static String retirevePreference(SharedPreferences sharedPreferences, 

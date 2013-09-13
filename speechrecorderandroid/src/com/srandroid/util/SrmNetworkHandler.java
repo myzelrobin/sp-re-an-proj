@@ -59,7 +59,7 @@ public class SrmNetworkHandler
 	
 	
 	// dropbox
-	public static DropboxAPI<AndroidAuthSession> dropboxAuthenObj;
+	public static DropboxAPI<AndroidAuthSession> dropbox;
 	
 	
 	/**
@@ -426,7 +426,7 @@ public class SrmNetworkHandler
 		
 		public static DropboxAPI<AndroidAuthSession> createDropboxAuthenObject()
 		{
-			Log.w(LOGTAG_1, "createDropboxAPIObject() will create a dropbox api handler");
+			Log.w(LOGTAG_1, "createDropboxAuthenObject() will create a dropbox handler");
 			
 			// In the class declaration section:
 			DropboxAPI<AndroidAuthSession> mDBApi;
@@ -462,11 +462,14 @@ public class SrmNetworkHandler
 		
 		public static boolean storeTokens(String key, String secret, Context context)
 		{
+			
 			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
 		   SharedPreferences.Editor editor = settings.edit();
 		   editor.putString(Utils.ConstantVars.KEY_DROPBOX_KEY, key);
 		   editor.putString(Utils.ConstantVars.KEY_DROPBOX_SECRET, secret);
 		   if(editor.commit()) isTokensStored = true;
+		   
+		   Log.w(LOGTAG_1, "storeTokens() stored toakens with result=" + isTokensStored);
 		   
 		   return isTokensStored;
 		}

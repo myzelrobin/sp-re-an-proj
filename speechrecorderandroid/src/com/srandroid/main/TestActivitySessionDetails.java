@@ -195,21 +195,21 @@ public class TestActivitySessionDetails extends Activity
 	    protected void onResume()
 	    {
 			super.onResume();
-			if(networkHandler.dropboxAuthenObj != null)
+			if(networkHandler.dropbox != null)
 			{
-				if (networkHandler.dropboxAuthenObj.getSession().authenticationSuccessful()
+				if (networkHandler.dropbox.getSession().authenticationSuccessful()
 						&& !DropboxHandler.isAuthenFinished) 
 			    {
 			        try 
 			        {
 			            // Required to complete auth, sets the access token on the session
-			        	String userID = networkHandler.dropboxAuthenObj.getSession().finishAuthentication();
+			        	String userID = networkHandler.dropbox.getSession().finishAuthentication();
 			        	
 			        	DropboxHandler.isAuthenFinished = true;
 			        	
 			        	Log.w(LOGTAG, "onResume(), finished dropbox authen id=" + userID );
 		
-			            AccessTokenPair tokens = networkHandler.dropboxAuthenObj.getSession().getAccessTokenPair();
+			            AccessTokenPair tokens = networkHandler.dropbox.getSession().getAccessTokenPair();
 						
 			            // method, these tokens should be stored in shared preference
 			            if(!DropboxHandler.isTokensStored)
@@ -973,8 +973,7 @@ public class TestActivitySessionDetails extends Activity
 								
 								if(networkHandler.requestHead(url))
 								{
-									Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() checks " +
-											"server(" + url + ") is available");
+									Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() checks server(" + url + ") is available");
 									result = "http server available";
 									
 									// list files
@@ -1042,13 +1041,14 @@ public class TestActivitySessionDetails extends Activity
 							
 					case 4: // dropbox
 							Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() will connect to dropbox server");
-							if(networkHandler.dropboxAuthenObj == null)
+							
+							if(networkHandler.dropbox == null)
 							{
-								networkHandler.dropboxAuthenObj = DropboxHandler.createDropboxAuthenObject();
-								if( !networkHandler.dropboxAuthenObj.getSession().authenticationSuccessful() )
+								networkHandler.dropbox = DropboxHandler.createDropboxAuthenObject();
+								if( !networkHandler.dropbox.getSession().authenticationSuccessful() )
 								{
 									Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() will start dropbox authen");
-									networkHandler.dropboxAuthenObj
+									networkHandler.dropbox
 										.getSession()
 										.startAuthentication(TestActivitySessionDetails.this);
 								}
