@@ -128,6 +128,11 @@ public class Utils
 		public static final String KEY_DEVICE_DATA = "device_data";
 		public static final String KEY_DEVICE_DATA_DEF = "device data unknown";
 		
+		public static final String KEY_DROPBOX_KEY = "dropbox_key";
+		public static final String KEY_DROPBOX_KEY_DEF = "value unknown";
+		
+		public static final String KEY_DROPBOX_SECRET = "dropbox_secret";
+		public static final String KEY_DROPBOX_SECRET_DEF = "value unknown";
 		
 		// device informations
 		public static String DEVICE_DATA = "device data unknow";
@@ -397,64 +402,56 @@ public class Utils
 	
 	public static void initSharedPreference(SharedPreferences sharedPreferences) 
 	{
+		Log.w(LOGTAG, "initSharedPreference() will init preferences with default values");
+		
 		SharedPreferences.Editor editor = sharedPreferences.edit();
 		
 		editor.putString(Utils.ConstantVars.KEY_LANGUAGE, Utils.ConstantVars.KEY_LANGUAGE_DEF);
-        editor.commit(); 
 		
 		editor.putString(Utils.ConstantVars.KEY_MICVOL, Utils.ConstantVars.KEY_MICVOL_DEF);
-        editor.commit(); 
 		
 		editor.putString(Utils.ConstantVars.KEY_SAMPLE_RATE, Utils.ConstantVars.KEY_SAMPLE_RATE_DEF);
-        editor.commit(); 
 		
 		editor.putString(Utils.ConstantVars.KEY_CHANNELS, Utils.ConstantVars.KEY_CHANNELS_DEF);
-        editor.commit(); 
 		
 		editor.putBoolean(Utils.ConstantVars.KEY_OVERWRITE, Utils.ConstantVars.ALLOW_OVERWRITE);
-        editor.commit(); 
 		
 		editor.putBoolean(Utils.ConstantVars.KEY_OVERWRITE_WARNING, Utils.ConstantVars.ALLOW_OVERWRITE_WARNING);
-        editor.commit(); 
 		
 		editor.putString(Utils.ConstantVars.KEY_BYTE_ORDER, Utils.ConstantVars.KEY_BYTE_ORDER_DEF);
-        editor.commit(); 
 		
 		editor.putString(Utils.ConstantVars.KEY_ENCODING, Utils.ConstantVars.KEY_ENCODING_DEF);
-        editor.commit(); 
 		
 		editor.putString(Utils.ConstantVars.KEY_SAMPLE_SIZE, Utils.ConstantVars.KEY_SAMPLE_SIZE_DEF);
-        editor.commit(); 
 		
 		editor.putString(Utils.ConstantVars.KEY_RRCORDING_TARGET, Utils.ConstantVars.KEY_RECORDING_TARGET_DEF);
-        editor.commit(); 
 		
 		editor.putBoolean(Utils.ConstantVars.KEY_AUTOPROGRESS, Utils.ConstantVars.ALLOW_AUTOPROGRESS);
-        editor.commit(); 
 		
 		editor.putBoolean(Utils.ConstantVars.KEY_RESET_PEAK, Utils.ConstantVars.ALLOW_RESET_PEAK);
-        editor.commit(); 
         
 		editor.putString(Utils.ConstantVars.KEY_PRERECDELAY, Utils.ConstantVars.KEY_PRERECDELAY_DEF);
-        editor.commit(); 
 		
 		editor.putString(Utils.ConstantVars.KEY_POSTRECDELAY, Utils.ConstantVars.KEY_POSTRECDELAY_DEF);
-        editor.commit(); 
 		
 		editor.putString(Utils.ConstantVars.KEY_RECORDS_PATH, Utils.ConstantVars.KEY_RECORDS_PATH_DEF);
-        editor.commit(); 
         
         editor.putString(Utils.ConstantVars.KEY_DEVICE_DATA, Utils.ConstantVars.DEVICE_DATA);
-        editor.commit(); 
 		
         editor.putString(Utils.ConstantVars.KEY_GPS_DATA, Utils.ConstantVars.GPS_DATA);
-        editor.commit(); 
         
         editor.putString(Utils.ConstantVars.KEY_CITYNAME, Utils.ConstantVars.CITYNAME);
+        
+        editor.putString(Utils.ConstantVars.KEY_DROPBOX_KEY, Utils.ConstantVars.KEY_DROPBOX_KEY_DEF);
+        
+        editor.putString(Utils.ConstantVars.KEY_DROPBOX_SECRET, Utils.ConstantVars.KEY_DROPBOX_SECRET_DEF);
+        
+        
+        
         editor.commit(); 
 	}
 	
-	public static void updatePreference(SharedPreferences sharedPreferences, 
+	public static boolean updatePreference(SharedPreferences sharedPreferences, 
 			String key, String value)
 	{ 
 		Log.w(LOGTAG, "updatePreference() will update key=" + key 
@@ -462,7 +459,7 @@ public class Utils
 				+ " to newvalue=" + value);
 		
 		SharedPreferences.Editor editor = sharedPreferences.edit();
-		editor.putString(key, value).commit(); 
+		return editor.putString(key, value).commit(); 
 	}
 	
 	public static String retirevePreference(SharedPreferences sharedPreferences, 

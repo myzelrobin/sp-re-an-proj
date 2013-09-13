@@ -50,6 +50,7 @@ import com.srandroid.database.TableSessions;
 import com.srandroid.database.TableSpeakers;
 import com.srandroid.recording.ActivityPreRecording;
 import com.srandroid.util.SrmNetworkHandler;
+import com.srandroid.util.SrmNetworkHandler.DropboxHandler;
 import com.srandroid.util.Utils;
 
 import android.support.v4.widget.StaggeredGridView;
@@ -194,27 +195,38 @@ public class TestActivitySessionDetails extends Activity
 	    protected void onResume()
 	    {
 			super.onResume();
-			if(networkHandler != null && networkHandler.dropbox != null)
+			if(networkHandler.dropbox != null)
 			{
-				if (networkHandler.dropbox.getSession().authenticationSuccessful()) 
+				if (networkHandler.dropbox.getSession().authenticationSuccessful()
+						&& !DropboxHandler.isAuthenFinished) 
 			    {
 			        try 
 			        {
 			            // Required to complete auth, sets the access token on the session
-			        	networkHandler.dropbox.getSession().finishAuthentication();
+			        	String userID = networkHandler.dropbox.getSession().finishAuthentication();
+			        	
+			        	DropboxHandler.isAuthenFinished = true;
+			        	
+			        	Log.w(LOGTAG, "onResume(), finished dropbox authen id=" + userID );
 		
 			            AccessTokenPair tokens = networkHandler.dropbox.getSession().getAccessTokenPair();
 						
 			            // method, these tokens should be stored in shared preference
+			            if(!DropboxHandler.isTokensStored)
+			            {
+			            	boolean result = DropboxHandler.storeTokens(tokens.key, tokens.secret, getApplicationContext());
+				            
+				            Log.w(LOGTAG, "onResume(), stored tokens result=" + result);
+			            }
 			            
-			            Log.w(LOGTAG, "onResume() finished dropbox authen");
 			            
 			        } 
 			        catch (IllegalStateException e) 
 			        {
-			        	Log.w(LOGTAG, "onResume() throws authentication error" + e.getMessage());
+			        	Log.w(LOGTAG, "onResume() throws dropbox authentication error" + e.getMessage());
 			        }
 			    }
+				else Log.w(LOGTAG, "onResume(), already finished dropbox authen");
 			}
 		}
 		
@@ -320,29 +332,30 @@ public class TestActivitySessionDetails extends Activity
 	        		break;
 	        	
 	        	case R.id.act_sessiondetails_button_upload:
-//	        		ServerItem serverItem = new ServerItem(null, 
-//	        				Utils.ConstantVars.SERVER_TEST_PUBLIC, 
-//	        				Utils.ConstantVars.SERVER_USERNAME, 
-//	        				Utils.ConstantVars.SERVER_PASSWORD, 
-//	        				"Test Server Example");
-	        		
-	        		ServerItem serverItem = new ServerItem(null, 
-	        				Utils.ConstantVars.SERVER_DROPBOX, 
-	        				Utils.ConstantVars.SERVER_DROPBOX_USERNAME, 
-	        				Utils.ConstantVars.SERVER_DROPBOX_PASSWORD, 
-	        				"dropbox test server");
-	        		
-	        		networkHandler = new SrmNetworkHandler(this);
-	        		if(networkHandler.checkNetworkConnection(TestActivitySessionDetails.this))
-	        		{
-	        			new ConnectToServerTask().execute(
-	        					serverItem.address,
-	        					serverItem.username,
-	        					serverItem.password);
-	        		}
-	        		
-	        		//Utils.toastTextToUser(this, "start uploading");
-	        		break;
+//		        		ServerItem serverItem = new ServerItem(null, 
+//		        				Utils.ConstantVars.SERVER_TEST_PUBLIC, 
+//		        				Utils.ConstantVars.SERVER_USERNAME, 
+//		        				Utils.ConstantVars.SERVER_PASSWORD, 
+//		        				"Test Server Example");
+		        		
+		        		// dropbox server item
+		        		ServerItem serverItem = new ServerItem(null, 
+		        				Utils.ConstantVars.SERVER_DROPBOX, 
+		        				Utils.ConstantVars.SERVER_DROPBOX_USERNAME, 
+		        				Utils.ConstantVars.SERVER_DROPBOX_PASSWORD, 
+		        				"dropbox test server");
+		        		
+		        		networkHandler = new SrmNetworkHandler(this);
+		        		if(networkHandler.checkNetworkConnection(TestActivitySessionDetails.this))
+		        		{
+		        			new ConnectToServerTask().execute(
+		        					serverItem.address,
+		        					serverItem.username,
+		        					serverItem.password);
+		        		}
+		        		
+		        		//Utils.toastTextToUser(this, "start uploading");
+		        		break;
 	        		
 	        	default:
 	        		break;
@@ -1026,11 +1039,19 @@ public class TestActivitySessionDetails extends Activity
 							
 					case 4: // dropbox
 							Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() will connect to dropbox server");
-							
-							networkHandler.dropbox = networkHandler.createDropboxObject();
-							networkHandler.dropbox
-											.getSession()
-											.startAuthentication(TestActivitySessionDetails.this);
+							if(networkHandler.dropbox == null)
+							{
+								networkHandler.dropbox = DropboxHandler.createDropboxAPIObject();
+								if( !networkHandler.dropbox.getSession().authenticationSuccessful() )
+								{
+									Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() will start dropbox authen");
+									networkHandler.dropbox
+										.getSession()
+										.startAuthentication(TestActivitySessionDetails.this);
+								}
+								else Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() already authened app to dropbox");
+							}
+							else Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() already created a dropbox");
 							
 							result = "dropbox server available";
 							break;

@@ -32,9 +32,11 @@ import com.srandroid.main.TestActivitySessionDetails;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 /**
@@ -57,10 +59,6 @@ public class SrmNetworkHandler
 	
 	
 	// dropbox
-	private final static String APP_KEY = "z0n6paty2uwi3ru";
-	private final static String APP_SECRET = "xrphn2nzodjnqmq";
-	private final static AccessType ACCESS_TYPE = AccessType.APP_FOLDER;
-	
 	public static DropboxAPI<AndroidAuthSession> dropbox;
 	
 	
@@ -376,41 +374,6 @@ public class SrmNetworkHandler
 	}
 	
 	
-	public DropboxAPI<AndroidAuthSession> createDropboxObject()
-	{
-		Log.w(LOGTAG, "createDropboxObject() will create DropboxObject");
-		
-		// In the class declaration section:
-		DropboxAPI<AndroidAuthSession> mDBApi;
-
-		// And later in some initialization function:
-		AppKeyPair appKeys = new AppKeyPair(APP_KEY, APP_SECRET);
-		AndroidAuthSession session = new AndroidAuthSession(appKeys, ACCESS_TYPE);
-		mDBApi = new DropboxAPI<AndroidAuthSession>(session);
-		
-		return mDBApi;
-		
-//		// start authentication
-//		mDBApi.getSession().startAuthentication(MyActivity.this);
-//		
-//		// finish authentication
-//		protected void onResume() {
-//		    super.onResume();
-//
-//		    if (mDBApi.getSession().authenticationSuccessful()) {
-//		        try {
-//		            // Required to complete auth, sets the access token on the session
-//		            mDBApi.getSession().finishAuthentication();
-//
-//		            AccessTokenPair tokens = mDBApi.getSession().getAccessTokenPair();
-//					// these tokens should be stored in shared preference
-//		        } catch (IllegalStateException e) {
-//		            Log.i("DbAuthLog", "Error authenticating", e);
-//		        }
-//		    }
-//		}
-		
-	}
 	
 	
 	
@@ -425,13 +388,89 @@ public class SrmNetworkHandler
 	
 	
 	
-	public class ProtocolTypes
+	
+	public static class ProtocolTypes
 	{
 		public static final String TYPE_HTTP = "http";
 		public static final String TYPE_HTTPS = "https";
-		public static final String TYPE_SSH = "ssh";
+		public static final String TYPE_SSH = "ssh"; // ???necessary
 		public static final String TYPE_DROPBOX = "dropbox";
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public static class DropboxHandler
+	{
+		private static final String LOGTAG_1 = DropboxHandler.class.getName();
+		
+		private final static String APP_KEY = "z0n6paty2uwi3ru";
+		private final static String APP_SECRET = "xrphn2nzodjnqmq";
+		private final static AccessType ACCESS_TYPE = AccessType.APP_FOLDER;
+		
+		public static boolean isAuthenFinished;
+		public static boolean isTokensStored;
+		
+		public static DropboxAPI<AndroidAuthSession> createDropboxAPIObject()
+		{
+			Log.w(LOGTAG_1, "createDropboxAPIObject() will create a dropbox api handler");
+			
+			// In the class declaration section:
+			DropboxAPI<AndroidAuthSession> mDBApi;
+
+			// initialization
+			AppKeyPair appKeys = new AppKeyPair(APP_KEY, APP_SECRET);
+			AndroidAuthSession authSession = new AndroidAuthSession(appKeys, ACCESS_TYPE);
+			mDBApi = new DropboxAPI<AndroidAuthSession>(authSession);
+			
+			return mDBApi;
+			
+//			// start authentication
+//			mDBApi.getSession().startAuthentication(MyActivity.this);
+//			
+//			// finish authentication
+//			protected void onResume() {
+//			    super.onResume();
+	//
+//			    if (mDBApi.getSession().authenticationSuccessful()) {
+//			        try {
+//			            // Required to complete auth, sets the access token on the session
+//			            mDBApi.getSession().finishAuthentication();
+	//
+//			            AccessTokenPair tokens = mDBApi.getSession().getAccessTokenPair();
+//						// these tokens should be stored in shared preference
+//			        } catch (IllegalStateException e) {
+//			            Log.i("DbAuthLog", "Error authenticating", e);
+//			        }
+//			    }
+//			}
+			
+		}
+		
+		public static boolean storeTokens(String key, String secret, Context context)
+		{
+			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+		   SharedPreferences.Editor editor = settings.edit();
+		   editor.putString(Utils.ConstantVars.KEY_DROPBOX_KEY, key);
+		   editor.putString(Utils.ConstantVars.KEY_DROPBOX_SECRET, secret);
+		   if(editor.commit()) isTokensStored = true;
+		   
+		   return isTokensStored;
+		}
+		
+	}
 	
 }
