@@ -50,9 +50,10 @@ import com.srandroid.database.TableScripts.ScriptItem;
 import com.srandroid.database.TableServers.ServerItem;
 import com.srandroid.database.TableSessions;
 import com.srandroid.database.TableSpeakers;
+import com.srandroid.network.SrmDropboxHandler;
+import com.srandroid.network.SrmDropboxHandler.GetFileInfosTask;
+import com.srandroid.network.SrmNetworkHandler;
 import com.srandroid.recording.ActivityPreRecording;
-import com.srandroid.util.SrmDropboxHandler;
-import com.srandroid.util.SrmNetworkHandler;
 import com.srandroid.util.Utils;
 
 import android.support.v4.widget.StaggeredGridView;
@@ -108,8 +109,8 @@ public class TestActivitySessionDetails extends Activity
 	    
 	    
 	    // Network
-	    private SrmNetworkHandler networkHandler;
 	    private SrmDropboxHandler dropboxHandler;
+	    private AsyncTask<Void, Long, Boolean> getFileInfosInDropbox;
 	    
 	    
 		/**
@@ -200,7 +201,7 @@ public class TestActivitySessionDetails extends Activity
 			super.onResume();
 			if(dropboxHandler != null)
 			{
-				dropboxHandler.finishAuthen(context, dropboxHandler.dropbox);				
+				dropboxHandler.finishAuthen(dropboxHandler.dropbox);				
 			}
 		}
 		
@@ -341,44 +342,26 @@ public class TestActivitySessionDetails extends Activity
 	        	case R.id.act_sessiondetails_button_testauthen:
 		        		
 	        			Log.w(LOGTAG, "user clicked button test authen"); 
-//		        		ServerItem serverItem = new ServerItem(null, 
-//		        				Utils.ConstantVars.SERVER_TEST_PUBLIC, 
-//		        				Utils.ConstantVars.SERVER_USERNAME, 
-//		        				Utils.ConstantVars.SERVER_PASSWORD, 
-//		        				"Test Server Example");
-		        		
-		        		// dropbox server item
-		        		ServerItem serverItem = new ServerItem(null, 
-		        				Utils.ConstantVars.SERVER_DROPBOX, 
-		        				Utils.ConstantVars.SERVER_DROPBOX_USERNAME, 
-		        				Utils.ConstantVars.SERVER_DROPBOX_PASSWORD, 
-		        				"dropbox test server");
-		        		
-		        		networkHandler = new SrmNetworkHandler(this);
-		        		if(networkHandler.checkNetworkConnection(TestActivitySessionDetails.this))
-		        		{
-		        			new ConnectToServerTask().execute(
-		        					serverItem.address,
-		        					serverItem.username,
-		        					serverItem.password);
-		        		}
-		        		
+
+	        			dropboxHandler = new SrmDropboxHandler(context, this);
+	        			
+	        			dropboxHandler.createDropboxHandler();
+	        			
+	        			dropboxHandler.dropbox.getSession().startAuthentication(context);
+	        			
 	        			break;
 	        	
 	        	case R.id.act_sessiondetails_button_testlistfile:
 	        			
 	        			Log.w(LOGTAG, "user clicked button test listfile");
 	        			
-						try 
-						{
-							String[] filelist = dropboxHandler.listFilesInFolder(SrmDropboxHandler.FOLDERROOT);
-							Log.w(LOGTAG, "dropboxHandler.listFilesInFolder() get file list=" + filelist.toString());
-						} 
-						catch (DropboxException e) 
-						{
-							Log.w(LOGTAG, "dropboxHandler.listFilesInFolder() throws DropboxException="+ e.getLocalizedMessage());
-			                Log.i(LOGTAG, "Error list files in dropbox", e);
-			            }
+						getFileInfosInDropbox = 
+								new GetFileInfosTask(
+										context, 
+										this, 
+										dropboxHandler.dropbox, 
+										SrmDropboxHandler.FOLDERROOTPATH)
+						.execute();
 	        			
     					break;
 	        			
@@ -961,161 +944,6 @@ public class TestActivitySessionDetails extends Activity
 			}
 			
 		}
-
 		
-		
-		
-		
-		
-		
-		
-
-		/**
-		 * Class  
-		 *
-		 */
-		private class ConnectToServerTask extends AsyncTask<String, Void, String>
-		{
-			private String address;
-			private String username;
-			private String password;
-			
-			@Override
-			protected String doInBackground(String... array) 
-			{
-				String result = null;
-				URL url = null;
-				
-				address = array[0];
-				username = array[1];
-				password = array[2];
-				
-				Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() get strings " 
-						+ "address=" + address 
-						+ ", username=" + username
-						+ ", password=" + password);
-				
-				
-				int type = networkHandler.getAddressType(address);
-				switch (type) 
-				{
-					case 1: // HTTP
-							Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() will connect to HTTP server");
-							// first test connect to the server to get head infos
-							// second test connect to the server with username and password in https
-							try 
-							{
-								url = new URL(address);
-								
-								if(networkHandler.requestHead(url))
-								{
-									Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() checks server(" + url + ") is available");
-									result = "http server available";
-									
-									// list files
-									networkHandler.listFiles(url);
-								}
-								else 
-								{
-									Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() checks " +
-											"server(" + url + ") is UNavailable");
-									result = "http server unavailable";
-								}
-							} 
-							catch (MalformedURLException e) 
-							{
-								Log.w(LOGTAG + "$ConnectToServerTask", 
-										"doInBackground() HTTP throws MalformedURLException=" + e.getMessage());
-							}
-							catch (IOException e) 
-							{
-								Log.w(LOGTAG + "$ConnectToServerTask", 
-										"doInBackground() HTTP throws IOException=" + e.getMessage()); 
-							}
-							
-							
-							break;
-					
-					case 2: // HTTPS
-							Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() will connect to HTTPS server");
-							
-							try 
-							{
-								if(networkHandler.requestHead(url))
-								{
-									Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() checks " +
-											"server(" + url + ") is available");
-									result = "https server available";
-									
-									// list files
-									networkHandler.listFiles(url);
-								}
-								else 
-								{
-									Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() checks " +
-											"server(" + url + ") is UNavailable");
-									result = "https server unavailable";
-								}
-							} 
-							catch (MalformedURLException e) 
-							{
-								Log.w(LOGTAG + "$ConnectToServerTask", 
-										"doInBackground() HTTPS throws MalformedURLException=" + e.getMessage());
-							}
-							catch (IOException e) 
-							{
-								Log.w(LOGTAG + "$ConnectToServerTask", 
-										"doInBackground() HTTPS throws IOException=" + e.getMessage()); 
-							}
-							
-							break;
-					
-					case 3: // SSH
-							Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() will connect to SSH server");
-							result = "ssh server ???";
-							break;
-							
-					case 4: // dropbox
-							Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() will connect to dropbox server");
-							
-							dropboxHandler = new SrmDropboxHandler(context);
-							dropboxHandler.createDropboxHandler(context);
-							
-							// if loggedin, logs out or vice versa
-							if (dropboxHandler.isLoggedIn) 
-							{
-			                    dropboxHandler.logOut(context);
-			                } 
-							else 
-							{
-			                    // Start the remote authentication
-			                    dropboxHandler.dropbox
-			                    	.getSession()
-			                    	.startAuthentication(TestActivitySessionDetails.this);
-			                }
-							
-							result = "dropbox server available";
-							break;
-		
-					default:
-							Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() get unsupported server address");
-							result = "server address unsupported";
-							break;
-				}
-				
-				
-				return result;
-			}
-			
-			//displays the results of the AsyncTask
-			@Override
-	        protected void onPostExecute(String result) 
-			{
-				Log.w(LOGTAG + "$ConnectToServerTask", "onPostExecute() get result=" + result);
-				// if(result == ?)
-			}
-			
-		}
-
 
 }

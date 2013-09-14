@@ -1,16 +1,21 @@
 /**
  * 
  */
-package com.srandroid.util;
+package com.srandroid.network;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -23,6 +28,9 @@ import com.dropbox.client2.session.AccessTokenPair;
 import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session.AccessType;
 import com.dropbox.client2.session.TokenPair;
+import com.srandroid.main.TestActivitySessionDetails;
+import com.srandroid.util.Utils;
+import com.srandroid.util.Utils.ConstantVars;
 
 /**
  *
@@ -32,7 +40,11 @@ public class SrmDropboxHandler
 	private static final String LOGTAG = SrmDropboxHandler.class.getName();
 
 	private Context context;
+	private Context activity;
 
+	private SrmNetworkHandler networkHandler;
+	
+	
 	// dropbox
 	public DropboxAPI<AndroidAuthSession> dropbox;
 	
@@ -54,22 +66,28 @@ public class SrmDropboxHandler
 	/**
 	 * 
 	 */
-	public SrmDropboxHandler(Context context) 
+	public SrmDropboxHandler(Context context, Activity activity) 
 	{
 		this.context = context;
+		this.activity = activity;
+		
+		this.networkHandler = new SrmNetworkHandler(context, activity);
 	}
 	
-	public void createDropboxHandler(Context context)
+	public void createDropboxHandler()
 	{
-		Log.w(LOGTAG, "createDropboxHandler() will create a dropbox handler");
-		
-		AndroidAuthSession session = buildSession(context);
-		dropbox = new DropboxAPI<AndroidAuthSession>(session);
-		
-		checkDropboxKeySetup(context);
+		if(networkHandler.checkNetworkConnection())
+		{
+			Log.w(LOGTAG, "createDropboxHandler() will create a dropbox handler");
+			
+			AndroidAuthSession session = buildSession();
+			dropbox = new DropboxAPI<AndroidAuthSession>(session);
+			
+			checkDropboxKeySetup();
+		}
 	}
 	
-	public boolean checkDropboxKeySetup(Context context) 
+	public boolean checkDropboxKeySetup() 
 	{
 		Log.w(LOGTAG, "checkDropboxKeySetup() will check dropbox keys");
 		
@@ -94,7 +112,7 @@ public class SrmDropboxHandler
     }
 	
 	
-	public String[] getAccessKeys(Context context) 
+	public String[] getAccessKeys() 
 	{
 		Log.w(LOGTAG, "getAccessKeys() will access keys from sharedprefs ");
 		
@@ -114,7 +132,7 @@ public class SrmDropboxHandler
         }
     }
 	
-	public boolean storeAccessKeys(String key, String secret, Context context)
+	public boolean storeAccessKeys(String key, String secret)
 	{
 		Log.w(LOGTAG, "storeAccessKeys() will strore access keys in sharedprefs ");
 		
@@ -132,7 +150,7 @@ public class SrmDropboxHandler
 	   // in sharedprefs, after every new authen, key and secret are different, why?
 	}
 	
-	public boolean clearAccessKeys(Context context) 
+	public boolean clearAccessKeys() 
 	{
 		Log.w(LOGTAG, "clearAccessKeys() will clear access keys in sharedprefs ");
 		
@@ -147,8 +165,7 @@ public class SrmDropboxHandler
 	
 	
 	
-	public boolean finishAuthen(Context context, 
-			DropboxAPI<AndroidAuthSession> dropbox)
+	public boolean finishAuthen(DropboxAPI<AndroidAuthSession> dropbox)
 	{
 		AndroidAuthSession session = dropbox.getSession();
 
@@ -163,7 +180,7 @@ public class SrmDropboxHandler
 
                 // Store it locally in our app for later use
                 TokenPair tokens = session.getAccessTokenPair();
-                storeAccessKeys(tokens.key, tokens.secret, context);
+                storeAccessKeys(tokens.key, tokens.secret);
                 setLoggedIn(session.isLinked());
             } 
             catch (IllegalStateException e) 
@@ -177,14 +194,14 @@ public class SrmDropboxHandler
 	}
 	
 	
-	public AndroidAuthSession buildSession(Context context) 
+	public AndroidAuthSession buildSession() 
 	{
 		Log.w(LOGTAG, "buildSession() will build a new session");
 		
         AppKeyPair appKeyPair = new AppKeyPair(DROPBOX_AUTHENKEY, DROPBOX_AUTHENSECRET);
         AndroidAuthSession session;
 
-        String[] stored = getAccessKeys(context);
+        String[] stored = getAccessKeys();
         if (stored != null) 
         {
         	// with accesss token
@@ -198,7 +215,7 @@ public class SrmDropboxHandler
         return session;
     }
 	
-	public void logOut(Context contex) 
+	public void logOut() 
 	{
 		Log.w(LOGTAG, "logOut() will logout current session");
 		
@@ -206,7 +223,7 @@ public class SrmDropboxHandler
         dropbox.getSession().unlink();
 
         // Clear our stored keys
-        clearAccessKeys(context);
+        clearAccessKeys();
         
         // Change UI state to display logged out version
         setLoggedIn(false);
@@ -230,47 +247,122 @@ public class SrmDropboxHandler
     	Log.w(LOGTAG, "setLoggedIn() set isLoggedIn=" + isLoggedIn);
     }
 
-    public String[] listFilesInFolder(String folderName) throws DropboxException
+    
+    
+    
+    
+	
+	/**
+	 * Class  
+	 *
+	 */
+	public static class GetFileInfosTask extends AsyncTask<Void, Long, Boolean>
 	{
-		Log.w(LOGTAG, "listFilesInFolder() will list files in " + folderName);
+		private final String LOGTAG_1 = LOGTAG + "$" + GetFileInfosTask.class.getName();
+	
+		private Context context;
+		private Activity activity;
+		private DropboxAPI<AndroidAuthSession> dropbox;
+		private String filePath;
 		
-		String[] filenames = null;
-		ArrayList<Entry> filesList = null;
-		ArrayList<String> dirList = null;
-		Entry dirEntry = null;
+		private ArrayList<String> dirList;
 		
-		if(folderName.equals(FOLDERROOT))
+		public GetFileInfosTask(Context context, 
+				Activity activity, 
+				DropboxAPI<AndroidAuthSession> dropbox,
+				String filePath)
 		{
-			// metadata("/", FILENUMBERS, null, true, null)
-			dirEntry = dropbox.metadata(FOLDERROOTPATH, FILES_LIMIT, null, true, null);
-			
-			filesList = new ArrayList<Entry>();
-            dirList = new ArrayList<String>();
-            int i = 0;
-            
-            for (Entry ent: dirEntry.contents) 
-            {
-                filesList.add(i, ent);                   
-                //dir = new ArrayList<String>();
-                dirList.add(new String(filesList.get(i).path));
-                i++;
-            }
-            
+			this.context = context;
+			this.activity = activity;
+			this.dropbox = dropbox;
+			this.filePath = filePath;
 		}
-		filenames=dirList.toArray(new String[dirList.size()]);
-        return filenames;
-	}
-	
-	
-	public void getSingleFile(String fileName) throws DropboxException
-	{
-		Log.w(LOGTAG, "getFileEntry() will get infos of file " + fileName);
 		
-//			if(fileName.equals("XXX"))
-//			{
-//				Entry existingEntry = dropbox.metadata("/", 0, null, true, null);
-//				
-//			}
+		@Override
+		protected Boolean doInBackground(Void... params) 
+		{
+			Log.w(LOGTAG_1, "doInBackground() starts ");
+			
+			boolean result = false;
+			
+			try {
+				dirList = listFilesInFolder(dropbox, filePath);
+			} catch (DropboxException e) {
+				Log.w(LOGTAG_1, "doInBackground() throws DropboxException=" + e.getLocalizedMessage());
+                Log.i(LOGTAG_1, "Error listing files in dropbox", e);
+				e.printStackTrace();
+			}
+			
+			if(dirList != null)
+			{
+				Log.w(LOGTAG_1, "doInBackground() get file list=" + dirList.toString());
+				result = true;
+			}
+			
+			return result;
+		}
+		
+//		@Override
+//	    protected void onProgressUpdate(Long... progress) {
+//	        int percent = (int)(100.0*(double)progress[0]/mFileLen + 0.5);
+//	        mDialog.setProgress(percent);
+//	    }
+		
+		//displays the results of the AsyncTask
+		@Override
+        protected void onPostExecute(Boolean result) 
+		{
+			Log.w(LOGTAG_1, "onPostExecute() get result=" + result);
+			// if(result == ?)
+		}
+		
+		
+
+		
+		public ArrayList<String> listFilesInFolder(
+				DropboxAPI<AndroidAuthSession> dropbox, String filePath) 
+						throws DropboxException
+		{
+			Log.w(LOGTAG, "listFilesInFolder() will list files in " + filePath);
+			
+			ArrayList<Entry> entryList = null;
+			ArrayList<String> dirList = null;
+			Entry dirEntry = null;
+			
+			// metadata("/", FILENUMBERS, null, true, null)
+			dirEntry = dropbox.metadata(filePath, FILES_LIMIT, null, true, null);
+			
+			if(dirEntry.isDir)
+			{
+				entryList = new ArrayList<Entry>();
+		        dirList = new ArrayList<String>();
+		        int i = 0;
+		        
+		        for (Entry ent: dirEntry.contents) 
+		        {
+		            entryList.add(i, ent);                   
+		            //dir = new ArrayList<String>();
+		            dirList.add(new String(entryList.get(i).path));
+		            i++;
+		        }
+			}
+			else Log.w(LOGTAG, "listFilesInFolder() finds " + filePath + " is not a folder!");
+			
+	        return dirList;
+		}
+		
+		
+		public void getSingleFileInfos(String filePath) throws DropboxException
+		{
+			Log.w(LOGTAG, "getFileEntry() will get infos of file " + filePath);
+			
+			
+			
+		}
+		
+		
+		
+		
 	}
     
 }
