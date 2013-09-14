@@ -51,8 +51,8 @@ import com.srandroid.database.TableServers.ServerItem;
 import com.srandroid.database.TableSessions;
 import com.srandroid.database.TableSpeakers;
 import com.srandroid.recording.ActivityPreRecording;
+import com.srandroid.util.SrmDropboxHandler;
 import com.srandroid.util.SrmNetworkHandler;
-import com.srandroid.util.SrmNetworkHandler.DropboxHandler;
 import com.srandroid.util.Utils;
 
 import android.support.v4.widget.StaggeredGridView;
@@ -108,7 +108,8 @@ public class TestActivitySessionDetails extends Activity
 	    
 	    
 	    // Network
-	    private static SrmNetworkHandler networkHandler;
+	    private SrmNetworkHandler networkHandler;
+	    private SrmDropboxHandler dropboxHandler;
 	    
 	    
 		/**
@@ -197,39 +198,8 @@ public class TestActivitySessionDetails extends Activity
 	    protected void onResume()
 	    {
 			super.onResume();
-			if(DropboxHandler.dropbox != null)
-			{
-				if (!DropboxHandler.isAuthenFinished 
-						&& DropboxHandler.dropbox.getSession().authenticationSuccessful()) 
-			    {
-			        try 
-			        {
-			            // Required to complete auth, sets the access token on the session
-			        	String userID = DropboxHandler.dropbox.getSession().finishAuthentication();
-			        	
-			        	DropboxHandler.isAuthenFinished = true;
-			        	
-			        	Log.w(LOGTAG, "onResume(), finished dropbox authen id=" + userID );
-		
-			            AccessTokenPair tokens = DropboxHandler.dropbox.getSession().getAccessTokenPair();
-						
-			            // method, these tokens should be stored in shared preference
-			            if(!DropboxHandler.isTokensStored)
-			            {
-			            	boolean result = DropboxHandler.storeTokens(tokens.key, tokens.secret, getApplicationContext());
-				            
-				            Log.w(LOGTAG, "onResume(), stored tokens result=" + result);
-			            }
-			            
-			            
-			        } 
-			        catch (IllegalStateException e) 
-			        {
-			        	Log.w(LOGTAG, "onResume() throws dropbox authentication error" + e.getMessage());
-			        }
-			    }
-				else Log.w(LOGTAG, "onResume(), already finished dropbox authen");
-			}
+			
+			dropboxHandler.finishAuthen(context, dropboxHandler.dropbox);
 		}
 		
 		@Override
@@ -252,6 +222,32 @@ public class TestActivitySessionDetails extends Activity
 	    {
 			super.onDestroy();
 		}
+		
+		// This is what gets called on finishing a media piece to import
+	    @Override
+	    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//	        if (requestCode == NEW_PICTURE) {
+//	            // return from file upload
+//	            if (resultCode == Activity.RESULT_OK) {
+//	                Uri uri = null;
+//	                if (data != null) {
+//	                    uri = data.getData();
+//	                }
+//	                if (uri == null && mCameraFileName != null) {
+//	                    uri = Uri.fromFile(new File(mCameraFileName));
+//	                }
+//	                File file = new File(mCameraFileName);
+//
+//	                if (uri != null) {
+//	                    UploadPicture upload = new UploadPicture(this, mApi, PHOTO_DIR, file);
+//	                    upload.execute();
+//	                }
+//	            } else {
+//	                Log.w(TAG, "Unknown Activity Result from mediaImport: "
+//	                        + resultCode);
+//	            }
+//	        }
+	    }
 		
 		@Override
 	    protected void onPostCreate(Bundle savedInstanceState) 
@@ -343,11 +339,11 @@ public class TestActivitySessionDetails extends Activity
 	        	case R.id.act_sessiondetails_button_testauthen:
 		        		
 	        			Log.w(LOGTAG, "user clicked button test authen"); 
-	//	        		ServerItem serverItem = new ServerItem(null, 
-	//	        				Utils.ConstantVars.SERVER_TEST_PUBLIC, 
-	//	        				Utils.ConstantVars.SERVER_USERNAME, 
-	//	        				Utils.ConstantVars.SERVER_PASSWORD, 
-	//	        				"Test Server Example");
+//		        		ServerItem serverItem = new ServerItem(null, 
+//		        				Utils.ConstantVars.SERVER_TEST_PUBLIC, 
+//		        				Utils.ConstantVars.SERVER_USERNAME, 
+//		        				Utils.ConstantVars.SERVER_PASSWORD, 
+//		        				"Test Server Example");
 		        		
 		        		// dropbox server item
 		        		ServerItem serverItem = new ServerItem(null, 
@@ -373,8 +369,8 @@ public class TestActivitySessionDetails extends Activity
 	        			
 						try 
 						{
-							String[] filelist = DropboxHandler.listFilesInFolder("root");
-							Log.w(LOGTAG, "DropboxHandler.listFilesInFolder() get file list=" + filelist.toString());
+							String[] filelist = dropboxHandler.listFilesInFolder(SrmDropboxHandler.FOLDERROOT);
+							Log.w(LOGTAG, "dropboxHandler.listFilesInFolder() get file list=" + filelist.toString());
 						} 
 						catch (DropboxException e) 
 						{
@@ -1075,28 +1071,21 @@ public class TestActivitySessionDetails extends Activity
 					case 4: // dropbox
 							Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() will connect to dropbox server");
 							
-							if(DropboxHandler.dropbox == null)
+							dropboxHandler = new SrmDropboxHandler(context);
+							dropboxHandler.createDropboxHandler(context);
+							
+							// if loggedin, logs out or vice versa
+							if (dropboxHandler.isLoggedIn) 
 							{
-								DropboxHandler.createDropboxHandler(PreferenceManager.getDefaultSharedPreferences(context));
-								
-//								if(DropboxHandler.isFirstInit && !DropboxHandler.dropbox.getSession().authenticationSuccessful() )
-//								{
-//									DropboxHandler.isFirstInit = false;
-//									Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() will start dropbox authen with isSuccess="
-//											+ DropboxHandler.dropbox.getSession().authenticationSuccessful());
-//									DropboxHandler.dropbox
-//										.getSession()
-//										.startAuthentication(TestActivitySessionDetails.this);
-//								}
-//								else Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() already authened app to dropbox");
-								
-								Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() will start dropbox authen ");
-								DropboxHandler.dropbox
-									.getSession()
-									.startAuthentication(TestActivitySessionDetails.this);
-								
-							}
-							else Log.w(LOGTAG + "$ConnectToServerTask", "doInBackground() already created a dropbox");
+			                    dropboxHandler.logOut(context);
+			                } 
+							else 
+							{
+			                    // Start the remote authentication
+			                    dropboxHandler.dropbox
+			                    	.getSession()
+			                    	.startAuthentication(TestActivitySessionDetails.this);
+			                }
 							
 							result = "dropbox server available";
 							break;
