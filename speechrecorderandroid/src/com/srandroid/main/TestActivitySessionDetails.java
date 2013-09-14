@@ -198,8 +198,10 @@ public class TestActivitySessionDetails extends Activity
 	    protected void onResume()
 	    {
 			super.onResume();
-			
-			dropboxHandler.finishAuthen(context, dropboxHandler.dropbox);
+			if(dropboxHandler != null)
+			{
+				dropboxHandler.finishAuthen(context, dropboxHandler.dropbox);				
+			}
 		}
 		
 		@Override

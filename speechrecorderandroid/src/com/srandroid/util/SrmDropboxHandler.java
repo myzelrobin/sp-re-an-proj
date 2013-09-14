@@ -36,7 +36,6 @@ public class SrmDropboxHandler
 	// dropbox
 	public DropboxAPI<AndroidAuthSession> dropbox;
 	
-	private AndroidAuthSession session;
 	
 	private final static String DROPBOX_AUTHENKEY = "z0n6paty2uwi3ru";
 	private final static String DROPBOX_AUTHENSECRET = "xrphn2nzodjnqmq";
@@ -64,7 +63,7 @@ public class SrmDropboxHandler
 	{
 		Log.w(LOGTAG, "createDropboxHandler() will create a dropbox handler");
 		
-		session = buildSession(context);
+		AndroidAuthSession session = buildSession(context);
 		dropbox = new DropboxAPI<AndroidAuthSession>(session);
 		
 		checkDropboxKeySetup(context);
