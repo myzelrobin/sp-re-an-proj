@@ -242,7 +242,7 @@ public class SrmDropboxHandler
 		if(folderName.equals(FOLDERROOT))
 		{
 			// metadata("/", FILENUMBERS, null, true, null)
-			dirEntry = dropbox.metadata(FOLDERROOTPATH, 0, null, true, null);
+			dirEntry = dropbox.metadata(FOLDERROOTPATH, FILES_LIMIT, null, true, null);
 			
 			filesList = new ArrayList<Entry>();
             dirList = new ArrayList<String>();

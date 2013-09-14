@@ -376,8 +376,9 @@ public class TestActivitySessionDetails extends Activity
 						} 
 						catch (DropboxException e) 
 						{
-							Log.w(LOGTAG, "DropboxHandler.listFilesInFolder() throws DropboxException=" + e.fillInStackTrace()); 
-						}
+							Log.w(LOGTAG, "dropboxHandler.listFilesInFolder() throws DropboxException="+ e.getLocalizedMessage());
+			                Log.i(LOGTAG, "Error list files in dropbox", e);
+			            }
 	        			
     					break;
 	        			
@@ -677,11 +678,15 @@ public class TestActivitySessionDetails extends Activity
 						public void onClick(View v) 
 						{
 							// play the record
-							try {
+							try 
+							{
 								Utils.playRecord(context, recFilepath);
-							} catch (ActivityNotFoundException e) {
-								Log.w(LOGTAG, 
-										"Utils.playRecord() throws Exceptions " + e.getMessage());
+							} 
+							catch (ActivityNotFoundException e) 
+							{
+								Log.w(LOGTAG, "Utils.playRecord() throws Exceptions " 
+										+ e.getLocalizedMessage());
+								
 							}
 						}
 					});
