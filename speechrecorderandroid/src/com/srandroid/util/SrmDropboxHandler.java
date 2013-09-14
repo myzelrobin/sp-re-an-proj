@@ -46,7 +46,7 @@ public class SrmDropboxHandler
 	public boolean isLoggedIn;
 	
 	public static final String FOLDERROOT = "root";
-	public static final String FOLDERROOTPATH = "/Apps/speechrecordermobile/";
+	public static final String FOLDERROOTPATH = "/home/Apps/speechrecordermobile/";
 	
 	
 	
