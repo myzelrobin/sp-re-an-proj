@@ -348,11 +348,6 @@ public class TestActivitySessionDetails extends Activity
 	        	case R.id.act_sessiondetails_button_testauthen:
 		        		
 	        			Log.w(LOGTAG, "user clicked button test authen"); 
-
-	        			dropboxHandler.createDropboxAPI();
-	        			
-	        			if(dropboxHandler.isLoggedIn)	dropboxHandler.logOut();
-	        			else dropboxHandler.dropbox.getSession().startAuthentication(context);
 	        			
 	        			break;
 	        	

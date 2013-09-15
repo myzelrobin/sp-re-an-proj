@@ -57,6 +57,8 @@ public class SrmDropboxHandler
 	
 	public boolean isLoggedIn;
 	
+	public boolean isAppAuthorized;
+	
 	public static final String FOLDERROOT = "root";
 	public static final String FOLDER_ROOT_PATH = "/";
 	public static final String FOLDER_SCRIPTS_PATH = "/scripts/";
@@ -86,6 +88,12 @@ public class SrmDropboxHandler
 			dropbox = new DropboxAPI<AndroidAuthSession>(session);
 			
 			checkDropboxKeySetup();
+			if(!isAppAuthorized)
+			{
+				if(isLoggedIn)	logOut();
+				else dropbox.getSession().startAuthentication(context);
+			}
+			
 		}
 	}
 	
@@ -125,11 +133,13 @@ public class SrmDropboxHandler
         		Utils.ConstantVars.KEY_DROPBOX_SECRET_DEF);
         if (key != Utils.ConstantVars.KEY_DROPBOX_KEY_DEF 
         		&& secret != Utils.ConstantVars.KEY_DROPBOX_SECRET_DEF) {
+        	isAppAuthorized = true;
         	String[] accessKeys = new String[2];
         	accessKeys[0] = key;
         	accessKeys[1] = secret;
         	return accessKeys;
         } else {
+        	isAppAuthorized = false;
         	return null;
         }
     }
@@ -198,12 +208,14 @@ public class SrmDropboxHandler
         
         AndroidAuthSession session;
 
-        String[] stored = getAccessKeys();
+        String[] storedAuthenKeyPairs = getAccessKeys();
         
-        if (stored != null) 
+        if (storedAuthenKeyPairs != null) 
         {
         	// with accesss token
-            AccessTokenPair accessToken = new AccessTokenPair(stored[0], stored[1]);
+            AccessTokenPair accessToken = new AccessTokenPair(
+            		storedAuthenKeyPairs[0], 
+            		storedAuthenKeyPairs[1]);
             session = new AndroidAuthSession(appKeyPair, ACCESS_TYPE, accessToken);
         } else {
         	// without access token
@@ -346,8 +358,8 @@ public class SrmDropboxHandler
 			{
 				Log.w(LOGTAG, "getFileInfos() finds " + filePath + " is a FILE," +
 						" will get infos filename=" + fileEntry.fileName() + 
-						" filesize=" + fileEntry.size +
-						" filepath=" + fileEntry.path);
+						", filesize=" + fileEntry.size +
+						", filepath=" + fileEntry.path);
 			}
 			
 	        return fileEntry;
