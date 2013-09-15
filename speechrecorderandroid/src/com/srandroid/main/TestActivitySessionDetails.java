@@ -121,7 +121,6 @@ public class TestActivitySessionDetails extends Activity
 		public TestActivitySessionDetails() 
 		{
 			context = this;
-			dropboxHandler = new SrmDropboxHandler(context, this);
 		}
 	
 	
@@ -184,7 +183,7 @@ public class TestActivitySessionDetails extends Activity
 	        // if there are records, toast hint to user to scroll down
 	        if(recItemsCount > 0) toastSwipeHint();
 	        
-	        
+	        dropboxHandler = new SrmDropboxHandler(context, this);
 	        
 	    }
 		
@@ -367,7 +366,8 @@ public class TestActivitySessionDetails extends Activity
 										context, 
 										this, 
 										dropboxHandler.dropbox, 
-										SrmDropboxHandler.FOLDER_SCRIPTS_PATH).execute();
+										SrmDropboxHandler.FOLDER_SCRIPTS_PATH)
+								.execute();
 	        			
     					break;
 	        			
