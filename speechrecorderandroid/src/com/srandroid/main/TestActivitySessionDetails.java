@@ -73,6 +73,9 @@ public class TestActivitySessionDetails extends Activity
 		
 		// state
 		public static final String ITEM_URI = "ITEM_URI";
+		
+		
+		// for UI
 		private String sessionItemId = null;
 		
 		private String speakerIdForSession;
@@ -101,7 +104,6 @@ public class TestActivitySessionDetails extends Activity
 	    private ArrayList<String> itemlist = new ArrayList<String> (); // for adapter
 	    private ArrayList<String> recordItemIdList = new ArrayList<String> ();
 	    
-
 	    private int recItemsCount = 0;
 	    
 	    private LocalAdapterForSessionDetails localAdapter;
@@ -180,6 +182,9 @@ public class TestActivitySessionDetails extends Activity
 	        
 	        // if there are records, toast hint to user to scroll down
 	        if(recItemsCount > 0) toastSwipeHint();
+	        
+	        
+	        
 	    }
 		
 
@@ -364,7 +369,7 @@ public class TestActivitySessionDetails extends Activity
 										context, 
 										this, 
 										dropboxHandler.dropbox, 
-										SrmDropboxHandler.FOLDERROOTPATH)
+										SrmDropboxHandler.FOLDER_SCRIPT_PATH)
 						.execute();
 	        			
     					break;
@@ -382,6 +387,7 @@ public class TestActivitySessionDetails extends Activity
 	        	default:
 	        		break;
 	    	}
+	        
 		    return super.onOptionsItemSelected(item);
 	    }
 		

@@ -58,7 +58,8 @@ public class SrmDropboxHandler
 	public boolean isLoggedIn;
 	
 	public static final String FOLDERROOT = "root";
-	public static final String FOLDERROOTPATH = "/";
+	public static final String FOLDER_ROOT_PATH = "/";
+	public static final String FOLDER_SCRIPT_PATH = "/scripts/";
 	
 	
 	
@@ -260,7 +261,7 @@ public class SrmDropboxHandler
 	 */
 	public static class GetFileInfosTask extends AsyncTask<Void, Long, Boolean>
 	{
-		private final String LOGTAG_1 = LOGTAG + "$" + GetFileInfosTask.class.getSimpleName();
+		private final String LOGTAG = GetFileInfosTask.class.getName();
 	
 		private Context context;
 		private Activity activity;
@@ -283,21 +284,20 @@ public class SrmDropboxHandler
 		@Override
 		protected Boolean doInBackground(Void... params) 
 		{
-			Log.w(LOGTAG_1, "doInBackground() starts ");
+			Log.w(LOGTAG, " get file infos doInBackground() starts ");
 			
 			boolean result = false;
 			
 			try {
 				dirList = listFilesInFolder(dropbox, filePath);
 			} catch (DropboxException e) {
-				Log.w(LOGTAG_1, "doInBackground() throws DropboxException=" + e.getLocalizedMessage());
-                Log.i(LOGTAG_1, "Error listing files in dropbox", e);
-				e.printStackTrace();
+				Log.w(LOGTAG, "doInBackground() throws DropboxException=" + e.getLocalizedMessage());
+                Log.i(LOGTAG, "Error listing files in dropbox", e);
 			}
 			
 			if(dirList != null)
 			{
-				Log.w(LOGTAG_1, "doInBackground() get file list=" + dirList.toString());
+				Log.w(LOGTAG, "doInBackground() get file list=" + dirList.toString());
 				result = true;
 			}
 			
@@ -314,7 +314,7 @@ public class SrmDropboxHandler
 		@Override
         protected void onPostExecute(Boolean result) 
 		{
-			Log.w(LOGTAG_1, "onPostExecute() get result=" + result);
+			Log.w(LOGTAG, "onPostExecute() get result=" + result);
 			// if(result == ?)
 		}
 		
@@ -361,9 +361,6 @@ public class SrmDropboxHandler
 			
 			
 		}
-		
-		
-		
 		
 	}
     
