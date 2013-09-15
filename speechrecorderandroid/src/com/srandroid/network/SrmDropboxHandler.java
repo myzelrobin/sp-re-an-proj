@@ -166,14 +166,10 @@ public class SrmDropboxHandler
 	
 	
 	
-	public boolean finishAuthen(DropboxAPI<AndroidAuthSession> dropbox)
+	public void finishAuthen(AndroidAuthSession session)
 	{
-		AndroidAuthSession session = dropbox.getSession();
-
-		Log.w(LOGTAG, "finishAuthen() will finish authen from an authen activity");
+		Log.w(LOGTAG, "finishAuthen() will finish dropbox authen from an authen activity");
 		
-        if (session.authenticationSuccessful()) 
-        {
             try 
             {
                 // Mandatory call to complete the auth
@@ -190,8 +186,6 @@ public class SrmDropboxHandler
                 		+ e.getLocalizedMessage());
                 Log.i(LOGTAG, "Error authenticating dropbox", e);
             }
-        }
-		return true;
 	}
 	
 	
