@@ -358,7 +358,7 @@ public class TestActivitySessionDetails extends Activity
 										context, 
 										this, 
 										dropboxHandler.dropbox, 
-										SrmDropboxHandler.FDB_SCRIPT_PATH)
+										SrmDropboxHandler.FILEPATH_INDB_SCRIPT)
 								.execute();
 	        			
     					break;
@@ -378,7 +378,7 @@ public class TestActivitySessionDetails extends Activity
 	        							context,
 	        							this,
 	        							dropboxHandler.dropbox,
-	        							SrmDropboxHandler.FLOCAL_SCRIPT_PATH)
+	        							SrmDropboxHandler.FILEPATH_LOCAL_SCRIPT)
 	        					.execute();
 	        			
     					break;

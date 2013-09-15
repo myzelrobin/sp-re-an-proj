@@ -66,12 +66,12 @@ public class SrmDropboxHandler
 	
 	public static final String FOLDERROOT = "root";
 	public static final String FOLDER_ROOT_PATH = "/";
-	public static final String FOLDER_SCRIPTS_PATH = "/scripts/";
-	public static final String FOLDER_UPLOADS_PATH = "/uploads/";
+	public static final String FOLDER_SCRIPTS_PATH = "/scripts";
+	public static final String FOLDER_UPLOADS_PATH = "/uploads";
 	
 	// files for test
-	public static final String FDB_SCRIPT_PATH = "/scripts/script_text_exp_01.txt";
-	public static final String FLOCAL_SCRIPT_PATH = 
+	public static final String FILEPATH_INDB_SCRIPT = "/scripts/script_text_exp_01.txt";
+	public static final String FILEPATH_LOCAL_SCRIPT = 
 			Utils.ConstantVars.DIR_EXT_RECFILES_PATH + "/test_dropbox/script_example_upload.xml.txt";
 	
 	
@@ -479,11 +479,15 @@ public class SrmDropboxHandler
 			
 			Entry uploadedFileEntry = null;
 			
-			String filePath = file.getAbsolutePath();
+			String folderName = file.getParent();
+			String fileName = file.getName();
+			String filePathInDropbox = 
+					SrmDropboxHandler.FOLDER_UPLOADS_PATH + File.separator
+					+ folderName + File.separator + fileName;
 			long fileSize = file.length();
 			
 			uploadReq = dropbox.putFileOverwriteRequest(
-					filePath, 
+					filePathInDropbox, 
 					fis, 
 					fileSize, 
 					progListener);
