@@ -6,6 +6,7 @@ package com.srandroid.network;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -23,6 +24,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.dropbox.client2.DropboxAPI;
+import com.dropbox.client2.DropboxAPI.DropboxFileInfo;
 import com.dropbox.client2.DropboxAPI.Entry;
 import com.dropbox.client2.DropboxAPI.UploadRequest;
 import com.dropbox.client2.ProgressListener;
@@ -70,11 +72,11 @@ public class SrmDropboxHandler
 	public static final String FOLDER_UPLOADS_PATH = "/uploads";
 	
 	// files for test
-	public static final String FILEPATH_INDB_SCRIPT = "/scripts/script_text_exp_01.txt";
+	public static final String FILEPATH_INDB_SCRIPT = "/scripts/script_exp_download_01.txt";
 	public static final String FILEPATH_LOCAL_SCRIPT = 
 			Utils.ConstantVars.DIR_EXT_RECFILES_PATH + "/test_dropbox/script_example_upload.xml.txt";
-	
-	
+	public static final String FOLDERPATH_LOCAL_DB_TEST = 
+			Utils.ConstantVars.DIR_EXT_RECFILES_PATH + "/test_dropbox";
 	
 	/**
 	 * 
@@ -289,17 +291,17 @@ public class SrmDropboxHandler
 		private Context context;
 		private Activity activity;
 		private DropboxAPI<AndroidAuthSession> dropbox;
-		private String filePath;
+		private String filePathInDropbox;
 		
 		public GetFileInfosTask(Context context, 
 				Activity activity, 
 				DropboxAPI<AndroidAuthSession> dropbox,
-				String filePath)
+				String filePathInDropbox)
 		{
 			this.context = context;
 			this.activity = activity;
 			this.dropbox = dropbox;
-			this.filePath = filePath;
+			this.filePathInDropbox = filePathInDropbox;
 		}
 		
 		@Override
@@ -314,7 +316,7 @@ public class SrmDropboxHandler
 			
 			try 
 			{
-				entry = getFileInfos(dropbox, filePath);
+				entry = getFileInfos(dropbox, filePathInDropbox);
 				
 				if( !entry.path.equals(null) ) result = true;
 			} 
@@ -438,6 +440,11 @@ public class SrmDropboxHandler
 				entry = uploadFileToDropbox(dropbox, fis, file, null);
 				
 				if( !entry.path.equals(null) ) result = true;
+				
+				Log.w(LOGTAG, "uploaded file into Dropbox," +
+						", filename=" + entry.fileName() + 
+						", filesize=" + entry.size +
+						", filepath=" + entry.path);
 			} 
 			catch (FileNotFoundException e) 
 			{
@@ -501,75 +508,138 @@ public class SrmDropboxHandler
 	}
 	
 	
-//	/**
-//	 * Class  
-//	 *
-//	 */
-//	public static class DownloadFileTask extends AsyncTask<Void, Long, Boolean>
-//	{
-//		private final String LOGTAG = DownloadFileTask.class.getName();
-//	
-//		private Context context;
-//		private Activity activity;
-//		private DropboxAPI<AndroidAuthSession> dropbox;
-//		private String filePath;
-//		
-//		private ArrayList<String> dirList;
-//		
-//		public DownloadFileTask(
-//				Context context, 
-//				Activity activity, 
-//				DropboxAPI<AndroidAuthSession> dropbox,
-//				String filePath)
-//		{
-//			this.context = context;
-//			this.activity = activity;
-//			this.dropbox = dropbox;
-//			this.filePath = filePath;
-//		}
-//		
+	/**
+	 * Class  
+	 *
+	 */
+	public static class DownloadFileTask extends AsyncTask<Void, Long, Boolean>
+	{
+		private final String LOGTAG = DownloadFileTask.class.getName();
+	
+		private Context context;
+		private Activity activity;
+		private DropboxAPI<AndroidAuthSession> dropbox;
+		private String filePathInDropbox;
+		private String folderLocal;
+		
+		private ArrayList<String> dirList;
+		
+		public DownloadFileTask(
+				Context context, 
+				Activity activity, 
+				DropboxAPI<AndroidAuthSession> dropbox,
+				String filePathInDropbox,
+				String folderLocal)
+		{
+			this.context = context;
+			this.activity = activity;
+			this.dropbox = dropbox;
+			this.filePathInDropbox = filePathInDropbox;
+			this.folderLocal = folderLocal;
+		}
+		
+		@Override
+		protected Boolean doInBackground(Void... params) 
+		{
+			Log.w(LOGTAG, " download file doInBackground() starts ");
+			
+			boolean result = false;
+			
+			Entry entry = null;
+			
+			DropboxFileInfo info = null;
+			
+			try 
+			{
+				entry = getFileInfos(dropbox, filePathInDropbox);
+				if( !entry.path.equals(null) )
+				{
+					String fileName = entry.fileName();
+					
+					File fileLocal = new File(folderLocal, fileName);
+					
+					FileOutputStream fos = new FileOutputStream(fileLocal);
+					
+					info = downloadFile(dropbox, fos, filePathInDropbox, null);
+					
+					Log.w(LOGTAG, "The downloaded file from=" + info.getMetadata().path +
+							", to=" + fileLocal.getAbsolutePath() + 
+							", filesize=" + info.getMetadata().size);
+				}
+			} 
+			catch (FileNotFoundException e) 
+			{
+				Log.w(LOGTAG, "doInBackground() throws FileNotFoundException=" + e.getLocalizedMessage());
+                Log.i(LOGTAG, "Error downloading file from dropbox", e);
+			}
+			catch (DropboxException e) 
+			{
+				Log.w(LOGTAG, "doInBackground() throws DropboxException=" + e.getLocalizedMessage());
+                Log.i(LOGTAG, "Error downloading file from dropbox", e);
+			} 
+			
+			
+			return result;
+		}
+		
 //		@Override
-//		protected Boolean doInBackground(Void... params) 
-//		{
-//			Log.w(LOGTAG, " get file infos doInBackground() starts ");
-//			
-//			boolean result = false;
-//			
-//			try 
-//			{
-//				
-//			} 
-//			catch (DropboxException e) 
-//			{
-//				Log.w(LOGTAG, "doInBackground() throws DropboxException=" + e.getLocalizedMessage());
-//                Log.i(LOGTAG, "Error listing files in dropbox", e);
-//			}
-//			
-//			if(dirList != null)
-//			{
-//				Log.w(LOGTAG, "doInBackground() get file list=" + dirList.toString());
-//				result = true;
-//			}
-//			
-//			return result;
-//		}
-//		
-////		@Override
-////	    protected void onProgressUpdate(Long... progress) {
-////	        int percent = (int)(100.0*(double)progress[0]/mFileLen + 0.5);
-////	        mDialog.setProgress(percent);
-////	    }
-//		
-//		//displays the results of the AsyncTask
-//		@Override
-//        protected void onPostExecute(Boolean result) 
-//		{
-//			Log.w(LOGTAG, "onPostExecute() get result=" + result);
-//			// if(result == ?)
-//		}
-//		
-//		
-//	}
+//	    protected void onProgressUpdate(Long... progress) {
+//	        int percent = (int)(100.0*(double)progress[0]/mFileLen + 0.5);
+//	        mDialog.setProgress(percent);
+//	    }
+		
+		//displays the results of the AsyncTask
+		@Override
+        protected void onPostExecute(Boolean result) 
+		{
+			Log.w(LOGTAG, "onPostExecute() get result=" + result);
+			// if(result == ?)
+		}
+		
+		private Entry getFileInfos(
+				DropboxAPI<AndroidAuthSession> dropbox, 
+				String filePath) 
+			throws DropboxException
+		{
+			Log.w(LOGTAG, "getFileInfos() will get infos of file=" + filePath);
+			
+			Entry fileEntry = null;
+			
+			// metadata("/", FILENUMBERS, null, true, null)
+			fileEntry = dropbox.metadata(filePath, 1, null, false, null);
+			
+			if(fileEntry.isDir)
+			{
+				Log.w(LOGTAG, "getFileInfos() finds " + filePath + " is a FOLDER, " +
+						"the target should be a FILE!");
+				fileEntry = null;
+			}
+			else
+			{
+				Log.w(LOGTAG, "getFileInfos() finds " + filePath + " is a FILE," +
+						" get infos filename=" + fileEntry.fileName() + 
+						", filesize=" + fileEntry.size +
+						", filepath=" + fileEntry.path);
+			}
+			
+	        return fileEntry;
+		}
+		
+		private DropboxFileInfo downloadFile(
+				DropboxAPI<AndroidAuthSession> dropbox, 
+				FileOutputStream fos, 
+				String filePath,
+				ProgressListener progListener) 
+			throws DropboxException
+		{
+			Log.w(LOGTAG, "downloadFile() will download file=" + filePath);
+			
+			DropboxFileInfo info = dropbox.getFile(filePath, null, fos, null);
+			
+			return info;
+		}
+		
+	}
 	
     
 }

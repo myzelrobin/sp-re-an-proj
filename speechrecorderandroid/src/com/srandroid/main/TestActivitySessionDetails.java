@@ -51,6 +51,7 @@ import com.srandroid.database.TableServers.ServerItem;
 import com.srandroid.database.TableSessions;
 import com.srandroid.database.TableSpeakers;
 import com.srandroid.network.SrmDropboxHandler;
+import com.srandroid.network.SrmDropboxHandler.DownloadFileTask;
 import com.srandroid.network.SrmDropboxHandler.GetFileInfosTask;
 import com.srandroid.network.SrmDropboxHandler.UploadFileTask;
 import com.srandroid.network.SrmNetworkHandler;
@@ -115,6 +116,7 @@ public class TestActivitySessionDetails extends Activity
 	    private SrmDropboxHandler dropboxHandler;
 	    private AsyncTask<Void, Long, Boolean> getFileInfosInDropbox;
 	    private AsyncTask<Void, Long, Boolean> uploadFileIntoDropbox;
+	    private AsyncTask<Void, Long, Boolean> downloadFileFromDropbox;
 	    
 		/**
 		 * 
@@ -365,6 +367,17 @@ public class TestActivitySessionDetails extends Activity
 	        			
 	        	case R.id.act_sessiondetails_button_testdownload:
 	        			Log.w(LOGTAG, "user clicked button test download");
+	        			
+	        			dropboxHandler.createDropboxAPI();
+	        			
+	        			downloadFileFromDropbox = 
+	        					new DownloadFileTask(
+	        							context,
+	        							this,
+	        							dropboxHandler.dropbox,
+	        							SrmDropboxHandler.FILEPATH_INDB_SCRIPT,
+	        							SrmDropboxHandler.FOLDERPATH_LOCAL_DB_TEST)
+	        					.execute();
 	        			
         				break;
         				
