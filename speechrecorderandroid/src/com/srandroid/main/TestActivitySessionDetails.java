@@ -52,6 +52,7 @@ import com.srandroid.database.TableSessions;
 import com.srandroid.database.TableSpeakers;
 import com.srandroid.network.SrmDropboxHandler;
 import com.srandroid.network.SrmDropboxHandler.GetFileInfosTask;
+import com.srandroid.network.SrmDropboxHandler.UploadFileTask;
 import com.srandroid.network.SrmNetworkHandler;
 import com.srandroid.recording.ActivityPreRecording;
 import com.srandroid.util.Utils;
@@ -113,7 +114,7 @@ public class TestActivitySessionDetails extends Activity
 	    // Network
 	    private SrmDropboxHandler dropboxHandler;
 	    private AsyncTask<Void, Long, Boolean> getFileInfosInDropbox;
-	    
+	    private AsyncTask<Void, Long, Boolean> uploadFileIntoDropbox;
 	    
 		/**
 		 * 
@@ -309,10 +310,11 @@ public class TestActivitySessionDetails extends Activity
 	        {
 			    // Respond to the action bar's Up/Home button
 			    case android.R.id.home:
-			        NavUtils.navigateUpFromSameTask(this);
-			        return true;
+				        
+			    		NavUtils.navigateUpFromSameTask(this);
+				        return true;
 			        
-			     // actionbar buttons
+			    // actionbar buttons
 	        	case R.id.act_sessiondetails_button_start:
 	        		
 	        			Log.w(LOGTAG, "user clicked button start"); 
@@ -356,7 +358,7 @@ public class TestActivitySessionDetails extends Activity
 										context, 
 										this, 
 										dropboxHandler.dropbox, 
-										SrmDropboxHandler.FILE_SCRIPT_PATH)
+										SrmDropboxHandler.FDB_SCRIPT_PATH)
 								.execute();
 	        			
     					break;
@@ -368,6 +370,16 @@ public class TestActivitySessionDetails extends Activity
         				
 	        	case R.id.act_sessiondetails_button_testupload:
 	        			Log.w(LOGTAG, "user clicked button test upload");
+	        			
+	        			dropboxHandler.createDropboxAPI();
+	        			
+	        			uploadFileIntoDropbox = 
+	        					new UploadFileTask(
+	        							context,
+	        							this,
+	        							dropboxHandler.dropbox,
+	        							SrmDropboxHandler.FLOCAL_SCRIPT_PATH)
+	        					.execute();
 	        			
     					break;
 	        		

@@ -3,6 +3,9 @@
  */
 package com.srandroid.network;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -21,6 +24,8 @@ import android.util.Log;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.Entry;
+import com.dropbox.client2.DropboxAPI.UploadRequest;
+import com.dropbox.client2.ProgressListener;
 import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.android.AuthActivity;
 import com.dropbox.client2.exception.DropboxException;
@@ -62,8 +67,12 @@ public class SrmDropboxHandler
 	public static final String FOLDERROOT = "root";
 	public static final String FOLDER_ROOT_PATH = "/";
 	public static final String FOLDER_SCRIPTS_PATH = "/scripts/";
-	public static final String FILE_SCRIPT_PATH = "/scripts/script_text_exp_01.txt";
-	public static final String FOLDER_RECORDS_PATH = "/records/";
+	public static final String FOLDER_UPLOADS_PATH = "/uploads/";
+	
+	// files for test
+	public static final String FDB_SCRIPT_PATH = "/scripts/script_text_exp_01.txt";
+	public static final String FLOCAL_SCRIPT_PATH = 
+			Utils.ConstantVars.DIR_EXT_RECFILES_PATH + "/script_example_upload.xml.txt";
 	
 	
 	
@@ -88,6 +97,7 @@ public class SrmDropboxHandler
 			dropbox = new DropboxAPI<AndroidAuthSession>(session);
 			
 			checkDropboxKeySetup();
+			
 			if(!isAppAuthorized)
 			{
 				if(isLoggedIn)	logOut();
@@ -133,13 +143,18 @@ public class SrmDropboxHandler
         		Utils.ConstantVars.KEY_DROPBOX_SECRET_DEF);
         if (key != Utils.ConstantVars.KEY_DROPBOX_KEY_DEF 
         		&& secret != Utils.ConstantVars.KEY_DROPBOX_SECRET_DEF) {
+        	
         	isAppAuthorized = true;
+        	Log.w(LOGTAG, "getAccessKeys() finds app isAppAuthorized=" + isAppAuthorized);
+        	
         	String[] accessKeys = new String[2];
         	accessKeys[0] = key;
         	accessKeys[1] = secret;
         	return accessKeys;
         } else {
         	isAppAuthorized = false;
+        	Log.w(LOGTAG, "getAccessKeys() finds app isAppAuthorized=" + isAppAuthorized);
+        	
         	return null;
         }
     }
@@ -264,7 +279,8 @@ public class SrmDropboxHandler
 	
 	/**
 	 * Class  
-	 *
+	 * need a View param for showing the script files in the View object
+	 * need a Entry param for sending the infos to View
 	 */
 	public static class GetFileInfosTask extends AsyncTask<Void, Long, Boolean>
 	{
@@ -274,8 +290,6 @@ public class SrmDropboxHandler
 		private Activity activity;
 		private DropboxAPI<AndroidAuthSession> dropbox;
 		private String filePath;
-		
-		private ArrayList<String> dirList;
 		
 		public GetFileInfosTask(Context context, 
 				Activity activity, 
@@ -295,9 +309,17 @@ public class SrmDropboxHandler
 			
 			boolean result = false;
 			
-			try {
-				if( !getFileInfos(dropbox, filePath).path.equals(null) ) result = true;
-			} catch (DropboxException e) {
+			Entry entry;
+			
+			
+			try 
+			{
+				entry = getFileInfos(dropbox, filePath);
+				
+				if( !entry.path.equals(null) ) result = true;
+			} 
+			catch (DropboxException e) 
+			{
 				Log.w(LOGTAG, "doInBackground() throws DropboxException=" + e.getLocalizedMessage());
                 Log.i(LOGTAG, "Error listing files in dropbox", e);
 			}
@@ -322,7 +344,7 @@ public class SrmDropboxHandler
 		
 
 		
-		public Entry getFileInfos(
+		private Entry getFileInfos(
 				DropboxAPI<AndroidAuthSession> dropbox, String filePath) 
 						throws DropboxException
 		{
@@ -366,19 +388,13 @@ public class SrmDropboxHandler
 		}
 		
 		
-		public void getSingleFileInfos(String filePath) throws DropboxException
-		{
-			Log.w(LOGTAG, "getFileEntry() will get infos of file " + filePath);
-			
-			
-			
-		}
 		
 	}
 	
 	/**
 	 * Class  
-	 *
+	 * need a View parameter for find record file path, if null for script path
+	 * use a SessionItem better?
 	 */
 	public static class UploadFileTask extends AsyncTask<Void, Long, Boolean>
 	{
@@ -387,41 +403,52 @@ public class SrmDropboxHandler
 		private Context context;
 		private Activity activity;
 		private DropboxAPI<AndroidAuthSession> dropbox;
-		private String filePath;
+		private String locFilePath;
 		
-		private ArrayList<String> dirList;
+		private UploadRequest uploadReq;
+		
 		
 		public UploadFileTask(
 				Context context, 
 				Activity activity, 
 				DropboxAPI<AndroidAuthSession> dropbox,
-				String filePath)
+				String locFilePath)
 		{
 			this.context = context;
 			this.activity = activity;
 			this.dropbox = dropbox;
-			this.filePath = filePath;
+			this.locFilePath = locFilePath;
 		}
 		
 		@Override
 		protected Boolean doInBackground(Void... params) 
 		{
-			Log.w(LOGTAG, " get file infos doInBackground() starts ");
+			Log.w(LOGTAG, " upload file doInBackground() starts ");
 			
 			boolean result = false;
 			
-			try {
-				dirList = listFilesInFolder(dropbox, filePath);
-			} catch (DropboxException e) {
-				Log.w(LOGTAG, "doInBackground() throws DropboxException=" + e.getLocalizedMessage());
-                Log.i(LOGTAG, "Error listing files in dropbox", e);
-			}
+			Entry entry;
 			
-			if(dirList != null)
+			try 
 			{
-				Log.w(LOGTAG, "doInBackground() get file list=" + dirList.toString());
-				result = true;
+				File file = new File(locFilePath);
+				
+				FileInputStream fis = new FileInputStream(file);
+
+				entry = uploadFileToDropbox(dropbox, fis, file, null);
+				
+				if( !entry.path.equals(null) ) result = true;
+			} 
+			catch (FileNotFoundException e) 
+			{
+				Log.w(LOGTAG, "doInBackground() throws FileNotFoundException=" + e.getLocalizedMessage());
+                Log.i(LOGTAG, "Error uploading files into dropbox", e);
 			}
+			catch (DropboxException e) 
+			{
+				Log.w(LOGTAG, "doInBackground() throws DropboxException=" + e.getLocalizedMessage());
+                Log.i(LOGTAG, "Error uploading files into dropbox", e);
+			} 
 			
 			return result;
 		}
@@ -440,162 +467,104 @@ public class SrmDropboxHandler
 			// if(result == ?)
 		}
 		
-		
-
-		
-		public ArrayList<String> listFilesInFolder(
-				DropboxAPI<AndroidAuthSession> dropbox, String filePath) 
+		private Entry uploadFileToDropbox(
+				DropboxAPI<AndroidAuthSession> dropbox, 
+				FileInputStream fis, 
+				File file,
+				ProgressListener progListener) 
 						throws DropboxException
 		{
-			Log.w(LOGTAG, "listFilesInFolder() will list files in " + filePath);
+			Log.w(LOGTAG, "uploadFileToDropbox() will upload a file into dropbox, file=" +
+					file.getAbsolutePath());
 			
-			ArrayList<Entry> entryList = null;
-			ArrayList<String> dirList = null;
-			Entry dirEntry = null;
+			Entry uploadedFileEntry = null;
 			
-			// metadata("/", FILENUMBERS, null, true, null)
-			dirEntry = dropbox.metadata(filePath, FILES_LIMIT, null, true, null);
+			String filePath = file.getAbsolutePath();
+			long fileSize = file.length();
 			
-			if(dirEntry.isDir)
-			{
-				entryList = new ArrayList<Entry>();
-		        dirList = new ArrayList<String>();
-		        int i = 0;
-		        
-		        for (Entry ent: dirEntry.contents) 
-		        {
-		            entryList.add(i, ent);                   
-		            //dir = new ArrayList<String>();
-		            dirList.add(new String(entryList.get(i).path));
-		            i++;
-		        }
-			}
-			else Log.w(LOGTAG, "listFilesInFolder() finds " + filePath + " is not a folder!");
+			uploadReq = dropbox.putFileOverwriteRequest(
+					filePath, 
+					fis, 
+					fileSize, 
+					progListener);
 			
-	        return dirList;
-		}
-		
-		
-		public void getSingleFileInfos(String filePath) throws DropboxException
-		{
-			Log.w(LOGTAG, "getFileEntry() will get infos of file " + filePath);
+			if(uploadReq != null) uploadedFileEntry = uploadReq.upload();
 			
-			
-			
+			return uploadedFileEntry;
 		}
 		
 	}
 	
 	
-	/**
-	 * Class  
-	 *
-	 */
-	public static class DownloadFileTask extends AsyncTask<Void, Long, Boolean>
-	{
-		private final String LOGTAG = DownloadFileTask.class.getName();
-	
-		private Context context;
-		private Activity activity;
-		private DropboxAPI<AndroidAuthSession> dropbox;
-		private String filePath;
-		
-		private ArrayList<String> dirList;
-		
-		public DownloadFileTask(
-				Context context, 
-				Activity activity, 
-				DropboxAPI<AndroidAuthSession> dropbox,
-				String filePath)
-		{
-			this.context = context;
-			this.activity = activity;
-			this.dropbox = dropbox;
-			this.filePath = filePath;
-		}
-		
-		@Override
-		protected Boolean doInBackground(Void... params) 
-		{
-			Log.w(LOGTAG, " get file infos doInBackground() starts ");
-			
-			boolean result = false;
-			
-			try {
-				dirList = listFilesInFolder(dropbox, filePath);
-			} catch (DropboxException e) {
-				Log.w(LOGTAG, "doInBackground() throws DropboxException=" + e.getLocalizedMessage());
-                Log.i(LOGTAG, "Error listing files in dropbox", e);
-			}
-			
-			if(dirList != null)
-			{
-				Log.w(LOGTAG, "doInBackground() get file list=" + dirList.toString());
-				result = true;
-			}
-			
-			return result;
-		}
-		
+//	/**
+//	 * Class  
+//	 *
+//	 */
+//	public static class DownloadFileTask extends AsyncTask<Void, Long, Boolean>
+//	{
+//		private final String LOGTAG = DownloadFileTask.class.getName();
+//	
+//		private Context context;
+//		private Activity activity;
+//		private DropboxAPI<AndroidAuthSession> dropbox;
+//		private String filePath;
+//		
+//		private ArrayList<String> dirList;
+//		
+//		public DownloadFileTask(
+//				Context context, 
+//				Activity activity, 
+//				DropboxAPI<AndroidAuthSession> dropbox,
+//				String filePath)
+//		{
+//			this.context = context;
+//			this.activity = activity;
+//			this.dropbox = dropbox;
+//			this.filePath = filePath;
+//		}
+//		
 //		@Override
-//	    protected void onProgressUpdate(Long... progress) {
-//	        int percent = (int)(100.0*(double)progress[0]/mFileLen + 0.5);
-//	        mDialog.setProgress(percent);
-//	    }
-		
-		//displays the results of the AsyncTask
-		@Override
-        protected void onPostExecute(Boolean result) 
-		{
-			Log.w(LOGTAG, "onPostExecute() get result=" + result);
-			// if(result == ?)
-		}
-		
-		
-
-		
-		public ArrayList<String> listFilesInFolder(
-				DropboxAPI<AndroidAuthSession> dropbox, String filePath) 
-						throws DropboxException
-		{
-			Log.w(LOGTAG, "listFilesInFolder() will list files in " + filePath);
-			
-			ArrayList<Entry> entryList = null;
-			ArrayList<String> dirList = null;
-			Entry dirEntry = null;
-			
-			// metadata("/", FILENUMBERS, null, true, null)
-			dirEntry = dropbox.metadata(filePath, FILES_LIMIT, null, true, null);
-			
-			if(dirEntry.isDir)
-			{
-				entryList = new ArrayList<Entry>();
-		        dirList = new ArrayList<String>();
-		        int i = 0;
-		        
-		        for (Entry ent: dirEntry.contents) 
-		        {
-		            entryList.add(i, ent);                   
-		            //dir = new ArrayList<String>();
-		            dirList.add(new String(entryList.get(i).path));
-		            i++;
-		        }
-			}
-			else Log.w(LOGTAG, "listFilesInFolder() finds " + filePath + " is not a folder!");
-			
-	        return dirList;
-		}
-		
-		
-		public void getSingleFileInfos(String filePath) throws DropboxException
-		{
-			Log.w(LOGTAG, "getFileEntry() will get infos of file " + filePath);
-			
-			
-			
-		}
-		
-	}
+//		protected Boolean doInBackground(Void... params) 
+//		{
+//			Log.w(LOGTAG, " get file infos doInBackground() starts ");
+//			
+//			boolean result = false;
+//			
+//			try 
+//			{
+//				
+//			} 
+//			catch (DropboxException e) 
+//			{
+//				Log.w(LOGTAG, "doInBackground() throws DropboxException=" + e.getLocalizedMessage());
+//                Log.i(LOGTAG, "Error listing files in dropbox", e);
+//			}
+//			
+//			if(dirList != null)
+//			{
+//				Log.w(LOGTAG, "doInBackground() get file list=" + dirList.toString());
+//				result = true;
+//			}
+//			
+//			return result;
+//		}
+//		
+////		@Override
+////	    protected void onProgressUpdate(Long... progress) {
+////	        int percent = (int)(100.0*(double)progress[0]/mFileLen + 0.5);
+////	        mDialog.setProgress(percent);
+////	    }
+//		
+//		//displays the results of the AsyncTask
+//		@Override
+//        protected void onPostExecute(Boolean result) 
+//		{
+//			Log.w(LOGTAG, "onPostExecute() get result=" + result);
+//			// if(result == ?)
+//		}
+//		
+//		
+//	}
 	
     
 }
