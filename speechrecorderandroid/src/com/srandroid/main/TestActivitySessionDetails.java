@@ -367,7 +367,7 @@ public class TestActivitySessionDetails extends Activity
 										context, 
 										this, 
 										dropboxHandler.dropbox, 
-										SrmDropboxHandler.FOLDER_SCRIPTS_PATH)
+										SrmDropboxHandler.FILE_SCRIPT_PATH)
 								.execute();
 	        			
     					break;

@@ -60,6 +60,7 @@ public class SrmDropboxHandler
 	public static final String FOLDERROOT = "root";
 	public static final String FOLDER_ROOT_PATH = "/";
 	public static final String FOLDER_SCRIPTS_PATH = "/scripts/";
+	public static final String FILE_SCRIPT_PATH = "/scripts/script_text_exp_01.txt";
 	public static final String FOLDER_RECORDS_PATH = "/records/";
 	
 	
