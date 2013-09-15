@@ -565,6 +565,8 @@ public class SrmDropboxHandler
 					Log.w(LOGTAG, "The downloaded file from=" + info.getMetadata().path +
 							", to=" + fileLocal.getAbsolutePath() + 
 							", filesize=" + info.getMetadata().size);
+					
+					result = true;
 				}
 			} 
 			catch (FileNotFoundException e) 
