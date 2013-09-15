@@ -345,7 +345,7 @@ public class TestActivitySessionDetails extends Activity
 
 	        			dropboxHandler = new SrmDropboxHandler(context, this);
 	        			
-	        			dropboxHandler.createDropboxHandler();
+	        			dropboxHandler.createDropboxAPI();
 	        			
 	        			dropboxHandler.dropbox.getSession().startAuthentication(context);
 	        			
@@ -354,6 +354,10 @@ public class TestActivitySessionDetails extends Activity
 	        	case R.id.act_sessiondetails_button_testlistfile:
 	        			
 	        			Log.w(LOGTAG, "user clicked button test listfile");
+	        			
+	        			dropboxHandler = new SrmDropboxHandler(context, this);
+	        			
+	        			dropboxHandler.createDropboxAPI();
 	        			
 						getFileInfosInDropbox = 
 								new GetFileInfosTask(

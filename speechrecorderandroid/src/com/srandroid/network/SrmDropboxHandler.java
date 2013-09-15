@@ -49,8 +49,8 @@ public class SrmDropboxHandler
 	public DropboxAPI<AndroidAuthSession> dropbox;
 	
 	
-	private final static String DROPBOX_AUTHENKEY = "z0n6paty2uwi3ru";
-	private final static String DROPBOX_AUTHENSECRET = "xrphn2nzodjnqmq";
+	private final static String DROPBOX_APPKEY = "z0n6paty2uwi3ru";
+	private final static String DROPBOX_APPSECRET = "xrphn2nzodjnqmq";
 	public final static AccessType ACCESS_TYPE = AccessType.APP_FOLDER;
 	
 	private static final int FILES_LIMIT = 1000;
@@ -74,11 +74,11 @@ public class SrmDropboxHandler
 		this.networkHandler = new SrmNetworkHandler(context, activity);
 	}
 	
-	public void createDropboxHandler()
+	public void createDropboxAPI()
 	{
 		if(networkHandler.checkNetworkConnection())
 		{
-			Log.w(LOGTAG, "createDropboxHandler() will create a dropbox handler");
+			Log.w(LOGTAG, "createDropboxAPI() will create a dropbox api object");
 			
 			AndroidAuthSession session = buildSession();
 			dropbox = new DropboxAPI<AndroidAuthSession>(session);
@@ -93,7 +93,7 @@ public class SrmDropboxHandler
 		
         // Check if the app has set up its manifest properly.
         Intent testIntent = new Intent(Intent.ACTION_VIEW);
-        String scheme = "db-" + DROPBOX_AUTHENKEY;
+        String scheme = "db-" + DROPBOX_APPKEY;
         String uri = scheme + "://" + AuthActivity.AUTH_VERSION + "/test";
         testIntent.setData(Uri.parse(uri));
         PackageManager pm = context.getPackageManager();
@@ -187,7 +187,7 @@ public class SrmDropboxHandler
             {
                 Log.w(LOGTAG, "finishAuthen() throws IllegalStateException=" 
                 		+ e.getLocalizedMessage());
-                Log.i(LOGTAG, "Error authenticating", e);
+                Log.i(LOGTAG, "Error authenticating dropbox", e);
             }
         }
 		return true;
@@ -198,10 +198,12 @@ public class SrmDropboxHandler
 	{
 		Log.w(LOGTAG, "buildSession() will build a new session");
 		
-        AppKeyPair appKeyPair = new AppKeyPair(DROPBOX_AUTHENKEY, DROPBOX_AUTHENSECRET);
+        AppKeyPair appKeyPair = new AppKeyPair(DROPBOX_APPKEY, DROPBOX_APPSECRET);
+        
         AndroidAuthSession session;
 
         String[] stored = getAccessKeys();
+        
         if (stored != null) 
         {
         	// with accesss token
@@ -258,7 +260,7 @@ public class SrmDropboxHandler
 	 */
 	public static class GetFileInfosTask extends AsyncTask<Void, Long, Boolean>
 	{
-		private final String LOGTAG_1 = LOGTAG + "$" + GetFileInfosTask.class.getName();
+		private final String LOGTAG_1 = LOGTAG + "$" + GetFileInfosTask.class.getSimpleName();
 	
 		private Context context;
 		private Activity activity;
