@@ -345,12 +345,6 @@ public class TestActivitySessionDetails extends Activity
 		        		//Utils.toastTextToUser(this, "start uploading");
 		        		break;
 		        		
-	        	case R.id.act_sessiondetails_button_testauthen:
-		        		
-	        			Log.w(LOGTAG, "user clicked button test authen"); 
-	        			
-	        			break;
-	        	
 	        	case R.id.act_sessiondetails_button_testlistfile:
 	        			
 	        			Log.w(LOGTAG, "user clicked button test listfile");

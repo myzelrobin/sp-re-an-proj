@@ -136,11 +136,6 @@
         android:visible="false" >
         
         <item
-            android:id="@+id/act_sessiondetails_button_testauthen"
-            android:showAsAction="always"
-            android:title="AUTHEN" />
-        
-        <item
             android:id="@+id/act_sessiondetails_button_testlistfile"
             android:showAsAction="always"
             android:title="LIST" />
