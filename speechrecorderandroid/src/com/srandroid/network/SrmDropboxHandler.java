@@ -72,7 +72,7 @@ public class SrmDropboxHandler
 	// files for test
 	public static final String FDB_SCRIPT_PATH = "/scripts/script_text_exp_01.txt";
 	public static final String FLOCAL_SCRIPT_PATH = 
-			Utils.ConstantVars.DIR_EXT_RECFILES_PATH + "/script_example_upload.xml.txt";
+			Utils.ConstantVars.DIR_EXT_RECFILES_PATH + "/test_dropbox/script_example_upload.xml.txt";
 	
 	
 	
