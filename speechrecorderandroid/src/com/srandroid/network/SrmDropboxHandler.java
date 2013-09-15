@@ -474,17 +474,18 @@ public class SrmDropboxHandler
 				ProgressListener progListener) 
 						throws DropboxException
 		{
-			Log.w(LOGTAG, "uploadFileToDropbox() will upload a file into dropbox, file=" +
-					file.getAbsolutePath());
-			
-			Entry uploadedFileEntry = null;
-			
-			String folderName = file.getParent();
+			String folderName = file.getParentFile().getName();
 			String fileName = file.getName();
 			String filePathInDropbox = 
 					SrmDropboxHandler.FOLDER_UPLOADS_PATH + File.separator
 					+ folderName + File.separator + fileName;
 			long fileSize = file.length();
+			
+			Log.w(LOGTAG, "uploadFileToDropbox() will upload a file into dropbox," +
+					" file=" + file.getAbsolutePath() + 
+					", to fileInDropbox=" + filePathInDropbox);
+			
+			Entry uploadedFileEntry = null;
 			
 			uploadReq = dropbox.putFileOverwriteRequest(
 					filePathInDropbox, 
