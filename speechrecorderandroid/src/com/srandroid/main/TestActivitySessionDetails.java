@@ -121,6 +121,7 @@ public class TestActivitySessionDetails extends Activity
 		public TestActivitySessionDetails() 
 		{
 			context = this;
+			dropboxHandler = new SrmDropboxHandler(context, this);
 		}
 	
 	
@@ -348,19 +349,16 @@ public class TestActivitySessionDetails extends Activity
 		        		
 	        			Log.w(LOGTAG, "user clicked button test authen"); 
 
-	        			dropboxHandler = new SrmDropboxHandler(context, this);
-	        			
 	        			dropboxHandler.createDropboxAPI();
 	        			
-	        			dropboxHandler.dropbox.getSession().startAuthentication(context);
+	        			if(dropboxHandler.isLoggedIn)	dropboxHandler.logOut();
+	        			else dropboxHandler.dropbox.getSession().startAuthentication(context);
 	        			
 	        			break;
 	        	
 	        	case R.id.act_sessiondetails_button_testlistfile:
 	        			
 	        			Log.w(LOGTAG, "user clicked button test listfile");
-	        			
-	        			dropboxHandler = new SrmDropboxHandler(context, this);
 	        			
 	        			dropboxHandler.createDropboxAPI();
 	        			
@@ -369,8 +367,7 @@ public class TestActivitySessionDetails extends Activity
 										context, 
 										this, 
 										dropboxHandler.dropbox, 
-										SrmDropboxHandler.FOLDER_SCRIPT_PATH)
-						.execute();
+										SrmDropboxHandler.FOLDER_SCRIPTS_PATH).execute();
 	        			
     					break;
 	        			

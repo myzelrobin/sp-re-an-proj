@@ -59,8 +59,8 @@ public class SrmDropboxHandler
 	
 	public static final String FOLDERROOT = "root";
 	public static final String FOLDER_ROOT_PATH = "/";
-	public static final String FOLDER_SCRIPT_PATH = "/scripts/";
-	
+	public static final String FOLDER_SCRIPTS_PATH = "/scripts/";
+	public static final String FOLDER_RECORDS_PATH = "/records/";
 	
 	
 	
@@ -289,6 +289,121 @@ public class SrmDropboxHandler
 			boolean result = false;
 			
 			try {
+				if( !getFileInfos(dropbox, filePath).path.equals(null) ) result = true;
+			} catch (DropboxException e) {
+				Log.w(LOGTAG, "doInBackground() throws DropboxException=" + e.getLocalizedMessage());
+                Log.i(LOGTAG, "Error listing files in dropbox", e);
+			}
+			
+			return result;
+		}
+		
+//		@Override
+//	    protected void onProgressUpdate(Long... progress) {
+//	        int percent = (int)(100.0*(double)progress[0]/mFileLen + 0.5);
+//	        mDialog.setProgress(percent);
+//	    }
+		
+		//displays the results of the AsyncTask
+		@Override
+        protected void onPostExecute(Boolean result) 
+		{
+			Log.w(LOGTAG, "onPostExecute() get result=" + result);
+			// if(result == ?)
+		}
+		
+		
+
+		
+		public Entry getFileInfos(
+				DropboxAPI<AndroidAuthSession> dropbox, String filePath) 
+						throws DropboxException
+		{
+			Log.w(LOGTAG, "getFileInfos() will list files in " + filePath);
+			
+			Entry fileEntry = null;
+			ArrayList<Entry> entryList = null;
+			ArrayList<String> filesList = null;
+			
+			// metadata("/", FILENUMBERS, null, true, null)
+			fileEntry = dropbox.metadata(filePath, FILES_LIMIT, null, true, null);
+			
+			if(fileEntry.isDir)
+			{
+				Log.w(LOGTAG, "getFileInfos() finds " + filePath + " is a FOLDER, " +
+						"will get child files infos in this folder!");
+				
+				entryList = new ArrayList<Entry>();
+		        filesList = new ArrayList<String>();
+		        int i = 0;
+		        
+		        for (Entry ent: fileEntry.contents) 
+		        {
+		            entryList.add(i, ent);                   
+		            //dir = new ArrayList<String>();
+		            filesList.add(new String(entryList.get(i).path));
+		            i++;
+		        }
+		        
+		        Log.w(LOGTAG, "getFileInfos() get child files list=" + filesList.toString());
+			}
+			else
+			{
+				Log.w(LOGTAG, "getFileInfos() finds " + filePath + " is a FILE," +
+						" will get infos filename=" + fileEntry.fileName() + 
+						" filesize=" + fileEntry.size +
+						" filepath=" + fileEntry.path);
+			}
+			
+	        return fileEntry;
+		}
+		
+		
+		public void getSingleFileInfos(String filePath) throws DropboxException
+		{
+			Log.w(LOGTAG, "getFileEntry() will get infos of file " + filePath);
+			
+			
+			
+		}
+		
+	}
+	
+	/**
+	 * Class  
+	 *
+	 */
+	public static class UploadFileTask extends AsyncTask<Void, Long, Boolean>
+	{
+		private final String LOGTAG = UploadFileTask.class.getName();
+	
+		private Context context;
+		private Activity activity;
+		private DropboxAPI<AndroidAuthSession> dropbox;
+		private String filePath;
+		
+		private ArrayList<String> dirList;
+		
+		public UploadFileTask(
+				Context context, 
+				Activity activity, 
+				DropboxAPI<AndroidAuthSession> dropbox,
+				String filePath)
+		{
+			this.context = context;
+			this.activity = activity;
+			this.dropbox = dropbox;
+			this.filePath = filePath;
+		}
+		
+		@Override
+		protected Boolean doInBackground(Void... params) 
+		{
+			Log.w(LOGTAG, " get file infos doInBackground() starts ");
+			
+			boolean result = false;
+			
+			try {
 				dirList = listFilesInFolder(dropbox, filePath);
 			} catch (DropboxException e) {
 				Log.w(LOGTAG, "doInBackground() throws DropboxException=" + e.getLocalizedMessage());
@@ -363,5 +478,117 @@ public class SrmDropboxHandler
 		}
 		
 	}
+	
+	
+	/**
+	 * Class  
+	 *
+	 */
+	public static class DownloadFileTask extends AsyncTask<Void, Long, Boolean>
+	{
+		private final String LOGTAG = DownloadFileTask.class.getName();
+	
+		private Context context;
+		private Activity activity;
+		private DropboxAPI<AndroidAuthSession> dropbox;
+		private String filePath;
+		
+		private ArrayList<String> dirList;
+		
+		public DownloadFileTask(
+				Context context, 
+				Activity activity, 
+				DropboxAPI<AndroidAuthSession> dropbox,
+				String filePath)
+		{
+			this.context = context;
+			this.activity = activity;
+			this.dropbox = dropbox;
+			this.filePath = filePath;
+		}
+		
+		@Override
+		protected Boolean doInBackground(Void... params) 
+		{
+			Log.w(LOGTAG, " get file infos doInBackground() starts ");
+			
+			boolean result = false;
+			
+			try {
+				dirList = listFilesInFolder(dropbox, filePath);
+			} catch (DropboxException e) {
+				Log.w(LOGTAG, "doInBackground() throws DropboxException=" + e.getLocalizedMessage());
+                Log.i(LOGTAG, "Error listing files in dropbox", e);
+			}
+			
+			if(dirList != null)
+			{
+				Log.w(LOGTAG, "doInBackground() get file list=" + dirList.toString());
+				result = true;
+			}
+			
+			return result;
+		}
+		
+//		@Override
+//	    protected void onProgressUpdate(Long... progress) {
+//	        int percent = (int)(100.0*(double)progress[0]/mFileLen + 0.5);
+//	        mDialog.setProgress(percent);
+//	    }
+		
+		//displays the results of the AsyncTask
+		@Override
+        protected void onPostExecute(Boolean result) 
+		{
+			Log.w(LOGTAG, "onPostExecute() get result=" + result);
+			// if(result == ?)
+		}
+		
+		
+
+		
+		public ArrayList<String> listFilesInFolder(
+				DropboxAPI<AndroidAuthSession> dropbox, String filePath) 
+						throws DropboxException
+		{
+			Log.w(LOGTAG, "listFilesInFolder() will list files in " + filePath);
+			
+			ArrayList<Entry> entryList = null;
+			ArrayList<String> dirList = null;
+			Entry dirEntry = null;
+			
+			// metadata("/", FILENUMBERS, null, true, null)
+			dirEntry = dropbox.metadata(filePath, FILES_LIMIT, null, true, null);
+			
+			if(dirEntry.isDir)
+			{
+				entryList = new ArrayList<Entry>();
+		        dirList = new ArrayList<String>();
+		        int i = 0;
+		        
+		        for (Entry ent: dirEntry.contents) 
+		        {
+		            entryList.add(i, ent);                   
+		            //dir = new ArrayList<String>();
+		            dirList.add(new String(entryList.get(i).path));
+		            i++;
+		        }
+			}
+			else Log.w(LOGTAG, "listFilesInFolder() finds " + filePath + " is not a folder!");
+			
+	        return dirList;
+		}
+		
+		
+		public void getSingleFileInfos(String filePath) throws DropboxException
+		{
+			Log.w(LOGTAG, "getFileEntry() will get infos of file " + filePath);
+			
+			
+			
+		}
+		
+	}
+	
     
 }
