@@ -111,9 +111,9 @@ public class ActivityDownloadScripts extends Activity
         
         gridView = (GridView) findViewById(R.id.id_gridview_layout_act_download_scripts);
         
-        adapter = new LocalAdapterDownloadScripts(context, null);
-        gridView.setAdapter(adapter);
-        gridView.setClickable(false);
+//        adapter = new LocalAdapterDownloadScripts(context, null);
+//        gridView.setAdapter(adapter);
+//        gridView.setClickable(false);
         
         // enable home button
         getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -233,7 +233,7 @@ public class ActivityDownloadScripts extends Activity
 		        								this,
 		        								dropboxHandler.dropbox,
 		        								SrmDropboxHandler.FOLDER_SCRIPTS_PATH,
-		        								adapter)
+		        								gridView)
 		        							.execute();
 		    		
 	    		break;
@@ -328,7 +328,7 @@ public class ActivityDownloadScripts extends Activity
 		public int getCount() 
 		{
 			// need an ArrayList<Entry>
-			return 0;
+			return entryList.size();
 		}
 
 		@Override
