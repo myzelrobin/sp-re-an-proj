@@ -129,18 +129,23 @@
     <!-- ################################################################# -->
     <!-- Activity download scripts -->
     <group 
-        android:id="@+id/bgroup_downloadscripts"
-        android:visible="false" >
+    android:id="@+id/bgroup_downloadscripts"
+    android:visible="false" >
     
         <item
-            android:id="@+id/act_downloadscripts_button_downloadall"
-            android:showAsAction="always"
-            android:title="@string/act_downloadscripts_button_downloadall_text" />
+        android:id="@+id/act_downloadscripts_button_listall"
+        android:showAsAction="always"
+        android:title="@string/act_downloadscripts_button_listall_text" />
         
         <item
-            android:id="@+id/act_downloadscripts_button_exit"
-            android:showAsAction="never"
-            android:title="@string/button_exit" />
+        android:id="@+id/act_downloadscripts_button_downloadall"
+        android:showAsAction="always"
+        android:title="@string/act_downloadscripts_button_downloadall_text" />
+        
+        <item
+        android:id="@+id/act_downloadscripts_button_exit"
+        android:showAsAction="never"
+        android:title="@string/button_exit" />
         
     </group>
     

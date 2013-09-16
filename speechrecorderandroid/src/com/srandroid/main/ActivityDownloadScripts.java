@@ -220,14 +220,10 @@ public class ActivityDownloadScripts extends Activity
 		        return true;
         
 		    // actionbar buttons
-        	case R.id.act_downloadscripts_button_downloadall:
-		    		
-		    	Log.w(LOGTAG, "user clicked button download all, start download all scripts");
-		    	
-
-		        // get script files
+	        case R.id.act_downloadscripts_button_listall:
+	        	Log.w(LOGTAG, "user clicked button list all, start list all scripts");
+	        	// get script files
 		        dropboxHandler.createDropboxAPI();
-		        
 		        getScriptFilesInfoTask = new GetDropboxFileInfosTask(
 		        								context,
 		        								this,
@@ -235,7 +231,12 @@ public class ActivityDownloadScripts extends Activity
 		        								SrmDropboxHandler.FOLDER_SCRIPTS_PATH,
 		        								gridView)
 		        							.execute();
+	        	break;
+	        	
+        	case R.id.act_downloadscripts_button_downloadall:
 		    		
+		    	Log.w(LOGTAG, "user clicked button download all, start download all scripts");
+		    	
 	    		break;
         	
         	case R.id.act_downloadscripts_button_exit:
