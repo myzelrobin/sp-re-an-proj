@@ -313,21 +313,21 @@ public class SrmDropboxHandler
 				Activity activity, 
 				DropboxAPI<AndroidAuthSession> dropbox,
 				String filePathInDropbox,
-				View view,
+				GridView gridView,
 				LocalAdapterDownloadScripts adapter)
 		{
 			this.context = context;
 			this.activity = activity;
 			this.dropbox = dropbox;
 			this.filePathInDropbox = filePathInDropbox;
-			this.gridView = (GridView) view.findViewById(R.id.id_gridview_layout_act_download_scripts);
+			this.gridView = gridView; // id should be 21313
 			this.adapter = adapter;
 
 			progDialog = new ProgressDialog(activity);
 			progDialog.setMessage("Getting Scripts from Dropbox");
 			progDialog.show();
 			
-			
+			Log.w(LOGTAG, "Constructor creates GridView=" + gridView.getId());
 		}
 		
 		@Override
