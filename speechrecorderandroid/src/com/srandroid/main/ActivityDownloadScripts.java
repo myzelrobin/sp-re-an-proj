@@ -103,6 +103,8 @@ public class ActivityDownloadScripts extends Activity
         	//itemId = savedInstanceState.getString("itemId");
         }
         
+        dropboxHandler = new SrmDropboxHandler(context, this);
+        
         Log.w(LOGTAG, "start creating GUI of " + ActivityDownloadScripts.class.getSimpleName());
         
         setContentView(R.layout.gridviewlayout_act_download_scripts);
@@ -224,7 +226,6 @@ public class ActivityDownloadScripts extends Activity
 		    	
 
 		        // get script files
-		        dropboxHandler = new SrmDropboxHandler(context, this);
 		        dropboxHandler.createDropboxAPI();
 		        
 		        getScriptFilesInfoTask = new GetDropboxFileInfosTask(
