@@ -245,7 +245,6 @@ public class ActivityDownloadScripts extends Activity
 	    		
 	    		break;
     		
-    		
         	default:
         		break;
     	}
@@ -385,7 +384,7 @@ public class ActivityDownloadScripts extends Activity
 		        textScriptDesc.setText("file size is " + entry.size);
 		        
 		        TextView textIsDownloaded = (TextView) view.findViewById(R.id.itemScriptInServer_textIsDownloadedValue);
-		        textIsDownloaded.setText("undownlaoded");
+		        textIsDownloaded.setText("undownloaded");
 		        
 		        Button butDownload = (Button) view.findViewById(R.id.itemScriptInServer_buttonDownload);
 		        // clicklistener?
@@ -395,8 +394,6 @@ public class ActivityDownloadScripts extends Activity
 				Log.w(LOGTAG, "fillScriptItem() entryList=null, no fill");
 			}
 			
-//	        
-//	        
 //			// query from db
 //			String[] selectColumns = {
 //					TableScripts.COLUMN_DESCRIPTION,
