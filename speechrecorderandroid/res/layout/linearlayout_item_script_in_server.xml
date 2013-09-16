@@ -20,23 +20,43 @@ style="@style/style_linearlayout_item" >
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
-
-                <TextView 
-                style="@style/style_title_in_textview_in_item"
-                android:id="@+id/itemScript_textIdSign"
-                android:text="#" />
                 
                 <TextView 
                 style="@style/style_title_in_textview_in_item"
                 android:id="@+id/itemScript_textIdValue"
-                android:text="@string/script1_id" />
+                android:text="@string/script1_inserver_id"
+                android:textSize="20sp" />
                 
             </LinearLayout>
             
             <TextView 
             style="@style/style_text_in_textview_in_item"
+            android:layout_width="match_parent"
             android:id="@+id/itemScript_textDesciptionValue"
-            android:text="@string/script1_description"/>
+            android:text="@string/script1_inserver_description"/>
+            
+            <RelativeLayout 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+                <TextView 
+                style="@style/style_text_in_textview_in_item"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:id="@+id/itemScript_textIsDownloaded"
+                android:text="@string/script1_inserver_isdownloaded" />
+                
+                <Button
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_alignParentRight="true"
+                android:id="@+id/itemScript_buttonDownload"
+                android:text="@string/download"
+                android:textSize="12sp"
+                android:visibility="visible" />
+                
+            </RelativeLayout>
             
         </LinearLayout>
 </LinearLayout>

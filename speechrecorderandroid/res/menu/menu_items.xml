@@ -124,7 +124,7 @@
             android:id="@+id/activity_scriptdetails_button_start"
             android:icon="@drawable/icon_button_mic"
             android:showAsAction="always"
-            android:title="@string/activity_scriptdetials_button_startrecording_text" />
+            android:title="@string/activity_scriptdetails_button_startrecording_text" />
         
         
     </group>

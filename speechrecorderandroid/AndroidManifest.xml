@@ -5,16 +5,13 @@ package="com.srandroid.speechrecorder"
 android:versionCode="1"
 android:versionName="1.0" >
 
-<!-- This is in branch version_2  -->
-
     
     <uses-sdk
     android:minSdkVersion="14"
     android:targetSdkVersion="18" />
 	
-	
-	
-	<!-- ########################################################################################## -->
+	<!-- #################################################################################### -->
+	<!-- PERMISSIONS -->
 	<!-- mic -->
     <uses-permission android:name="android.permission.RECORD_AUDIO"></uses-permission>
     
@@ -35,7 +32,8 @@ android:versionName="1.0" >
 
     
     
-    <!-- ########################################################################################## -->
+    <!-- #################################################################################### -->
+    <!-- ACTIVITY -->
     <application
     android:allowBackup="true"
     android:icon="@drawable/icon_speechrecorder_256x256"
@@ -81,7 +79,7 @@ android:versionName="1.0" >
         
         <activity 
         android:name="com.srandroid.main.ActivityScriptDetails"
-        android:label="@string/activity_scriptdetials_title"
+        android:label="@string/activity_scriptdetails_title"
         android:parentActivityName="com.srandroid.main.ActivityMain" >
             <meta-data
             android:name="android.support.PARENT_ACTIVITY"
@@ -135,8 +133,8 @@ android:versionName="1.0" >
 	            android:value="com.srandroid.main.ActivityMain" />
         </activity>
         
-        <!-- ########################################################################################## -->
-        <!-- dropbox key -->
+        <!-- ################################################################################ -->
+        <!-- dropbox authen activity -->
         <activity
 		android:name="com.dropbox.client2.android.AuthActivity"
 		android:launchMode="singleTask"
@@ -150,7 +148,7 @@ android:versionName="1.0" >
 			  </intent-filter>
         </activity>
         
-        <!-- ########################################################################################## -->
+        <!-- ################################################################################ -->
         <provider
         android:authorities="com.srandroid.contentprovider"
         android:name="com.srandroid.database.SrmContentProvider" />

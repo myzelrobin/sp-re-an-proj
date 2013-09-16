@@ -439,7 +439,7 @@ public class SrmDropboxHandler
 			{
 				File file = new File(locFilePath);
 				
-				Log.w(LOGTAG, "upload file task doInBackground(), will upload file into Dropbox," +
+				Log.w(LOGTAG, "will upload file into Dropbox" +
 						", filename=" + file.getName() + 
 						", filesize=" + (file.length() / MEGA_BYTES) +
 						", filepath=" + file.getAbsolutePath());
@@ -450,7 +450,7 @@ public class SrmDropboxHandler
 				
 				if( !entry.path.equals(null) ) result = true;
 				
-				Log.w(LOGTAG, "upload file task doInBackground(), finished uploading file into Dropbox," +
+				Log.w(LOGTAG, "finished uploading file into Dropbox" +
 						", filename=" + entry.fileName() + 
 						", filesize=" + entry.size +
 						", filepath=" + entry.path);
@@ -479,7 +479,7 @@ public class SrmDropboxHandler
 		@Override
         protected void onPostExecute(Boolean result) 
 		{
-			Log.w(LOGTAG, "onPostExecute() get result=" + result);
+			Log.w(LOGTAG, "upload file task onPostExecute() get result=" + result);
 			// if(result == ?)
 		}
 		
