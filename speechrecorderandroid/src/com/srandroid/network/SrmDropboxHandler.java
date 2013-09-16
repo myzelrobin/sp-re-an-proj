@@ -40,6 +40,7 @@ import com.dropbox.client2.session.Session.AccessType;
 import com.dropbox.client2.session.TokenPair;
 import com.srandroid.main.TestActivitySessionDetails;
 import com.srandroid.main.ActivityDownloadScripts.LocalAdapterDownloadScripts;
+import com.srandroid.speechrecorder.R;
 import com.srandroid.util.Utils;
 import com.srandroid.util.Utils.ConstantVars;
 
@@ -312,14 +313,14 @@ public class SrmDropboxHandler
 				Activity activity, 
 				DropboxAPI<AndroidAuthSession> dropbox,
 				String filePathInDropbox,
-				GridView gridView,
+				View view,
 				LocalAdapterDownloadScripts adapter)
 		{
 			this.context = context;
 			this.activity = activity;
 			this.dropbox = dropbox;
 			this.filePathInDropbox = filePathInDropbox;
-			this.gridView = gridView;
+			this.gridView = (GridView) view.findViewById(R.id.id_gridview_layout_act_download_scripts);
 			this.adapter = adapter;
 
 			progDialog = new ProgressDialog(activity);
