@@ -384,6 +384,7 @@ public class ActivityDownloadScripts extends Activity
 		        textScriptDesc.setText("file size is " + entry.size);
 		        
 		        TextView textIsDownloaded = (TextView) view.findViewById(R.id.itemScriptInServer_textIsDownloadedValue);
+		        // need a method to check if this file is downloaded in local, check file.exist(), set button visible or invisible
 		        textIsDownloaded.setText("undownloaded");
 		        
 		        Button butDownload = (Button) view.findViewById(R.id.itemScriptInServer_buttonDownload);
