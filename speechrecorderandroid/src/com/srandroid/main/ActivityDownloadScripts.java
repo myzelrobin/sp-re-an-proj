@@ -306,6 +306,8 @@ public class ActivityDownloadScripts extends Activity
 		
 		public LocalAdapterDownloadScripts(Context context, Entry dirEntry)
 		{
+			Log.w(LOGTAG, "Constructor will create a LocalAdapterDownloadScripts");
+			
 			this.context = context;
 			this.dirEntry = dirEntry;
 			if(dirEntry == null) entryList = null;

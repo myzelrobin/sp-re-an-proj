@@ -365,7 +365,7 @@ public class SrmDropboxHandler
 			
 			progDialog.dismiss();
 			
-			if(result)
+			if(!dirEntry.path.equals(null))
 			{
 				adapter = new LocalAdapterDownloadScripts(context, dirEntry);
 				
