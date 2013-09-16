@@ -60,6 +60,8 @@ public class SrmDropboxHandler
 	private final static String DROPBOX_APPSECRET = "xrphn2nzodjnqmq";
 	public final static AccessType ACCESS_TYPE = AccessType.APP_FOLDER;
 	
+	private static final long MEGA_BYTES = 1 * 1024 * 1024;
+	
 	private static final int FILES_LIMIT = 1000;
 	
 	public boolean isLoggedIn;
@@ -75,6 +77,8 @@ public class SrmDropboxHandler
 	public static final String FILEPATH_INDB_SCRIPT = "/scripts/script_exp_download_01.txt";
 	public static final String FILEPATH_LOCAL_SCRIPT = 
 			Utils.ConstantVars.DIR_EXT_RECFILES_PATH + "/test_dropbox/script_example_upload.xml.txt";
+	public static final String FILEPATH_LOCAL_RECORD = 
+			Utils.ConstantVars.DIR_EXT_RECFILES_PATH + "/test_dropbox/test_record.wav";
 	public static final String FOLDERPATH_LOCAL_DB_TEST = 
 			Utils.ConstantVars.DIR_EXT_RECFILES_PATH + "/test_dropbox";
 	
@@ -425,7 +429,7 @@ public class SrmDropboxHandler
 		@Override
 		protected Boolean doInBackground(Void... params) 
 		{
-			Log.w(LOGTAG, " upload file doInBackground() starts ");
+			Log.w(LOGTAG, " upload file task doInBackground() starts ");
 			
 			boolean result = false;
 			
@@ -435,13 +439,18 @@ public class SrmDropboxHandler
 			{
 				File file = new File(locFilePath);
 				
+				Log.w(LOGTAG, "upload file task doInBackground(), will upload file into Dropbox," +
+						", filename=" + file.getName() + 
+						", filesize=" + (file.length() / MEGA_BYTES) +
+						", filepath=" + file.getAbsolutePath());
+				
 				FileInputStream fis = new FileInputStream(file);
 
 				entry = uploadFileToDropbox(dropbox, fis, file, null);
 				
 				if( !entry.path.equals(null) ) result = true;
 				
-				Log.w(LOGTAG, "uploaded file into Dropbox," +
+				Log.w(LOGTAG, "upload file task doInBackground(), finished uploading file into Dropbox," +
 						", filename=" + entry.fileName() + 
 						", filesize=" + entry.size +
 						", filepath=" + entry.path);

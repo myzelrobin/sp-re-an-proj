@@ -391,7 +391,7 @@ public class TestActivitySessionDetails extends Activity
 	        							context,
 	        							this,
 	        							dropboxHandler.dropbox,
-	        							SrmDropboxHandler.FILEPATH_LOCAL_SCRIPT)
+	        							SrmDropboxHandler.FILEPATH_LOCAL_RECORD)
 	        					.execute();
 	        			
     					break;
