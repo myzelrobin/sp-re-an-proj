@@ -301,26 +301,26 @@ public class SrmDropboxHandler
 		private DropboxAPI<AndroidAuthSession> dropbox;
 		private String filePathInDropbox;
 		private GridView gridView;
+		private LocalAdapterDownloadScripts adapter;
+		
 		private Entry dirEntry;
 		
 		private ProgressDialog progDialog;
-		
-		private LocalAdapterDownloadScripts adapter;
-		
 		
 		public GetDropboxFileInfosTask(
 				Context context, 
 				Activity activity, 
 				DropboxAPI<AndroidAuthSession> dropbox,
 				String filePathInDropbox,
-				GridView gridView)
+				GridView gridView,
+				LocalAdapterDownloadScripts adapter)
 		{
 			this.context = context;
 			this.activity = activity;
 			this.dropbox = dropbox;
 			this.filePathInDropbox = filePathInDropbox;
 			this.gridView = gridView;
-			
+			this.adapter = adapter;
 
 			progDialog = new ProgressDialog(activity);
 			progDialog.setMessage("Getting Scripts from Dropbox");
@@ -369,10 +369,10 @@ public class SrmDropboxHandler
 			{
 				adapter = new LocalAdapterDownloadScripts(context, dirEntry);
 				
+				adapter.notifyDataSetChanged();
+				
 				gridView.invalidateViews();
 				
-				gridView.setAdapter(adapter);
-		        
 		        gridView.setClickable(false);
 			}
 			else
