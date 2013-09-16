@@ -236,14 +236,14 @@ public class ActivityDownloadScripts extends Activity
         	case R.id.act_downloadscripts_button_downloadall:
 		    		
 		    	Log.w(LOGTAG, "user clicked button download all, start download all scripts");
-		    	dropboxHandler.createDropboxAPI();
 		    	
 	    		break;
 	    		
         	case R.id.act_downloadscripts_button_authen:
 	    		
         		Log.w(LOGTAG, "user clicked button authen, start authorize if not authened");
-		    	
+        		dropboxHandler.createDropboxAPI();
+        		
 	    		break;
 	    		
         	case R.id.act_downloadscripts_button_exit:
