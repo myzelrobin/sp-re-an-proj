@@ -300,7 +300,7 @@ public class SrmDropboxHandler
 		private Activity activity;
 		private DropboxAPI<AndroidAuthSession> dropbox;
 		private String filePathInDropbox;
-		private GridView gridview;
+		private GridView gridView;
 		private Entry dirEntry;
 		
 		private ProgressDialog progDialog;
@@ -313,13 +313,13 @@ public class SrmDropboxHandler
 				Activity activity, 
 				DropboxAPI<AndroidAuthSession> dropbox,
 				String filePathInDropbox,
-				GridView gridview)
+				GridView gridView)
 		{
 			this.context = context;
 			this.activity = activity;
 			this.dropbox = dropbox;
 			this.filePathInDropbox = filePathInDropbox;
-			this.gridview = gridview;
+			this.gridView = gridView;
 			
 
 			progDialog = new ProgressDialog(activity);
@@ -369,9 +369,11 @@ public class SrmDropboxHandler
 			{
 				adapter = new LocalAdapterDownloadScripts(context, dirEntry);
 				
-				gridview.setAdapter(adapter);
+				gridView.invalidateViews();
+				
+				gridView.setAdapter(adapter);
 		        
-		        gridview.setClickable(false);
+		        gridView.setClickable(false);
 			}
 			else
 			{
