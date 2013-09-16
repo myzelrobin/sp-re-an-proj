@@ -320,16 +320,19 @@ public class SrmDropboxHandler
 			this.dropbox = dropbox;
 			this.filePathInDropbox = filePathInDropbox;
 			this.gridview = gridview;
+			
+
+			progDialog = new ProgressDialog(activity);
+			progDialog.setMessage("Getting Scripts from Dropbox");
+			progDialog.show();
+			
+			
 		}
 		
 		@Override
 		protected Boolean doInBackground(Void... params) 
 		{
 			Log.w(LOGTAG, " get file infos doInBackground() starts ");
-			
-			progDialog = new ProgressDialog(activity);
-			progDialog.setMessage("Getting Scripts from Dropbox");
-			progDialog.show();
 			
 			boolean result = false;
 			
@@ -343,6 +346,7 @@ public class SrmDropboxHandler
 				Log.w(LOGTAG, "doInBackground() throws DropboxException=" + e.getLocalizedMessage());
                 Log.i(LOGTAG, "Error listing files in dropbox", e);
 			}
+			
 			return result;
 		}
 		
