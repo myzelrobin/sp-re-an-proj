@@ -308,7 +308,8 @@ public class ActivityDownloadScripts extends Activity
 		{
 			this.context = context;
 			this.dirEntry = dirEntry;
-			if(dirEntry.isDir)
+			if(dirEntry == null) entryList = null;
+			else if(dirEntry.isDir)
 			{
 				entryList = new ArrayList<Entry>();
 		        
@@ -371,19 +372,27 @@ public class ActivityDownloadScripts extends Activity
 		{
 			Log.w(LOGTAG, "fillScriptItem() will fill itemview position=" + position);
 			
-			Entry entry = entryList.get(position);
+			if(entryList != null)
+			{
+				Entry entry = entryList.get(position);
 
-			TextView textScriptId = (TextView) view.findViewById(R.id.itemScriptInServer_textIdValue);
-			textScriptId.setText(entry.fileName());
+				TextView textScriptId = (TextView) view.findViewById(R.id.itemScriptInServer_textIdValue);
+				textScriptId.setText(entry.fileName());
+				
+				TextView textScriptDesc = (TextView) view.findViewById(R.id.itemScriptInServer_textDesciptionValue);
+		        textScriptDesc.setText("file size is " + entry.size);
+		        
+		        TextView textIsDownloaded = (TextView) view.findViewById(R.id.itemScriptInServer_textIsDownloadedValue);
+		        textIsDownloaded.setText("undownlaoded");
+		        
+		        Button butDownload = (Button) view.findViewById(R.id.itemScriptInServer_buttonDownload);
+		        // clicklistener?
+			}
+			else
+			{
+				Log.w(LOGTAG, "fillScriptItem() entryList=null, no fill");
+			}
 			
-			TextView textScriptDesc = (TextView) view.findViewById(R.id.itemScriptInServer_textDesciptionValue);
-	        textScriptDesc.setText("file size is " + entry.size);
-	        
-	        TextView textIsDownloaded = (TextView) view.findViewById(R.id.itemScriptInServer_textIsDownloadedValue);
-	        textIsDownloaded.setText("undownlaoded");
-	        
-	        Button butDownload = (Button) view.findViewById(R.id.itemScriptInServer_buttonDownload);
-	        // clicklistener?
 //	        
 //	        
 //			// query from db
