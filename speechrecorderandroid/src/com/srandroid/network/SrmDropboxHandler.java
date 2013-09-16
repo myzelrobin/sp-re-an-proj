@@ -369,7 +369,7 @@ public class SrmDropboxHandler
 			{
 				adapter = new LocalAdapterDownloadScripts(context, dirEntry);
 				
-				adapter.notifyDataSetChanged();
+				gridView.setAdapter(adapter);
 				
 				gridView.invalidateViews();
 				
