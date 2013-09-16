@@ -109,28 +109,13 @@ public class ActivityDownloadScripts extends Activity
         
         gridView = (GridView) findViewById(R.id.id_gridview_layout_act_download_scripts);
         
-        adapter = new LocalAdapterDownloadScripts(context, null);
-        
-        gridView.setAdapter(adapter);
-        gridView.setClickable(false);
+//        adapter = new LocalAdapterDownloadScripts(context, null);
+//        gridView.setAdapter(adapter);
+//        gridView.setClickable(false);
         
         // enable home button
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
-        
-        // get script files
-        dropboxHandler = new SrmDropboxHandler(context, this);
-        dropboxHandler.createDropboxAPI();
-        
-        getScriptFilesInfoTask = new GetDropboxFileInfosTask(
-        								context,
-        								this,
-        								dropboxHandler.dropbox,
-        								SrmDropboxHandler.FOLDER_SCRIPTS_PATH,
-        								gridView,
-        								adapter)
-        							.execute();
-        
 	}
 	
 	@Override
@@ -236,6 +221,20 @@ public class ActivityDownloadScripts extends Activity
         	case R.id.act_downloadscripts_button_downloadall:
 		    		
 		    	Log.w(LOGTAG, "user clicked button download all, start download all scripts");
+		    	
+
+		        // get script files
+		        dropboxHandler = new SrmDropboxHandler(context, this);
+		        dropboxHandler.createDropboxAPI();
+		        
+		        getScriptFilesInfoTask = new GetDropboxFileInfosTask(
+		        								context,
+		        								this,
+		        								dropboxHandler.dropbox,
+		        								SrmDropboxHandler.FOLDER_SCRIPTS_PATH,
+		        								gridView,
+		        								adapter)
+		        							.execute();
 		    		
 	    		break;
         	
