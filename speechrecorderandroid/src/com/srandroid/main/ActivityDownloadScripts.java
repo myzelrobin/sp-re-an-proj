@@ -107,6 +107,14 @@ public class ActivityDownloadScripts extends Activity
         
         gridView = (GridView) findViewById(R.id.id_gridview_layout_act_download_scripts);
         
+        // gridView.setAdapter(new LocalAdapterDownloadScripts(this, itemList));
+        // gridView.setClickable(false);
+        
+        // enable home button
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
+        
+        // get script files
         dropboxHandler = new SrmDropboxHandler(context, this);
         dropboxHandler.createDropboxAPI();
         
@@ -118,19 +126,13 @@ public class ActivityDownloadScripts extends Activity
         								gridView)
         							.execute();
         
-        // gridView.setAdapter(new LocalAdapterDownloadScripts(this, itemList));
-        // gridView.setClickable(false);
-        
-        // enable home button
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
-        
 	}
 	
 	@Override
     protected void onStart()
 	{
 		super.onStart();
+		
 	}
 	
 	@Override

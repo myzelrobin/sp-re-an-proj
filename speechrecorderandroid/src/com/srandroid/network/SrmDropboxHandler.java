@@ -327,7 +327,7 @@ public class SrmDropboxHandler
 		{
 			Log.w(LOGTAG, " get file infos doInBackground() starts ");
 			
-			progDialog = new ProgressDialog(context);
+			progDialog = new ProgressDialog(activity);
 			progDialog.setMessage("Getting Scripts from Dropbox");
 			progDialog.show();
 			
