@@ -233,8 +233,7 @@ public class ActivityDownloadScripts extends Activity
 		        								this,
 		        								dropboxHandler.dropbox,
 		        								SrmDropboxHandler.FOLDER_SCRIPTS_PATH,
-		        								gridView,
-		        								adapter)
+		        								gridView)
 		        							.execute();
 		    		
 	    		break;
