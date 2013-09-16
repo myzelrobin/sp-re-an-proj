@@ -301,7 +301,6 @@ public class SrmDropboxHandler
 		private Activity activity;
 		private DropboxAPI<AndroidAuthSession> dropbox;
 		private String filePathInDropbox;
-		private GridView gridView;
 		private LocalAdapterDownloadScripts adapter;
 		
 		private Entry dirEntry;
@@ -313,19 +312,17 @@ public class SrmDropboxHandler
 				Activity activity, 
 				DropboxAPI<AndroidAuthSession> dropbox,
 				String filePathInDropbox,
-				GridView gridView)
+				LocalAdapterDownloadScripts adapter)
 		{
 			this.context = context;
 			this.activity = activity;
 			this.dropbox = dropbox;
 			this.filePathInDropbox = filePathInDropbox;
-			this.gridView = gridView; // id should be 2131361800
+			this.adapter = adapter; 
 
 			progDialog = new ProgressDialog(activity);
 			progDialog.setMessage("Getting Scripts from Dropbox");
 			progDialog.show();
-			
-			Log.w(LOGTAG, "Constructor creates GridView=" + gridView.getId());
 		}
 		
 		@Override
@@ -364,15 +361,11 @@ public class SrmDropboxHandler
 			
 			progDialog.dismiss();
 			
-			if(!dirEntry.path.equals(null))
+			if(result)
 			{
 				adapter = new LocalAdapterDownloadScripts(context, dirEntry);
 				
-				gridView.setAdapter(adapter);
-				
 				adapter.notifyDataSetChanged();
-				
-		        // gridView.setClickable(false);
 			}
 			else
 			{
