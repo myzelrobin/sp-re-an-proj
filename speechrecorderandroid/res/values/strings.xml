@@ -25,6 +25,7 @@
     <string name="upload">UPLOAD</string>
     <string name="download">DOWNLOAD</string>
     <string name="record">RECORD</string>
+    <string name="authen">AUTHORIZE</string>
     <string name="testviewtext">
         The quick brown fox jumps over the lazy dog.</string>
     <string name="swipeHintText">SWIPE FROM HERE TO RIGHT</string>

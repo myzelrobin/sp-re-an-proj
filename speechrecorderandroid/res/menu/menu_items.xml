@@ -143,6 +143,11 @@
         android:title="@string/act_downloadscripts_button_downloadall_text" />
         
         <item
+        android:id="@+id/act_downloadscripts_button_authen"
+        android:showAsAction="never"
+        android:title="@string/authen" />
+        
+        <item
         android:id="@+id/act_downloadscripts_button_exit"
         android:showAsAction="never"
         android:title="@string/button_exit" />
