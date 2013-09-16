@@ -152,8 +152,8 @@ public class SrmDropboxHandler
         		Utils.ConstantVars.KEY_DROPBOX_KEY_DEF);
         String secret = prefs.getString(Utils.ConstantVars.KEY_DROPBOX_SECRET, 
         		Utils.ConstantVars.KEY_DROPBOX_SECRET_DEF);
-        if (key != Utils.ConstantVars.KEY_DROPBOX_KEY_DEF 
-        		&& secret != Utils.ConstantVars.KEY_DROPBOX_SECRET_DEF) {
+        if ( !key.equals(Utils.ConstantVars.KEY_DROPBOX_KEY_DEF) 
+        		&& !secret.equals(Utils.ConstantVars.KEY_DROPBOX_SECRET_DEF) ) {
         	
         	isAppAuthorized = true;
         	Log.w(LOGTAG, "getAccessKeys() finds app isAppAuthorized=" + isAppAuthorized);
