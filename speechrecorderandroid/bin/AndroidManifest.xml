@@ -133,6 +133,16 @@ android:versionName="1.0" >
 	            android:value="com.srandroid.main.ActivityMain" />
         </activity>
         
+        <activity 
+        android:name="com.srandroid.main.ActivityDownloadScripts"
+        android:label="@string/act_downloadscripts_title"
+        android:parentActivityName="com.srandroid.main.ActivityMain" >
+                <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.srandroid.main.ActivityMain" />
+        </activity>
+        
+        
         <!-- ################################################################################ -->
         <!-- dropbox authen activity -->
         <activity

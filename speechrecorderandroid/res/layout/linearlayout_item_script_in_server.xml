@@ -23,7 +23,7 @@ style="@style/style_linearlayout_item" >
                 
                 <TextView 
                 style="@style/style_title_in_textview_in_item"
-                android:id="@+id/itemScript_textIdValue"
+                android:id="@+id/itemScriptInServer_textIdValue"
                 android:text="@string/script1_inserver_id"
                 android:textSize="20sp" />
                 
@@ -32,7 +32,7 @@ style="@style/style_linearlayout_item" >
             <TextView 
             style="@style/style_text_in_textview_in_item"
             android:layout_width="match_parent"
-            android:id="@+id/itemScript_textDesciptionValue"
+            android:id="@+id/itemScriptInServer_textDesciptionValue"
             android:text="@string/script1_inserver_description"/>
             
             <RelativeLayout 
@@ -44,14 +44,14 @@ style="@style/style_linearlayout_item" >
                 style="@style/style_text_in_textview_in_item"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:id="@+id/itemScript_textIsDownloaded"
+                android:id="@+id/itemScriptInServer_textIsDownloadedValue"
                 android:text="@string/script1_inserver_isdownloaded" />
                 
                 <Button
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_alignParentRight="true"
-                android:id="@+id/itemScript_buttonDownload"
+                android:id="@+id/itemScriptInServer_buttonDownload"
                 android:text="@string/download"
                 android:textSize="12sp"
                 android:visibility="visible" />

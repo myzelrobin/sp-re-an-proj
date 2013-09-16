@@ -96,7 +96,6 @@
             android:showAsAction="always"
             android:title="@string/add" />
         
-        
     </group>
     
     <!-- ################################################################# -->
@@ -110,7 +109,6 @@
             android:icon="@drawable/icon_button_mic"
             android:showAsAction="always"
             android:title="@string/activity_speakerdetails_button_startrecording_text" />
-        
         
     </group>
     
@@ -126,6 +124,23 @@
             android:showAsAction="always"
             android:title="@string/activity_scriptdetails_button_startrecording_text" />
         
+    </group>
+    
+    <!-- ################################################################# -->
+    <!-- Activity download scripts -->
+    <group 
+        android:id="@+id/bgroup_downloadscripts"
+        android:visible="false" >
+    
+        <item
+            android:id="@+id/act_downloadscripts_button_downloadall"
+            android:showAsAction="always"
+            android:title="@string/act_downloadscripts_button_downloadall_text" />
+        
+        <item
+            android:id="@+id/act_downloadscripts_button_exit"
+            android:showAsAction="never"
+            android:title="@string/button_exit" />
         
     </group>
     
@@ -135,21 +150,21 @@
         android:id="@+id/bgroup_sessiondetails"
         android:visible="false" >
         
-        <item
-            android:id="@+id/act_sessiondetails_button_testlistfile"
-            android:showAsAction="always"
-            android:title="LIST" />
+<!--         <item -->
+<!--             android:id="@+id/act_sessiondetails_button_testlistfile" -->
+<!--             android:showAsAction="always" -->
+<!--             android:title="LIST" /> -->
         
-        <item
-            android:id="@+id/act_sessiondetails_button_testupload"
-            android:showAsAction="always"
-            android:title="UPLOAD" />
+<!--         <item -->
+<!--             android:id="@+id/act_sessiondetails_button_testupload" -->
+<!--             android:showAsAction="always" -->
+<!--             android:title="UPLOAD" /> -->
         
-        <item
-            android:id="@+id/act_sessiondetails_button_testdownload"
-            android:showAsAction="always"
-            android:title="DOWNLOAD" />
-    
+<!--         <item -->
+<!--             android:id="@+id/act_sessiondetails_button_testdownload" -->
+<!--             android:showAsAction="always" -->
+<!--             android:title="DOWNLOAD" /> -->
+
         <item
             android:id="@+id/act_sessiondetails_button_upload"
             android:icon="@drawable/ic_button_upload"
@@ -164,7 +179,7 @@
         
     </group>
     
-    
+    <!-- ################################################################# -->
     <!-- Activity PreRecording -->
     <group 
         android:id="@+id/bgroup_prerecording"
@@ -177,7 +192,7 @@
         
     </group>
     
-    
+    <!-- ################################################################# -->
     <!-- Activity Recording -->
     <group 
         android:id="@+id/bgroup_recording"
@@ -187,7 +202,6 @@
             android:id="@+id/act_recoding_button_done"
             android:showAsAction="always"
             android:title="@string/done" />
-        
         
     </group>
 

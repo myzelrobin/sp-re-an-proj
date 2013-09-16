@@ -52,7 +52,7 @@ import com.srandroid.database.TableSessions;
 import com.srandroid.database.TableSpeakers;
 import com.srandroid.network.SrmDropboxHandler;
 import com.srandroid.network.SrmDropboxHandler.DownloadFileTask;
-import com.srandroid.network.SrmDropboxHandler.GetFileInfosTask;
+import com.srandroid.network.SrmDropboxHandler.GetDropboxFileInfosTask;
 import com.srandroid.network.SrmDropboxHandler.UploadFileTask;
 import com.srandroid.network.SrmNetworkHandler;
 import com.srandroid.recording.ActivityPreRecording;
@@ -207,11 +207,11 @@ public class TestActivitySessionDetails extends Activity
 	    protected void onResume()
 	    {
 			super.onResume();
-			if(dropboxHandler.dropbox != null 
-					&& dropboxHandler.dropbox.getSession().authenticationSuccessful())
-			{
-				dropboxHandler.finishAuthen(dropboxHandler.dropbox.getSession());				
-			}
+//			if(dropboxHandler.dropbox != null 
+//					&& dropboxHandler.dropbox.getSession().authenticationSuccessful())
+//			{
+//				dropboxHandler.finishAuthen(dropboxHandler.dropbox.getSession());				
+//			}
 		}
 		
 		@Override
@@ -341,6 +341,7 @@ public class TestActivitySessionDetails extends Activity
 		        			// start current session from act 
 		        			Utils.toastTextToUser(this, "this session is not finished yet!");
 		        		}
+		        	
 	        		break;
 	        	
 	        	case R.id.act_sessiondetails_button_upload:
@@ -349,52 +350,52 @@ public class TestActivitySessionDetails extends Activity
 		        		//Utils.toastTextToUser(this, "start uploading");
 		        		break;
 		        		
-	        	case R.id.act_sessiondetails_button_testlistfile:
-	        			
-	        			Log.w(LOGTAG, "user clicked button test listfile");
-	        			
-	        			dropboxHandler.createDropboxAPI();
-	        			
-						getFileInfosInDropbox = 
-								new GetFileInfosTask(
-										context, 
-										this, 
-										dropboxHandler.dropbox, 
-										SrmDropboxHandler.FILEPATH_INDB_SCRIPT)
-								.execute();
-	        			
-    					break;
-	        			
-	        	case R.id.act_sessiondetails_button_testdownload:
-	        			Log.w(LOGTAG, "user clicked button test download");
-	        			
-	        			dropboxHandler.createDropboxAPI();
-	        			
-	        			downloadFileFromDropbox = 
-	        					new DownloadFileTask(
-	        							context,
-	        							this,
-	        							dropboxHandler.dropbox,
-	        							SrmDropboxHandler.FILEPATH_INDB_SCRIPT,
-	        							SrmDropboxHandler.FOLDERPATH_LOCAL_DB_TEST)
-	        					.execute();
-	        			
-        				break;
-        				
-	        	case R.id.act_sessiondetails_button_testupload:
-	        			Log.w(LOGTAG, "user clicked button test upload");
-	        			
-	        			dropboxHandler.createDropboxAPI();
-	        			
-	        			uploadFileIntoDropbox = 
-	        					new UploadFileTask(
-	        							context,
-	        							this,
-	        							dropboxHandler.dropbox,
-	        							SrmDropboxHandler.FILEPATH_LOCAL_RECORD)
-	        					.execute();
-	        			
-    					break;
+//	        	case R.id.act_sessiondetails_button_testlistfile:
+//	        			
+//	        			Log.w(LOGTAG, "user clicked button test listfile");
+//	        			
+//	        			dropboxHandler.createDropboxAPI();
+//	        			
+//						getFileInfosInDropbox = 
+//								new GetFileInfosTask(
+//										context, 
+//										this, 
+//										dropboxHandler.dropbox, 
+//										SrmDropboxHandler.FILEPATH_INDB_SCRIPT)
+//								.execute();
+//	        			
+//    					break;
+//	        			
+//	        	case R.id.act_sessiondetails_button_testdownload:
+//	        			Log.w(LOGTAG, "user clicked button test download");
+//	        			
+//	        			dropboxHandler.createDropboxAPI();
+//	        			
+//	        			downloadFileFromDropbox = 
+//	        					new DownloadFileTask(
+//	        							context,
+//	        							this,
+//	        							dropboxHandler.dropbox,
+//	        							SrmDropboxHandler.FILEPATH_INDB_SCRIPT,
+//	        							SrmDropboxHandler.FOLDERPATH_LOCAL_DB_TEST)
+//	        					.execute();
+//	        			
+//        				break;
+//        				
+//	        	case R.id.act_sessiondetails_button_testupload:
+//	        			Log.w(LOGTAG, "user clicked button test upload");
+//	        			
+//	        			dropboxHandler.createDropboxAPI();
+//	        			
+//	        			uploadFileIntoDropbox = 
+//	        					new UploadFileTask(
+//	        							context,
+//	        							this,
+//	        							dropboxHandler.dropbox,
+//	        							SrmDropboxHandler.FILEPATH_LOCAL_RECORD)
+//	        					.execute();
+//	        			
+//    					break;
 	        		
 	        	default:
 	        		break;

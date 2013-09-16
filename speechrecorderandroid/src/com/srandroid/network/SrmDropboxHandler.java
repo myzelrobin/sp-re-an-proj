@@ -13,6 +13,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,6 +23,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.View;
+import android.widget.GridView;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.DropboxFileInfo;
@@ -36,6 +39,7 @@ import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session.AccessType;
 import com.dropbox.client2.session.TokenPair;
 import com.srandroid.main.TestActivitySessionDetails;
+import com.srandroid.main.ActivityDownloadScripts.LocalAdapterDownloadScripts;
 import com.srandroid.util.Utils;
 import com.srandroid.util.Utils.ConstantVars;
 
@@ -288,24 +292,34 @@ public class SrmDropboxHandler
 	 * need a View param for showing the script files in the View object
 	 * need a Entry param for sending the infos to View
 	 */
-	public static class GetFileInfosTask extends AsyncTask<Void, Long, Boolean>
+	public static class GetDropboxFileInfosTask extends AsyncTask<Void, Long, Boolean>
 	{
-		private final String LOGTAG = GetFileInfosTask.class.getName();
+		private final String LOGTAG = GetDropboxFileInfosTask.class.getName();
 	
 		private Context context;
 		private Activity activity;
 		private DropboxAPI<AndroidAuthSession> dropbox;
 		private String filePathInDropbox;
+		private GridView gridview;
+		private Entry dirEntry;
 		
-		public GetFileInfosTask(Context context, 
+		private ProgressDialog progDialog;
+		
+		private LocalAdapterDownloadScripts adapter;
+		
+		
+		public GetDropboxFileInfosTask(
+				Context context, 
 				Activity activity, 
 				DropboxAPI<AndroidAuthSession> dropbox,
-				String filePathInDropbox)
+				String filePathInDropbox,
+				GridView gridview)
 		{
 			this.context = context;
 			this.activity = activity;
 			this.dropbox = dropbox;
 			this.filePathInDropbox = filePathInDropbox;
+			this.gridview = gridview;
 		}
 		
 		@Override
@@ -313,23 +327,22 @@ public class SrmDropboxHandler
 		{
 			Log.w(LOGTAG, " get file infos doInBackground() starts ");
 			
+			progDialog = new ProgressDialog(context);
+			progDialog.setMessage("Getting Scripts from Dropbox");
+			progDialog.show();
+			
 			boolean result = false;
-			
-			Entry entry;
-			
 			
 			try 
 			{
-				entry = getFileInfos(dropbox, filePathInDropbox);
-				
-				if( !entry.path.equals(null) ) result = true;
+				dirEntry = getFileInfos(dropbox, filePathInDropbox);
+				if( !dirEntry.path.equals(null) ) result = true;
 			} 
 			catch (DropboxException e) 
 			{
 				Log.w(LOGTAG, "doInBackground() throws DropboxException=" + e.getLocalizedMessage());
                 Log.i(LOGTAG, "Error listing files in dropbox", e);
 			}
-			
 			return result;
 		}
 		
@@ -345,10 +358,23 @@ public class SrmDropboxHandler
 		{
 			Log.w(LOGTAG, "onPostExecute() get result=" + result);
 			// if(result == ?)
+			
+			progDialog.dismiss();
+			
+			if(result)
+			{
+				adapter = new LocalAdapterDownloadScripts(context, dirEntry);
+				
+				gridview.setAdapter(adapter);
+		        
+		        gridview.setClickable(false);
+			}
+			else
+			{
+				Utils.UIutils.toastTextToUser(context, "Error getting file infos from Dropbox!");
+			}
+			
 		}
-		
-		
-
 		
 		private Entry getFileInfos(
 				DropboxAPI<AndroidAuthSession> dropbox, String filePath) 
@@ -358,7 +384,7 @@ public class SrmDropboxHandler
 			
 			Entry fileEntry = null;
 			ArrayList<Entry> entryList = null;
-			ArrayList<String> filesList = null;
+			ArrayList<String> filePathList = null;
 			
 			// metadata("/", FILENUMBERS, null, true, null)
 			fileEntry = dropbox.metadata(filePath, FILES_LIMIT, null, true, null);
@@ -367,20 +393,18 @@ public class SrmDropboxHandler
 			{
 				Log.w(LOGTAG, "getFileInfos() finds " + filePath + " is a FOLDER, " +
 						"will get child files infos in this folder!");
-				
 				entryList = new ArrayList<Entry>();
-		        filesList = new ArrayList<String>();
-		        int i = 0;
+		        filePathList = new ArrayList<String>();
 		        
-		        for (Entry ent: fileEntry.contents) 
+		        int i = 0;
+		        for (Entry entry: fileEntry.contents) 
 		        {
-		            entryList.add(i, ent);                   
+		            entryList.add(i, entry);                   
 		            //dir = new ArrayList<String>();
-		            filesList.add(new String(entryList.get(i).path));
+		            filePathList.add(new String(entryList.get(i).path));
 		            i++;
 		        }
-		        
-		        Log.w(LOGTAG, "getFileInfos() get child files list=" + filesList.toString());
+		        Log.w(LOGTAG, "getFileInfos() get child files list=" + filePathList.toString());
 			}
 			else
 			{
@@ -389,12 +413,8 @@ public class SrmDropboxHandler
 						", filesize=" + fileEntry.size +
 						", filepath=" + fileEntry.path);
 			}
-			
 	        return fileEntry;
 		}
-		
-		
-		
 	}
 	
 	/**

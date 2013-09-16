@@ -1,0 +1,40 @@
+<GridView 
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/id_gridview_layout_act_download_scripts"
+android:background="#CCCCCC"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:gravity="center"
+android:orientation="vertical"
+android:numColumns="auto_fit"
+android:columnWidth="450dp"
+android:paddingTop="20dp"
+android:horizontalSpacing="0dp"
+android:verticalSpacing="30dp" >
+
+</GridView>
+
+
+
+
+
+<!--
+some attributes
+android:layout_below="@id/name"
+android:layout_alignParentLeft="true"
+android:layout_alignParentRight="true"
+android:layout_toLeftOf="@+id/times"
+-->
+
+
+<!--
+original
+
+<TextView 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/textview_in_fragment"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:text="@string/hello_world" />
+-->

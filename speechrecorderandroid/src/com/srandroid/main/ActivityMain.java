@@ -55,6 +55,8 @@ import android.widget.Toast;
 public class ActivityMain extends Activity 
 {
 	
+	private final String LOGTAG = ActivityMain.class.getName();
+	
 	public static Context context;
 	
 	// fields for Drawer
@@ -71,7 +73,7 @@ public class ActivityMain extends Activity
     // STATE for savedInstance, should be in Utils.ConstantVars
     public static final String SELECTED_ITEM_INDEX = "selectedItemIndex";
     
-    public static Activity ACT_MAIN;
+    private Intent newI;
     
     // 
     private Thread initAppThread = null;
@@ -323,38 +325,36 @@ public class ActivityMain extends Activity
         		Utils.toastDebuggingText(getApplicationContext(), "clicked search sessions");
         		break;
         	case R.id.button_download_script:
+        		Log.w(this.LOGTAG, "user clicked button download scripts");
+        		
+        		newI = new Intent(ActivityMain.this, ActivityDownloadScripts.class);
+        		// newI.putExtra("key", value); //Optional parameters
+        		ActivityMain.this.startActivity(newI);
+        		
         		// Utils.toastText(getApplicationContext(), "clicked download script");
-        		ContentValues valuesTemp1 = new ContentValues();
-        		TableScripts.setValuesForInsertScriptItem(valuesTemp1, 
-        				"1", 
-        				"/APP_FOLDER/Sscripts/servers/server_1/script_1.xml", 
-        				"An example script from server #1",
-        				"0");
-        		
-        		ContentValues valuesTemp2 = new ContentValues();
-        		TableScripts.setValuesForInsertScriptItem(valuesTemp2, 
-        				"2", 
-        				"/APP_FOLDER/Sscripts/servers/server_2/script_1.xml", 
-        				"An example script from server #2",
-        				"0");
-        		
-        		Log.w(this.getClass().getName(), " click 'download script' will insert example scripts");
-        		Uri uri_1 = getContentResolver().insert(SrmUriMatcher.CONTENT_URI_TABLE_SCRIPTS, valuesTemp1);
-        		Log.w(this.getClass().getName(), " inserted example script id=" + uri_1);
-        		Uri uri_2 = getContentResolver().insert(SrmUriMatcher.CONTENT_URI_TABLE_SCRIPTS, valuesTemp2);
-        		Log.w(this.getClass().getName(), " inserted example script id=" + uri_2);
-        		
-        		Utils.toastDebuggingText(getApplicationContext(), "downloaded two new scripts");
+
+//        		ContentValues valuesTemp1 = new ContentValues();
+//        		TableScripts.setValuesForInsertScriptItem(valuesTemp1, 
+//        				"1", 
+//        				"/APP_FOLDER/Sscripts/servers/server_1/script_1.xml", 
+//        				"An example script from server #1",
+//        				"0");
+//        		Log.w(this.getClass().getName(), " click 'download script' will insert example scripts");
+//        		Uri uri_1 = getContentResolver().insert(SrmUriMatcher.CONTENT_URI_TABLE_SCRIPTS, valuesTemp1);
+//        		Log.w(this.getClass().getName(), " inserted example script id=" + uri_1);
         		
         		break;
+        		
         	case R.id.button_search_scripts:
         		Utils.toastDebuggingText(getApplicationContext(), "clicked search scripts");
         		break;
+        		
         	case R.id.button_add_speaker:
-        		Intent newI = new Intent(ActivityMain.this, ActivityAddSpeaker.class);
+        		newI = new Intent(ActivityMain.this, ActivityAddSpeaker.class);
         		// newI.putExtra("key", value); //Optional parameters
         		ActivityMain.this.startActivity(newI);
         		break;
+        		
         	case R.id.button_search_speakers:
         		Utils.toastDebuggingText(getApplicationContext(), "clicked search speakers");
         		break;
@@ -365,6 +365,7 @@ public class ActivityMain extends Activity
         	    Intent i = new Intent(ActivityMain.this, PrefActivitySettings.class);
         	    startActivity(i);
         	    break;
+        	    
         	case R.id.button_exit:
         		Utils.toastDebuggingText(getApplicationContext(), "clicked exit, app exits");
         		break;
