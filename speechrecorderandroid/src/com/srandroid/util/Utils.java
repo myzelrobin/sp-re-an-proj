@@ -183,8 +183,6 @@ public class Utils
 		public static ScriptItem scriptItemForNewSession = null;
 		public static List<RecordItem> recordItemListForNewSession = null;
 		
-		public static String exampleScriptFilepath = null;
-		
 		// database
 		public static final String TESTDB_FOLDER_PATH = 
 				"/mnt/sdcard/srandroid_testfolder";
@@ -573,11 +571,7 @@ public class Utils
 		       
 	        }
 	        
-	        
-	        Utils.ConstantVars.exampleScriptFilepath = destFile.getAbsolutePath();
-	        
-	        Log.w(LOGTAG, "copyScriptFilesToAppExtFolder()" 
-					+ " file exists " + destFile.getAbsolutePath()) ;
+	        Log.w(LOGTAG, "copyScriptFilesToAppExtFolder() file exists at " + destFile.getAbsolutePath()) ;
 	        
 	    } 
 		catch (FileNotFoundException ex) 
@@ -609,7 +603,7 @@ public class Utils
 		scriptItem.EmailAuthor = "draxler@phonetik.uni-muenchen.de";
 		scriptItem.serverId = "unknown";
 		scriptItem.idInTable = Utils.ConstantVars.scriptItemIdForNewSession;
-		scriptItem.filepath = Utils.ConstantVars.exampleScriptFilepath;
+		scriptItem.filepath = null;
 		Utils.ConstantVars.scriptItemForNewSession = scriptItem;
 		
 		Log.w(LOGTAG, "prepareItemsForNewSessions()" 
@@ -627,7 +621,7 @@ public class Utils
 				Utils.ConstantVars.DIR_EXT_NEWSESSION_FOLDER_PATH);
 		
 		// copy script file into new session folder
-		copyFileToFolder(Utils.ConstantVars.exampleScriptFilepath, 
+		copyFileToFolder(Utils.ConstantVars.DIR_EXT_SCRIPTS_PATH + "/example_script.xml", 
 				Utils.ConstantVars.DIR_EXT_NEWSESSION_FOLDER_PATH);
 		
 		List<RecordItem> recItemsList = new ArrayList<RecordItem> ();
