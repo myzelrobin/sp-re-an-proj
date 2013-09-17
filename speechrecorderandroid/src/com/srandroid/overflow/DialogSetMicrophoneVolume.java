@@ -99,7 +99,7 @@ import com.srandroid.util.Utils;
 					
 					if(isBTestmicClicked == 1)
 					{
-						 Utils.toastDebuggingText(v.getContext(), "settings: dialog: finish testing MIC");
+						 Utils.UIutils.toastTextToUser(v.getContext(), "settings: dialog: finish testing MIC");
 						 
 						 recorderForMic.stopTestMicrophone();
 						 Log.w(this.getClass().getName(), SrmRecorder.TAG_TESTMIC 
@@ -117,7 +117,7 @@ import com.srandroid.util.Utils;
 						break;
 					}
 					
-					Utils.toastDebuggingText(v.getContext(), "settings: dialog: start testing MIC");
+					Utils.UIutils.toastTextToUser(v.getContext(), "settings: dialog: start testing MIC");
 					bTestrecord.setEnabled(false);
 					bCancel.setEnabled(false);
 					
@@ -148,7 +148,7 @@ import com.srandroid.util.Utils;
 					
 					if(isBTestrecordClicked == 1)
 					{
-						Utils.toastDebuggingText(v.getContext(), "settings: dialog: will play record");
+						Utils.UIutils.toastTextToUser(v.getContext(), "settings: dialog: will play record");
 						
 						 isBTestrecordClicked = 2;
 						 bTestrecord.setText(R.string.close);
@@ -174,14 +174,14 @@ import com.srandroid.util.Utils;
 					if(isBTestrecordClicked == 2)
 					{
 						// finish the test recoding, delete the record, close dialog
-						Utils.toastDebuggingText(v.getContext(), "settings: dialog: finish testing RECORD");
+						Utils.UIutils.toastTextToUser(v.getContext(), "settings: dialog: finish testing RECORD");
 						recorderForTestRecording.finishedTestRecording();
 						isBTestrecordClicked = 0;
 						 getDialog().dismiss();
 						 break;
 					}
 					
-					 Utils.toastDebuggingText(v.getContext(), "settings: dialog: start testing RECORD");
+					 Utils.UIutils.toastTextToUser(v.getContext(), "settings: dialog: start testing RECORD");
 					 bTestmic.setEnabled(false);
 					 bCancel.setEnabled(false);
 					 isBTestrecordClicked = 1;

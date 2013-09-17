@@ -120,7 +120,7 @@ public class PrefActivitySettings extends PreferenceActivity
     				.setLANGUAGE(sharedPreferences.getString(Utils.ConstantVars.KEY_LANGUAGE, 
     							Utils.ConstantVars.KEY_LANGUAGE_DEF));
     			Log.w(LOGTAG, "changed language");
-    			Utils.toastDebuggingText(getActivity(), 
+    			Utils.UIutils.toastTextToUser(getActivity(), 
     					"changed language to " + 
     					sharedPreferences.getString(Utils.ConstantVars.KEY_LANGUAGE, 
     							Utils.ConstantVars.KEY_LANGUAGE_DEF));
@@ -131,7 +131,7 @@ public class PrefActivitySettings extends PreferenceActivity
     				.setMICVOL(sharedPreferences.getString(Utils.ConstantVars.KEY_MICVOL, 
     							Utils.ConstantVars.KEY_MICVOL_DEF));
     			Log.w(LOGTAG, "changed microphone");
-    			Utils.toastDebuggingText(getActivity(), 
+    			Utils.UIutils.toastTextToUser(getActivity(), 
     					"changed microphone to " 
     					+ sharedPreferences.getString(Utils.ConstantVars.KEY_MICVOL, 
     							Utils.ConstantVars.KEY_MICVOL_DEF));
@@ -141,7 +141,7 @@ public class PrefActivitySettings extends PreferenceActivity
     			Utils.ConstantVars.setSAMPLE_RATE(sharedPreferences.getString(Utils.ConstantVars.KEY_SAMPLE_RATE, 
     							Utils.ConstantVars.KEY_SAMPLE_RATE_DEF));
     			Log.w(LOGTAG, "changed recording_values->sample_rate");
-    			Utils.toastDebuggingText(getActivity(), 
+    			Utils.UIutils.toastTextToUser(getActivity(), 
     					"changed recording_value->sample_rate to " 
     					+ sharedPreferences.getString(Utils.ConstantVars.KEY_SAMPLE_RATE, 
     							Utils.ConstantVars.KEY_SAMPLE_RATE_DEF));
@@ -151,7 +151,7 @@ public class PrefActivitySettings extends PreferenceActivity
     			Utils.ConstantVars.setCHANNELS(sharedPreferences.getString(Utils.ConstantVars.KEY_CHANNELS, 
     							Utils.ConstantVars.KEY_CHANNELS_DEF));
     			Log.w(LOGTAG, "changed recording_values->channels");
-    			Utils.toastDebuggingText(getActivity(), 
+    			Utils.UIutils.toastTextToUser(getActivity(), 
     					"changed recording_value->channels to " 
     					+ sharedPreferences.getString(Utils.ConstantVars.KEY_CHANNELS, 
     							Utils.ConstantVars.KEY_CHANNELS_DEF));
@@ -161,7 +161,7 @@ public class PrefActivitySettings extends PreferenceActivity
     			Utils.ConstantVars.setALLOW_OVERWRITE(sharedPreferences.getBoolean(Utils.ConstantVars.KEY_OVERWRITE, 
     					true));
     			Log.w(LOGTAG, "changed recording_values->overwrite");
-    			Utils.toastDebuggingText(getActivity(), 
+    			Utils.UIutils.toastTextToUser(getActivity(), 
     					"changed recording_value->overwrite to " 
     					+ sharedPreferences.getBoolean(Utils.ConstantVars.KEY_OVERWRITE, true));
     		}
@@ -170,7 +170,7 @@ public class PrefActivitySettings extends PreferenceActivity
     			Utils.ConstantVars.setALLOW_OVERWRITE_WARNING(sharedPreferences.getBoolean(Utils.ConstantVars.KEY_OVERWRITE_WARNING, 
     					true));
     			Log.w(LOGTAG, "changed recording_values->overwrite_warning");
-    			Utils.toastDebuggingText(getActivity(), 
+    			Utils.UIutils.toastTextToUser(getActivity(), 
     					"changed recording_value->overwrite_warning to " 
     					+ sharedPreferences.getBoolean(Utils.ConstantVars.KEY_OVERWRITE_WARNING, true));
     		}

@@ -803,17 +803,10 @@ public class Utils
 		Utils.ConstantVars.locListener.getLocation();
 	}
 	
-	// Toast some text for debugging
-	public static void toastDebuggingText(Context context, String s)
-	{
-		if(Utils.UIutils.canToastDebugText) 
-			Toast.makeText(context, s, Toast.LENGTH_LONG).show();
-	}
-	
 	public static void toastTextToUser(Context context, String s)
 	{
 		if(Utils.UIutils.canToastTextToUser) 
-			Toast.makeText(context, s, Toast.LENGTH_LONG).show();
+			Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
 	}
 	
 	

@@ -322,7 +322,7 @@ public class ActivityMain extends Activity
         {
         	// actionbar buttons
         	case R.id.button_search_sessions:
-        		Utils.toastDebuggingText(getApplicationContext(), "clicked search sessions");
+        		Utils.UIutils.toastTextToUser(context, "clicked search sessions");
         		break;
         	case R.id.button_download_script:
         		Log.w(this.LOGTAG, "user clicked button download scripts");
@@ -335,7 +335,7 @@ public class ActivityMain extends Activity
         		break;
         		
         	case R.id.button_search_scripts:
-        		Utils.toastDebuggingText(getApplicationContext(), "clicked search scripts");
+        		Utils.UIutils.toastTextToUser(context, "clicked search scripts");
         		break;
         		
         	case R.id.button_add_speaker:
@@ -345,7 +345,7 @@ public class ActivityMain extends Activity
         		break;
         		
         	case R.id.button_search_speakers:
-        		Utils.toastDebuggingText(getApplicationContext(), "clicked search speakers");
+        		Utils.UIutils.toastTextToUser(context, "clicked search speakers");
         		break;
         		
         	// overflow buttons
@@ -356,7 +356,7 @@ public class ActivityMain extends Activity
         	    break;
         	    
         	case R.id.button_exit:
-        		Utils.toastDebuggingText(getApplicationContext(), "clicked exit, app exits");
+        		Utils.UIutils.toastTextToUser(context, "clicked exit, app exits");
         		break;
         	
         	default:

@@ -129,7 +129,7 @@ public class SrmDropboxHandler
         
         if (0 == pm.queryIntentActivities(testIntent, 0).size()) 
         {
-            Utils.toastDebuggingText(context, 
+            Utils.UIutils.toastTextToUser(context, 
             		"URL scheme in your app's " +
                     "manifest is not set up correctly. You should have a " +
                     "com.dropbox.client2.android.AuthActivity with the " +
