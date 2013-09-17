@@ -268,7 +268,7 @@
     
     <!-- #################################################################################### -->
     <!-- activity download script -->
-    <string name="act_downloadscripts_title">Download Scripts</string>
+    <string name="act_downloadscripts_title">Download Scripts From Dropbox</string>
     <string name="act_downloadscripts_button_listall_text">List All</string>
     <string name="act_downloadscripts_button_downloadall_text">Download All</string>
         

@@ -71,7 +71,6 @@ public class TableSessions
 	public static void onCreate(SQLiteDatabase db)
 	{
 		Log.w(TableSessions.class.getName(), "onCreate(): will create table: " + TABLE_SESSIONS);
-		setALL_COLUMNS();
 		db.execSQL(CREATE_TABLE_SESSIONS);
 	}
 	
@@ -104,6 +103,9 @@ public class TableSessions
 		}
 		
 	}
+	
+	
+	// methods updateSessionIsFinished, updateSessionIsUploaded
 	
 	
 	public static void setValuesForInsertSessionItem(ContentValues values, 
@@ -315,45 +317,6 @@ public class TableSessions
 			this.is_uploaded = is_uploaded;
 		}
 	
-	}
-
-	/**
-	 * @return the aLL_COLUMNS
-	 */
-	public static ArrayList<String> getALL_COLUMNS() {
-		return ALL_COLUMNS;
-	}
-
-	/**
-	 * @param aLL_COLUMNS the aLL_COLUMNS to set
-	 */
-	public static void setALL_COLUMNS() 
-	{
-		/*
-		 * + COLUMN_ID + " integer primary key autoincrement, "
-		+ COLUMN_DATE + " text not null, "
-		+ COLUMN_TIME + " text not null, "
-		+ COLUMN_PLACE + " text not null, "
-		+ COLUMN_DEVICE_DATA + " text not null, "
-		+ COLUMN_GPS_DATA + " text, "
-		+ COLUMN_IS_FINISHED + " text not null, "
-		+ COLUMN_IS_UPLOADED + " text not null, "
-		+ COLUMN_LAST_SECTION + " text, "
-		+ COLUMN_SCRIPT_ID + " integer, "
-		+ COLUMN_SPEAKER_ID + " integer, "
-		 * 
-		 */
-		ALL_COLUMNS.add(COLUMN_ID);
-		ALL_COLUMNS.add(COLUMN_DATE);
-		ALL_COLUMNS.add(COLUMN_TIME);
-		ALL_COLUMNS.add(COLUMN_PLACE);
-		ALL_COLUMNS.add(COLUMN_DEVICE_DATA);
-		ALL_COLUMNS.add(COLUMN_GPS_DATA);
-		ALL_COLUMNS.add(COLUMN_IS_FINISHED);
-		ALL_COLUMNS.add(COLUMN_IS_UPLOADED);
-		ALL_COLUMNS.add(COLUMN_LAST_SECTION);
-		ALL_COLUMNS.add(COLUMN_SCRIPT_ID);
-		ALL_COLUMNS.add(COLUMN_SPEAKER_ID);
 	}
 	
 }

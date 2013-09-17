@@ -347,7 +347,17 @@ public class TestActivitySessionDetails extends Activity
 	        	case R.id.act_sessiondetails_button_upload:
 	        		
 	        			Log.w(LOGTAG, "user clicked button upload"); 
-		        		//Utils.toastTextToUser(this, "start uploading");
+	        			
+//	        			dropboxHandler.createDropboxAPI();
+//	        			
+//	        			uploadFileIntoDropbox = 
+//	        					new UploadFileTask(
+//	        							context,
+//	        							this,
+//	        							dropboxHandler.dropbox,
+//	        							SrmDropboxHandler.FILEPATH_LOCAL_RECORD)
+//	        					.execute();
+	        			
 		        		break;
 		        		
 //	        	case R.id.act_sessiondetails_button_testlistfile:

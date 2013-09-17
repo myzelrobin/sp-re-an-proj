@@ -218,7 +218,10 @@ public class ActivityPreRecording extends Activity
 		    		
 		    		// insert new sections, scriptXMLParser has bugs! 
 		    		// Use fake ScriptItem and List<RecordItem> in Utils
-		    		Utils.prepareItemsForNewSessions();
+		    		Utils.prepareForNewSession(
+		    				Utils.ConstantVars.sessionItemIdForNewSession,
+		    				Utils.ConstantVars.speakerItemIdForNewSession,
+		    				Utils.ConstantVars.scriptItemIdForNewSession);
 		    		
 				
 //		        	Utils.parseScript(Utils.ConstantVars.exampleScriptFilepath, 

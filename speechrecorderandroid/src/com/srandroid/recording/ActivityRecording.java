@@ -591,9 +591,8 @@ public class ActivityRecording extends Activity
 		Log.w(ActivityRecording.class.getName(), "test recording, clicked record, start test recording");
 		
 		// new recorder
-		srmRecorder = new SrmRecorder(Utils.ConstantVars.DIR_EXT_RECFILES_PATH 
-				+ File.separator + "sessionID-" + Utils.ConstantVars.sessionItemIdForNewSession + "_"
-				+ scriptItem.scriptName + File.separator + "test", 
+		srmRecorder = new SrmRecorder(
+				Utils.ConstantVars.DIR_EXT_NEWSESSION_FOLDER_PATH + File.separator + "test", 
 				recItemsList.get(recItemIndex).itemcode);
 		
 		srmRecorder.startRecording();
@@ -693,9 +692,8 @@ public class ActivityRecording extends Activity
 		Log.w(ActivityRecording.class.getName(), "recording, clicked record, start recording");
 		
 		// new recorder
-		srmRecorder = new SrmRecorder(Utils.ConstantVars.DIR_EXT_RECFILES_PATH 
-					+ File.separator + "sessionID-" + Utils.ConstantVars.sessionItemIdForNewSession + "_"
-					+ scriptItem.scriptName, 
+		srmRecorder = new SrmRecorder(
+					Utils.ConstantVars.DIR_EXT_NEWSESSION_FOLDER_PATH, 
 					recItemsList.get(recItemIndex).itemcode);
 		
 		srmRecorder.startRecording();

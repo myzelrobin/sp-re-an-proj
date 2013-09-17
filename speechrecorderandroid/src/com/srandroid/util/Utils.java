@@ -160,7 +160,7 @@ public class Utils
 		public static String DIR_EXT_TESTMIC_PATH; // folder "test_mic" in external "records"
 		public static String DIR_EXT_SCRIPTS_PATH; // folder "scripts" in external files 
 		
-		
+		public static String DIR_EXT_NEWSESSION_FOLDER_PATH; // folder "session-x" in external files 
 		
 		// layout values
 		// item in Fragment in ActivityMain
@@ -348,7 +348,6 @@ public class Utils
 			
 			// location listener
 			initLocationListener(context);
-			
 			
 			// sharedprefs
 			initSharedPreference(context);
@@ -593,8 +592,13 @@ public class Utils
 	    }
 	}
 	
-	public static void prepareItemsForNewSessions()
+	public static void prepareForNewSession(
+			String sessionId, 
+			String speakerId, 
+			String scriptId)
 	{
+		
+		// get script information and speaker information into scriptitem and speakeritem
 		ScriptItem scriptItem = new ScriptItem();
 		scriptItem.databaseName = "SpeechRecorder Demonstration";
 		scriptItem.scriptName = "SpeechRecorder Sample Recording Script";
@@ -608,6 +612,16 @@ public class Utils
 		Log.w(LOGTAG, "prepareItemsForNewSessions()" 
 				+ " added new scriptItemForNewSession") ;
 		
+		String newSessionFolderName = 
+				"sessionID-" + Utils.ConstantVars.sessionItemIdForNewSession + 
+				"_" + scriptItem.scriptName;
+		
+		Utils.ConstantVars.DIR_EXT_NEWSESSION_FOLDER_PATH = 
+				makeDir(Utils.ConstantVars.DIR_EXT_RECFILES_PATH, newSessionFolderName);
+		
+		Log.w(LOGTAG, "prepareItemsForNewSessions()" +
+				" created new session folder path=" + 
+				Utils.ConstantVars.DIR_EXT_NEWSESSION_FOLDER_PATH);
 		
 		List<RecordItem> recItemsList = new ArrayList<RecordItem> ();
 		
@@ -837,8 +851,7 @@ public class Utils
 	{
 		if(parentFolderPath != null)
 		{
-			String path = parentFolderPath + File.separator + folderName;
-			File dir = new File(path);
+			File dir = new File(parentFolderPath, folderName);
 			if(!dir.exists())
 			{
 				dir.mkdir();
