@@ -833,9 +833,9 @@ public class TestActivitySessionDetails extends Activity
 									originFile)
 							.execute();
 				}
-				else Log.w(LOGTAG, "uploadSession() file does NOT exist at=" + originFile.getAbsolutePath());
+				else Log.w(LOGTAG, "uploadSession() file does NOT exist at=" 
+						+ originFile.getAbsolutePath());
 			}
-			
 			
 			
 //			File sessionFolder = new File(sessionFolderPath);
