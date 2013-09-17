@@ -3,6 +3,7 @@
  */
 package com.srandroid.main;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -348,6 +349,8 @@ public class TestActivitySessionDetails extends Activity
 	        		
 	        			Log.w(LOGTAG, "user clicked button upload"); 
 	        			
+	        			uploadSession(Utils.ConstantVars.DIR_EXT_NEWSESSION_FOLDER_PATH);
+	        			
 //	        			dropboxHandler.createDropboxAPI();
 //	        			
 //	        			uploadFileIntoDropbox = 
@@ -462,7 +465,6 @@ public class TestActivitySessionDetails extends Activity
 			
 			if (cursor != null && cursor.getCount()!=0) 
 			{
-				
 				
 				int scriptIdTemp = 
 						cursor.getInt(cursor.getColumnIndexOrThrow(TableSessions.COLUMN_SCRIPT_ID));
@@ -700,8 +702,7 @@ public class TestActivitySessionDetails extends Activity
 							} 
 							catch (ActivityNotFoundException e) 
 							{
-								Log.w(LOGTAG, "Utils.playRecord() throws Exceptions " 
-										+ e.getLocalizedMessage());
+								Log.w(LOGTAG, "Utils.playRecord() throws Exceptions " + e.getLocalizedMessage());
 								
 							}
 						}
@@ -801,6 +802,42 @@ public class TestActivitySessionDetails extends Activity
 //			
 //			cursor.close();
 //		}
+		
+		private void uploadSession(String sessionFolderPath)
+		{
+			Log.w(LOGTAG, "uploadSession() will upload session at=" + sessionFolderPath);
+			
+			File sessionFolder = new File(sessionFolderPath);
+			String sessionFolderName = null;
+			File[] fileList = null;
+			
+			if(sessionFolder.exists() && sessionFolder.isDirectory())
+			{
+				sessionFolderName = sessionFolder.getName();
+				
+				fileList = sessionFolder.listFiles();
+				
+				for(File file : fileList)
+				{
+					// do not upload folder test
+					if(file.isFile())
+					{
+						dropboxHandler.createDropboxAPI();
+						AsyncTask<Void, Long, Boolean> uploadFileIntoDropboxTask =
+								new UploadFileIntoDropboxTask(
+										context,
+										this,
+										dropboxHandler.dropbox,
+										file.getAbsolutePath())
+								.execute();
+					}
+				}
+				
+				
+				// method to update GUI
+			}
+			else Log.w(LOGTAG, "uploadSession() session folder does NOT exist at=" + sessionFolderPath);
+		}
 		
 		private void toastSwipeHint()
 		{

@@ -175,7 +175,6 @@ public class Utils
 		public static int heightLLWrapItem = 0;
 		public static int columnCount = 0;
 		
-		
 		// objects for recording
 		public static String speakerItemIdForNewSession = null;
 		public static String scriptItemIdForNewSession = null;
@@ -517,6 +516,7 @@ public class Utils
 		{
 			ConstantVars.scriptItemIdForNewSession = null;
 			ConstantVars.speakerItemIdForNewSession = null;
+			ConstantVars.DIR_EXT_NEWSESSION_FOLDER_PATH = null;
 		}
 		
 		ConstantVars.sessionItemIdForNewSession = null;
