@@ -162,6 +162,8 @@ public class Utils
 		public static String DIR_EXT_SCRIPTS_PATH; // folder "scripts" in external files 
 		
 		public static String DIR_EXT_NEWSESSION_FOLDER_PATH; // folder "session-x" in external files 
+		public static final String DIR_EXT_NEWSESSION_FOLDER_PATH_TEST = 
+				"/mnt/sdcard/Android/data/com.srandroid.speechrecorder/records/sessionID-1_SpeechRecorder Sample Recording";
 		
 		// layout values
 		// item in Fragment in ActivityMain

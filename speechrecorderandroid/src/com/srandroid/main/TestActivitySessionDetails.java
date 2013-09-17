@@ -349,7 +349,7 @@ public class TestActivitySessionDetails extends Activity
 	        		
 	        			Log.w(LOGTAG, "user clicked button upload"); 
 	        			
-	        			uploadSession(Utils.ConstantVars.DIR_EXT_NEWSESSION_FOLDER_PATH);
+	        			uploadSession(Utils.ConstantVars.DIR_EXT_NEWSESSION_FOLDER_PATH_TEST);
 	        			
 //	        			dropboxHandler.createDropboxAPI();
 //	        			
