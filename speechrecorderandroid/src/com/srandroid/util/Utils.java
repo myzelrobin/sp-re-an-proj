@@ -1,6 +1,7 @@
 package com.srandroid.util;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -597,8 +598,10 @@ public class Utils
 			String speakerId, 
 			String scriptId)
 	{
+		// create session folder
+		// get speaker informations into speakeritem
+		// copy script into session folder, get script informations into scriptitem
 		
-		// get script information and speaker information into scriptitem and speakeritem
 		ScriptItem scriptItem = new ScriptItem();
 		scriptItem.databaseName = "SpeechRecorder Demonstration";
 		scriptItem.scriptName = "SpeechRecorder Sample Recording Script";
@@ -621,6 +624,10 @@ public class Utils
 		
 		Log.w(LOGTAG, "prepareItemsForNewSessions()" +
 				" created new session folder path=" + 
+				Utils.ConstantVars.DIR_EXT_NEWSESSION_FOLDER_PATH);
+		
+		// copy script file into new session folder
+		copyFileToFolder(Utils.ConstantVars.exampleScriptFilepath, 
 				Utils.ConstantVars.DIR_EXT_NEWSESSION_FOLDER_PATH);
 		
 		List<RecordItem> recItemsList = new ArrayList<RecordItem> ();
@@ -862,6 +869,66 @@ public class Utils
 				"makeDir(): Can NOT make directory, parent folder path is null: " 
 				+ parentFolderPath);
 		return null;
+	}
+	
+	
+	public static void copyFileToFolder(String originFilePath, String folderPath)
+	{
+		Log.w(LOGTAG, "copyFileToFolder() will copy file (" + originFilePath +
+				") to (" + folderPath + ")");
+		
+		// better "not hard code storage directory", use Environment.getExternalStorageDirectory()
+		
+		File originFile = null;
+		File destFile = null;
+		
+		String originFileName = null;
+		String destFilePath = null;
+		
+		
+		
+		try 
+		{
+			originFile = new File(originFilePath);
+			if(originFile.exists())
+			{
+				originFileName = originFile.getName();
+				
+				destFilePath = folderPath+ File.separator + originFileName;
+		        destFile = new File(destFilePath);
+		        
+		        if(!destFile.exists())
+		        {
+		        	InputStream in = new FileInputStream(originFile);
+			        OutputStream out = new FileOutputStream(destFile);
+
+			        byte[] buf = new byte[1024];
+			        int len;
+			        while ((len = in.read(buf)) > 0) {
+			            out.write(buf, 0, len);
+			        }
+			        in.close();
+			        out.close();
+			        
+			        Log.w(LOGTAG, "copyFileToFolder()" 
+							+ "finished copying file (" + originFile.getAbsolutePath()
+							+ ") to (" + destFile.getAbsolutePath() + ")");
+			       
+		        }
+		        else Log.w(LOGTAG, "copyFileToFolder() file exists at " + destFile.getAbsolutePath());
+			}
+			else Log.w(LOGTAG, "copyFileToFolder() file does NOT exist at " + originFile.getAbsolutePath());
+			
+	        
+	    } 
+		catch (FileNotFoundException ex) 
+		{
+	    	Log.w(LOGTAG, "copyFileToFolder() throws FileNotFoundException=" + ex.getMessage());
+	    } 
+		catch (IOException e) 
+		{
+	    	Log.w(LOGTAG, "copyFileToFolder() throws IOException=" + e.getMessage());
+	    }
 	}
 	
 	public static void playRecord(Context context, String audioFileName) 
