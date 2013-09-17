@@ -413,6 +413,9 @@ public class ActivityDownloadScripts extends Activity
 								@Override
 								public void onClick(View v) 
 								{
+									
+									Log.w(LOGTAG, "user clicked button download of " + scriptFile.getName());
+									
 									dropboxHandler.createDropboxAPI();
 									AsyncTask<Void, Long, Boolean> downloadFileFromDropbox = 
 											new DownloadFileFromDropboxTask(
@@ -421,7 +424,8 @@ public class ActivityDownloadScripts extends Activity
 													dropboxHandler.dropbox,
 													entry.path,
 													scriptFile,
-													view);
+													view)
+											.execute();
 								}
 		        			});
 			        // clicklistener?
