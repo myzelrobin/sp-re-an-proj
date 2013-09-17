@@ -633,7 +633,7 @@ public class SrmDropboxHandler
 //	        mDialog.setProgress(percent);
 //	    }
 		
-		//displays the results of the AsyncTask
+		//results of the AsyncTask
 		@Override
         protected void onPostExecute(Boolean result) 
 		{
@@ -644,8 +644,10 @@ public class SrmDropboxHandler
 			{
 				Utils.UIutils.toastTextToUser(context, "Downloaded file " + destFile.getName());
 
+				// insert info into database
 				insertNewScriptIntoDB(destFile);
 				
+				// update GUI
 				TextView textIsDownloaded = 
 						(TextView) view.findViewById(R.id.itemScriptInServer_textIsDownloadedValue);
 		        textIsDownloaded.setText("downloaded");
@@ -710,7 +712,7 @@ public class SrmDropboxHandler
     				valuesTemp1, 
     				"1", 
     				scriptFile.getAbsolutePath(), 
-    				"downloaded from server Dropbox",
+    				scriptFile.getName() + "\ndownloaded from server Dropbox",
     				"0");
     		Uri uri = context.getContentResolver().insert(SrmUriMatcher.CONTENT_URI_TABLE_SCRIPTS, valuesTemp1);
     		Log.w(LOGTAG, "insertNewScriptIntoDB() inserted example script id=" + uri);
