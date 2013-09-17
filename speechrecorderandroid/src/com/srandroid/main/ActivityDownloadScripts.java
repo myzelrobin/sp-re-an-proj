@@ -406,7 +406,6 @@ public class ActivityDownloadScripts extends Activity
 											.execute();
 								}
 		        			});
-			        // clicklistener?
 		        }
 		        
 			}

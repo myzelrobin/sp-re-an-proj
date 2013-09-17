@@ -322,7 +322,8 @@ public class ActivityMain extends Activity
         {
         	// actionbar buttons
         	case R.id.button_search_sessions:
-        		Utils.UIutils.toastTextToUser(context, "clicked search sessions");
+        		Log.w(this.LOGTAG, "user clicked button search sessions");
+        		//Utils.UIutils.toastTextToUser(context, "clicked search sessions");
         		break;
         	case R.id.button_download_script:
         		Log.w(this.LOGTAG, "user clicked button download scripts");
@@ -335,28 +336,35 @@ public class ActivityMain extends Activity
         		break;
         		
         	case R.id.button_search_scripts:
-        		Utils.UIutils.toastTextToUser(context, "clicked search scripts");
+        		Log.w(this.LOGTAG, "user clicked button search scripts");
+        		//Utils.UIutils.toastTextToUser(context, "clicked search scripts");
         		break;
         		
         	case R.id.button_add_speaker:
+        		Log.w(this.LOGTAG, "user clicked button add speaker");
         		newI = new Intent(ActivityMain.this, ActivityAddSpeaker.class);
         		// newI.putExtra("key", value); //Optional parameters
         		ActivityMain.this.startActivity(newI);
         		break;
         		
         	case R.id.button_search_speakers:
-        		Utils.UIutils.toastTextToUser(context, "clicked search speakers");
+        		Log.w(this.LOGTAG, "user clicked button search speaker");
+        		// Utils.UIutils.toastTextToUser(context, "clicked search speakers");
         		break;
         		
         	// overflow buttons
         	case R.id.button_settings:
+        		Log.w(this.LOGTAG, "user clicked button settings");
+        		
         		// Launch Preference activity
         	    Intent i = new Intent(ActivityMain.this, PrefActivitySettings.class);
         	    startActivity(i);
         	    break;
         	    
         	case R.id.button_exit:
-        		Utils.UIutils.toastTextToUser(context, "clicked exit, app exits");
+        		Log.w(this.LOGTAG, "user clicked button exit");
+        		
+        		// Utils.UIutils.toastTextToUser(context, "clicked exit, app exits");
         		break;
         	
         	default:
