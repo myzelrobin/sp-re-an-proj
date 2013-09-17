@@ -249,12 +249,6 @@ public class ActivityDownloadScripts extends Activity
         		
 	    		break;
 	    		
-        	case R.id.act_downloadscripts_button_exit:
-	    		
-	    		Log.w(LOGTAG, "user clicked button exit, app exits");
-	    		
-	    		break;
-    		
         	default:
         		break;
     	}

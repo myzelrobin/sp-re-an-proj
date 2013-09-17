@@ -28,6 +28,7 @@
     <!-- Buttons in Actionbar for Fragments, not shown when ActivityMain is created,
             only shown when the Fragment is created -->
     
+    <!-- ################################################################# -->
     <!-- Fragment "Sessions" -->
     <!-- Buttons in Actionbar for Fragment "Sessions"-->
     <group 
@@ -39,7 +40,6 @@
 	        android:icon="@drawable/ic_button_search"
 	        android:showAsAction="always"
 	        android:title="@string/button_search" />
-        
     </group>
     
     
@@ -96,6 +96,10 @@
             android:showAsAction="always"
             android:title="@string/add" />
         
+        <item
+        android:showAsAction="never"
+        android:title="@string/button_exit" />
+        
     </group>
     
     <!-- ################################################################# -->
@@ -110,6 +114,10 @@
             android:showAsAction="always"
             android:title="@string/activity_speakerdetails_button_startrecording_text" />
         
+        <item
+        android:showAsAction="never"
+        android:title="@string/button_exit" />
+        
     </group>
     
     <!-- ################################################################# -->
@@ -123,6 +131,10 @@
             android:icon="@drawable/icon_button_mic"
             android:showAsAction="always"
             android:title="@string/activity_scriptdetails_button_startrecording_text" />
+        
+        <item
+        android:showAsAction="never"
+        android:title="@string/button_exit" />
         
     </group>
     
@@ -148,7 +160,6 @@
         android:title="@string/authen" />
         
         <item
-        android:id="@+id/act_downloadscripts_button_exit"
         android:showAsAction="never"
         android:title="@string/button_exit" />
         
@@ -187,6 +198,10 @@
             android:showAsAction="always"
             android:title="@string/record" />
         
+        <item
+        android:showAsAction="never"
+        android:title="@string/button_exit" />
+        
     </group>
     
     <!-- ################################################################# -->
@@ -200,6 +215,10 @@
             android:showAsAction="always"
             android:title="@string/act_prerecoring_button_test_text" />
         
+        <item
+        android:showAsAction="never"
+        android:title="@string/button_exit" />
+        
     </group>
     
     <!-- ################################################################# -->
@@ -212,6 +231,10 @@
             android:id="@+id/act_recoding_button_done"
             android:showAsAction="always"
             android:title="@string/done" />
+        
+        <item
+        android:showAsAction="never"
+        android:title="@string/button_exit" />
         
     </group>
 
