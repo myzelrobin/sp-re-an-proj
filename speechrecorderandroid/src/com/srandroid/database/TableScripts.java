@@ -83,7 +83,7 @@ public class TableScripts
 	public static void setValuesForInsertScriptItem(ContentValues values, 
 			String serverId,
 			String scriptFilepath,
-			String desc,
+			String description,
 			String count)
 	{
 		// section_id
@@ -93,7 +93,7 @@ public class TableScripts
 		values.put(COLUMN_FILEPATH, scriptFilepath);
 		
 		// description
-		values.put(COLUMN_DESCRIPTION, desc);
+		values.put(COLUMN_DESCRIPTION, description);
 		
 		// is_uploaded
 		values.put(COLUMN_COUNT, Integer.parseInt(count));

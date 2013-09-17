@@ -285,22 +285,6 @@ public class ActivityDownloadScripts extends Activity
 	    getActionBar().setTitle(title);
 	}
 	
-//	private Uri insertNewScriptIntoDB() 
-//	{
-//		ContentValues values = new ContentValues();
-//		
-//		TableSessions.setValuesForInsertSessionItem(values, 
-//				Utils.ConstantVars.scriptItemIdForNewSession, 
-//				Utils.ConstantVars.speakerItemIdForNewSession);
-//		
-//		Uri uriNewSessionItem = 
-//				getContentResolver().insert(SrmUriMatcher.CONTENT_URI_TABLE_SESSIONS, values);
-//		
-//		return uriNewSessionItem;
-//		
-//	}
-	
-
 	/**
 	 * 
 	 *

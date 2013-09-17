@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -40,6 +41,8 @@ import com.dropbox.client2.session.AccessTokenPair;
 import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session.AccessType;
 import com.dropbox.client2.session.TokenPair;
+import com.srandroid.database.SrmContentProvider.SrmUriMatcher;
+import com.srandroid.database.TableScripts;
 import com.srandroid.main.TestActivitySessionDetails;
 import com.srandroid.main.ActivityDownloadScripts.LocalAdapterDownloadScripts;
 import com.srandroid.speechrecorder.R;
@@ -637,16 +640,18 @@ public class SrmDropboxHandler
 			Log.w(LOGTAG, "onPostExecute() get result=" + result);
 			
 			progDialog.dismiss();
-			if(result)
+			if(result && destFile.exists())
 			{
 				Utils.UIutils.toastTextToUser(context, "Downloaded file " + destFile.getName());
 
-				//method write script into db
+				insertNewScriptIntoDB(destFile);
 				
-				TextView textIsDownloaded = (TextView) view.findViewById(R.id.itemScriptInServer_textIsDownloadedValue);
+				TextView textIsDownloaded = 
+						(TextView) view.findViewById(R.id.itemScriptInServer_textIsDownloadedValue);
 		        textIsDownloaded.setText("downloaded");
 		        
-		        Button butDownload = (Button) view.findViewById(R.id.itemScriptInServer_buttonDownload);
+		        Button butDownload = 
+		        		(Button) view.findViewById(R.id.itemScriptInServer_buttonDownload);
 	        	butDownload.setVisibility(View.INVISIBLE);
 			}
 			else
@@ -697,6 +702,21 @@ public class SrmDropboxHandler
 			
 			return info;
 		}
+		
+		private Uri insertNewScriptIntoDB(File scriptFile)
+		{
+			ContentValues valuesTemp1 = new ContentValues();
+    		TableScripts.setValuesForInsertScriptItem(
+    				valuesTemp1, 
+    				"1", 
+    				scriptFile.getAbsolutePath(), 
+    				"downloaded from server Dropbox",
+    				"0");
+    		Uri uri = context.getContentResolver().insert(SrmUriMatcher.CONTENT_URI_TABLE_SCRIPTS, valuesTemp1);
+    		Log.w(LOGTAG, "insertNewScriptIntoDB() inserted example script id=" + uri);
+    		return uri;
+		}
+		
 		
 	}
 	

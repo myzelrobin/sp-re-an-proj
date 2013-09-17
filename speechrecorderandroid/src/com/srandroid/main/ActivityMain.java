@@ -326,22 +326,11 @@ public class ActivityMain extends Activity
         		break;
         	case R.id.button_download_script:
         		Log.w(this.LOGTAG, "user clicked button download scripts");
+        		// Utils.toastText(getApplicationContext(), "clicked download script");
         		
         		newI = new Intent(ActivityMain.this, ActivityDownloadScripts.class);
         		// newI.putExtra("key", value); //Optional parameters
         		ActivityMain.this.startActivity(newI);
-        		
-        		// Utils.toastText(getApplicationContext(), "clicked download script");
-
-//        		ContentValues valuesTemp1 = new ContentValues();
-//        		TableScripts.setValuesForInsertScriptItem(valuesTemp1, 
-//        				"1", 
-//        				"/APP_FOLDER/Sscripts/servers/server_1/script_1.xml", 
-//        				"An example script from server #1",
-//        				"0");
-//        		Log.w(this.getClass().getName(), " click 'download script' will insert example scripts");
-//        		Uri uri_1 = getContentResolver().insert(SrmUriMatcher.CONTENT_URI_TABLE_SCRIPTS, valuesTemp1);
-//        		Log.w(this.getClass().getName(), " inserted example script id=" + uri_1);
         		
         		break;
         		
