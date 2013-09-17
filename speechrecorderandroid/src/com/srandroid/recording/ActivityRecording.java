@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.srandroid.recording;
 
 import java.io.File;
