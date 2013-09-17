@@ -2,25 +2,25 @@
 
     <!-- Buttons shown in overflow in Actionbar -->
     <group 
-        android:id="@+id/bgroup_overflow"    
-        android:visible="false"
-        android:orderInCategory="100" >
+    android:id="@+id/bgroup_overflow"    
+    android:visible="false"
+    android:orderInCategory="100" >
             
         <item
-            android:id="@+id/button_settings"
-            android:showAsAction="never"
-            android:title="@string/button_settings" />
+        android:id="@+id/button_settings"
+        android:showAsAction="never"
+        android:title="@string/button_settings" />
         
         <item
-            android:id="@+id/button_exit"
-            android:showAsAction="never"
-            android:title="@string/button_exit" />
+        android:id="@+id/button_exit"
+        android:showAsAction="never"
+        android:title="@string/button_exit" />
     
     </group>
     
     <group 
-        android:id="@+id/bgroup_overflow_empty"    
-        android:visible="false" >
+    android:id="@+id/bgroup_overflow_empty"    
+    android:visible="false" >
     
     </group>
     
@@ -32,14 +32,14 @@
     <!-- Fragment "Sessions" -->
     <!-- Buttons in Actionbar for Fragment "Sessions"-->
     <group 
-        android:id="@+id/bgroup_sessions"
-        android:visible="false" >
+    android:id="@+id/bgroup_sessions"
+    android:visible="false" >
     
         <item
-	        android:id="@+id/button_search_sessions"
-	        android:icon="@drawable/ic_button_search"
-	        android:showAsAction="always"
-	        android:title="@string/button_search" />
+	    android:id="@+id/button_search_sessions"
+	    android:icon="@drawable/ic_button_search"
+	    android:showAsAction="always"
+	    android:title="@string/button_search" />
     </group>
     
     
@@ -47,20 +47,20 @@
     <!-- Fragment "Scripts" -->
     <!-- Buttons in Actionbar for Fragment "Scripts"-->
     <group 
-        android:id="@+id/bgroup_scripts"
-        android:visible="false" >
+    android:id="@+id/bgroup_scripts"
+    android:visible="false" >
     
         <item
-            android:id="@+id/button_download_script"
-            android:icon="@drawable/ic_button_download"
-            android:showAsAction="always"
-            android:title="@string/button_download" />
+        android:id="@+id/button_download_script"
+        android:icon="@drawable/ic_button_download"
+        android:showAsAction="always"
+        android:title="@string/button_download" />
         
         <item
-            android:id="@+id/button_search_scripts"
-            android:icon="@drawable/ic_button_search"
-            android:showAsAction="always"
-            android:title="@string/button_search" />
+        android:id="@+id/button_search_scripts"
+        android:icon="@drawable/ic_button_search"
+        android:showAsAction="always"
+        android:title="@string/button_search" />
         
     </group>
     
@@ -68,20 +68,20 @@
     <!-- Fragment "Speakers" -->
     <!-- Buttons in Actionbar for Fragment "Speakers"-->
     <group 
-        android:id="@+id/bgroup_speakers"
-        android:visible="false" >
+    android:id="@+id/bgroup_speakers"
+    android:visible="false" >
     
         <item
-            android:id="@+id/button_add_speaker"
-            android:icon="@drawable/ic_button_add"
-            android:showAsAction="always"
-            android:title="@string/button_add" />
+        android:id="@+id/button_add_speaker"
+        android:icon="@drawable/ic_button_add"
+        android:showAsAction="always"
+        android:title="@string/button_add" />
         
         <item
-            android:id="@+id/button_search_speakers"
-            android:icon="@drawable/ic_button_search"
-            android:showAsAction="always"
-            android:title="@string/button_search" />
+        android:id="@+id/button_search_speakers"
+        android:icon="@drawable/ic_button_search"
+        android:showAsAction="always"
+        android:title="@string/button_search" />
         
     </group>
     
@@ -105,14 +105,13 @@
     <!-- ################################################################# -->
     <!-- Activity speaker details -->
     <group 
-        android:id="@+id/bgroup_speakerdetails"
-        android:visible="false" >
+    android:id="@+id/bgroup_speakerdetails"
+    android:visible="false" >
     
         <item
-            android:id="@+id/activity_speakerdetails_button_start"
-            android:icon="@drawable/icon_button_mic"
-            android:showAsAction="always"
-            android:title="@string/activity_speakerdetails_button_startrecording_text" />
+        android:id="@+id/activity_speakerdetails_button_start"
+        android:showAsAction="always"
+        android:title="@string/activity_speakerdetails_button_startnewsession_text" />
         
         <item
         android:showAsAction="never"
@@ -123,14 +122,13 @@
     <!-- ################################################################# -->
     <!-- Activity script details -->
     <group 
-        android:id="@+id/bgroup_scriptdetails"
-        android:visible="false" >
+    android:id="@+id/bgroup_scriptdetails"
+    android:visible="false" >
     
         <item
-            android:id="@+id/activity_scriptdetails_button_start"
-            android:icon="@drawable/icon_button_mic"
-            android:showAsAction="always"
-            android:title="@string/activity_scriptdetails_button_startrecording_text" />
+        android:id="@+id/activity_scriptdetails_button_start"
+        android:showAsAction="always"
+        android:title="@string/activity_scriptdetails_button_startnewsession_text" />
         
         <item
         android:showAsAction="never"
@@ -168,8 +166,8 @@
     <!-- ################################################################# -->
     <!-- Activity session details -->
     <group 
-        android:id="@+id/bgroup_sessiondetails"
-        android:visible="false" >
+    android:id="@+id/bgroup_sessiondetails"
+    android:visible="false" >
         
 <!--         <item -->
 <!--             android:id="@+id/act_sessiondetails_button_testlistfile" -->
@@ -187,16 +185,16 @@
 <!--             android:title="DOWNLOAD" /> -->
 
         <item
-            android:id="@+id/act_sessiondetails_button_upload"
-            android:icon="@drawable/ic_button_upload"
-            android:showAsAction="always"
-            android:title="@string/upload" />
+        android:id="@+id/act_sessiondetails_button_upload"
+        android:icon="@drawable/ic_button_upload"
+        android:showAsAction="always"
+        android:title="@string/upload" />
         
         <item
-            android:id="@+id/act_sessiondetails_button_start"
-            android:icon="@drawable/icon_button_mic"
-            android:showAsAction="always"
-            android:title="@string/record" />
+        android:id="@+id/act_sessiondetails_button_start"
+        android:icon="@drawable/icon_button_mic"
+        android:showAsAction="always"
+        android:title="@string/record" />
         
         <item
         android:showAsAction="never"
@@ -207,13 +205,13 @@
     <!-- ################################################################# -->
     <!-- Activity PreRecording -->
     <group 
-        android:id="@+id/bgroup_prerecording"
-        android:visible="false" >
+    android:id="@+id/bgroup_prerecording"
+    android:visible="false" >
     
         <item
-            android:id="@+id/act_prerecording_button_test"
-            android:showAsAction="always"
-            android:title="@string/act_prerecoring_button_test_text" />
+        android:id="@+id/act_prerecording_button_test"
+        android:showAsAction="always"
+        android:title="@string/act_prerecoring_button_test_text" />
         
         <item
         android:showAsAction="never"
@@ -224,13 +222,13 @@
     <!-- ################################################################# -->
     <!-- Activity Recording -->
     <group 
-        android:id="@+id/bgroup_recording"
-        android:visible="false" >
+    android:id="@+id/bgroup_recording"
+    android:visible="false" >
     
         <item
-            android:id="@+id/act_recoding_button_done"
-            android:showAsAction="always"
-            android:title="@string/done" />
+        android:id="@+id/act_recoding_button_done"
+        android:showAsAction="always"
+        android:title="@string/done" />
         
         <item
         android:showAsAction="never"
