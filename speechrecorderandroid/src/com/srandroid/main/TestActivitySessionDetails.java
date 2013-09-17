@@ -106,6 +106,9 @@ public class TestActivitySessionDetails extends Activity
 	    
 	    private ArrayList<String> itemlist = new ArrayList<String> (); // for adapter
 	    private ArrayList<String> recordItemIdList = new ArrayList<String> ();
+	    // for uploading, need a new data structure 
+	    private ArrayList<String> filePathList = new ArrayList<String> (); 
+	    
 	    
 	    private int recItemsCount = 0;
 	    
@@ -158,7 +161,10 @@ public class TestActivitySessionDetails extends Activity
 	        // create itemlist
 	        getSessionItemInfos(sessionItemId);
 			
-	        if(isSessionFinished) getRecordsIDsForSession(sessionItemId);
+	        if(isSessionFinished)
+        	{
+	        	getRecordItemInfosForSession(sessionItemId);
+        	}
 	        else
 	        {
 	        	itemlist.add(0, "SESSION_ITEM");
@@ -349,7 +355,7 @@ public class TestActivitySessionDetails extends Activity
 	        		
 	        			Log.w(LOGTAG, "user clicked button upload"); 
 	        			
-	        			uploadSession(Utils.ConstantVars.DIR_EXT_NEWSESSION_FOLDER_PATH_TEST);
+	        			uploadSession(filePathList);
 	        			
 //	        			dropboxHandler.createDropboxAPI();
 //	        			
@@ -450,6 +456,7 @@ public class TestActivitySessionDetails extends Activity
 					+ " with sessionItemId=" + sessionItemId);
 			
 			// query from db
+			// for uploading, use session LOJ script, here use script example
 	        String[] selectColumns = {
 	        		TableSessions.COLUMN_ID,
 					TableSessions.COLUMN_SCRIPT_ID,
@@ -484,16 +491,19 @@ public class TestActivitySessionDetails extends Activity
 				
 				Log.w(LOGTAG, 
 						"getSessionItemInfos() find speakerIdForSession=" + speakerIdForSession);
+				
+				// here use example script as an example
+				filePathList.add(0, Utils.ConstantVars.DIR_EXT_SCRIPTS_PATH + "/example_script.xml");
 			}
 			
 			
 			cursor.close();
 		}
 		
-		private int getRecordsIDsForSession(String sessionId)
+		private int getRecordItemInfosForSession(String sessionId)
 		{
 			Log.w(LOGTAG, 
-					"getRecordsCountForScript() will query item count from table records "
+					"getRecordItemInfosForSession() will query item count from table records "
 					+ " sessionId=" + sessionId);
 			
 			int count = 0;
@@ -501,6 +511,7 @@ public class TestActivitySessionDetails extends Activity
 			// query from db
 	        String[] selectColumns = {
 	        		TableRecords.COLUMN_ID,
+	        		TableRecords.COLUMN_FILEPATH,
 	        		TableRecords.COLUMN_SESSION_ID};
 			
 	        String wherePart = "session_id=" + sessionId;
@@ -510,32 +521,26 @@ public class TestActivitySessionDetails extends Activity
 					selectColumns, wherePart, null, null);
 			cursor.moveToFirst();
 			
-			Log.w(LOGTAG, 
-					"getRecordsIDsForSession() gets count=" + cursor.getCount());
-			
 			if (cursor != null && cursor.getCount()!=0) 
 			{
-				count = cursor.getCount();
-				
-				Log.w(LOGTAG, "getRecordsIDsForSession() gets count=" + count);
-				
 				recItemsCount = cursor.getCount();
+				count = recItemsCount;
+				Log.w(LOGTAG, "getRecordItemInfosForSession() gets count=" + recItemsCount);
+				// filePathList.add(Utils.ConstantVars.DIR_EXT_SCRIPTS_PATH + "/example_script.xml");
 				
 				itemlist.add(0, "SESSION_ITEM");
+				recordItemIdList.add(0, "-1");
+				cursor.moveToFirst();
 				for(int i = 1; i < recItemsCount + 1; i++)
 				{
 					itemlist.add(i, "RECORD_ITEM");
-				}
-				
-				recordItemIdList.add(0, Integer.toString(-1));
-				for(int i = 1; i < recItemsCount + 1; i++)
-				{
 					recordItemIdList.add(i, 
-							cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ID)));
+							cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_ID)) );
+					filePathList.add(i, 
+							cursor.getString(cursor.getColumnIndexOrThrow(TableRecords.COLUMN_FILEPATH)) );
+					cursor.moveToNext();
 				}
-				
 			}
-			
 			cursor.close();
 			
 			return count;
@@ -803,41 +808,68 @@ public class TestActivitySessionDetails extends Activity
 //			cursor.close();
 //		}
 		
-		private void uploadSession(String sessionFolderPath)
+		// private void uploadSession(String sessionFolderPath) uses session folder path
+		// should use session id, or a data structure with session id and others
+		private void uploadSession(ArrayList<String> filePathList)
 		{
-			Log.w(LOGTAG, "uploadSession() will upload session at=" + sessionFolderPath);
+			Log.w(LOGTAG, "uploadSession() will upload session id=" + sessionItemId + 
+					" with " + filePathList.size() + " files.");
 			
-			File sessionFolder = new File(sessionFolderPath);
-			String sessionFolderName = null;
-			File[] fileList = null;
+			File originFile = null;
 			
-			if(sessionFolder.exists() && sessionFolder.isDirectory())
+			for(String path : filePathList)
 			{
-				sessionFolderName = sessionFolder.getName();
+				originFile = new File(path);
 				
-				fileList = sessionFolder.listFiles();
-				
-				for(File file : fileList)
+				if(originFile.exists() && originFile.isFile())
 				{
-					// do not upload folder test
-					if(file.isFile())
-					{
-						dropboxHandler.createDropboxAPI();
-						AsyncTask<Void, Long, Boolean> uploadFileIntoDropboxTask =
-								new UploadFileIntoDropboxTask(
-										context,
-										this,
-										dropboxHandler.dropbox,
-										file.getAbsolutePath())
-								.execute();
-					}
+					dropboxHandler.createDropboxAPI();
+					AsyncTask<Void, Long, Boolean> uploadFileIntoDropboxTask =
+							new UploadFileIntoDropboxTask(
+									context,
+									this,
+									dropboxHandler.dropbox,
+									"sessionID" + sessionItemId,
+									originFile)
+							.execute();
 				}
-				
-				
-				// method to update GUI
+				else Log.w(LOGTAG, "uploadSession() file does NOT exist at=" + originFile.getAbsolutePath());
 			}
-			else Log.w(LOGTAG, "uploadSession() session folder does NOT exist at=" + sessionFolderPath);
+			
+			
+			
+//			File sessionFolder = new File(sessionFolderPath);
+//			String sessionFolderName = null;
+//			File[] fileList = null;
+//			
+//			if(sessionFolder.exists() && sessionFolder.isDirectory())
+//			{
+//				sessionFolderName = sessionFolder.getName();
+//				
+//				fileList = sessionFolder.listFiles();
+//				
+//				for(File file : fileList)
+//				{
+//					// do not upload folder test
+//					if(file.isFile())
+//					{
+//						dropboxHandler.createDropboxAPI();
+//						AsyncTask<Void, Long, Boolean> uploadFileIntoDropboxTask =
+//								new UploadFileIntoDropboxTask(
+//										context,
+//										this,
+//										dropboxHandler.dropbox,
+//										"sessionID" + sessionItemId,
+//										file.getAbsolutePath())
+//								.execute();
+//					}
+//				}
+//				
+//				// method to update GUI
+//			}
+//			else Log.w(LOGTAG, "uploadSession() session folder does NOT exist at=" + sessionFolderPath);
 		}
+		
 		
 		private void toastSwipeHint()
 		{

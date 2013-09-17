@@ -432,7 +432,8 @@ public class SrmDropboxHandler
 		private Context context;
 		private Activity activity;
 		private DropboxAPI<AndroidAuthSession> dropbox;
-		private String locFilePath;
+		private String folderNameInDropbox;
+		private File originFile;
 		
 		private UploadRequest uploadReq;
 		
@@ -442,12 +443,14 @@ public class SrmDropboxHandler
 				Context context, 
 				Activity activity, 
 				DropboxAPI<AndroidAuthSession> dropbox,
-				String locFilePath)
+				String folderNameInDropbox,
+				File originFile)
 		{
 			this.context = context;
 			this.activity = activity;
 			this.dropbox = dropbox;
-			this.locFilePath = locFilePath;
+			this.folderNameInDropbox = folderNameInDropbox;
+			this.originFile = originFile;
 			
 			progDialog = new ProgressDialog(activity);
 			progDialog.setMessage("Uploading file into Dropbox");
@@ -465,16 +468,14 @@ public class SrmDropboxHandler
 			
 			try 
 			{
-				File file = new File(locFilePath);
-				
 				Log.w(LOGTAG, "will upload file into Dropbox" +
-						", filename=" + file.getName() + 
-						", filesize=" + (file.length() / MEGA_BYTES) + "Mb" +
-						", filepath=" + file.getAbsolutePath());
+						", filename=" + originFile.getName() + 
+						", filesize=" + (originFile.length() / MEGA_BYTES) + "Mb" +
+						", filepath=" + originFile.getAbsolutePath());
 				
-				FileInputStream fis = new FileInputStream(file);
+				FileInputStream fis = new FileInputStream(originFile);
 
-				entry = uploadFileToDropbox(dropbox, fis, file, null);
+				entry = uploadFileToDropbox(dropbox, fis, folderNameInDropbox, originFile, null);
 				
 				if( !entry.path.equals(null) ) result = true;
 				
@@ -515,19 +516,19 @@ public class SrmDropboxHandler
 		private Entry uploadFileToDropbox(
 				DropboxAPI<AndroidAuthSession> dropbox, 
 				FileInputStream fis, 
-				File file,
+				String folderNameInDropbox,
+				File originFile,
 				ProgressListener progListener) 
 						throws DropboxException
 		{
-			String folderName = file.getParentFile().getName();
-			String fileName = file.getName();
+			String fileName = originFile.getName();
 			String filePathInDropbox = 
 					SrmDropboxHandler.FOLDER_UPLOADS_PATH + File.separator
-					+ folderName + File.separator + fileName;
-			long fileSize = file.length();
+					+ folderNameInDropbox + File.separator + fileName;
+			long fileSize = originFile.length();
 			
 			Log.w(LOGTAG, "uploadFileToDropbox() will upload a file into dropbox," +
-					" file=" + file.getAbsolutePath() + 
+					" file=" + originFile.getAbsolutePath() + 
 					", to fileInDropbox=" + filePathInDropbox);
 			
 			Entry uploadedFileEntry = null;

@@ -622,7 +622,7 @@ public class Utils
 				" created new session folder path=" + 
 				Utils.ConstantVars.DIR_EXT_NEWSESSION_FOLDER_PATH);
 		
-		// copy script file into new session folder
+		// copy script file into new session folder, here use example script as an example
 		copyFileToFolder(Utils.ConstantVars.DIR_EXT_SCRIPTS_PATH + "/example_script.xml", 
 				Utils.ConstantVars.DIR_EXT_NEWSESSION_FOLDER_PATH);
 		
