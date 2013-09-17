@@ -54,7 +54,7 @@ style="@style/style_linearlayout_item" >
                 android:id="@+id/itemScriptInServer_buttonDownload"
                 android:text="@string/download"
                 android:textSize="12sp"
-                android:visibility="visible" />
+                android:visibility="invisible" />
                 
             </RelativeLayout>
             

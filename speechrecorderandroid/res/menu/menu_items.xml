@@ -137,10 +137,10 @@
         android:showAsAction="always"
         android:title="@string/act_downloadscripts_button_listall_text" />
         
-        <item
-        android:id="@+id/act_downloadscripts_button_downloadall"
-        android:showAsAction="always"
-        android:title="@string/act_downloadscripts_button_downloadall_text" />
+<!--         <item -->
+<!--         android:id="@+id/act_downloadscripts_button_downloadall" -->
+<!--         android:showAsAction="always" -->
+<!--         android:title="@string/act_downloadscripts_button_downloadall_text" /> -->
         
         <item
         android:id="@+id/act_downloadscripts_button_authen"

@@ -307,7 +307,7 @@ public class Utils
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			Log.w(LOGTAG, "APP_DIR_INT=" + DIR_APP_INT_PATH);
+			Log.w(LOGTAG, "DIR_APP_INT_PATH=" + DIR_APP_INT_PATH);
 			
 			// get files folder path (/data/data/APP_PACKAGE/files)
 			try {
@@ -316,7 +316,7 @@ public class Utils
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			Log.w(LOGTAG, "APP_FILES_DIR_INT=" + DIR_APP_INT_FILES_PATH);
+			Log.w(LOGTAG, "DIR_APP_INT_FILES_PATH=" + DIR_APP_INT_FILES_PATH);
 			
 			// get app folder path in sdcard(/mnt/sdcard/Android/APP_PACKAGE/)
 			try {
@@ -325,19 +325,19 @@ public class Utils
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			Log.w(LOGTAG, "APP_DIR_EXT=" + DIR_APP_EXT_PATH);
+			Log.w(LOGTAG, "DIR_APP_EXT_PATH=" + DIR_APP_EXT_PATH);
 			
 			// make folder path in sdcard(/mnt/sdcard/Android/APP_PACKAGE/records/)
 			DIR_EXT_RECFILES_PATH = makeDir(DIR_APP_EXT_PATH, "records");
-			Log.w(LOGTAG, "REC_FILES_DIR_EXT=" + DIR_EXT_RECFILES_PATH);
+			Log.w(LOGTAG, "DIR_EXT_RECFILES_PATH=" + DIR_EXT_RECFILES_PATH);
 			
 			// make folder path in sdcard(/mnt/sdcard/Android/APP_PACKAGE/records/test)
 			DIR_EXT_TESTMIC_PATH = makeDir(DIR_EXT_RECFILES_PATH, "test");
-			Log.w(LOGTAG, "REC_TEST_DIR_EXT=" + DIR_EXT_TESTMIC_PATH);
+			Log.w(LOGTAG, "DIR_EXT_TESTMIC_PATH=" + DIR_EXT_TESTMIC_PATH);
 			
 			// make folder path in sdcard()
 			DIR_EXT_SCRIPTS_PATH = makeDir(DIR_APP_EXT_PATH, "scripts");
-			Log.w(LOGTAG, "SCRIPTS_DIR_EXT_PATH=" + DIR_EXT_SCRIPTS_PATH);
+			Log.w(LOGTAG, "DIR_EXT_SCRIPTS_PATH=" + DIR_EXT_SCRIPTS_PATH);
 			
 			getScreenSize(context);
 			setLayoutValuesInVerticalMode();

@@ -3,6 +3,7 @@
  */
 package com.srandroid.main;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -17,6 +18,7 @@ import com.srandroid.database.TableSpeakers;
 import com.srandroid.database.SrmContentProvider.SrmUriMatcher;
 import com.srandroid.main.ActivityScriptDetails;
 import com.srandroid.network.SrmDropboxHandler;
+import com.srandroid.network.SrmDropboxHandler.DownloadFileFromDropboxTask;
 import com.srandroid.network.SrmDropboxHandler.GetDropboxFileInfosTask;
 import com.srandroid.network.SrmNetworkHandler;
 import com.srandroid.util.Utils;
@@ -38,6 +40,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -68,7 +71,7 @@ public class ActivityDownloadScripts extends Activity
 	
 	
 	// network
-	private SrmDropboxHandler dropboxHandler;
+	private static SrmDropboxHandler dropboxHandler;
 	
 	
 	// informations
@@ -233,11 +236,11 @@ public class ActivityDownloadScripts extends Activity
 		        							.execute();
 	        	break;
 	        	
-        	case R.id.act_downloadscripts_button_downloadall:
-		    		
-		    	Log.w(LOGTAG, "user clicked button download all, start download all scripts");
-		    	
-	    		break;
+//        	case R.id.act_downloadscripts_button_downloadall:
+//		    		
+//		    	Log.w(LOGTAG, "user clicked button download all, start download all scripts");
+//		    	
+//	    		break;
 	    		
         	case R.id.act_downloadscripts_button_authen:
 	    		
@@ -307,14 +310,16 @@ public class ActivityDownloadScripts extends Activity
 		private final String LOGTAG = LocalAdapterDownloadScripts.class.getName();
 		
 		private Context context;
+		private Activity activity;
 		private Entry dirEntry;
 		private ArrayList<Entry> entryList;
 		
-		public LocalAdapterDownloadScripts(Context context, Entry dirEntry)
+		public LocalAdapterDownloadScripts(Context context, Activity act, Entry dirEntry)
 		{
 			Log.w(LOGTAG, "Constructor will create a LocalAdapterDownloadScripts");
 			
 			this.context = context;
+			this.activity = act;
 			this.dirEntry = dirEntry;
 			if(dirEntry == null) entryList = null;
 			else if(dirEntry.isDir)
@@ -376,26 +381,52 @@ public class ActivityDownloadScripts extends Activity
 			return itemView;
 		}
 		
-		private void fillScriptItem(View view, ArrayList<Entry> entryList, int position)
+		private void fillScriptItem(final View view, ArrayList<Entry> entryList, int position)
 		{
 			Log.w(LOGTAG, "fillScriptItem() will fill itemview position=" + position);
 			
 			if(entryList != null)
 			{
-				Entry entry = entryList.get(position);
+				// get one script file info
+				final Entry entry = entryList.get(position);
+				String fileName = entry.fileName();
+				final File scriptFile = new File(Utils.ConstantVars.DIR_EXT_SCRIPTS_PATH, fileName);
 
 				TextView textScriptId = (TextView) view.findViewById(R.id.itemScriptInServer_textIdValue);
-				textScriptId.setText(entry.fileName());
+				textScriptId.setText(fileName);
 				
 				TextView textScriptDesc = (TextView) view.findViewById(R.id.itemScriptInServer_textDesciptionValue);
 		        textScriptDesc.setText("file size is " + entry.size);
 		        
 		        TextView textIsDownloaded = (TextView) view.findViewById(R.id.itemScriptInServer_textIsDownloadedValue);
-		        // need a method to check if this file is downloaded in local, check file.exist(), set button visible or invisible
-		        textIsDownloaded.setText("undownloaded");
 		        
-		        Button butDownload = (Button) view.findViewById(R.id.itemScriptInServer_buttonDownload);
-		        // clicklistener?
+		        if(scriptFile.exists()) textIsDownloaded.setText("downloaded");
+		        else 
+		        {
+		        	textIsDownloaded.setText("NOT downloaded");
+		        	
+		        	Button butDownload = (Button) view.findViewById(R.id.itemScriptInServer_buttonDownload);
+		        	butDownload.setVisibility(View.VISIBLE);
+		        	butDownload.setOnClickListener(
+		        			new OnClickListener() 
+		        			{
+								@Override
+								public void onClick(View v) 
+								{
+									dropboxHandler.createDropboxAPI();
+									AsyncTask<Void, Long, Boolean> downloadFileFromDropbox = 
+											new DownloadFileFromDropboxTask(
+													context, 
+													activity, 
+													dropboxHandler.dropbox,
+													entry.path,
+													scriptFile,
+													view);
+								}
+		        			});
+			        // clicklistener?
+		        }
+		        
 			}
 			else
 			{
@@ -440,6 +471,7 @@ public class ActivityDownloadScripts extends Activity
 //	        
 //	        cursor.close();
 		}
+		
 		
 	}
 

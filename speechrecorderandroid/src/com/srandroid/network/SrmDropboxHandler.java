@@ -24,7 +24,9 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.DropboxFileInfo;
@@ -73,19 +75,12 @@ public class SrmDropboxHandler
 	
 	public boolean isAppAuthorized;
 	
-	public static final String FOLDERROOT = "root";
 	public static final String FOLDER_ROOT_PATH = "/";
 	public static final String FOLDER_SCRIPTS_PATH = "/scripts";
 	public static final String FOLDER_UPLOADS_PATH = "/uploads";
 	
 	// files for test
-	public static final String FILEPATH_INDB_SCRIPT = "/scripts/script_exp_download_01.txt";
-	public static final String FILEPATH_LOCAL_SCRIPT = 
-			Utils.ConstantVars.DIR_EXT_RECFILES_PATH + "/test_dropbox/script_example_upload.xml.txt";
-	public static final String FILEPATH_LOCAL_RECORD = 
-			Utils.ConstantVars.DIR_EXT_RECFILES_PATH + "/test_dropbox/test_record.wav";
-	public static final String FOLDERPATH_LOCAL_DB_TEST = 
-			Utils.ConstantVars.DIR_EXT_RECFILES_PATH + "/test_dropbox";
+	public static final String FILEPATH_INDB_SCRIPT_TEST = "/scripts/script_exp_download_01.txt";
 	
 	/**
 	 * 
@@ -366,7 +361,7 @@ public class SrmDropboxHandler
 			
 			if(!dirEntry.path.equals(null))
 			{
-				adapter = new LocalAdapterDownloadScripts(context, dirEntry);
+				adapter = new LocalAdapterDownloadScripts(context, activity, dirEntry);
 				
 				gridView.setAdapter(adapter);
 				
@@ -427,9 +422,9 @@ public class SrmDropboxHandler
 	 * need a View parameter for find record file path, if null for script path
 	 * use a SessionItem better?
 	 */
-	public static class UploadFileTask extends AsyncTask<Void, Long, Boolean>
+	public static class UploadFileIntoDropboxTask extends AsyncTask<Void, Long, Boolean>
 	{
-		private final String LOGTAG = UploadFileTask.class.getName();
+		private final String LOGTAG = UploadFileIntoDropboxTask.class.getName();
 	
 		private Context context;
 		private Activity activity;
@@ -438,8 +433,9 @@ public class SrmDropboxHandler
 		
 		private UploadRequest uploadReq;
 		
+		private ProgressDialog progDialog;
 		
-		public UploadFileTask(
+		public UploadFileIntoDropboxTask(
 				Context context, 
 				Activity activity, 
 				DropboxAPI<AndroidAuthSession> dropbox,
@@ -449,6 +445,10 @@ public class SrmDropboxHandler
 			this.activity = activity;
 			this.dropbox = dropbox;
 			this.locFilePath = locFilePath;
+			
+			progDialog = new ProgressDialog(activity);
+			progDialog.setMessage("Uploading file into Dropbox");
+			progDialog.show();
 		}
 		
 		@Override
@@ -466,7 +466,7 @@ public class SrmDropboxHandler
 				
 				Log.w(LOGTAG, "will upload file into Dropbox" +
 						", filename=" + file.getName() + 
-						", filesize=" + (file.length() / MEGA_BYTES) +
+						", filesize=" + (file.length() / MEGA_BYTES) + "Mb" +
 						", filepath=" + file.getAbsolutePath());
 				
 				FileInputStream fis = new FileInputStream(file);
@@ -506,6 +506,7 @@ public class SrmDropboxHandler
 		{
 			Log.w(LOGTAG, "upload file task onPostExecute() get result=" + result);
 			// if(result == ?)
+			progDialog.dismiss();
 		}
 		
 		private Entry uploadFileToDropbox(
@@ -546,36 +547,45 @@ public class SrmDropboxHandler
 	 * Class  
 	 *
 	 */
-	public static class DownloadFileTask extends AsyncTask<Void, Long, Boolean>
+	public static class DownloadFileFromDropboxTask extends AsyncTask<Void, Long, Boolean>
 	{
-		private final String LOGTAG = DownloadFileTask.class.getName();
+		private final String LOGTAG = DownloadFileFromDropboxTask.class.getName();
 	
 		private Context context;
 		private Activity activity;
 		private DropboxAPI<AndroidAuthSession> dropbox;
 		private String filePathInDropbox;
-		private String folderLocal;
+		private File destFile;
+		private View view;
 		
 		private ArrayList<String> dirList;
 		
-		public DownloadFileTask(
+		private ProgressDialog progDialog;
+		
+		public DownloadFileFromDropboxTask(
 				Context context, 
 				Activity activity, 
 				DropboxAPI<AndroidAuthSession> dropbox,
 				String filePathInDropbox,
-				String folderLocal)
+				File destFile,
+				View view)
 		{
 			this.context = context;
 			this.activity = activity;
 			this.dropbox = dropbox;
 			this.filePathInDropbox = filePathInDropbox;
-			this.folderLocal = folderLocal;
+			this.destFile = destFile;
+			this.view = view;
+			
+			progDialog = new ProgressDialog(activity);
+			progDialog.setMessage("Downloading Scripts from Dropbox");
+			progDialog.show();
 		}
 		
 		@Override
 		protected Boolean doInBackground(Void... params) 
 		{
-			Log.w(LOGTAG, " download file doInBackground() starts ");
+			Log.w(LOGTAG, " download file from dropbox doInBackground() starts ");
 			
 			boolean result = false;
 			
@@ -586,18 +596,14 @@ public class SrmDropboxHandler
 			try 
 			{
 				entry = getFileInfos(dropbox, filePathInDropbox);
-				if( !entry.path.equals(null) )
+				if( !entry.path.equals(null) && !destFile.exists() )
 				{
-					String fileName = entry.fileName();
-					
-					File fileLocal = new File(folderLocal, fileName);
-					
-					FileOutputStream fos = new FileOutputStream(fileLocal);
+					FileOutputStream fos = new FileOutputStream(destFile);
 					
 					info = downloadFile(dropbox, fos, filePathInDropbox, null);
 					
 					Log.w(LOGTAG, "The downloaded file from=" + info.getMetadata().path +
-							", to=" + fileLocal.getAbsolutePath() + 
+							", to=" + destFile.getAbsolutePath() + 
 							", filesize=" + info.getMetadata().size);
 					
 					result = true;
@@ -629,7 +635,24 @@ public class SrmDropboxHandler
         protected void onPostExecute(Boolean result) 
 		{
 			Log.w(LOGTAG, "onPostExecute() get result=" + result);
-			// if(result == ?)
+			
+			progDialog.dismiss();
+			if(result)
+			{
+				Utils.UIutils.toastTextToUser(context, "Downloaded file " + destFile.getName());
+
+				//method write script into db
+				
+				TextView textIsDownloaded = (TextView) view.findViewById(R.id.itemScriptInServer_textIsDownloadedValue);
+		        textIsDownloaded.setText("downloaded");
+		        
+		        Button butDownload = (Button) view.findViewById(R.id.itemScriptInServer_buttonDownload);
+	        	butDownload.setVisibility(View.INVISIBLE);
+			}
+			else
+			{
+				Utils.UIutils.toastTextToUser(context, "Error downloading file " + destFile.getName());
+			}
 		}
 		
 		private Entry getFileInfos(
