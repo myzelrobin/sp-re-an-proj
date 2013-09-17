@@ -245,7 +245,7 @@
     <!-- #################################################################################### -->
     <!-- activity speaker detials -->
     <string name="activity_speakerdetials_title">Speaker Details</string>
-    <string name="activity_speakerdetails_button_startnewsession_text">Chooose For New Session</string>
+    <string name="activity_speakerdetails_button_startnewsession_text">Choose For New Session</string>
     <string name="activity_speakerdetails_name_text">Fullname</string>
     <string name="activity_speakerdetails_accent_text">Accent</string>
     <string name="activity_speakerdetails_sex_text">Sex</string>
@@ -258,7 +258,7 @@
     <!-- #################################################################################### -->
     <!-- activity script details -->
     <string name="activity_scriptdetails_title">Script Details</string>
-    <string name="activity_scriptdetails_button_startnewsession_text">Chooose For New Session</string>
+    <string name="activity_scriptdetails_button_startnewsession_text">Choose For New Session</string>
     <string name="activity_scriptdetails_scriptid_text">Script ID:</string>
     <string name="activity_scriptdetails_desc_text">This is Description part.</string>
     <string name="activity_scriptdetails_sessions_text">In Sessions</string>
@@ -275,7 +275,7 @@
     <!-- #################################################################################### -->
     <!-- activity session details -->
     <string name="act_sessiondetails_title">Session Details</string>
-    <string name="act_sessiondetails_button_startrecording_text">Start</string>
+    <string name="act_sessiondetails_button_startnewsession_text">Start New Session</string>
     <string name="act_sessiondetails_sessionid_text">Session ID:</string>
     <string name="act_sessiondetails_datetime_text">Date Time</string>
     <string name="act_sessiondetails_place_text">Place</string>

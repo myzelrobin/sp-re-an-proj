@@ -34,19 +34,13 @@ public class ActivityStartRecording extends Activity
 	
 	private Context context;
 	//private Activity thisAct;
-	/**
-	 * 
-	 */
+	
 	public ActivityStartRecording() 
 	{
 		this.context = this;
 		// this.thisAct = this;
 	}
 	
-	
-	
-	
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
@@ -70,62 +64,65 @@ public class ActivityStartRecording extends Activity
         setContentView(R.layout.linearlayout_act_startrecording);
         
         bStart = (Button) findViewById(R.id.act_startrec_button_start);
-        bStart.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) 
-			{
-				// Uils.toastTextToUser(getApplicationContext(), "start recording");
-	    		
-	    		Intent newI = new Intent((Activity) context, ActivityRecording.class);
-	    		newI.putExtra("isTestRecording", false);
-	    		
-	        	((Activity) context).startActivity(newI);
+        bStart.setOnClickListener(
+	        new OnClickListener() 
+	        {
 				
-			}
-		});
+				@Override
+				public void onClick(View v) 
+				{
+					// Uils.toastTextToUser(getApplicationContext(), "start recording");
+		    		
+		    		Intent newI = new Intent((Activity) context, ActivityRecording.class);
+		    		newI.putExtra("isTestRecording", false);
+		    		
+		        	((Activity) context).startActivity(newI);
+					
+				}
+			});
         
         bAgreement = (Button) findViewById(R.id.act_startrec_button_agreement);
-        bAgreement.setOnClickListener(new OnClickListener() 
-        {
-			@Override
-			public void onClick(View v) 
-			{
-				try 
+        bAgreement.setOnClickListener(
+	        new OnClickListener() 
+	        {
+				@Override
+				public void onClick(View v) 
 				{
-					AlertDialog.Builder builder = new AlertDialog.Builder((Activity) context);
-					builder.setTitle(R.string.act_startrecording_dialog_agreement_title_text);
-					builder.setMessage(R.string.act_startrecording_dialog_agreement_content_text)
-					       .setCancelable(true)
-					       .setPositiveButton(
-					    		   R.string.act_startrecording_dialog_agreement_button_agree,
-					    		   new DialogInterface.OnClickListener() 
-					    		   {
-										public void onClick(DialogInterface dialog,int id)
+					try 
+					{
+						AlertDialog.Builder builder = new AlertDialog.Builder((Activity) context);
+						builder.setTitle(R.string.act_startrecording_dialog_agreement_title_text);
+						builder.setMessage(R.string.act_startrecording_dialog_agreement_content_text)
+						       .setCancelable(true)
+						       .setPositiveButton(
+						    		   R.string.act_startrecording_dialog_agreement_button_agree,
+						    		   new DialogInterface.OnClickListener() 
+						    		   {
+											public void onClick(DialogInterface dialog,int id)
+											{
+												
+												dialog.dismiss();
+											}
+						    		   })
+								.setNegativeButton(
+										R.string.act_startrecording_dialog_agreement_button_disagree,
+										new DialogInterface.OnClickListener() 
 										{
-											
-											dialog.dismiss();
-										}
-					    		   })
-							.setNegativeButton(
-									R.string.act_startrecording_dialog_agreement_button_disagree,
-									new DialogInterface.OnClickListener() 
-									{
-										public void onClick(DialogInterface dialog,int id) 
-										{
-											
-											dialog.cancel();
-										}
-									});
-					AlertDialog alertDialog = builder.create();
-					alertDialog.show();
-				} 
-				catch (Exception e) 
-				{
-					e.printStackTrace();
+											public void onClick(DialogInterface dialog,int id) 
+											{
+												
+												dialog.cancel();
+											}
+										});
+						AlertDialog alertDialog = builder.create();
+						alertDialog.show();
+					} 
+					catch (Exception e) 
+					{
+						e.printStackTrace();
+					}
 				}
-			}
-		});
+			});
         
 	}
 	
@@ -182,18 +179,13 @@ public class ActivityStartRecording extends Activity
 	{
 	    super.onSaveInstanceState(savedInstanceState);
 	}
-
-
+	
 	@Override
 	public void onRestoreInstanceState(Bundle savedInstanceState) 
 	{
 	  super.onRestoreInstanceState(savedInstanceState);
 	}
 	
-	/**
-	 * 
-	 * @param title
-	 */
 	@Override
 	public void setTitle(CharSequence title) 
 	{
