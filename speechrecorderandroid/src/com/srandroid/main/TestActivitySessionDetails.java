@@ -52,9 +52,9 @@ import com.srandroid.database.TableServers.ServerItem;
 import com.srandroid.database.TableSessions;
 import com.srandroid.database.TableSpeakers;
 import com.srandroid.network.SrmDropboxHandler;
-import com.srandroid.network.SrmDropboxHandler.DownloadFileFromDropboxTask;
-import com.srandroid.network.SrmDropboxHandler.GetDropboxFileInfosTask;
-import com.srandroid.network.SrmDropboxHandler.UploadFileIntoDropboxTask;
+import com.srandroid.network.SrmDropboxHandler.AsyncTaskDownloadFileFromDropbox;
+import com.srandroid.network.SrmDropboxHandler.AsyncTaskGetFileInfosDropbox;
+import com.srandroid.network.SrmDropboxHandler.AsyncTaskUploadFileIntoDropbox;
 import com.srandroid.network.SrmNetworkHandler;
 import com.srandroid.recording.ActivityPreRecording;
 import com.srandroid.util.Utils;
@@ -825,7 +825,7 @@ public class TestActivitySessionDetails extends Activity
 				{
 					dropboxHandler.createDropboxAPI();
 					AsyncTask<Void, Long, Boolean> uploadFileIntoDropboxTask =
-							new UploadFileIntoDropboxTask(
+							new AsyncTaskUploadFileIntoDropbox(
 									context,
 									this,
 									dropboxHandler.dropbox,

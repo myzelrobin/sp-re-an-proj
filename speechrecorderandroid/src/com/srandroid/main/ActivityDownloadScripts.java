@@ -18,8 +18,8 @@ import com.srandroid.database.TableSpeakers;
 import com.srandroid.database.SrmContentProvider.SrmUriMatcher;
 import com.srandroid.main.ActivityScriptDetails;
 import com.srandroid.network.SrmDropboxHandler;
-import com.srandroid.network.SrmDropboxHandler.DownloadFileFromDropboxTask;
-import com.srandroid.network.SrmDropboxHandler.GetDropboxFileInfosTask;
+import com.srandroid.network.SrmDropboxHandler.AsyncTaskDownloadFileFromDropbox;
+import com.srandroid.network.SrmDropboxHandler.AsyncTaskGetFileInfosDropbox;
 import com.srandroid.network.SrmNetworkHandler;
 import com.srandroid.util.Utils;
 
@@ -227,7 +227,7 @@ public class ActivityDownloadScripts extends Activity
 	        	Log.w(LOGTAG, "user clicked button list all, start list all scripts");
 	        	// get script files
 		        dropboxHandler.createDropboxAPI();
-		        getScriptFilesInfoTask = new GetDropboxFileInfosTask(
+		        getScriptFilesInfoTask = new AsyncTaskGetFileInfosDropbox(
 		        								context,
 		        								this,
 		        								dropboxHandler.dropbox,
@@ -396,7 +396,7 @@ public class ActivityDownloadScripts extends Activity
 									
 									dropboxHandler.createDropboxAPI();
 									AsyncTask<Void, Long, Boolean> downloadFileFromDropbox = 
-											new DownloadFileFromDropboxTask(
+											new AsyncTaskDownloadFileFromDropbox(
 													context, 
 													activity, 
 													dropboxHandler.dropbox,

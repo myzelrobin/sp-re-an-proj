@@ -126,8 +126,10 @@ public class SrmNetworkHandler
 	{
 		public static final String TYPE_HTTP = "http";
 		public static final String TYPE_HTTPS = "https";
-		public static final String TYPE_SSH = "ssh"; // ???necessary
 		public static final String TYPE_DROPBOX = "dropbox";
+		// public static final String TYPE_GOOGLEDRIVE = "google_drive";
+		// public static final String TYPE_MSAZURE = "ms_azure";
+		// public static final String TYPE_AMAZONEAWS = "amazon_aws";
 	}
 	
 	

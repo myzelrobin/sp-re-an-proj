@@ -291,9 +291,9 @@ public class SrmDropboxHandler
 	 * need a View param for showing the script files in the View object
 	 * need a Entry param for sending the infos to View
 	 */
-	public static class GetDropboxFileInfosTask extends AsyncTask<Void, Long, Boolean>
+	public static class AsyncTaskGetFileInfosDropbox extends AsyncTask<Void, Long, Boolean>
 	{
-		private final String LOGTAG = GetDropboxFileInfosTask.class.getName();
+		private final String LOGTAG = AsyncTaskGetFileInfosDropbox.class.getName();
 	
 		private Context context;
 		private Activity activity;
@@ -306,12 +306,12 @@ public class SrmDropboxHandler
 		
 		private ProgressDialog progDialog;
 		
-		public GetDropboxFileInfosTask(
-				Context context, 
-				Activity activity, 
-				DropboxAPI<AndroidAuthSession> dropbox,
-				String filePathInDropbox,
-				GridView gridView)
+		public AsyncTaskGetFileInfosDropbox(
+					Context context, 
+					Activity activity, 
+					DropboxAPI<AndroidAuthSession> dropbox,
+					String filePathInDropbox,
+					GridView gridView)
 		{
 			this.context = context;
 			this.activity = activity;
@@ -376,7 +376,6 @@ public class SrmDropboxHandler
 			{
 				Utils.UIutils.toastTextToUser(context, "Error getting file infos from Dropbox!");
 			}
-			
 		}
 		
 		private Entry getFileInfos(
@@ -407,7 +406,8 @@ public class SrmDropboxHandler
 		            filePathList.add(new String(entryList.get(i).path));
 		            i++;
 		        }
-		        Log.w(LOGTAG, "getFileInfos() get child files list=" + filePathList.toString());
+		        Log.w(LOGTAG, "getFileInfos() get " + filePathList.size() + 
+		        		" child files list=" + filePathList.toString());
 			}
 			else
 			{
@@ -425,9 +425,9 @@ public class SrmDropboxHandler
 	 * need a View parameter for find record file path, if null for script path
 	 * use a SessionItem better?
 	 */
-	public static class UploadFileIntoDropboxTask extends AsyncTask<Void, Long, Boolean>
+	public static class AsyncTaskUploadFileIntoDropbox extends AsyncTask<Void, Long, Boolean>
 	{
-		private final String LOGTAG = UploadFileIntoDropboxTask.class.getName();
+		private final String LOGTAG = AsyncTaskUploadFileIntoDropbox.class.getName();
 	
 		private Context context;
 		private Activity activity;
@@ -439,12 +439,12 @@ public class SrmDropboxHandler
 		
 		private ProgressDialog progDialog;
 		
-		public UploadFileIntoDropboxTask(
-				Context context, 
-				Activity activity, 
-				DropboxAPI<AndroidAuthSession> dropbox,
-				String folderNameInDropbox,
-				File originFile)
+		public AsyncTaskUploadFileIntoDropbox(
+					Context context, 
+					Activity activity, 
+					DropboxAPI<AndroidAuthSession> dropbox,
+					String folderNameInDropbox,
+					File originFile)
 		{
 			this.context = context;
 			this.activity = activity;
@@ -551,9 +551,9 @@ public class SrmDropboxHandler
 	 * Class  
 	 *
 	 */
-	public static class DownloadFileFromDropboxTask extends AsyncTask<Void, Long, Boolean>
+	public static class AsyncTaskDownloadFileFromDropbox extends AsyncTask<Void, Long, Boolean>
 	{
-		private final String LOGTAG = DownloadFileFromDropboxTask.class.getName();
+		private final String LOGTAG = AsyncTaskDownloadFileFromDropbox.class.getName();
 	
 		private Context context;
 		private Activity activity;
@@ -566,7 +566,7 @@ public class SrmDropboxHandler
 		
 		private ProgressDialog progDialog;
 		
-		public DownloadFileFromDropboxTask(
+		public AsyncTaskDownloadFileFromDropbox(
 				Context context, 
 				Activity activity, 
 				DropboxAPI<AndroidAuthSession> dropbox,
