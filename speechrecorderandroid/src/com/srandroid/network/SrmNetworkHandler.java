@@ -21,21 +21,6 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 
-import org.apache.ivy.util.url.ApacheURLLister;
-
-import com.dropbox.client2.DropboxAPI;
-import com.dropbox.client2.DropboxAPI.Entry;
-import com.dropbox.client2.android.AndroidAuthSession;
-import com.dropbox.client2.exception.DropboxException;
-import com.dropbox.client2.session.AppKeyPair;
-import com.dropbox.client2.session.Session.AccessType;
-import com.srandroid.database.TableServers.ServerItem;
-import com.srandroid.main.ActivityMain;
-import com.srandroid.main.TestActivitySessionDetails;
-import com.srandroid.util.Utils;
-import com.srandroid.util.Utils.ConstantVars;
-import com.srandroid.util.Utils.UIutils;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -44,6 +29,8 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
+import com.srandroid.util.Utils;
 
 /**
  *
@@ -134,7 +121,29 @@ public class SrmNetworkHandler
 	    		+ (networkInfo != null && networkInfo.isConnected()) );
 	    return (networkInfo != null && networkInfo.isConnected());
 	}  
+
+	public static class ProtocolTypes
+	{
+		public static final String TYPE_HTTP = "http";
+		public static final String TYPE_HTTPS = "https";
+		public static final String TYPE_SSH = "ssh"; // ???necessary
+		public static final String TYPE_DROPBOX = "dropbox";
+	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+// these are unused functions, 
+// if this app use APIs to connect to cloud storage, these functions can be deleted.
+//
+//
 //	public int getAddressType(String address)
 //	{
 //		// 1: http
@@ -302,29 +311,7 @@ public class SrmNetworkHandler
 //		
 //		Log.w(Log.w(LOGTAG, "connectToServer() get result=" + result);
 //	}
-//	
-	
-	
-	public static class ProtocolTypes
-	{
-		public static final String TYPE_HTTP = "http";
-		public static final String TYPE_HTTPS = "https";
-		public static final String TYPE_SSH = "ssh"; // ???necessary
-		public static final String TYPE_DROPBOX = "dropbox";
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+//		
 //	public void disconnectFromHTTPServer(HttpURLConnection conn)
 //	{
 //		if (conn != null) 
