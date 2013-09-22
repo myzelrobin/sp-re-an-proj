@@ -57,14 +57,12 @@ public class SrmDropboxHandler
 	private static final String LOGTAG = SrmDropboxHandler.class.getName();
 
 	private Context context;
-	private Context activity;
+	private Activity activity;
 
 	private SrmNetworkHandler networkHandler;
 	
-	
 	// dropbox
 	public DropboxAPI<AndroidAuthSession> dropbox;
-	
 	
 	private final static String DROPBOX_APPKEY = "z0n6paty2uwi3ru";
 	private final static String DROPBOX_APPSECRET = "xrphn2nzodjnqmq";
@@ -140,7 +138,6 @@ public class SrmDropboxHandler
         return true;
     }
 	
-	
 	public String[] getAccessKeys() 
 	{
 		Log.w(LOGTAG, "getAccessKeys() will access keys from sharedprefs ");
@@ -151,8 +148,8 @@ public class SrmDropboxHandler
         String secret = prefs.getString(Utils.ConstantVars.KEY_DROPBOX_SECRET, 
         		Utils.ConstantVars.KEY_DROPBOX_SECRET_DEF);
         if ( !key.equals(Utils.ConstantVars.KEY_DROPBOX_KEY_DEF) 
-        		&& !secret.equals(Utils.ConstantVars.KEY_DROPBOX_SECRET_DEF) ) {
-        	
+        		&& !secret.equals(Utils.ConstantVars.KEY_DROPBOX_SECRET_DEF) ) 
+        {
         	isAppAuthorized = true;
         	Log.w(LOGTAG, "getAccessKeys() finds app isAppAuthorized=" + isAppAuthorized);
         	
@@ -160,7 +157,9 @@ public class SrmDropboxHandler
         	accessKeys[0] = key;
         	accessKeys[1] = secret;
         	return accessKeys;
-        } else {
+        } 
+        else 
+        {
         	isAppAuthorized = false;
         	Log.w(LOGTAG, "getAccessKeys() finds app isAppAuthorized=" + isAppAuthorized);
         	
@@ -174,16 +173,16 @@ public class SrmDropboxHandler
 		
 		boolean isTokensStored = false;
 		
-		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-	   SharedPreferences.Editor editor = settings.edit();
-	   editor.putString(Utils.ConstantVars.KEY_DROPBOX_KEY, key);
-	   editor.putString(Utils.ConstantVars.KEY_DROPBOX_SECRET, secret);
-	   if(editor.commit()) isTokensStored = true;
-	   
-	   Log.w(LOGTAG, "storeTokens() stored toakens with result=" + isTokensStored);
-	   
-	   return isTokensStored;
-	   // in sharedprefs, after every new authen, key and secret are different, why?
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+	    SharedPreferences.Editor editor = prefs.edit();
+	    editor.putString(Utils.ConstantVars.KEY_DROPBOX_KEY, key);
+	    editor.putString(Utils.ConstantVars.KEY_DROPBOX_SECRET, secret);
+	    if(editor.commit()) isTokensStored = true;
+	    
+	    Log.w(LOGTAG, "storeTokens() stored toakens with result=" + isTokensStored);
+	    
+	    return isTokensStored;
+	    // in sharedprefs, after every new authen, key and secret are different, why?
 	}
 	
 	public boolean clearAccessKeys() 
@@ -198,8 +197,6 @@ public class SrmDropboxHandler
         		Utils.ConstantVars.KEY_DROPBOX_SECRET_DEF);
         return editor.commit();
     }
-	
-	
 	
 	public void finishAuthen(AndroidAuthSession session)
 	{
@@ -280,12 +277,7 @@ public class SrmDropboxHandler
     	
     	Log.w(LOGTAG, "setLoggedIn() set isLoggedIn=" + isLoggedIn);
     }
-
     
-    
-    
-    
-	
 	/**
 	 * Class  
 	 * need a View param for showing the script files in the View object
@@ -365,11 +357,8 @@ public class SrmDropboxHandler
 			if(!dirEntry.path.equals(null))
 			{
 				adapter = new LocalAdapterDownloadScripts(context, activity, dirEntry);
-				
 				gridView.setAdapter(adapter);
-				
 				adapter.notifyDataSetChanged();
-				
 		        // gridView.setClickable(false);
 			}
 			else
@@ -390,14 +379,12 @@ public class SrmDropboxHandler
 			
 			// metadata("/", FILENUMBERS, null, true, null)
 			fileEntry = dropbox.metadata(filePath, FILES_LIMIT, null, true, null);
-			
 			if(fileEntry.isDir)
 			{
 				Log.w(LOGTAG, "getFileInfos() finds " + filePath + " is a FOLDER, " +
 						"will get child files infos in this folder!");
 				entryList = new ArrayList<Entry>();
 		        filePathList = new ArrayList<String>();
-		        
 		        int i = 0;
 		        for (Entry entry: fileEntry.contents) 
 		        {

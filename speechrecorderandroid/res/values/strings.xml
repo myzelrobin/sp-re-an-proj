@@ -133,16 +133,20 @@
                <item>1</item>
                <item>2</item>
            </string-array>
-         
-       <!-- Overwrite -->
-       <string name="settings_overwrite">Overwrite</string>
-       <string name="settings_overwrite_key">overwrite</string>
-       <string name="settings_overwrite_summary">Overwrite original file</string>
+        
+        <!-- Overwrite -->
+        <string name="settings_overwrite">Overwrite</string>
+        <string name="settings_overwrite_key">overwrite</string>
+        <string name="settings_overwrite_summary">Overwrite original file</string>
              
-       <!-- Overwrite -->
-       <string name="settings_overwrite_warning">Overwrite Warning</string>
-       <string name="settings_overwrite_warning_key">overwrite_warning</string>
-       <string name="settings_overwrite_warning_summary">Show warning before overwriting original file</string>
+        <!-- Overwrite -->
+        <string name="settings_overwrite_warning">Overwrite Warning</string>
+        <string name="settings_overwrite_warning_key">overwrite_warning</string>
+        <string name="settings_overwrite_warning_summary">Show warning before overwriting original file</string>
+       
+        <!-- NETWORKS -->
+        <string name="settings_networks">Networks</string>
+        <string name="settings_networks_dropbox">Dropbox</string>
      
     <!-- #################################################################################### -->
     <!-- Item speaker -->

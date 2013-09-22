@@ -32,43 +32,53 @@ key="pref_screen" >
     android:title="@string/settings_recvalue" >
                 
                 <ListPreference
-                    android:summary="@string/settings_sample_rate_summary"
-                    android:title="@string/settings_sample_rate" 
-                    android:dialogTitle="@string/settings_sample_rate"
-                    android:entries="@array/sample_rate_items"
-                    android:entryValues="@array/sample_rate_items_values"
-                    android:key="@string/settings_sample_rate_key"
-                    android:defaultValue="@string/settings_sample_rate_default" 
-                    android:negativeButtonText="CANCEL"
-                    android:positiveButtonText="DONE" 
-                    android:persistent="true" />
+                android:summary="@string/settings_sample_rate_summary"
+                android:title="@string/settings_sample_rate" 
+                android:dialogTitle="@string/settings_sample_rate"
+                android:entries="@array/sample_rate_items"
+                android:entryValues="@array/sample_rate_items_values"
+                android:key="@string/settings_sample_rate_key"
+                android:defaultValue="@string/settings_sample_rate_default" 
+                android:negativeButtonText="CANCEL"
+                android:positiveButtonText="DONE" 
+                android:persistent="true" />
                 
                 <ListPreference
-                    android:summary="@string/settings_channels_summary"
-                    android:title="@string/settings_channels" 
-                    android:dialogTitle="@string/settings_channels"
-                    android:entries="@array/channels_items"
-                    android:entryValues="@array/channels_items_values"
-                    android:key="@string/settings_channels_key"
-                    android:defaultValue="@string/settings_channels_default" 
-                    android:negativeButtonText="CANCEL"
-                    android:positiveButtonText="DONE"
-                    android:persistent="true" />
+                android:summary="@string/settings_channels_summary"
+                android:title="@string/settings_channels" 
+                android:dialogTitle="@string/settings_channels"
+                android:entries="@array/channels_items"
+                android:entryValues="@array/channels_items_values"
+                android:key="@string/settings_channels_key"
+                android:defaultValue="@string/settings_channels_default" 
+                android:negativeButtonText="CANCEL"
+                android:positiveButtonText="DONE"
+                android:persistent="true" />
     
                 <CheckBoxPreference
-                    android:title="@string/settings_overwrite"
-                    android:summary="@string/settings_overwrite_summary" 
-                    android:key="@string/settings_overwrite_key"
-                    android:defaultValue="true" 
-                    android:persistent="true" />
+                android:title="@string/settings_overwrite"
+                android:summary="@string/settings_overwrite_summary" 
+                android:key="@string/settings_overwrite_key"
+                android:defaultValue="true" 
+                android:persistent="true" />
                 
                 <CheckBoxPreference
-                    android:title="@string/settings_overwrite_warning"
-                    android:summary="@string/settings_overwrite_warning_summary" 
-                    android:key="@string/settings_overwrite_warning_key"
-                    android:defaultValue="true" 
-                    android:persistent="true" />
+                android:title="@string/settings_overwrite_warning"
+                android:summary="@string/settings_overwrite_warning_summary" 
+                android:key="@string/settings_overwrite_warning_key"
+                android:defaultValue="true" 
+                android:persistent="true" />
                
-        </com.srandroid.overflow.CustomizedPreferenceCategory >
+    </com.srandroid.overflow.CustomizedPreferenceCategory >
+    
+    <com.srandroid.overflow.CustomizedPreferenceCategory  
+    android:title="@string/settings_networks" >
+<!--             <com.srandroid.overflow.DialogSetMicrophoneVolume -->
+<!--             android:title="@string/settings_microphone" -->
+<!--             android:summary="@string/settings_microphone_summary"  -->
+<!--             android:key="@string/settings_mic_volume_key"  -->
+<!--             android:defaultValue="@string/settings_mic_volume_default"  -->
+<!--             android:persistent="true" /> -->
+    </com.srandroid.overflow.CustomizedPreferenceCategory >
         
 </PreferenceScreen>
