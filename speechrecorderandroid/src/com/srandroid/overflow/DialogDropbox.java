@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.net.Uri;
+import android.os.Bundle;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -53,15 +54,8 @@ public class DialogDropbox extends DialogPreference
 	{
 		 builder.setTitle(R.string.settings_dropbox);
 		 builder.setIcon(null);
-		 builder.setPositiveButton(R.string.connect, 
-				 new DialogInterface.OnClickListener() 
-		 		{
-					@Override
-					public void onClick(DialogInterface dialog, int which) 
-					{
-						clickPosButton();
-					}
-		 		});
+		 
+		 builder.setPositiveButton(R.string.connect, this);
 		 builder.setNegativeButton(R.string.close, 
 				 new DialogInterface.OnClickListener() 
 		 		{
@@ -89,14 +83,29 @@ public class DialogDropbox extends DialogPreference
 		 
 		 super.onBindDialogView(view);
 	 }
+	 /**
+	  * 
+	  */
+	 @Override
+	protected void showDialog(Bundle state)
+	{       
+	    super.showDialog(state);    //Call show on default first so we can override the handlers
+	
+	    final AlertDialog dialog = (AlertDialog) getDialog();
+	    
+	    // set a new listener for positive button, 
+	    // so that after clicking positive button, dialog is not dismissed
+	    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(
+	    		new View.OnClickListener()
+	            {            
+	                @Override
+	                public void onClick(View v)
+	                {
+	                	clickPosButton();
+	                }
+	            });
+	}
 	 
-	 private void clickPosButton()
-	 {
-		 textViewInfos.setVisibility(View.INVISIBLE);
-		 progressBar.setVisibility(View.VISIBLE);
-		 ( (AlertDialog) getDialog() ).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
-		 debugger.outputInfo("user clicked positive button, execute asynctask to authorize app");
-	 }
 
 //	 @Override
 //	public void onClick(View v) 
@@ -158,5 +167,11 @@ public class DialogDropbox extends DialogPreference
 	     }
 	 }
 	 
-	 
+	 private void clickPosButton()
+	 {
+		 textViewInfos.setVisibility(View.INVISIBLE);
+		 progressBar.setVisibility(View.VISIBLE);
+		 ( (AlertDialog) getDialog() ).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+		 debugger.outputInfo("user clicked positive button, execute asynctask to authorize app");
+	 }
 }

@@ -75,7 +75,7 @@ key="pref_screen" >
     android:title="@string/settings_servers" >
             <com.srandroid.overflow.DialogDropbox
             android:title="@string/settings_dropbox"
-            android:summary="@string/settings_microphone_summary" 
+            android:summary="@string/settings_dropbox_summary" 
             android:key="@string/settings_key_isDropboxAuthorized" 
             android:defaultValue="false" 
             android:persistent="true" />
