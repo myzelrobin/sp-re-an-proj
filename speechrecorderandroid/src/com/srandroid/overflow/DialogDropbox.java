@@ -83,6 +83,7 @@ public class DialogDropbox extends DialogPreference
 		 
 		 super.onBindDialogView(view);
 	 }
+	 
 	 /**
 	  * 
 	  */
