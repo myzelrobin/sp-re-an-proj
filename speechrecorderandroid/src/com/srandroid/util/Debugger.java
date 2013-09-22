@@ -24,9 +24,21 @@ public class Debugger
 		this.canOutput = true;
 	}
 	
-	public void outputToLog(String outputText)
+	public void outputInfo(String outputText)
 	{
-		Log.w(this.logTag, outputText);
+		Log.i(this.logTag, outputText);
 	}
-
+	
+	public void outputException(
+			String action, 
+			String methodName, 
+			String exceptionType, 
+			Throwable tr)
+	{
+		String actionText = "Error " + action + "! ";
+		String exceptionText = methodName + " throws " + exceptionType + ":";
+		
+		Log.i(this.logTag, actionText + exceptionText, tr);
+	}
+	
 }

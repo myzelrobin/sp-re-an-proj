@@ -46,6 +46,7 @@ import com.srandroid.database.TableScripts;
 import com.srandroid.main.TestActivitySessionDetails;
 import com.srandroid.main.ActivityDownloadScripts.LocalAdapterDownloadScripts;
 import com.srandroid.speechrecorder.R;
+import com.srandroid.util.Debugger;
 import com.srandroid.util.Utils;
 import com.srandroid.util.Utils.ConstantVars;
 
@@ -55,6 +56,7 @@ import com.srandroid.util.Utils.ConstantVars;
 public class SrmDropboxHandler 
 {
 	private static final String LOGTAG = SrmDropboxHandler.class.getName();
+	private Debugger debugger = new Debugger(LOGTAG);
 
 	private Context context;
 	private Activity activity;
@@ -214,9 +216,8 @@ public class SrmDropboxHandler
             } 
             catch (IllegalStateException e) 
             {
-                Log.w(LOGTAG, "finishAuthen() throws IllegalStateException=" 
-                		+ e.getLocalizedMessage());
-                Log.i(LOGTAG, "Error authenticating dropbox", e);
+            	debugger.outputException("authenticating dropbox", "finishAuthen()", 
+            			"IllegalStateException", e);
             }
 	}
 	

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="400dp"
+android:layout_height="300dp"
+android:gravity="center"
+android:orientation="vertical" >
+	<TextView
+	android:id="@+id/dialog_dropbox_textview_value"
+	android:layout_width="match_parent"
+	android:layout_height="150dp"
+	android:gravity="center"
+	android:padding="16dp"
+	android:text="@string/settings_dropbox_unauthorized_text"
+	android:textSize="24sp" />
+	
+	<ProgressBar
+	android:id="@+id/dialog_dropbox_progressbar"
+	android:layout_width="match_parent"
+	android:layout_height="150dp"
+	android:padding="16dp"
+	android:visibility="invisible" />
+</LinearLayout>

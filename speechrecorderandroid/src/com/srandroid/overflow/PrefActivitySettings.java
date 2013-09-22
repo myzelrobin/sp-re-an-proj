@@ -76,7 +76,7 @@ public class PrefActivitySettings extends PreferenceActivity
 		extends PreferenceFragment 
 		implements OnSharedPreferenceChangeListener
     {
-		private CheckBoxPreference overwriteCheckBox;
+		// private CheckBoxPreference overwriteCheckBox;
 		
         @Override
         public void onCreate(final Bundle savedInstanceState)
@@ -129,8 +129,8 @@ public class PrefActivitySettings extends PreferenceActivity
     	public void onSharedPreferenceChanged(
     			SharedPreferences prefs, String key) 
     	{
-    		if(key.equals(Utils.ConstantVars.KEY_LANGUAGE))
-    		{
+    		 if(key.equals(Utils.ConstantVars.KEY_LANGUAGE))
+    		 {
     			Utils.ConstantVars.setLANGUAGE(
     					prefs.getString(Utils.ConstantVars.KEY_LANGUAGE, 
     							Utils.ConstantVars.KEY_LANGUAGE_DEF) );
@@ -139,7 +139,7 @@ public class PrefActivitySettings extends PreferenceActivity
     					"changed language to " + 
     					prefs.getString(Utils.ConstantVars.KEY_LANGUAGE, 
     							Utils.ConstantVars.KEY_LANGUAGE_DEF) );
-    		}
+    		 }
     		if(key.equals(Utils.ConstantVars.KEY_MICVOL))
     		{
     			Utils.ConstantVars.setMICVOL( 
@@ -180,16 +180,16 @@ public class PrefActivitySettings extends PreferenceActivity
     			Log.w(LOGTAG, "changed recording_values->overwrite");
     			Utils.UIutils.toastTextToUser(getActivity(), 
     					"changed recording_value->overwrite to " 
-    					+ prefs.getBoolean(Utils.ConstantVars.KEY_OVERWRITE, true));
+    					+ prefs.getBoolean(Utils.ConstantVars.KEY_OVERWRITE, true) );
     		}
     		if(key.equals(Utils.ConstantVars.KEY_OVERWRITE_WARNING))
     		{
     			Utils.ConstantVars.setALLOW_OVERWRITE_WARNING(
-    				prefs.getBoolean(Utils.ConstantVars.KEY_OVERWRITE_WARNING, true));
+    				prefs.getBoolean(Utils.ConstantVars.KEY_OVERWRITE_WARNING, true) );
     			Log.w(LOGTAG, "changed recording_values->overwrite_warning");
     			Utils.UIutils.toastTextToUser(getActivity(), 
     					"changed recording_value->overwrite_warning to " 
-    					+ prefs.getBoolean(Utils.ConstantVars.KEY_OVERWRITE_WARNING, true));
+    					+ prefs.getBoolean(Utils.ConstantVars.KEY_OVERWRITE_WARNING, true) );
     		}
     	} /* onSharedPreferenceChanged() */
     } /* class PrefFragmentInSettings */

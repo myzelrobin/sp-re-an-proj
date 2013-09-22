@@ -11,7 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import com.srandroid.overflow.DialogSetMicrophoneVolume;
+import com.srandroid.overflow.DialogTestMicrophone;
 import com.srandroid.overflow.PrefActivitySettings;
 
 import android.content.ActivityNotFoundException;
@@ -74,7 +74,7 @@ public class SrmRecorder
 	
 	
 	// fields for DialogSetMicrophone
-	private DialogSetMicrophoneVolume dialog;
+	private DialogTestMicrophone dialog;
 	
 	private static final String LOGTAG = SrmRecorder.class.getName();
 
@@ -107,7 +107,7 @@ public class SrmRecorder
 	/**
 	 * Constructor for testing the microphone
 	 */
-	public SrmRecorder(String dirPath, String fileName, DialogSetMicrophoneVolume dialog) 
+	public SrmRecorder(String dirPath, String fileName, DialogTestMicrophone dialog) 
 	{
 		initializeSrmRecorder();
 		

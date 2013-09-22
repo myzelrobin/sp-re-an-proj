@@ -927,7 +927,8 @@ public class Utils
          Uri data = Uri.parse("file://" + audioFileName);
          intent.setDataAndType(data, "audio/*");
          context.startActivity(intent);
-         //Log.w(this.getClass().getName(), "playRecord(): startActivity(intent) throws Exception " + e.getMessage());
+         /* Log.w(this.getClass().getName(), "playRecord(): startActivity(intent) 
+          	throws Exception " + e.getMessage()); */
 	}
 	
 	public static void getScreenSize(Context context)

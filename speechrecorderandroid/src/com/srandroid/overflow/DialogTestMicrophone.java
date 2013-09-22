@@ -22,12 +22,14 @@ import com.srandroid.util.Debugger;
 import com.srandroid.util.SrmRecorder;
 import com.srandroid.util.Utils;
 
-public class DialogSetMicrophoneVolume 
+public class DialogTestMicrophone 
 	extends DialogPreference 
 	implements OnClickListener
 {
-	private static final String LOGTAG = DialogSetMicrophoneVolume.class.getName();
+	private static final String LOGTAG = DialogTestMicrophone.class.getName();
 	private Debugger debugger = new Debugger(LOGTAG);
+	
+	private Context context;
 	
 	private Button butCancel, butTestmic, butTestrecord;
 	private int isButTestmicClicked = 0;
@@ -42,9 +44,10 @@ public class DialogSetMicrophoneVolume
 	 * @param context
 	 * @param attrs
 	 */
-	public DialogSetMicrophoneVolume(Context context, AttributeSet attrs) 
+	public DialogTestMicrophone(Context context, AttributeSet attrs) 
 	{
 		super(context, attrs);
+		this.context = context;
 		setDialogLayoutResource(R.layout.dialog_settings_microphone);
 	}
 	
@@ -99,120 +102,110 @@ public class DialogSetMicrophoneVolume
 				getDialog().dismiss();
 				break;
 			
-			// button MIC
-			case R.id.button_testmic_in_dialog_mic:
-				
-				if(isButTestmicClicked == 1)
-				{
-					 Utils.UIutils.toastTextToUser(v.getContext(), 
-							 "settings: dialog: finish testing MIC");
-					 
-					 recorderForMic.stopTestMicrophone();
-					 debugger.outputToLog(SrmRecorder.TAG_TESTMIC 
+			
+			case R.id.button_testmic_in_dialog_mic: /* button MIC */
+				if ( isButTestmicClicked == 0 )
+				{ /* start recording for testing mic */
+					debugger.outputInfo("settings:->dialog testmic: start testing MIC");
+					
+					butTestrecord.setEnabled(false);
+					butCancel.setEnabled(false);
+					
+					recorderForMic = 
+							new SrmRecorder(
+									Utils.ConstantVars.DIR_EXT_TESTMIC_PATH, 
+									"test_mic", this);
+					debugger.outputInfo(SrmRecorder.TAG_TESTMIC 
+							+ ": AudioRecord recorderForMic is created: " 
+							+ "\nsampleRateHz=" + SrmRecorder.getSampleRateHz()
+							+ "\nchannelConfig=" + SrmRecorder.getChannelConfig()
+							+ "\nchannels=" + SrmRecorder.getChannels()
+							+ "\nminBufferSize=" + recorderForMic.getMinBufferSize());
+					try 
+					{
+						recorderForMic.startTestMicrophone();
+					} 
+					catch (IllegalStateException e)
+					{
+						e.printStackTrace();
+					}
+					
+					isButTestmicClicked = 1;
+					butTestmic.setText(R.string.stop);
+				}
+				else if ( isButTestmicClicked == 1 )
+				{ /* stop recording for testing mic */
+					debugger.outputInfo("settings:->dialog testmic: stop testing MIC");
+					
+					recorderForMic.stopTestMicrophone();
+					debugger.outputInfo(SrmRecorder.TAG_TESTMIC 
 							 + ": test mic audio file is deleted at: " 
 							 + recorderForMic.getAudioFile());
 					 
-					 // here needs a method to set the volume_value
-					 onDialogClosed(true);
+					// here needs a method to set the volume_value
+					onDialogClosed(true);
 
-					 isButTestmicClicked = 0;
-					 getDialog().dismiss();
-					 
-					 isButTestmicClicked = 0;
-					break;
+					isButTestmicClicked = 0;
+					getDialog().dismiss();
 				}
-				
-				Utils.UIutils.toastTextToUser(v.getContext(), 
-						"settings: dialog: start testing MIC");
-				butTestrecord.setEnabled(false);
-				butCancel.setEnabled(false);
-				
-				recorderForMic = 
-						new SrmRecorder(
-								Utils.ConstantVars.DIR_EXT_TESTMIC_PATH, 
-								"test_mic", this);
-				debugger.outputToLog(SrmRecorder.TAG_TESTMIC 
-						+ ": AudioRecord recorderForMic is created: " 
-						+ "\nsampleRateHz=" + SrmRecorder.getSampleRateHz()
-						+ "\nchannelConfig=" + SrmRecorder.getChannelConfig()
-						+ "\nchannels=" + SrmRecorder.getChannels()
-						+ "\nminBufferSize=" + recorderForMic.getMinBufferSize());
-				try {
-					recorderForMic.startTestMicrophone();;
-				} catch (IllegalStateException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				isButTestmicClicked = 1;
-				butTestmic.setText(R.string.stop);
-				
 				break;
 				
-				// button RECORD
-			case R.id.button_testrecord_in_dialog_mic:
+			case R.id.button_testrecord_in_dialog_mic: /* button RECORD */
 				
-				if(isButTestrecordClicked == 1)
-				{
-					Utils.UIutils.toastTextToUser(v.getContext(), 
-							"settings: dialog: will play record");
+				if ( isButTestrecordClicked == 0 )
+				{/* start recording for testing recording */
+					butTestmic.setEnabled(false);
+					butCancel.setEnabled(false);
+					isButTestrecordClicked = 1;
+					butTestrecord.setText(R.string.stop);
 					
+					recorderForTestRecording = 
+							 new SrmRecorder(Utils.ConstantVars.DIR_EXT_TESTMIC_PATH, "test_record");
+					debugger.outputInfo(SrmRecorder.TAG_TESTREC 
+								+ ": AudioRecord recorderForTestRecording is created: " 
+								+ "\nsampleRateHz=" + SrmRecorder.getSampleRateHz()
+								+ "\nchannelConfig=" + SrmRecorder.getChannelConfig()
+								+ "\nchannels=" + SrmRecorder.getChannels()
+								+ "\nminBufferSize=" + recorderForTestRecording.getMinBufferSize());
+					try 
+					{
+						recorderForTestRecording.startTestRecording();
+					} 
+					catch (IllegalStateException e) 
+					{
+						e.printStackTrace();
+					}
+				}
+				else if ( isButTestrecordClicked == 1 )
+				{/* play record for testing recording */
 					 isButTestrecordClicked = 2;
 					 butTestrecord.setText(R.string.close);
 					
 					// STOP the test recording
 					 recorderForTestRecording.stopTestRecording();
-					 debugger.outputToLog(SrmRecorder.TAG_TESTREC 
+					 debugger.outputInfo(SrmRecorder.TAG_TESTREC 
 							 + ": test record audio file is saved: " 
 							 + recorderForTestRecording.getAudioFile());
 					 
 					// play the record
-					try {
-						Utils.playRecord(getContext(), recorderForTestRecording.getAudioFile());
-					} catch (ActivityNotFoundException e) {
-						debugger.outputToLog(
-								"Utils.playRecord() throws Exceptions " + e.getMessage());
+					try 
+					{
+						Utils.playRecord(context, recorderForTestRecording.getAudioFile());
+					} 
+					catch (ActivityNotFoundException e) 
+					{
+						debugger.outputException("playing record", "Utils.playRecord()", 
+								"ActivityNotFoundException", e);
 					}
-					
-
-					break;
-				}
-				
-				if(isButTestrecordClicked == 2)
-				{
-					// finish the test recoding, delete the record, close dialog
-					Utils.UIutils.toastTextToUser(v.getContext(), 
-							"settings: dialog: finish testing RECORD");
-					recorderForTestRecording.finishedTestRecording();
+				 }
+				 else if ( isButTestrecordClicked == 2 )
+				 {/* finish recording for testing recording */
+					recorderForTestRecording.finishedTestRecording(); /* delete record file */
 					isButTestrecordClicked = 0;
-					 getDialog().dismiss();
-					 break;
-				}
+					getDialog().dismiss();
+				 }
 				
-				 Utils.UIutils.toastTextToUser(v.getContext(), 
-						 "settings: dialog: start testing RECORD");
-				 butTestmic.setEnabled(false);
-				 butCancel.setEnabled(false);
-				 isButTestrecordClicked = 1;
-				 butTestrecord.setText(R.string.stop);
-				 
-				 recorderForTestRecording = 
-						 new SrmRecorder(Utils.ConstantVars.DIR_EXT_TESTMIC_PATH, "test_record");
-				 debugger.outputToLog(SrmRecorder.TAG_TESTREC 
-							+ ": AudioRecord recorderForTestRecording is created: " 
-							+ "\nsampleRateHz=" + SrmRecorder.getSampleRateHz()
-							+ "\nchannelConfig=" + SrmRecorder.getChannelConfig()
-							+ "\nchannels=" + SrmRecorder.getChannels()
-							+ "\nminBufferSize=" + recorderForTestRecording.getMinBufferSize());
-				try {
-					recorderForTestRecording.startTestRecording();
-				} catch (IllegalStateException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				 
-				 
-				 break;
+				break;
 			
 			default:
 				break;
